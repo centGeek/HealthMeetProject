@@ -1,7 +1,7 @@
 server:
   port: 8190
   servlet:
-    context-path: /car-dealership
+    context-path: /HealthMeet
 
 spring:
   datasource:

@@ -1,5 +1,4 @@
-package com.example.HealthMeetProject;
-
+package com.HealthMeetProject.code;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
@@ -17,7 +16,7 @@ public class TestHealthMeetProjectApplication {
 	}
 
 	public static void main(String[] args) {
-		SpringApplication.from(HealthMeetProjectApplication::main).with(TestHealthMeetProjectApplication.class).run(args);
+		SpringApplication.from(com.HealthMeetProject.code.HealthMeetProjectApplication::main).with(TestHealthMeetProjectApplication.class).run(args);
 	}
 
 }
