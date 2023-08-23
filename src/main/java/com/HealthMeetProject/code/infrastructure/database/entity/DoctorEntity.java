@@ -3,6 +3,7 @@ package com.HealthMeetProject.code.infrastructure.database.entity;
 import com.HealthMeetProject.code.infrastructure.database.entity.*;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -12,6 +13,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Builder
 @Table(name = "doctor")
 public class DoctorEntity {
     @Id
@@ -34,17 +36,13 @@ public class DoctorEntity {
     @Column(name = "phone")
     private String phone;
 
-
     @Column(name = "salary_for_15min_meet")
     private BigDecimal salaryFor15minMeet;
 
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "clinic_id")
-    private AddressEntity clinicId;
-
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "doctor")
-    private Set<AvailabilityScheduleEntity> visitTime;
+    private ClinicEntity clinic;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "doctor")
     private Set<VisitInvoiceEntity> invoices;

@@ -3,8 +3,10 @@ package com.HealthMeetProject.code.infrastructure.database.repository.jpa;
 
 import com.HealthMeetProject.code.infrastructure.database.entity.PatientEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface PatientJpaRepostitory extends JpaRepository<Integer, PatientEntity> {
+@Repository
+public interface PatientJpaRepository extends JpaRepository<PatientEntity, Integer> {
 
 
 }

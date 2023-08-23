@@ -5,18 +5,21 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "address")
-public class AddressEntity {
-
+@Table(name = "clinic")
+public class ClinicEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "address_id")
-    private Integer addressId;
+    private Integer clinicId;
+
+    @Column(name = "clinic_name")
+    private String clinicName;
 
     @Column(name = "country")
     private String country;
@@ -27,7 +30,9 @@ public class AddressEntity {
     @Column(name = "address")
     private String address;
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "address")
-    private PatientEntity patient;
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "clinic")
+    private DoctorEntity doctorEntity;
+
+
 
 }

@@ -35,8 +35,8 @@ public class PatientEntity {
     private String phone;
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "clinic_id")
-    private AddressEntity clinicId;
+    @JoinColumn(name = "address_id")
+    private AddressEntity address;
 
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "patient")
