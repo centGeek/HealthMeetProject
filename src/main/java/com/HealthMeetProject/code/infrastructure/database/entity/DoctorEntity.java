@@ -1,5 +1,6 @@
 package com.HealthMeetProject.code.infrastructure.database.entity;
 
+import com.HealthMeetProject.code.domain.Specialization;
 import com.HealthMeetProject.code.infrastructure.database.entity.*;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -18,7 +19,8 @@ import java.util.Set;
 public class DoctorEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int doctorId;
+    @Column(name = "doctor_id")
+    private Integer doctorId;
 
     @Column(name = "name")
     private String name;

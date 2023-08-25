@@ -2,8 +2,9 @@ CREATE TABLE note
 (
     note_id             serial              not null,
     description         varchar(256)        not null,
-    start_date          time with time zone not null,
-    end_date            time with time zone not null,
+    illness             varchar(256)        not null,
+    start_date          timestamp with time zone not null,
+    end_date            timestamp with time zone not null,
     patient_id          int                 not null,
     doctor_id           int                 not null,
     primary key (note_id),

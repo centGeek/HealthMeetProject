@@ -2,6 +2,7 @@ package com.HealthMeetProject.code.infrastructure.database.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -12,6 +13,7 @@ import java.time.OffsetDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Builder
 @Table(name = "note")
 public class NoteEntity {
     @Id
@@ -19,20 +21,23 @@ public class NoteEntity {
     @Column(name = "note_id")
     private int noteId;
 
-    @Column(name = "description", unique = true)
+    @Column(name = "description")
     private String description;
 
-    @Column(name = "start_time")
+    @Column(name = "illness")
+    private String illness;
+
+    @Column(name = "start_date")
     private OffsetDateTime startTime;
 
-    @Column(name = "end_time")
+    @Column(name = "end_date")
     private OffsetDateTime endTime;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "patient_id")
     private PatientEntity patient;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "doctor_id")
     private DoctorEntity doctor;
 

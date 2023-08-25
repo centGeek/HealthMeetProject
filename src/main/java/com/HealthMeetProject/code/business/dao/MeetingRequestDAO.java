@@ -9,8 +9,6 @@ import java.util.List;
 
 public interface MeetingRequestDAO {
 
-    List<MeetingRequestEntity> findAllPatientMeetingRequests();
 
-    List<MeetingRequestEntity> findAllDoctorMeetingRequests();
     
 }

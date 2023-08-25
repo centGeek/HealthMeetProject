@@ -2,6 +2,7 @@ package com.HealthMeetProject.code.infrastructure.database.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,13 +12,14 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Builder
 @Table(name = "patient")
 public class PatientEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "patient_id")
-    private int patientId;
+    private Integer patientId;
 
     @Column(name = "name")
     private String surname;
@@ -50,6 +52,5 @@ public class PatientEntity {
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "patient")
     private Set<ReceiptEntity> receipts;
-
 
 }

@@ -1,15 +1,22 @@
 package com.HealthMeetProject.code.util;
 
+import com.HealthMeetProject.code.domain.Clinic;
+import com.HealthMeetProject.code.domain.Doctor;
+import com.HealthMeetProject.code.domain.Specialization;
+import com.HealthMeetProject.code.infrastructure.database.entity.AvailabilityScheduleEntity;
 import com.HealthMeetProject.code.infrastructure.database.entity.ClinicEntity;
 import com.HealthMeetProject.code.infrastructure.database.entity.DoctorEntity;
-import com.HealthMeetProject.code.infrastructure.database.entity.Specialization;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
+import java.util.Set;
 
 public class DoctorExampleData {
 
-    public static DoctorEntity doctorExample1(){
-      return DoctorEntity.builder()
+    public static DoctorEntity doctorExample1() {
+        return DoctorEntity.builder()
                 .clinic(ClinicEntity.builder()
                         .clinicName("HealthMeet")
                         .country("Poland")
@@ -20,12 +27,14 @@ public class DoctorExampleData {
                 .surname("Kowalski")
                 .email("j.kowalski@gmail.com")
                 .phone("+48 783 323 323")
-                .specialization(Specialization.CARDIOLOGIST)
+                .specialization(Specialization.PSYCHIATRIST)
                 .salaryFor15minMeet(BigDecimal.ONE)
+                .terms(Set.of(availabilitySchedule1()))
                 .build();
     }
-    public static DoctorEntity doctorExample2(){
-      return DoctorEntity.builder()
+
+    public static DoctorEntity doctorExample2() {
+        return DoctorEntity.builder()
                 .clinic(ClinicEntity.builder()
                         .clinicName("Luxmed")
                         .country("England")
@@ -36,8 +45,41 @@ public class DoctorExampleData {
                 .surname("Shelby")
                 .email("t.shelby@gmail.com")
                 .phone("+44 782 323 323")
+                .specialization(Specialization.CARDIOLOGIST)
+                .salaryFor15minMeet(BigDecimal.valueOf(150))
+                .terms(Set.of(availabilitySchedule1()))
+                .build();
+    }
+
+    public static DoctorEntity doctorExample3() {
+        return DoctorEntity.builder()
+                .clinic(ClinicEntity.builder()
+                        .clinicName("In my house")
+                        .country("Germany")
+                        .postalCode("23-321")
+                        .address("a")
+                        .build())
+                .name("Tommy")
+                .surname("Shelby")
+                .email("t.shelby@gmail.com")
+                .phone("+44 782 323 323")
                 .specialization(Specialization.PSYCHIATRIST)
-              .salaryFor15minMeet(BigDecimal.valueOf(150))
+                .salaryFor15minMeet(BigDecimal.valueOf(150))
+                .terms(Set.of(availabilitySchedule1()))
+                .build();
+    }
+
+
+    public static AvailabilityScheduleEntity availabilitySchedule1() {
+        return AvailabilityScheduleEntity.builder()
+                .since(OffsetDateTime.of(LocalDateTime.of(2025, 5, 1, 8, 30), ZoneOffset.UTC))
+                .toWhen(OffsetDateTime.of(LocalDateTime.of(2025, 5, 1, 16, 45), ZoneOffset.UTC))
+                .build();
+    }
+    public static AvailabilityScheduleEntity availabilitySchedule2() {
+        return AvailabilityScheduleEntity.builder()
+                .since(OffsetDateTime.of(LocalDateTime.of(2025, 4, 1, 8, 0), ZoneOffset.UTC))
+                .toWhen(OffsetDateTime.of(LocalDateTime.of(2025, 4, 1, 16, 15), ZoneOffset.UTC))
                 .build();
     }
 }

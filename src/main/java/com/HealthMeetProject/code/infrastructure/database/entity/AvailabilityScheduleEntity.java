@@ -1,17 +1,18 @@
 package com.HealthMeetProject.code.infrastructure.database.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.OffsetDateTime;
 
-@Data
+@Getter
+@Setter
+@ToString(exclude = "doctor")
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "avaiability_schedule")
+@Table(name = "availability_schedule")
+@Builder
 public class AvailabilityScheduleEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

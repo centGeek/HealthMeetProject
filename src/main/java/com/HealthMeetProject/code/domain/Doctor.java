@@ -1,9 +1,18 @@
 package com.HealthMeetProject.code.domain;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.math.BigDecimal;
 import java.util.Set;
 
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Doctor {
 
 
@@ -29,7 +38,7 @@ public class Doctor {
 
 
 
-    private Address clinic;
+    private Clinic clinic;
 
 
     private Set<VisitInvoice> invoices;

@@ -14,6 +14,8 @@ public class Note {
     private int noteId;
     private String description;
 
+    private String illness;
+
     private OffsetDateTime startTime;
 
     private OffsetDateTime endTime;
