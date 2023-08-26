@@ -51,7 +51,10 @@ jacoco {
 }
 
 test {
-	jacoco {
-		enabled = true
-	}
+	finalizedBy jacocoTestReport
 }
+jacocoTestReport {
+	dependsOn test
+}
+
+

@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.OffsetDateTime;
+import java.util.Set;
 
 
 @Data
@@ -33,4 +34,7 @@ public class ReceiptEntity {
     @JoinColumn(name = "doctor_id")
     private DoctorEntity doctor;
 
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name = "medicine_id")
+    private Set<MedicineEntity> medicine;
 }

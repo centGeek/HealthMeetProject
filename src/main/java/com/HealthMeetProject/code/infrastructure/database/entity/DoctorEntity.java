@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Set;
 @Data
 @NoArgsConstructor
@@ -49,7 +50,7 @@ public class DoctorEntity {
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "doctor")
     private Set<VisitInvoiceEntity> invoices;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "doctor")
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<AvailabilityScheduleEntity> terms;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "doctor")

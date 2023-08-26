@@ -2,11 +2,10 @@ package com.HealthMeetProject.code.infrastructure.database.repository.jpa;
 
 import com.HealthMeetProject.code.domain.Specialization;
 import com.HealthMeetProject.code.infrastructure.database.entity.DoctorEntity;
-import com.HealthMeetProject.code.infrastructure.database.repository.DoctorRepository;
 import com.HealthMeetProject.code.infrastructure.database.repository.configuration.PersistenceContainerTestConfiguration;
 import lombok.AllArgsConstructor;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -14,10 +13,10 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.TestPropertySource;
 
+import java.time.OffsetDateTime;
+import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
-import java.util.Set;
 
 import static com.HealthMeetProject.code.util.DoctorExampleData.*;
 
@@ -30,14 +29,15 @@ class DoctorJpaRepositoryTest {
 
     private DoctorJpaRepository doctorJpaRepository;
 
+    @BeforeEach
     public void given() {
+        //given for every test
         var doctors = List.of(doctorExample1(), doctorExample2(), doctorExample3());
         doctorJpaRepository.saveAllAndFlush(doctors);
     }
 
     @Test
     void thatDoctorsCanBeSaveAndListedCorrectly() {
-        given();
         //when
         List<DoctorEntity> allAvailableDoctors = doctorJpaRepository.findAll();
         //then
@@ -46,8 +46,6 @@ class DoctorJpaRepositoryTest {
 
     @Test
     void thatDoctorsAreFoundBySpecialization() {
-        given();
-
         //when
         List<DoctorEntity> allBySpecialization = doctorJpaRepository.findAllBySpecialization(Specialization.PSYCHIATRIST);
 
@@ -56,8 +54,7 @@ class DoctorJpaRepositoryTest {
     }
 
     @Test
-    void thatDoctorIsFoundByEmail(){
-        given();
+    void thatDoctorIsFoundByEmail() {
         //when
         Optional<DoctorEntity> byEmail = doctorJpaRepository.findByEmail(doctorExample1().getEmail());
         //then

@@ -3,6 +3,7 @@ package com.HealthMeetProject.code.infrastructure.database.repository.jpa;
 
 import com.HealthMeetProject.code.domain.Doctor;
 import com.HealthMeetProject.code.domain.Specialization;
+import com.HealthMeetProject.code.infrastructure.database.entity.AvailabilityScheduleEntity;
 import com.HealthMeetProject.code.infrastructure.database.entity.DoctorEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -26,10 +27,6 @@ public interface DoctorJpaRepository extends JpaRepository<DoctorEntity, Integer
             """)
     List<DoctorEntity> findAllBySpecialization(@Param("specialization") Specialization specialization);
 
-    List<DoctorEntity> findAllByTermsSinceIsLessThanEqualAndTermsToWhenIsGreaterThanEqual(
-            OffsetDateTime givenDayStart,
-            OffsetDateTime givenDayEnd
-    );
 
 }
 

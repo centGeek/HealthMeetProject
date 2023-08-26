@@ -2,6 +2,8 @@ package com.HealthMeetProject.code.business.dao;
 
 
 import com.HealthMeetProject.code.domain.Doctor;
+import com.HealthMeetProject.code.domain.Note;
+import com.HealthMeetProject.code.domain.Receipt;
 import com.HealthMeetProject.code.domain.Specialization;
 
 import java.time.OffsetDateTime;
@@ -17,5 +19,7 @@ public interface DoctorDAO {
 
     void addAvailabilityTime(Doctor doctor, OffsetDateTime beginTime,OffsetDateTime endTime);
 
-//    List<Doctor> findAllByGivenDay(int year, int month, int day);
+    void writeNote(Note note);
+
+    void issueReceipt(Receipt receipt);
 }

@@ -36,7 +36,6 @@ public class NoteJpaRepositoryTest {
     }
     @Test
     void thatNotesAreFoundByCustomer(){
-        given();
         //when
         List<NoteEntity> byPatient = noteJpaRepository.findByPatientEmail(PatientExampleData.patientExample1().getEmail());
         //then

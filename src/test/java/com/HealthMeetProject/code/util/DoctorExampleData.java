@@ -29,7 +29,6 @@ public class DoctorExampleData {
                 .phone("+48 783 323 323")
                 .specialization(Specialization.PSYCHIATRIST)
                 .salaryFor15minMeet(BigDecimal.ONE)
-                .terms(Set.of(availabilitySchedule1()))
                 .build();
     }
 
@@ -47,7 +46,6 @@ public class DoctorExampleData {
                 .phone("+44 782 323 323")
                 .specialization(Specialization.CARDIOLOGIST)
                 .salaryFor15minMeet(BigDecimal.valueOf(150))
-                .terms(Set.of(availabilitySchedule1()))
                 .build();
     }
 
@@ -65,7 +63,6 @@ public class DoctorExampleData {
                 .phone("+44 782 323 323")
                 .specialization(Specialization.PSYCHIATRIST)
                 .salaryFor15minMeet(BigDecimal.valueOf(150))
-                .terms(Set.of(availabilitySchedule1()))
                 .build();
     }
 
@@ -74,12 +71,21 @@ public class DoctorExampleData {
         return AvailabilityScheduleEntity.builder()
                 .since(OffsetDateTime.of(LocalDateTime.of(2025, 5, 1, 8, 30), ZoneOffset.UTC))
                 .toWhen(OffsetDateTime.of(LocalDateTime.of(2025, 5, 1, 16, 45), ZoneOffset.UTC))
+                .doctor(doctorExample3())
                 .build();
     }
     public static AvailabilityScheduleEntity availabilitySchedule2() {
         return AvailabilityScheduleEntity.builder()
                 .since(OffsetDateTime.of(LocalDateTime.of(2025, 4, 1, 8, 0), ZoneOffset.UTC))
                 .toWhen(OffsetDateTime.of(LocalDateTime.of(2025, 4, 1, 16, 15), ZoneOffset.UTC))
+                .doctor(doctorExample3())
+                .build();
+    }
+    public static AvailabilityScheduleEntity availabilitySchedule3() {
+        return AvailabilityScheduleEntity.builder()
+                .since(OffsetDateTime.of(LocalDateTime.of(2025, 5, 1, 0, 0), ZoneOffset.UTC))
+                .toWhen(OffsetDateTime.of(LocalDateTime.of(2025, 5, 1, 23, 59), ZoneOffset.UTC))
+                .doctor(doctorExample3())
                 .build();
     }
 }

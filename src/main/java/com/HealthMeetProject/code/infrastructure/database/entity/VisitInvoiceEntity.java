@@ -22,18 +22,12 @@ public class VisitInvoiceEntity {
     @Column(name = "start_date")
     private String startDate;
 
-    @Column(name = "patient_id")
-    private String patientId;
-
-    @Column(name = "doctor_id")
-    private String doctorId;
-
     @Column(name = "visit_cost")
     private String visitCost;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private PatientEntity patient;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private DoctorEntity doctor;
 }
