@@ -21,4 +21,18 @@ public class MeetingRequestRepository implements MeetingRequestDAO {
                 .map(meetingRequestEntityMapper::mapFromEntity)
                 .toList();
     }
+
+    @Override
+    public List<MeetingRequest> findAllActiveMeetingRequests(String email) {
+        return meetingRequestJpaRepository.findAllActiveMeetingRequests(email).stream().
+                map(meetingRequestEntityMapper::mapFromEntity)
+                .toList();
+    }
+
+    @Override
+    public List<MeetingRequest> findByPatientEmail(String email) {
+           return meetingRequestJpaRepository.findAllByPatientEmail(email).stream().
+                map(meetingRequestEntityMapper::mapFromEntity)
+                .toList();
+    }
 }

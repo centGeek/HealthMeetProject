@@ -26,7 +26,7 @@ public class MeetingRequestEntity {
     @Column(name = "completed_date_time")
     private LocalDateTime completedDateTime;
 
-    @Column(name = "decription")
+    @Column(name = "description")
     private String description;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)

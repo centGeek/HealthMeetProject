@@ -9,6 +9,9 @@ import java.util.List;
 
 public interface MeetingRequestDAO {
         List<MeetingRequest> findAvailable();
+        List<MeetingRequest> findAllActiveMeetingRequests(String email);
+
+        List<MeetingRequest> findByPatientEmail(String email);
 
     
 }
