@@ -1,0 +1,29 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
+          crossorigin="anonymous">
+    <title>HealthyMeet</title>
+</head>
+
+<body>
+<div class="container">
+    <h1>Welcome to healthyMeetApp</h1>
+
+    <div class="row mt-3">
+        <div class="col-md-4">
+            <h2>If you are patient, click here!</h2>
+            <a th:href="@{/doctorReqistry}" class="btn btn-info" role="button">Patient Portal</a>
+        </div>
+        <div class="col-md-4">
+            <h2>Doctors are here!</h2>
+            <a th:href="@{/patient}" class="btn btn-info" role="button">Doctor Portal</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

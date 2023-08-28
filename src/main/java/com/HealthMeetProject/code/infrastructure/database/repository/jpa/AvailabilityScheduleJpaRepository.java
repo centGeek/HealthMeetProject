@@ -16,4 +16,14 @@ public interface AvailabilityScheduleJpaRepository extends JpaRepository<Availab
 """)
     List<AvailabilityScheduleEntity> findAllTermsByGivenDoctor(@Param("email") String email);
 
+    @Query("""
+            select avail from AvailabilityScheduleEntity avail where avail.doctor.email = :email\s and avail.availableTime=true
+""")
+    List<AvailabilityScheduleEntity> findAllAvailableTerms(@Param("email") String email);
+
+    @Query("""
+            select avail from AvailabilityScheduleEntity avail where avail.doctor.email = :email\s and avail.availableTime=false
+""")
+    List<AvailabilityScheduleEntity> showDoctorCalendar(@Param("email") String email);
+
 }

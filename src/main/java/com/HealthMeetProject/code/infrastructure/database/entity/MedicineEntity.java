@@ -29,7 +29,7 @@ public class MedicineEntity {
     @Column(name = "approx_price")
     private BigDecimal approxPrice;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "receipt_id")
     private ReceiptEntity receipt;
 

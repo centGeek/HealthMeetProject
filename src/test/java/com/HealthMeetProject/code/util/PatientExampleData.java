@@ -46,11 +46,12 @@ public class PatientExampleData {
                         .postalCode("23-321")
                         .address("a")
                         .build())
-                .name("Tommy")
+                .name("Grace")
                 .surname("Shelby")
-                .email("t.shelby@gmail.com")
-                .phone("+44 782 323 323")
-                .pesel("3423232321")
+                .email("g.shelby@gmail.com")
+                .phone("+44 722 323 313")
+                .pesel("32312321"g)
                 .build();
     }
+
 }

@@ -29,4 +29,7 @@ public class AvailabilityScheduleEntity {
     @JoinColumn(name = "doctor_id")
     private DoctorEntity doctor;
 
+    @Column(name = "available_time")
+    private Boolean availableTime;
+
 }

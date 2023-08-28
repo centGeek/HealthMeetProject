@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 public class ClinicEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "address_id")
+    @Column(name = "clinic_id")
     private Integer clinicId;
 
     @Column(name = "clinic_name")

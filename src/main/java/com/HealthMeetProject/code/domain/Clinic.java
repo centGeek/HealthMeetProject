@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class Clinic {
-    private Long addressId;
+    private Long clinicId;
     private String clinicName;
     private String country;
     private String postalCode;

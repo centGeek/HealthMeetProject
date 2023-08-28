@@ -22,4 +22,14 @@ public class AvailabilityScheduleRepository implements AvailabilityScheduleDAO {
       return   availabilityScheduleJpaRepository.findAllTermsByGivenDoctor(email)
                 .stream().map(availabilityScheduleEntityMapper::map).toList();
     }
+
+    @Override
+    public List<AvailabilitySchedule> findAllAvailableTerms(String email) {
+        return availabilityScheduleJpaRepository.findAllAvailableTerms(email).stream().map(availabilityScheduleEntityMapper::map).toList();
+    }
+
+    @Override
+    public List<AvailabilitySchedule> showDoctorCalendar(String email) {
+        return availabilityScheduleJpaRepository.showDoctorCalendar(email).stream().map(availabilityScheduleEntityMapper::map).toList();
+    }
 }
