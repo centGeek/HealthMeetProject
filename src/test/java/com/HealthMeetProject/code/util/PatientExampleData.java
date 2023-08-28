@@ -50,8 +50,7 @@ public class PatientExampleData {
                 .surname("Shelby")
                 .email("g.shelby@gmail.com")
                 .phone("+44 722 323 313")
-                .pesel("32312321"g)
+                .pesel("32312321")
                 .build();
     }
-
 }

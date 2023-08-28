@@ -2,7 +2,6 @@ package com.HealthMeetProject.code.infrastructure.database.repository;
 
 
 import com.HealthMeetProject.code.business.dao.PatientDAO;
-import com.HealthMeetProject.code.domain.MeetingRequest;
 import com.HealthMeetProject.code.domain.Patient;
 import com.HealthMeetProject.code.infrastructure.database.entity.MeetingRequestEntity;
 import com.HealthMeetProject.code.infrastructure.database.entity.PatientEntity;
@@ -17,7 +16,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 @Repository
 @AllArgsConstructor
@@ -56,7 +54,6 @@ public class PatientRepository implements PatientDAO {
         meetingRequests
                 .forEach(request -> request.setPatient(patientEntityMapper.mapToEntity(patient)));
         meetingRequestJpaRepository.saveAllAndFlush(meetingRequests);
-
     }
 
     @Override
@@ -65,10 +62,4 @@ public class PatientRepository implements PatientDAO {
         PatientEntity saved = patientJpaRepository.save(toSave);
         return patientEntityMapper.mapFromEntity(saved);
     }
-
-    @Override
-    public Optional<Patient> findByEmail(String email) {
-        return patientJpaRepository.findByEmail(email).map(patientEntityMapper::mapFromEntity);
-    }
-
 }

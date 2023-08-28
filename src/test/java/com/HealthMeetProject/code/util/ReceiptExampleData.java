@@ -2,10 +2,6 @@ package com.HealthMeetProject.code.util;
 
 import com.HealthMeetProject.code.infrastructure.database.entity.ReceiptEntity;
 
-import java.util.Set;
-
-import static com.HealthMeetProject.code.util.MedicineExampleData.*;
-
 public class ReceiptExampleData {
     public static ReceiptEntity receiptExampleData1() {
         return ReceiptEntity.builder().
@@ -15,6 +11,7 @@ public class ReceiptExampleData {
                 doctor(DoctorExampleData.doctorExample1()).
                 build();
     }
+
     public static ReceiptEntity receiptExampleData2() {
         return ReceiptEntity.builder().
                 receiptNumber("32312256786345").
@@ -23,6 +20,7 @@ public class ReceiptExampleData {
                 doctor(DoctorExampleData.doctorExample1()).
                 build();
     }
+
     public static ReceiptEntity receiptExampleData3() {
         return ReceiptEntity.builder().
                 receiptNumber("3232132344432451").
@@ -31,6 +29,4 @@ public class ReceiptExampleData {
                 doctor(DoctorExampleData.doctorExample1()).
                 build();
     }
-
-
 }

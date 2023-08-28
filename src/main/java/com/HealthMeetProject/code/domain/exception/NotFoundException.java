@@ -1,8 +1,7 @@
 package com.HealthMeetProject.code.domain.exception;
 
 public class NotFoundException extends RuntimeException {
-
-    public NotFoundException(final String message) {
+    public NotFoundException(String message) {
         super(message);
     }
 }

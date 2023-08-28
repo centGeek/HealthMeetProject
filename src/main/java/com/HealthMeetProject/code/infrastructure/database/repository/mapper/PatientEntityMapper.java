@@ -49,6 +49,4 @@ public interface PatientEntityMapper {
     MeetingRequest mapFromEntity(MeetingRequestEntity entity);
 
     PatientEntity mapToEntity(final Patient patient);
-
-    }
-
+}

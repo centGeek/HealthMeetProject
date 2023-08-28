@@ -23,10 +23,10 @@ public class MeetingRequestProcessingService {
     }
 
 
-    @Transactional
-    public MeetingRequest confirmationMeetingRequest(final MeetingRequest meetingRequest){
-        return doctorService.confirmMeetingRequest(meetingRequest);
-    }
+//    @Transactional
+//    public MeetingRequest confirmationMeetingRequest(final MeetingRequest meetingRequest){
+//        return doctorService.confirmMeetingRequest(meetingRequest);
+//    }
     @Transactional
     public BigDecimal showPaymentForVisit(final MeetingRequest meetingRequest){
         BigDecimal salaryFor15minMeet = meetingRequest.getDoctor().getSalaryFor15minMeet();

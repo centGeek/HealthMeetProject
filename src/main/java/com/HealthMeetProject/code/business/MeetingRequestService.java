@@ -1,19 +1,18 @@
 package com.HealthMeetProject.code.business;
 
+import com.HealthMeetProject.code.business.DoctorService;
+import com.HealthMeetProject.code.business.PatientService;
 import com.HealthMeetProject.code.business.dao.MeetingRequestDAO;
-import com.HealthMeetProject.code.domain.Doctor;
 import com.HealthMeetProject.code.domain.MeetingRequest;
 import com.HealthMeetProject.code.domain.Patient;
 import com.HealthMeetProject.code.domain.exception.NotFoundException;
 import com.HealthMeetProject.code.domain.exception.ProcessingException;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
-import java.time.ZoneOffset;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
@@ -33,7 +32,7 @@ public class MeetingRequestService {
 
     @Transactional
     public void makeMeetingRequest(Patient patient) {
-            patientService.saveMeetingRequest(patient);
+        patientService.saveMeetingRequest(patient);
     }
 
     public void saveMeetingRequest(MeetingRequest request) {

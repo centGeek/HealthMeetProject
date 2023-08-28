@@ -1,13 +1,15 @@
 package com.HealthMeetProject.code.domain;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.With;
 
 import java.util.Set;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 @With
 public class Patient {
     private int patientId;

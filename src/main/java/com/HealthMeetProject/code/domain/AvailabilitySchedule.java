@@ -16,6 +16,5 @@ public class AvailabilitySchedule {
     private OffsetDateTime since;
     private OffsetDateTime toWhen;
     private Doctor doctor;
-    private Boolean availableTime;
 
 }

@@ -22,6 +22,4 @@ public interface DoctorDAO {
     void writeNote(Note note);
 
     void issueReceipt(Receipt receipt);
-
-    Doctor doctorRegister(Doctor doctor);
 }

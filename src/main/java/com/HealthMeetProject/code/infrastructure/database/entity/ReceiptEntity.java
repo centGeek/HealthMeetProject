@@ -36,7 +36,7 @@ public class ReceiptEntity {
     @JoinColumn(name = "doctor_id")
     private DoctorEntity doctor;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "medicine_id")
     private Set<MedicineEntity> medicine;
 }

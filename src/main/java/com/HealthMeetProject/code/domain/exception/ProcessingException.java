@@ -1,7 +1,8 @@
 package com.HealthMeetProject.code.domain.exception;
 
+
 public class ProcessingException extends RuntimeException {
-    public ProcessingException(final String message) {
+    public ProcessingException(String message) {
         super(message);
     }
 }

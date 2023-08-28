@@ -48,11 +48,6 @@ dependencies {
 
 }
 
-dependencyManagement {
-	imports {
-		mavenBom "org.testcontainers:testcontainers-bom:${testContainersVersion}"
-	}
-}
 
 test {
 	useJUnitPlatform()

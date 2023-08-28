@@ -9,6 +9,8 @@ import org.mapstruct.ReportingPolicy;
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface MeetingRequestEntityMapper {
 
+    @Mapping(target = "patient",ignore = true)
+    @Mapping(target = "doctor", ignore = true)
     MeetingRequest mapFromEntity(final MeetingRequestEntity meetingRequestEntity);
 
     MeetingRequestEntity mapToEntity(final MeetingRequest meetingRequest);
