@@ -57,11 +57,10 @@ public class DoctorRepository implements DoctorDAO {
     @Override
     public void addAvailabilityTime(Doctor doctor, OffsetDateTime beginTime, OffsetDateTime endTime) {
         DoctorEntity doctorToSave = doctorEntityMapper.mapToEntity(doctor);
-        Set<AvailabilityScheduleEntity> terms = doctorToSave.getTerms();
+        Set<AvailabilityScheduleEntity> terms = availabilityScheduleJpaRepository.findAllTermsByGivenDoctor(doctor.getEmail());
         AvailabilityScheduleEntity availabilityScheduleToSave = AvailabilityScheduleEntity.builder().since(beginTime).toWhen(endTime).doctor(doctorToSave).build();
         terms.add(availabilityScheduleToSave);
         availabilityScheduleJpaRepository.saveAndFlush(availabilityScheduleToSave);
-        doctorToSave.setTerms(terms);
     }
 
     @Override

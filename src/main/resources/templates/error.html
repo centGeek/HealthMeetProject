@@ -7,21 +7,21 @@
           rel="stylesheet"
           integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
           crossorigin="anonymous">
-    <title>HealthyMeet</title>
+    <title>Error Page!</title>
 </head>
 
 <body>
 <div class="container">
-    <h1>Welcome to healthyMeetApp</h1>
-
-    <div class="row mt-3">
-        <div class="col-md-4">
-            <a th:href="@{/patient}" class="btn btn-info" role="button">Patient Portal</a>
-        </div>
-        <div class="col-md-4">
-            <a th:href="@{/doctor}" class="btn btn-info" role="button">Doctor Portal</a>
-        </div>
-    </div>
+    <h1>Sorry mate, seems that You can't use this webapp properly!</h1>
+    <b><span th:if="${errorMessage}" th:text="${errorMessage}">Error</span></b>
+    <br>
+    <img th:src="@{/images/sad.png}" alt="OH NO" width="auto" height="300px"/>
+    <br>
+    <br>
+    <p>
+        <a th:href="@{/}" class="btn btn-info" role="button">Back to the main page</a>
+    </p>
 </div>
 </body>
+
 </html>

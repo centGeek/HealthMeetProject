@@ -3,6 +3,7 @@ package com.HealthMeetProject.code.util;
 import com.HealthMeetProject.code.infrastructure.database.entity.AddressEntity;
 import com.HealthMeetProject.code.infrastructure.database.entity.NoteEntity;
 import com.HealthMeetProject.code.infrastructure.database.entity.PatientEntity;
+import com.HealthMeetProject.code.infrastructure.database.entity.UserEntity;
 
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
@@ -36,11 +37,19 @@ public class NoteExampleData {
                         .build())
                 .name("Jan")
                 .surname("Kowalski")
-                .email("j.kowalski@gmail.com")
                 .phone("+48 783 323 323")
                 .pesel("3232223212")
+//                .userEntity(userEntityExample1())
                 .build();
     }
+//    public static UserEntity userEntityExample1(){
+//        return UserEntity.builder()
+//                .userName("j_kowalski")
+//                .email("j.kowalski@gmail.com")
+//                .password("test")
+//                .active(true)
+//                .build();
+//    }
 
 
 }

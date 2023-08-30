@@ -37,8 +37,8 @@ public class PatientJpaRepositoryTest {
         //when
         Optional<PatientEntity> byEmail = patientJpaRepository.findByEmail(patientExample1().getEmail());
 
+        Assertions.assertEquals(byEmail.get().getUserEntity().getEmail(), patientExample1().getEmail());
         //then
-        Assertions.assertEquals(byEmail.get().getEmail(), patientExample1().getEmail());
 
     }
 

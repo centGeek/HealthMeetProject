@@ -4,11 +4,13 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@ToString(exclude = {"doctor", "patient"})
 @Table(name = "visit_invoice")
 public class VisitInvoiceEntity {
     @Id
@@ -25,9 +27,11 @@ public class VisitInvoiceEntity {
     @Column(name = "visit_cost")
     private String visitCost;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "patient_id")
     private PatientEntity patient;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "doctor_id")
     private DoctorEntity doctor;
 }

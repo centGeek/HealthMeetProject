@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.test.context.TestPropertySource;
 
 import java.util.List;
+import java.util.Set;
 
 import static com.HealthMeetProject.code.util.DoctorExampleData.*;
 
@@ -30,8 +31,8 @@ class AvailabilityScheduleJpaRepositoryTest {
         List<AvailabilityScheduleEntity> availabilityScheduleEntities = List.of(availabilitySchedule1(), availabilitySchedule2(), availabilitySchedule3());
         availabilityScheduleJpaRepository.saveAllAndFlush(availabilityScheduleEntities);
         //when
-        List<AvailabilityScheduleEntity> allTermsByGivenDoctor1 = availabilityScheduleJpaRepository.findAllTermsByGivenDoctor(doctorExample3().getEmail());
-        List<AvailabilityScheduleEntity> allTermsByGivenDoctor2 = availabilityScheduleJpaRepository.findAllTermsByGivenDoctor(doctorExample1().getEmail());
+        Set<AvailabilityScheduleEntity> allTermsByGivenDoctor1 = availabilityScheduleJpaRepository.findAllTermsByGivenDoctor(doctorExample3().getEmail());
+        Set<AvailabilityScheduleEntity> allTermsByGivenDoctor2 = availabilityScheduleJpaRepository.findAllTermsByGivenDoctor(doctorExample1().getEmail());
 
         //then
         Assertions.assertEquals(allTermsByGivenDoctor1.size(), 3);

@@ -3,6 +3,8 @@ package com.HealthMeetProject.code.infrastructure.database.repository.jpa;
 import com.HealthMeetProject.code.domain.Specialization;
 import com.HealthMeetProject.code.infrastructure.database.entity.DoctorEntity;
 import com.HealthMeetProject.code.infrastructure.database.repository.configuration.PersistenceContainerTestConfiguration;
+import com.HealthMeetProject.code.infrastructure.security.UserRepository;
+import com.HealthMeetProject.code.util.DoctorExampleData;
 import lombok.AllArgsConstructor;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,6 +30,7 @@ import static com.HealthMeetProject.code.util.DoctorExampleData.*;
 class DoctorJpaRepositoryTest {
 
     private DoctorJpaRepository doctorJpaRepository;
+    private UserRepository userRepository;
 
     @BeforeEach
     public void given() {
@@ -41,7 +44,7 @@ class DoctorJpaRepositoryTest {
         //when
         List<DoctorEntity> allAvailableDoctors = doctorJpaRepository.findAll();
         //then
-        Assertions.assertEquals(allAvailableDoctors.size(), 3);
+        Assertions.assertEquals(allAvailableDoctors.size(), 6);
     }
 
     @Test
@@ -58,7 +61,7 @@ class DoctorJpaRepositoryTest {
         //when
         Optional<DoctorEntity> byEmail = doctorJpaRepository.findByEmail(doctorExample1().getEmail());
         //then
-        Assertions.assertEquals(byEmail.get().getEmail(), "j.kowalski@gmail.com");
+        Assertions.assertEquals(byEmail.get().getUserEntity().getEmail(), "j.kowalski@gmail.com");
     }
 
 }

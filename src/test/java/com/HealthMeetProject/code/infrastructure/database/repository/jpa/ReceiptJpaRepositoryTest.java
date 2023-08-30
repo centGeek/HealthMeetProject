@@ -33,7 +33,7 @@ public class ReceiptJpaRepositoryTest {
         Set<ReceiptEntity> receiptEntities = Set.of(receiptExampleData1(), receiptExampleData2(), receiptExampleData3());
         receiptJpaRepository.saveAllAndFlush(receiptEntities);
         //when
-        List<ReceiptEntity> patientReceipts = receiptJpaRepository.findPatientReceipts(PatientExampleData.patientExample1().getEmail());
+        List<ReceiptEntity> patientReceipts = receiptJpaRepository.findPatientReceipts(PatientExampleData.patientExample1().getUserEntity().getEmail());
         //then
         assertThat(patientReceipts.size()).isEqualTo(2);
     }

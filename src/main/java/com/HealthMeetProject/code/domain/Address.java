@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 public class Address {
     private Long addressId;
     private String country;
+    private String city;
     private String postalCode;
     private String address;
 

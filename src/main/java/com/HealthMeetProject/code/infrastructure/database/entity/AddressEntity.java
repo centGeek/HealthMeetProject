@@ -21,6 +21,9 @@ public class AddressEntity {
     @Column(name = "country")
     private String country;
 
+    @Column(name = "city")
+    private String city;
+
     @Column(name = "postal_code")
     private String postalCode;
 

@@ -1,15 +1,10 @@
 package com.HealthMeetProject.code.infrastructure.database.entity;
 
 import com.HealthMeetProject.code.domain.Specialization;
-import com.HealthMeetProject.code.infrastructure.database.entity.*;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.math.BigDecimal;
-import java.util.List;
 import java.util.Set;
 @Data
 @NoArgsConstructor
@@ -29,12 +24,12 @@ public class DoctorEntity {
     @Column(name = "surname")
     private String surname;
 
+    @Column(name = "email")
+    private String email;
+
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "specialization")
     private Specialization specialization;
-
-    @Column(name = "email")
-    private String email;
 
     @Column(name = "phone")
     private String phone;
@@ -42,21 +37,21 @@ public class DoctorEntity {
     @Column(name = "salary_for_15min_meet")
     private BigDecimal salaryFor15minMeet;
 
-
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "clinic_id")
     private ClinicEntity clinic;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "doctor")
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id")
+    private UserEntity userEntity;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "doctor", cascade = CascadeType.ALL)
     private Set<VisitInvoiceEntity> invoices;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private Set<AvailabilityScheduleEntity> terms;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "doctor")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "doctor",  cascade = CascadeType.ALL)
     private Set<MeetingRequestEntity> meetingRequests;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "doctor")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "doctor",  cascade = CascadeType.ALL)
     private Set<ReceiptEntity> receipts;
-
 }

@@ -36,7 +36,7 @@ public class MeetingRequestService {
     }
 
     public void saveMeetingRequest(MeetingRequest request) {
-        validate(request.getPatient().getEmail());
+        validate(request.getPatient().getUser().getEmail());
         MeetingRequest meetingServiceRequest = buildMeetingRequest(request);
         Set<MeetingRequest> existingMeetingServiceRequests = request.getPatient().getMeetingRequests();
         existingMeetingServiceRequests.add(meetingServiceRequest);

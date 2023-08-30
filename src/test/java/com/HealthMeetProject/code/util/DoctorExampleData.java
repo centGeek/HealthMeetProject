@@ -1,17 +1,15 @@
 package com.HealthMeetProject.code.util;
 
-import com.HealthMeetProject.code.domain.Clinic;
-import com.HealthMeetProject.code.domain.Doctor;
 import com.HealthMeetProject.code.domain.Specialization;
 import com.HealthMeetProject.code.infrastructure.database.entity.AvailabilityScheduleEntity;
 import com.HealthMeetProject.code.infrastructure.database.entity.ClinicEntity;
 import com.HealthMeetProject.code.infrastructure.database.entity.DoctorEntity;
+import com.HealthMeetProject.code.infrastructure.database.entity.UserEntity;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
-import java.util.Set;
 
 public class DoctorExampleData {
 
@@ -24,8 +22,8 @@ public class DoctorExampleData {
                         .address("Niewiadomska 13")
                         .build())
                 .name("Jan")
-                .surname("Kowalski")
                 .email("j.kowalski@gmail.com")
+                .surname("Kowalski")
                 .phone("+48 783 323 323")
                 .specialization(Specialization.PSYCHIATRIST)
                 .salaryFor15minMeet(BigDecimal.ONE)
@@ -57,9 +55,9 @@ public class DoctorExampleData {
                         .postalCode("23-321")
                         .address("a")
                         .build())
-                .name("Tommy")
+                .name("Grace")
                 .surname("Shelby")
-                .email("t.shelby@gmail.com")
+                .email("g.shelby@gmail.com")
                 .phone("+44 782 323 323")
                 .specialization(Specialization.PSYCHIATRIST)
                 .salaryFor15minMeet(BigDecimal.valueOf(150))
@@ -88,4 +86,5 @@ public class DoctorExampleData {
                 .doctor(doctorExample3())
                 .build();
     }
+
 }

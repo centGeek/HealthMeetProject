@@ -17,8 +17,10 @@ import java.util.Optional;
 
 @Repository
 public interface DoctorJpaRepository extends JpaRepository<DoctorEntity, Integer> {
-
-    Optional<DoctorEntity> findByEmail(String email);
+@Query("""
+        select doc from DoctorEntity doc where doc.userEntity.email =:email
+""")
+    Optional<DoctorEntity> findByEmail(@Param("email") String email);
 
 
     @Query("""

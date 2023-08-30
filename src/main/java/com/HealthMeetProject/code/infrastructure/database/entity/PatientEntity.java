@@ -22,16 +22,16 @@ public class PatientEntity {
     private Integer patientId;
 
     @Column(name = "name")
-    private String surname;
-
-    @Column(name = "surname")
     private String name;
 
-    @Column(name = "pesel")
-    private String pesel;
+    @Column(name = "surname")
+    private String surname;
 
     @Column(name = "email")
     private String email;
+
+    @Column(name = "pesel")
+    private String pesel;
 
     @Column(name = "phone")
     private String phone;
@@ -39,6 +39,10 @@ public class PatientEntity {
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id")
     private AddressEntity address;
+
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id")
+    private UserEntity userEntity;
 
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "patient")

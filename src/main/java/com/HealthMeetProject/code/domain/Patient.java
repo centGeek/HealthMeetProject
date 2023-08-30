@@ -13,12 +13,13 @@ import java.util.Set;
 @With
 public class Patient {
     private int patientId;
-    private String surname;
     private String name;
-    private String pesel;
+    private String surname;
     private String email;
+    private String pesel;
     private String phone;
     private Address address;
+    private User user;
     private Set<VisitInvoice> invoices;
     private Set<Note> notes;
     private Set<MeetingRequest> meetingRequests;

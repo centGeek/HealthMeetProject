@@ -1,38 +1,21 @@
-package com.HealthMeetProject.code.domain;
+package com.HealthMeetProject.code.api.dto;
 
+import com.HealthMeetProject.code.domain.Clinic;
+import com.HealthMeetProject.code.domain.Specialization;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
-import java.util.Set;
-
-
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-@Builder
-public class Doctor {
-    private int doctorId;
-
+@NoArgsConstructor
+public class DoctorDTO {
     private String name;
-
     private String surname;
-    private String email;
-
     private Specialization specialization;
-
+    private String email;
     private String phone;
-
     private BigDecimal salaryFor15minMeet;
-
     private Clinic clinic;
-
-    private Set<VisitInvoice> invoices;
-
-    private Set<MeetingRequest> meetingRequests;
-
-    private Set<Receipt> receipts;
-
 }
