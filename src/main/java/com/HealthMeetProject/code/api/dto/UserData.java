@@ -13,7 +13,6 @@ import java.util.Set;
 @Builder
 public class UserData {
     private int id;
-    private String name;
     private String userName;
     private String password;
     private String email;

@@ -50,10 +50,9 @@ public class SecurityConfiguration {
         return http
                 .csrf(AbstractHttpConfigurer::disable) // or method reference
                 .authorizeHttpRequests(requests -> requests
-                        .requestMatchers("/login", "/error", "/images/sad.png", "/").permitAll()
+                        .requestMatchers("/login", "/error", "/images/sad.png", "/","/**").permitAll()
                         .requestMatchers("/patient/**").hasAnyAuthority("PATIENT")
                         .requestMatchers("/doctor/**").hasAnyAuthority("DOCTOR")
-                        .requestMatchers("")
                 )
                 .formLogin(AbstractAuthenticationFilterConfigurer::permitAll) // or method reference
                 .logout(logout -> logout

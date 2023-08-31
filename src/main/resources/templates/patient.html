@@ -7,31 +7,67 @@
           rel="stylesheet"
           integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
           crossorigin="anonymous">
-    <title>HealthyMeet</title>
+    <style>
+        body {
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .table {
+            width: 100%;
+            margin-bottom: 20px;
+            border-collapse: collapse;
+            background-color: #fff;
+        }
+        .table th,
+        .table td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        .table thead th {
+            background-color: #343a40;
+            color: #fff;
+            border-color: #343a40;
+        }
+    </style>
+    <title>HealthyMeet - Available Doctors</title>
 </head>
 
 <body>
-        <h1>Here you can find all available Doctors:</h1>
+<div class="container">
+    <h1>Here you can find all available Doctors:</h1>
 
-<div>
     <table class="table">
         <thead class="table-dark">
         <tr>
-            <th>name</th>
-            <th>surname</th>
-            <th>specialization</th>
-            <th>visit cost (15 min)</th>
+            <th>Name</th>
+            <th>Surname</th>
+            <th>Specialization</th>
+            <th>Visit Cost (15 min)</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="doctor : ${allAvailableDoctors}">
-            <td th:text="${doctor.name}" ></td>
-            <td th:text="${doctor.surname}"> </td>
-            <td th:text="${doctor.specialization}"> </td>
-            <td th:text="${doctor.phone}"> </td>
-            <td th:text="${doctor.salaryFor15minMeet}"> </td>
+            <td th:text="${doctor.name}"></td>
+            <td th:text="${doctor.surname}"></td>
+            <td th:text="${doctor.specialization}"></td>
+            <td th:text="${doctor.salaryFor15minMeet}"></td>
         </tr>
         </tbody>
     </table>
 </div>
 </body>
+</html>

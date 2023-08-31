@@ -1,12 +1,13 @@
 package com.HealthMeetProject.code.infrastructure.database.repository;
 
 
+import com.HealthMeetProject.code.api.dto.DoctorDTO;
+import com.HealthMeetProject.code.api.dto.UserData;
+import com.HealthMeetProject.code.api.dto.mapper.DoctorMapper;
+import com.HealthMeetProject.code.api.dto.mapper.UserEntityMapper;
 import com.HealthMeetProject.code.business.dao.DoctorDAO;
 import com.HealthMeetProject.code.domain.*;
-import com.HealthMeetProject.code.infrastructure.database.entity.AvailabilityScheduleEntity;
-import com.HealthMeetProject.code.infrastructure.database.entity.DoctorEntity;
-import com.HealthMeetProject.code.infrastructure.database.entity.NoteEntity;
-import com.HealthMeetProject.code.infrastructure.database.entity.ReceiptEntity;
+import com.HealthMeetProject.code.infrastructure.database.entity.*;
 import com.HealthMeetProject.code.infrastructure.database.repository.jpa.AvailabilityScheduleJpaRepository;
 import com.HealthMeetProject.code.infrastructure.database.repository.jpa.DoctorJpaRepository;
 import com.HealthMeetProject.code.infrastructure.database.repository.jpa.NoteJpaRepository;
@@ -14,7 +15,11 @@ import com.HealthMeetProject.code.infrastructure.database.repository.jpa.Receipt
 import com.HealthMeetProject.code.infrastructure.database.repository.mapper.DoctorEntityMapper;
 import com.HealthMeetProject.code.infrastructure.database.repository.mapper.NoteEntityMapper;
 import com.HealthMeetProject.code.infrastructure.database.repository.mapper.ReceiptEntityMapper;
+import com.HealthMeetProject.code.infrastructure.security.RoleEntity;
+import com.HealthMeetProject.code.infrastructure.security.RoleRepository;
+import com.HealthMeetProject.code.infrastructure.security.UserRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 import java.time.OffsetDateTime;
@@ -32,6 +37,9 @@ public class DoctorRepository implements DoctorDAO {
     private NoteEntityMapper noteEntityMapper;
     private ReceiptJpaRepository receiptJpaRepository;
     private ReceiptEntityMapper receiptEntityMapper;
+    private RoleRepository roleRepository;
+    private UserRepository userRepository;
+    private PasswordEncoder passwordEncoder;
 
 
     @Override
@@ -76,8 +84,27 @@ public class DoctorRepository implements DoctorDAO {
     }
 
     @Override
-    public void register(Doctor doctor) {
-        DoctorEntity doctorEntity = doctorEntityMapper.mapToEntity(doctor);
+    public void register(DoctorDTO doctorDTO) {
+        UserEntity userEntity = UserEntity.builder()
+                .active(true)
+                .userName(doctorDTO.getUserData().getUserName())
+                .password(doctorDTO.getUserData().getPassword())
+                .roles(Set.of(roleRepository.findByRole("DOCTOR")))
+                .email(doctorDTO.getEmail())
+                .build();
+        DoctorEntity doctorEntity = DoctorEntity.builder()
+                .name(doctorDTO.getName())
+                .surname(doctorDTO.getSurname())
+                .email(doctorDTO.getEmail())
+                .specialization(doctorDTO.getSpecialization())
+                .phone(doctorDTO.getPhone())
+                .salaryFor15minMeet(doctorDTO.getSalaryFor15minMeet())
+                .userEntity(userEntity).build();
+        encodePassword(doctorEntity, doctorDTO);
+        userRepository.saveAndFlush(userEntity);
         doctorJpaRepository.saveAndFlush(doctorEntity);
+    }
+    private void encodePassword(DoctorEntity doctorEntity, DoctorDTO doctorDTO){
+        doctorEntity.getUserEntity().setPassword(passwordEncoder.encode(doctorDTO.getUserData().getPassword()));
     }
 }

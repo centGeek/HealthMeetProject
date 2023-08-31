@@ -7,9 +7,11 @@ import com.HealthMeetProject.code.domain.Doctor;
 import com.HealthMeetProject.code.domain.Note;
 import com.HealthMeetProject.code.domain.Receipt;
 import com.HealthMeetProject.code.domain.Specialization;
+import com.HealthMeetProject.code.domain.exception.UserAlreadyExistsException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.OffsetDateTime;
 import java.util.List;
@@ -57,9 +59,8 @@ public class DoctorService {
     public void issueReceipt(Receipt receipt) {
         doctorDAO.issueReceipt(receipt);
     }
-
-   public void register(Doctor doctor){
-//       DoctorDTO doctorDTO = doctorMapper.map(doctor);
-//       doctorDAO.register(doctorDTO);
+    @Transactional
+   public void register(DoctorDTO doctorDTO) throws UserAlreadyExistsException {
+       doctorDAO.register(doctorDTO);
     }
 }

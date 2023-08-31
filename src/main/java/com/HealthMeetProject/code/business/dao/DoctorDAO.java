@@ -1,6 +1,7 @@
 package com.HealthMeetProject.code.business.dao;
 
 
+import com.HealthMeetProject.code.api.dto.DoctorDTO;
 import com.HealthMeetProject.code.domain.Doctor;
 import com.HealthMeetProject.code.domain.Note;
 import com.HealthMeetProject.code.domain.Receipt;
@@ -23,5 +24,5 @@ public interface DoctorDAO {
 
     void issueReceipt(Receipt receipt);
 
-    void register(Doctor doctor);
+    void register(DoctorDTO doctor);
 }
