@@ -2,7 +2,7 @@ package com.HealthMeetProject.code.util;
 
 import com.HealthMeetProject.code.infrastructure.database.entity.MeetingRequestEntity;
 
-public class MeetingRequestsData {
+public class MeetingRequestsExampleData {
  public static MeetingRequestEntity meetingRequestDataExample1() {
         return MeetingRequestEntity.builder()
                 .meetingRequestNumber("3213231")

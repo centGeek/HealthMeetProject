@@ -17,7 +17,7 @@ public class PatientExampleData {
                 .surname("Kowalski")
                 .phone("+48 783 323 323")
                 .pesel("3232223212")
-//                .userEntity(userEntityExample1())
+                .email("j.kowalski@gmail.com")
                 .build();
     }
 
@@ -31,6 +31,7 @@ public class PatientExampleData {
                         .build())
                 .name("Tommy")
                 .surname("Shelby")
+                .email("t.shelby@gmail.com")
                 .phone("+44 782 323 323")
                 .pesel("323223223")
                 .build();
@@ -46,6 +47,7 @@ public class PatientExampleData {
                         .build())
                 .name("Grace")
                 .surname("Shelby")
+                .email("g.shelby@gmail.com")
                 .phone("+44 722 323 313")
                 .pesel("32312321")
                 .build();

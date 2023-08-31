@@ -31,6 +31,7 @@ public class NoteExampleData {
     public static PatientEntity patientExample1() {
         return PatientEntity.builder()
                 .address(AddressEntity.builder()
+                        .city("Warsaw")
                         .country("Poland")
                         .postalCode("96-323")
                         .address("Niewiadomska 13")
@@ -38,18 +39,9 @@ public class NoteExampleData {
                 .name("Jan")
                 .surname("Kowalski")
                 .phone("+48 783 323 323")
+                .email("j.kowalski@gmail.com")
                 .pesel("3232223212")
-//                .userEntity(userEntityExample1())
                 .build();
     }
-//    public static UserEntity userEntityExample1(){
-//        return UserEntity.builder()
-//                .userName("j_kowalski")
-//                .email("j.kowalski@gmail.com")
-//                .password("test")
-//                .active(true)
-//                .build();
-//    }
-
 
 }

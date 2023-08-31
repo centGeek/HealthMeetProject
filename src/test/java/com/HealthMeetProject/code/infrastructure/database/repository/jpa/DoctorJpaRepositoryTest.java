@@ -59,9 +59,9 @@ class DoctorJpaRepositoryTest {
     @Test
     void thatDoctorIsFoundByEmail() {
         //when
-        Optional<DoctorEntity> byEmail = doctorJpaRepository.findByEmail(doctorExample1().getEmail());
+        DoctorEntity byEmail = doctorJpaRepository.findByEmail(doctorExample1().getEmail()).get();
         //then
-        Assertions.assertEquals(byEmail.get().getUserEntity().getEmail(), "j.kowalski@gmail.com");
+        Assertions.assertEquals(byEmail.getEmail(), doctorExample1().getEmail());
     }
 
 }

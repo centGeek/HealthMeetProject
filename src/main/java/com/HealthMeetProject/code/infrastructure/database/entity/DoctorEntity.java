@@ -45,13 +45,13 @@ public class DoctorEntity {
     @JoinColumn(name = "user_id")
     private UserEntity userEntity;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "doctor", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "doctor")
     private Set<VisitInvoiceEntity> invoices;
 
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "doctor",  cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "doctor")
     private Set<MeetingRequestEntity> meetingRequests;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "doctor",  cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "doctor")
     private Set<ReceiptEntity> receipts;
 }

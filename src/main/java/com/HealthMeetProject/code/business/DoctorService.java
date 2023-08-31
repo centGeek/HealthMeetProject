@@ -1,5 +1,7 @@
 package com.HealthMeetProject.code.business;
 
+import com.HealthMeetProject.code.api.dto.DoctorDTO;
+import com.HealthMeetProject.code.api.dto.mapper.DoctorMapper;
 import com.HealthMeetProject.code.business.dao.DoctorDAO;
 import com.HealthMeetProject.code.domain.Doctor;
 import com.HealthMeetProject.code.domain.Note;
@@ -18,6 +20,7 @@ import java.util.Optional;
 @AllArgsConstructor
 public class DoctorService {
     private final DoctorDAO doctorDAO;
+    private final DoctorMapper doctorMapper;
 
 
     public List<Doctor> findAllAvailableDoctors() {
@@ -43,15 +46,20 @@ public class DoctorService {
     }
 
 
-    void addAvailabilityTime(Doctor doctor, OffsetDateTime beginTime, OffsetDateTime endTime) {
+    public void addAvailabilityTime(Doctor doctor, OffsetDateTime beginTime, OffsetDateTime endTime) {
         doctorDAO.addAvailabilityTime(doctor, beginTime, endTime);
     }
 
-    void writeNote(Note note) {
+    public void writeNote(Note note) {
         doctorDAO.writeNote(note);
     }
 
-    void issueReceipt(Receipt receipt) {
+    public void issueReceipt(Receipt receipt) {
         doctorDAO.issueReceipt(receipt);
+    }
+
+   public void register(Doctor doctor){
+//       DoctorDTO doctorDTO = doctorMapper.map(doctor);
+//       doctorDAO.register(doctorDTO);
     }
 }

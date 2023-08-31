@@ -74,4 +74,10 @@ public class DoctorRepository implements DoctorDAO {
         ReceiptEntity receiptEntity = receiptEntityMapper.map(receipt);
         receiptJpaRepository.saveAndFlush(receiptEntity);
     }
+
+    @Override
+    public void register(Doctor doctor) {
+        DoctorEntity doctorEntity = doctorEntityMapper.mapToEntity(doctor);
+        doctorJpaRepository.saveAndFlush(doctorEntity);
+    }
 }

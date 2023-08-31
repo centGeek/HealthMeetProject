@@ -2,7 +2,6 @@ package com.HealthMeetProject.code.infrastructure.database.repository.jpa;
 
 import com.HealthMeetProject.code.infrastructure.database.entity.MeetingRequestEntity;
 import com.HealthMeetProject.code.infrastructure.database.repository.configuration.PersistenceContainerTestConfiguration;
-import com.HealthMeetProject.code.util.MeetingRequestsData;
 import lombok.AllArgsConstructor;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,9 +15,8 @@ import org.springframework.test.context.TestPropertySource;
 import java.util.List;
 import java.util.Set;
 
-import static com.HealthMeetProject.code.util.DoctorExampleData.doctorExample1;
-import static com.HealthMeetProject.code.util.DoctorExampleData.doctorExample2;
-import static com.HealthMeetProject.code.util.MeetingRequestsData.*;
+import static com.HealthMeetProject.code.util.DoctorExampleData.*;
+import static com.HealthMeetProject.code.util.MeetingRequestsExampleData.*;
 import static com.HealthMeetProject.code.util.PatientExampleData.patientExample2;
 import static com.HealthMeetProject.code.util.PatientExampleData.patientExample3;
 
@@ -55,7 +53,7 @@ public class MeetingRequestJpaRepositoryTest {
         List<MeetingRequestEntity> allByDoctorEmail2 = meetingRequestJpaRepository.findAllByDoctorEmail(doctorExample2().getEmail());
         //then
         Assertions.assertThat(allByDoctorEmail1.size()).isEqualTo(1);
-        Assertions.assertThat(allByDoctorEmail2.size()).isEqualTo(3);
+        Assertions.assertThat(allByDoctorEmail2.size()).isEqualTo(2);
 
     }
 }

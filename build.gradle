@@ -2,15 +2,11 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version "${springBootVersion}"
 	id 'io.spring.dependency-management' version "${springDependencyManagementVersion}"
-	id 'jacoco'
 }
 
-group = 'com.example'
-version = '0.0.1-SNAPSHOT'
-
-java {
-	sourceCompatibility = '17'
-}
+group = 'pl.zajavka'
+version = '1.0'
+sourceCompatibility = '17'
 
 configurations {
 	compileOnly {
@@ -23,40 +19,41 @@ repositories {
 }
 
 dependencies {
+	// spring
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
-	implementation 'org.springframework.boot:spring-boot-starter-validation'
 
+	//db
 	implementation 'org.flywaydb:flyway-core'
+	runtimeOnly 'org.postgresql:postgresql'
+
+	// annotations
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
-	runtimeOnly 'org.postgresql:postgresql'
 	implementation "org.mapstruct:mapstruct:${mapstructVersion}"
 	annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
 
+	// test
+	testRuntimeOnly 'com.h2database:h2'
 	testCompileOnly 'org.projectlombok:lombok'
 	testAnnotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.security:spring-security-test'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'org.springframework.boot:spring-boot-testcontainers'
 	testImplementation 'org.testcontainers:junit-jupiter'
 	testImplementation 'org.testcontainers:postgresql'
+	implementation 'org.jacoco:org.jacoco.core:0.8.10'
+
 }
 
-tasks.named('test') {
-	useJUnitPlatform()
-}
-
-jacoco {
-	toolVersion = "0.8.10"
-}
 
 test {
-	finalizedBy jacocoTestReport
-}
-jacocoTestReport {
-	dependsOn test
+	useJUnitPlatform()
+	testLogging {
+		events "passed", "skipped", "failed"
+	}
 }
 
-
+compileJava.options.encoding = 'UTF-8'

@@ -14,9 +14,9 @@ import java.util.Set;
 public class UserData {
     private int id;
     private String name;
-    private String surname;
-    private String email;
+    private String userName;
     private String password;
+    private String email;
     private Boolean active;
     private Set<RoleEntity> roles;
 }

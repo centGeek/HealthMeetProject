@@ -25,7 +25,7 @@ public class AvailabilityScheduleEntity {
     @Column(name = "to_when")
     private OffsetDateTime toWhen;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "doctor_id")
     private DoctorEntity doctor;
 

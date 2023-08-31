@@ -1,0 +1,36 @@
+/* Styl dla całej strony */
+body {
+    background-color: #f0f0f0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Styl dla kontenera rejestracji */
+.register-box {
+    width: 100%;
+    max-width: 400px;
+}
+
+/* Styl dla formularza rejestracji */
+.register-card-body {
+    padding: 20px;
+}
+
+/* Dodatkowy margines dla pól */
+.input-group {
+    margin-bottom: 15px;
+}
+
+/* Styl dla przycisku rejestracji */
+.btn-info {
+    background-color: #17a2b8;
+    border-color: #17a2b8;
+}
+
+.btn-info:hover {
+    background-color: #117a8b;
+    border-color: #117a8b;
+}
