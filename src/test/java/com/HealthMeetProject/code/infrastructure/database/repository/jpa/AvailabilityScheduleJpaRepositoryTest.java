@@ -2,7 +2,6 @@ package com.HealthMeetProject.code.infrastructure.database.repository.jpa;
 
 import com.HealthMeetProject.code.infrastructure.database.entity.AvailabilityScheduleEntity;
 import com.HealthMeetProject.code.infrastructure.database.repository.configuration.PersistenceContainerTestConfiguration;
-import com.HealthMeetProject.code.util.DoctorExampleData;
 import lombok.AllArgsConstructor;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -15,7 +14,7 @@ import org.springframework.test.context.TestPropertySource;
 import java.util.List;
 import java.util.Set;
 
-import static com.HealthMeetProject.code.util.DoctorExampleData.*;
+import static com.HealthMeetProject.code.util.DoctorExampleFixtures.*;
 
 @DataJpaTest
 @TestPropertySource("classpath:application-test.yml")

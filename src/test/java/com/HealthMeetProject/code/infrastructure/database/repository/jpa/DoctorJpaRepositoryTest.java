@@ -4,7 +4,6 @@ import com.HealthMeetProject.code.domain.Specialization;
 import com.HealthMeetProject.code.infrastructure.database.entity.DoctorEntity;
 import com.HealthMeetProject.code.infrastructure.database.repository.configuration.PersistenceContainerTestConfiguration;
 import com.HealthMeetProject.code.infrastructure.security.UserRepository;
-import com.HealthMeetProject.code.util.DoctorExampleData;
 import lombok.AllArgsConstructor;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,12 +14,9 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.TestPropertySource;
 
-import java.time.OffsetDateTime;
-import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
-import static com.HealthMeetProject.code.util.DoctorExampleData.*;
+import static com.HealthMeetProject.code.util.DoctorExampleFixtures.*;
 
 @DataJpaTest
 @TestPropertySource("classpath:application-test.yml")

@@ -48,15 +48,16 @@ public class SecurityConfiguration {
             true)
     SecurityFilterChain securityEnabled(HttpSecurity http) throws Exception {
         return http
-                .csrf(AbstractHttpConfigurer::disable) // or method reference
+                .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(requests -> requests
-                        .requestMatchers("/login", "/error", "/images/sad.png", "/","/**").permitAll()
+                        .requestMatchers("/login", "/error", "/images/sad.png", "/","/doctor_register", "/patient_register", "/about",
+                                "/doctor_register/add", "/patient_register/add").permitAll()
                         .requestMatchers("/patient/**").hasAnyAuthority("PATIENT")
                         .requestMatchers("/doctor/**").hasAnyAuthority("DOCTOR")
                 )
-                .formLogin(AbstractAuthenticationFilterConfigurer::permitAll) // or method reference
+                .formLogin(AbstractAuthenticationFilterConfigurer::permitAll)
                 .logout(logout -> logout
-                        .logoutSuccessUrl("/login")
+                        .logoutSuccessUrl("/")
                         .invalidateHttpSession(true)
                         .deleteCookies("JSESSIONID")
                         .permitAll()
@@ -67,7 +68,7 @@ public class SecurityConfiguration {
     @ConditionalOnProperty(value = "spring.security.enabled", havingValue = "false")
     SecurityFilterChain securityDisabled(HttpSecurity http) throws Exception {
         return http
-                .csrf(AbstractHttpConfigurer::disable) // or method reference
+                .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(requests -> requests
                         .anyRequest()
                         .permitAll()

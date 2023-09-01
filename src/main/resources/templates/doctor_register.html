@@ -16,7 +16,7 @@
         <div class="card-body register-card-body">
             <p class="login-box-msg">Register a New Doctor Account</p>
 
-            <form action="#" th:action="@{/register/add}" th:object="${userData}" method="post">
+            <form action="#" th:action="@{doctor_register/add}" th:object="${userData}" method="post">
                 <div class="alert alert-danger" th:if="${#fields.hasErrors('*')}">
                     <p th:each="err : ${#fields.errors('*')}" th:text="${err}"></p>
                 </div>
@@ -53,7 +53,8 @@
                     </div>
                 </div>
                 <div class="input-group mb-3">
-                    <input type="text" class="form-control" th:field="*{salaryFor15minMeet}" placeholder="Salary for 15min">
+                    <input type="text" class="form-control" th:field="*{salaryFor15minMeet}"
+                           placeholder="Salary for 15min">
                     <div class="input-group-append">
                         <div class="input-group-text">
                             <span class="fas fa-user"></span>
@@ -72,7 +73,8 @@
                     <select class="form-control" th:field="*{specialization}" id="specialization">
                         <option value="" disabled selected>Select specialization</option>
                         <option th:each="spec : ${T(com.HealthMeetProject.code.domain.Specialization).values()}"
-                                th:value="${spec}" th:text="${#strings.capitalize(#strings.toLowerCase(spec.toString()))}">
+                                th:value="${spec}"
+                                th:text="${#strings.capitalize(#strings.toLowerCase(spec.toString()))}">
                         </option>
                     </select>
                     <div class="input-group-append">
@@ -81,7 +83,38 @@
                         </div>
                     </div>
                 </div>
-
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" th:field="*{clinic.clinicName}" placeholder="Clinic name">
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-user"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" th:field="*{clinic.country}" placeholder="country">
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-user"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" th:field="*{clinic.postalCode}" placeholder="postal code">
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-user"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" th:field="*{clinic.address}" placeholder="address">
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-user"></span>
+                        </div>
+                    </div>
+                </div>
                 <div class="input-group mb-3">
                     <input type="password" class="form-control" th:field="*{userData.password}" placeholder="Password">
 

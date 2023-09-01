@@ -73,20 +73,16 @@ public class PatientRepository implements PatientDAO {
 
     @Override
     public void register(PatientDTO patientDTO) {
-        UserEntity userEntity = UserEntity.builder()
-                .active(true)
-                .userName(patientDTO.getUserData().getUserName())
-                .password(patientDTO.getUserData().getPassword())
-                .roles(Set.of(roleRepository.findByRole("PATIENT")))
-                .email(patientDTO.getEmail())
-                .build();
-        AddressEntity addressEntity = AddressEntity.builder()
-                .city(patientDTO.getAddress().getCity())
-                .country(patientDTO.getAddress().getCountry())
-                .postalCode(patientDTO.getAddress().getPostalCode())
-                .address(patientDTO.getAddress().getAddress())
-                .build();
-        PatientEntity patientEntity = PatientEntity.builder()
+        UserEntity userEntity = getPatientEntityToRegister(patientDTO);
+        AddressEntity addressEntity = getAddressEntityToRegister(patientDTO);
+        PatientEntity patientEntity = getPatientEntityToRegister(patientDTO, userEntity, addressEntity);
+        encodePassword(patientEntity, patientDTO);
+        userRepository.saveAndFlush(userEntity);
+        patientJpaRepository.saveAndFlush(patientEntity);
+    }
+
+    private  PatientEntity getPatientEntityToRegister(PatientDTO patientDTO, UserEntity userEntity, AddressEntity addressEntity) {
+        return PatientEntity.builder()
                 .name(patientDTO.getName())
                 .surname(patientDTO.getSurname())
                 .email(patientDTO.getEmail())
@@ -94,9 +90,25 @@ public class PatientRepository implements PatientDAO {
                 .phone(patientDTO.getPhone())
                 .address(addressEntity)
                 .userEntity(userEntity).build();
-        encodePassword(patientEntity, patientDTO);
-        userRepository.saveAndFlush(userEntity);
-        patientJpaRepository.saveAndFlush(patientEntity);
+    }
+
+    private AddressEntity getAddressEntityToRegister(PatientDTO patientDTO) {
+        return AddressEntity.builder()
+                .city(patientDTO.getAddress().getCity())
+                .country(patientDTO.getAddress().getCountry())
+                .postalCode(patientDTO.getAddress().getPostalCode())
+                .address(patientDTO.getAddress().getAddress())
+                .build();
+    }
+
+    private UserEntity getPatientEntityToRegister(PatientDTO patientDTO) {
+        return UserEntity.builder()
+                .active(true)
+                .userName(patientDTO.getUserData().getUserName())
+                .password(patientDTO.getUserData().getPassword())
+                .roles(Set.of(roleRepository.findByRole("PATIENT")))
+                .email(patientDTO.getEmail())
+                .build();
     }
 
     private void encodePassword(PatientEntity patientEntity, PatientDTO patientDTO) {

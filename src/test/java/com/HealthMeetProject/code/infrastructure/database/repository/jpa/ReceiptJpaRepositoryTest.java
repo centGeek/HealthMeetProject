@@ -2,11 +2,8 @@ package com.HealthMeetProject.code.infrastructure.database.repository.jpa;
 
 import com.HealthMeetProject.code.infrastructure.database.entity.ReceiptEntity;
 import com.HealthMeetProject.code.infrastructure.database.repository.configuration.PersistenceContainerTestConfiguration;
-import com.HealthMeetProject.code.util.MedicineExampleData;
-import com.HealthMeetProject.code.util.PatientExampleData;
-import com.HealthMeetProject.code.util.ReceiptExampleData;
+import com.HealthMeetProject.code.util.PatientExampleFixtures;
 import lombok.AllArgsConstructor;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -17,7 +14,7 @@ import org.springframework.test.context.TestPropertySource;
 import java.util.List;
 import java.util.Set;
 
-import static com.HealthMeetProject.code.util.ReceiptExampleData.*;
+import static com.HealthMeetProject.code.util.ReceiptExampleFixtures.*;
 import static org.assertj.core.api.Assertions.*;
 
 @DataJpaTest
@@ -33,7 +30,7 @@ public class ReceiptJpaRepositoryTest {
         Set<ReceiptEntity> receiptEntities = Set.of(receiptExampleData1(), receiptExampleData2(), receiptExampleData3());
         receiptJpaRepository.saveAllAndFlush(receiptEntities);
         //when
-        List<ReceiptEntity> patientReceipts = receiptJpaRepository.findPatientReceipts(PatientExampleData.patientExample1().getEmail());
+        List<ReceiptEntity> patientReceipts = receiptJpaRepository.findPatientReceipts(PatientExampleFixtures.patientExample1().getEmail());
         //then
         assertThat(patientReceipts.size()).isEqualTo(2);
     }

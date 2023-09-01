@@ -14,14 +14,14 @@
 <div class="register-box d-flex align-items-center justify-content-center">
     <div class="card">
         <div class="card-body register-card-body">
-            <p class="login-box-msg">Register a New Doctor Account</p>
+            <p class="login-box-msg">Register a New Patient Account</p>
 
-            <form action="#" th:action="@{/register/add}" th:object="${userData}" method="post">
+            <form action="#" th:action="@{/patient_register/add}" th:object="${userData}" method="post">
                 <div class="alert alert-danger" th:if="${#fields.hasErrors('*')}">
                     <p th:each="err : ${#fields.errors('*')}" th:text="${err}"></p>
                 </div>
                 <div class="input-group mb-3">
-                    <input type="text" class="form-control" th:field="*{name}" placeholder="First Name">
+                    <input type="text" class="form-control" th:field="*{name}" placeholder="name">
                     <div class="input-group-append">
                         <div class="input-group-text">
                             <span class="fas fa-user"></span>
@@ -29,7 +29,15 @@
                     </div>
                 </div>
                 <div class="input-group mb-3">
-                    <input type="text" class="form-control" th:field="*{surname}" placeholder="Last Name">
+                    <input type="text" class="form-control" th:field="*{surname}" placeholder="surname">
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-user"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" th:field="*{userData.userName}" placeholder="Nickname">
                     <div class="input-group-append">
                         <div class="input-group-text">
                             <span class="fas fa-user"></span>
@@ -45,18 +53,10 @@
                     </div>
                 </div>
                 <div class="input-group mb-3">
-                    <input type="text" class="form-control" th:field="*{userData.userName}" placeholder="Nickname">
+                    <input type="text" class="form-control" th:field="*{pesel}" placeholder="Pesel">
                     <div class="input-group-append">
                         <div class="input-group-text">
-                            <span class="fas fa-user"></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="input-group mb-3">
-                    <input type="text" class="form-control" th:field="*{salaryFor15minMeet}" placeholder="Salary for 15min">
-                    <div class="input-group-append">
-                        <div class="input-group-text">
-                            <span class="fas fa-user"></span>
+                            <span class="fas fa-envelope"></span>
                         </div>
                     </div>
                 </div>
@@ -64,24 +64,42 @@
                     <input type="text" class="form-control" th:field="*{phone}" placeholder="Phone">
                     <div class="input-group-append">
                         <div class="input-group-text">
-                            <span class="fas fa-user"></span>
+                            <span class="fas fa-envelope"></span>
                         </div>
                     </div>
                 </div>
                 <div class="input-group mb-3">
-                    <select class="form-control" th:field="*{specialization}" id="specialization">
-                        <option value="" disabled selected>Select specialization</option>
-                        <option th:each="spec : ${T(com.HealthMeetProject.code.domain.Specialization).values()}"
-                                th:value="${spec}" th:text="${#strings.capitalize(#strings.toLowerCase(spec.toString()))}">
-                        </option>
-                    </select>
+                    <input type="text" class="form-control" th:field="*{address.country}" placeholder="Country">
                     <div class="input-group-append">
                         <div class="input-group-text">
-                            <span class="fas fa-user-md"></span>
+                            <span class="fas fa-envelope"></span>
                         </div>
                     </div>
                 </div>
-
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" th:field="*{address.city}" placeholder="City">
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-envelope"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" th:field="*{address.postalCode}" placeholder="Postal Code">
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-envelope"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" th:field="*{address.address}" placeholder="Address">
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-envelope"></span>
+                        </div>
+                    </div>
+                </div>
                 <div class="input-group mb-3">
                     <input type="password" class="form-control" th:field="*{userData.password}" placeholder="Password">
 

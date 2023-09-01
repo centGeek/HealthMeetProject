@@ -15,10 +15,10 @@ import org.springframework.test.context.TestPropertySource;
 import java.util.List;
 import java.util.Set;
 
-import static com.HealthMeetProject.code.util.DoctorExampleData.*;
-import static com.HealthMeetProject.code.util.MeetingRequestsExampleData.*;
-import static com.HealthMeetProject.code.util.PatientExampleData.patientExample2;
-import static com.HealthMeetProject.code.util.PatientExampleData.patientExample3;
+import static com.HealthMeetProject.code.util.DoctorExampleFixtures.*;
+import static com.HealthMeetProject.code.util.MeetingRequestsExampleFixtures.*;
+import static com.HealthMeetProject.code.util.PatientExampleFixtures.patientExample2;
+import static com.HealthMeetProject.code.util.PatientExampleFixtures.patientExample3;
 
 @DataJpaTest
 @TestPropertySource("classpath:application-test.yml")

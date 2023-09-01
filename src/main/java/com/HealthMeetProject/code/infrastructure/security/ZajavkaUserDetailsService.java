@@ -1,5 +1,6 @@
 package com.HealthMeetProject.code.infrastructure.security;
 
+import com.HealthMeetProject.code.domain.exception.NotFoundException;
 import com.HealthMeetProject.code.infrastructure.database.entity.UserEntity;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +11,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 @RequiredArgsConstructor
@@ -22,6 +24,9 @@ public class ZajavkaUserDetailsService implements UserDetailsService {
     @Transactional
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         UserEntity user = userRepository.findByEmail(email);
+        if(Objects.isNull(user)){
+            throw new NotFoundException("User with email [%s] and given password doesn't exist".formatted(email));
+        }
         List<SimpleGrantedAuthority> authorities = getUserAuthority(user.getRoles());
         return buildUserForAuthentication(user, authorities);
     }

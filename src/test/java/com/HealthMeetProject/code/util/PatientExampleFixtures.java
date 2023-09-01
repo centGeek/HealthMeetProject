@@ -2,9 +2,8 @@ package com.HealthMeetProject.code.util;
 
 import com.HealthMeetProject.code.infrastructure.database.entity.AddressEntity;
 import com.HealthMeetProject.code.infrastructure.database.entity.PatientEntity;
-import com.HealthMeetProject.code.infrastructure.database.entity.UserEntity;
 
-public class PatientExampleData {
+public class PatientExampleFixtures {
     public static PatientEntity patientExample1() {
         return PatientEntity.builder()
                 .address(AddressEntity.builder()

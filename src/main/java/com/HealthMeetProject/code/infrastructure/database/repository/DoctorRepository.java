@@ -2,11 +2,9 @@ package com.HealthMeetProject.code.infrastructure.database.repository;
 
 
 import com.HealthMeetProject.code.api.dto.DoctorDTO;
-import com.HealthMeetProject.code.api.dto.UserData;
-import com.HealthMeetProject.code.api.dto.mapper.DoctorMapper;
-import com.HealthMeetProject.code.api.dto.mapper.UserEntityMapper;
 import com.HealthMeetProject.code.business.dao.DoctorDAO;
 import com.HealthMeetProject.code.domain.*;
+import com.HealthMeetProject.code.domain.exception.UserAlreadyExistsException;
 import com.HealthMeetProject.code.infrastructure.database.entity.*;
 import com.HealthMeetProject.code.infrastructure.database.repository.jpa.AvailabilityScheduleJpaRepository;
 import com.HealthMeetProject.code.infrastructure.database.repository.jpa.DoctorJpaRepository;
@@ -15,7 +13,6 @@ import com.HealthMeetProject.code.infrastructure.database.repository.jpa.Receipt
 import com.HealthMeetProject.code.infrastructure.database.repository.mapper.DoctorEntityMapper;
 import com.HealthMeetProject.code.infrastructure.database.repository.mapper.NoteEntityMapper;
 import com.HealthMeetProject.code.infrastructure.database.repository.mapper.ReceiptEntityMapper;
-import com.HealthMeetProject.code.infrastructure.security.RoleEntity;
 import com.HealthMeetProject.code.infrastructure.security.RoleRepository;
 import com.HealthMeetProject.code.infrastructure.security.UserRepository;
 import lombok.AllArgsConstructor;
@@ -85,26 +82,69 @@ public class DoctorRepository implements DoctorDAO {
 
     @Override
     public void register(DoctorDTO doctorDTO) {
-        UserEntity userEntity = UserEntity.builder()
-                .active(true)
-                .userName(doctorDTO.getUserData().getUserName())
-                .password(doctorDTO.getUserData().getPassword())
-                .roles(Set.of(roleRepository.findByRole("DOCTOR")))
-                .email(doctorDTO.getEmail())
-                .build();
-        DoctorEntity doctorEntity = DoctorEntity.builder()
+        UserEntity userEntity = getUserEntityToRegister(doctorDTO);
+        ClinicEntity clinicEntity = getClinicEntityToRegister(doctorDTO);
+        DoctorEntity doctorEntity = getDoctorEntityToRegister(doctorDTO, userEntity, clinicEntity);
+        conditionsToNotCreateDoctor(doctorDTO);
+        encodePassword(doctorEntity, doctorDTO);
+        userRepository.saveAndFlush(userEntity);
+        doctorJpaRepository.saveAndFlush(doctorEntity);
+    }
+
+    private void conditionsToNotCreateDoctor(DoctorDTO doctorDTO) {
+        if (isEmailAlreadyExists(doctorDTO.getEmail())) {
+            throw new UserAlreadyExistsException("User with email: [%s] already exists".formatted(doctorDTO.getEmail()));
+        }
+        if (isPhoneAlreadyExists(doctorDTO.getPhone())) {
+            throw new UserAlreadyExistsException("User with email: [%s] already exists".formatted(doctorDTO.getEmail()));
+        }
+    }
+
+    private static DoctorEntity getDoctorEntityToRegister(DoctorDTO doctorDTO, UserEntity userEntity, ClinicEntity clinicEntity) {
+        return DoctorEntity.builder()
                 .name(doctorDTO.getName())
+                .clinic(clinicEntity)
                 .surname(doctorDTO.getSurname())
                 .email(doctorDTO.getEmail())
                 .specialization(doctorDTO.getSpecialization())
                 .phone(doctorDTO.getPhone())
                 .salaryFor15minMeet(doctorDTO.getSalaryFor15minMeet())
                 .userEntity(userEntity).build();
-        encodePassword(doctorEntity, doctorDTO);
-        userRepository.saveAndFlush(userEntity);
-        doctorJpaRepository.saveAndFlush(doctorEntity);
     }
-    private void encodePassword(DoctorEntity doctorEntity, DoctorDTO doctorDTO){
+
+    private static ClinicEntity getClinicEntityToRegister(DoctorDTO doctorDTO) {
+        return ClinicEntity.builder()
+                .clinicName(doctorDTO.getClinic().getClinicName())
+                .country(doctorDTO.getClinic().getCountry())
+                .address(doctorDTO.getClinic().getAddress())
+                .postalCode(doctorDTO.getClinic().getPostalCode())
+                .build();
+    }
+
+    private UserEntity getUserEntityToRegister(DoctorDTO doctorDTO) {
+        return UserEntity.builder()
+                .active(true)
+                .userName(doctorDTO.getUserData().getUserName())
+                .password(doctorDTO.getUserData().getPassword())
+                .roles(Set.of(roleRepository.findByRole("DOCTOR")))
+                .email(doctorDTO.getEmail())
+                .build();
+    }
+
+    private void encodePassword(DoctorEntity doctorEntity, DoctorDTO doctorDTO) {
         doctorEntity.getUserEntity().setPassword(passwordEncoder.encode(doctorDTO.getUserData().getPassword()));
     }
+
+    private boolean isEmailAlreadyExists(String email) {
+        Optional<DoctorEntity> existingDoctorByEmail = doctorJpaRepository.findByEmail(email);
+        return existingDoctorByEmail.isPresent();
+    }
+
+    private boolean isPhoneAlreadyExists(String phone) {
+        Optional<DoctorEntity> existingDoctorByPhone = doctorJpaRepository.findByEmail(phone);
+
+        return existingDoctorByPhone.isPresent();
+    }
+
+
 }

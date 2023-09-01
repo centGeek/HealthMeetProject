@@ -28,7 +28,7 @@ public class PatientRegistrationController {
         return "patient_register";
     }
 
-    @PostMapping("/register/add")
+    @PostMapping(PATIENT_REGISTER+"/add")
     public String userRegistration(final @Valid PatientDTO patientDTO, final BindingResult bindingResult, final Model model) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("registrationForm", patientDTO);

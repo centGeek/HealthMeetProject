@@ -4,14 +4,13 @@ import com.HealthMeetProject.code.domain.Specialization;
 import com.HealthMeetProject.code.infrastructure.database.entity.AvailabilityScheduleEntity;
 import com.HealthMeetProject.code.infrastructure.database.entity.ClinicEntity;
 import com.HealthMeetProject.code.infrastructure.database.entity.DoctorEntity;
-import com.HealthMeetProject.code.infrastructure.database.entity.UserEntity;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 
-public class DoctorExampleData {
+public class DoctorExampleFixtures {
 
     public static DoctorEntity doctorExample1() {
         return DoctorEntity.builder()

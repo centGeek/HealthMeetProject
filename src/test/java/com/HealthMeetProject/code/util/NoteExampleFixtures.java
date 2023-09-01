@@ -3,15 +3,14 @@ package com.HealthMeetProject.code.util;
 import com.HealthMeetProject.code.infrastructure.database.entity.AddressEntity;
 import com.HealthMeetProject.code.infrastructure.database.entity.NoteEntity;
 import com.HealthMeetProject.code.infrastructure.database.entity.PatientEntity;
-import com.HealthMeetProject.code.infrastructure.database.entity.UserEntity;
 
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 
-import static com.HealthMeetProject.code.util.DoctorExampleData.doctorExample1;
+import static com.HealthMeetProject.code.util.DoctorExampleFixtures.doctorExample1;
 
-public class NoteExampleData {
+public class NoteExampleFixtures {
     public static NoteEntity noteExample1() {
         return NoteEntity.builder()
                 .description("Dzielny pacjent")

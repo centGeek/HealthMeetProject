@@ -15,6 +15,7 @@ import java.util.List;
 public class DoctorController {
     public static final String PATIENT = "/patient";
     public final DoctorService doctorService;
+//    public final AvailableSch doctorService;
     private final DoctorMapper doctorMapper;
 
 
@@ -22,6 +23,7 @@ public class DoctorController {
     public String doctorsPage(Model model) {
         List<DoctorDTO> allAvailableDoctors = doctorService.findAllAvailableDoctors().stream()
                 .map(doctorMapper::map).toList();
+
             model.addAttribute("allAvailableDoctors", allAvailableDoctors);
             return "patient";
     }
