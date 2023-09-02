@@ -91,6 +91,11 @@ public class DoctorRepository implements DoctorDAO {
         doctorJpaRepository.saveAndFlush(doctorEntity);
     }
 
+    @Override
+    public Optional<Doctor> findById(Integer id) {
+        return doctorJpaRepository.findById(id).map(doctorEntityMapper::mapFromEntity);
+    }
+
     private void conditionsToNotCreateDoctor(DoctorDTO doctorDTO) {
         if (isEmailAlreadyExists(doctorDTO.getEmail())) {
             throw new UserAlreadyExistsException("User with email: [%s] already exists".formatted(doctorDTO.getEmail()));

@@ -21,6 +21,7 @@ import static java.util.Optional.ofNullable;
 @NoArgsConstructor
 @Builder
 public class DoctorDTO {
+    private Integer doctorId;
     private String name;
     private String surname;
     private Specialization specialization;

@@ -6,6 +6,7 @@ import com.HealthMeetProject.code.domain.Doctor;
 import com.HealthMeetProject.code.domain.Note;
 import com.HealthMeetProject.code.domain.Receipt;
 import com.HealthMeetProject.code.domain.Specialization;
+import com.HealthMeetProject.code.infrastructure.database.entity.DoctorEntity;
 
 import java.time.OffsetDateTime;
 import java.util.List;
@@ -25,4 +26,6 @@ public interface DoctorDAO {
     void issueReceipt(Receipt receipt);
 
     void register(DoctorDTO doctor);
+
+    Optional<Doctor> findById(Integer id);
 }

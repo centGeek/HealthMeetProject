@@ -2,10 +2,8 @@ package com.HealthMeetProject.code.api.controller;
 
 import com.HealthMeetProject.code.domain.exception.NotFoundException;
 import com.HealthMeetProject.code.domain.exception.ProcessingException;
-import com.HealthMeetProject.code.domain.exception.UserAlreadyExistsException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -27,15 +25,9 @@ public class GlobalExceptionHandler {
         modelView.addObject("errorMessage", message);
         return modelView;
     }
-    @ExceptionHandler(UserAlreadyExistsException.class)
-    public String handleUserAlreadyExistsException(UserAlreadyExistsException ex, Model model) {
-        model.addAttribute("errorMessage", ex.getMessage());
-        return "error";
-    }
-
 
     @ExceptionHandler(NotFoundException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ResponseStatus(value = HttpStatus.NOT_FOUND)
     public ModelAndView handleNoResourceFound(NotFoundException ex) {
         String message = String.format("Could not find a resource: [%s]", ex.getMessage());
         log.error(message, ex);
@@ -45,7 +37,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(ProcessingException.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
     public ModelAndView handleException(ProcessingException ex) {
         String message = String.format("Processing exception occurred: [%s]", ex.getMessage());
         log.error(message, ex);
@@ -55,7 +47,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(BindException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     public ModelAndView handleException(BindException ex) {
         String message = String.format("Bad request for field: [%s], wrong value: [%s]",
                 Optional.ofNullable(ex.getFieldError()).map(FieldError::getField).orElse(null),

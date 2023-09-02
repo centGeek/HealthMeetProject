@@ -1,6 +1,7 @@
 package com.HealthMeetProject.code.infrastructure.database.repository.jpa;
 
 import com.HealthMeetProject.code.infrastructure.database.entity.AvailabilityScheduleEntity;
+import com.HealthMeetProject.code.infrastructure.database.entity.DoctorEntity;
 import com.HealthMeetProject.code.infrastructure.database.repository.configuration.PersistenceContainerTestConfiguration;
 import lombok.AllArgsConstructor;
 import org.junit.jupiter.api.Assertions;
@@ -29,6 +30,7 @@ class AvailabilityScheduleJpaRepositoryTest {
         //given
         List<AvailabilityScheduleEntity> availabilityScheduleEntities = List.of(availabilitySchedule1(), availabilitySchedule2(), availabilitySchedule3());
         availabilityScheduleJpaRepository.saveAllAndFlush(availabilityScheduleEntities);
+
         //when
         Set<AvailabilityScheduleEntity> allTermsByGivenDoctor1 = availabilityScheduleJpaRepository.findAllTermsByGivenDoctor(doctorExample3().getEmail());
         Set<AvailabilityScheduleEntity> allTermsByGivenDoctor2 = availabilityScheduleJpaRepository.findAllTermsByGivenDoctor(doctorExample1().getEmail());
@@ -36,7 +38,6 @@ class AvailabilityScheduleJpaRepositoryTest {
         //then
         Assertions.assertEquals(allTermsByGivenDoctor1.size(), 3);
         Assertions.assertEquals(allTermsByGivenDoctor2.size(), 0);
-
 
     }
 

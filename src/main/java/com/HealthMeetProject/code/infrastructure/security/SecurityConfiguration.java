@@ -1,5 +1,7 @@
 package com.HealthMeetProject.code.infrastructure.security;
 
+import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,14 +17,18 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 
 @Configuration
 @EnableWebSecurity
+@AllArgsConstructor
 public class SecurityConfiguration {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
     @Bean
     public DaoAuthenticationProvider authenticationProvider(
             PasswordEncoder passwordEncoder,
@@ -43,6 +49,7 @@ public class SecurityConfiguration {
                 .authenticationProvider(authenticationProvider)
                 .build();
     }
+
     @Bean
     @ConditionalOnProperty(value = "spring.security.enabled", havingValue = "true", matchIfMissing =
             true)
@@ -50,9 +57,9 @@ public class SecurityConfiguration {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(requests -> requests
-                        .requestMatchers("/login", "/error", "/images/sad.png", "/","/doctor_register", "/patient_register", "/about",
+                        .requestMatchers("/login", "/error", "/images/sad.png", "/", "/doctor_register", "/patient_register", "/about",
                                 "/doctor_register/add", "/patient_register/add").permitAll()
-                        .requestMatchers("/patient/**").hasAnyAuthority("PATIENT")
+                        .requestMatchers("/patient/**", "terms/**").hasAnyAuthority("PATIENT")
                         .requestMatchers("/doctor/**").hasAnyAuthority("DOCTOR")
                 )
                 .formLogin(AbstractAuthenticationFilterConfigurer::permitAll)
@@ -61,7 +68,9 @@ public class SecurityConfiguration {
                         .invalidateHttpSession(true)
                         .deleteCookies("JSESSIONID")
                         .permitAll()
+
                 )
+
                 .build();
     }
     @Bean

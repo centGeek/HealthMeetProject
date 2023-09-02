@@ -54,50 +54,59 @@
         .show-terms-button:hover {
             background-color: #0056b3;
         }
+        /* Dodaj stylizację dla przycisku "Go back to the main page" */
+        .go-back-button {
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 14px;
+            text-decoration: none; /* Usunięcie podkreślenia dla linku */
+        }
+        .go-back-button:hover {
+            background-color: #218838;
+        }
+        /* Wyśrodkuj kolumny "since" i "to when" */
+        .table td.since,
+        .table td.to-when {
+            text-align: center;
+        }
     </style>
-    <title>HealthyMeet - Available Doctors</title>
+
 </head>
 
 <body>
 <div class="container">
-    <h1>Here you can find all available Doctors:</h1>
 
+    <tr>
+        <td th:text="${doctor.name}" class="since"></td>
+        <td th:text="${doctor.surname}" class="to-when"></td>
+    </tr>
+
+    <br>
+    <br>
     <table class="table">
         <thead class="table-dark">
         <tr>
-            <th>Name</th>
-            <th>Surname</th>
-            <th>Specialization</th>
-            <th>Visit Cost (15 min)</th>
-            <th>Availability terms</th>
+            <th>since</th>
+            <th>to when</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="doctor : ${allAvailableDoctors}">
-            <td th:text="${doctor.name}"></td>
-            <td th:text="${doctor.surname}"></td>
-            <td th:text="${doctor.specialization}"></td>
-            <td th:text="${doctor.salaryFor15minMeet}"></td>
-            <td>
-                <form method="post" th:action="@{'/terms/' + ${doctor.doctorId}}">
-                    <input type="hidden" name="doctorId" th:value="${doctor.doctorId}">
-                    <input type="submit" value="Show his availability" class="show-terms-button">
-                </form>
-            </td>
+        <tr th:each="term : ${allTermsByGivenDoctor}">
+            <td th:text="${term.since}" class="since"></td>
+            <td th:text="${term.toWhen}" class="to-when"></td>
         </tr>
         </tbody>
     </table>
 </div>
 <div class="container text-center mt-4">
     <div class="row">
-        <div class="col-md-6">
-            <a th:href="@{/}" class="btn btn-info" role="button">Go back to the main page</a>
-        </div>
-        <div class="col-md-6">
-            <a th:href="@{/patient/visit_history}" class="btn btn-info" role="button">Your visit history</a>
+        <div class="col-md-12">
+            <a th:href="@{/}" class="btn btn-info go-back-button" role="button">Go back to the main page</a>
         </div>
     </div>
 </div>
-
 </body>
 </html>

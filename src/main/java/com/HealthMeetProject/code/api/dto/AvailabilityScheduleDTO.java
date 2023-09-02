@@ -1,21 +1,18 @@
-package com.HealthMeetProject.code.domain;
+package com.HealthMeetProject.code.api.dto;
 
+import com.HealthMeetProject.code.domain.Doctor;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 import java.time.OffsetDateTime;
-import java.util.List;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class AvailabilitySchedule {
-    private int availability_schedule_id;
+public class AvailabilityScheduleDTO {
     private OffsetDateTime since;
     private OffsetDateTime toWhen;
     private boolean availability;
     private Doctor doctor;
-
 }
