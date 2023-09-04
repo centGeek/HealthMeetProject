@@ -9,7 +9,7 @@ public class MeetingRequestsExampleFixtures {
                 .receivedDateTime(DoctorExampleFixtures.availabilitySchedule1().getSince().toLocalDateTime())
                 .completedDateTime(DoctorExampleFixtures.availabilitySchedule1().getToWhen().toLocalDateTime())
                 .description("Zaba mi sie do d... przykleila")
-                .doctor(DoctorExampleFixtures.doctorExample1())
+                .doctor(DoctorExampleFixtures.doctorEntityExample1())
                 .patient(PatientExampleFixtures.patientExample1())
                 .build();
     }
@@ -19,7 +19,7 @@ public class MeetingRequestsExampleFixtures {
                 .receivedDateTime(DoctorExampleFixtures.availabilitySchedule2().getSince().toLocalDateTime())
                 .completedDateTime(DoctorExampleFixtures.availabilitySchedule2().getToWhen().toLocalDateTime())
                 .description("Druga zaba mi sie do d... przykleila")
-                .doctor(DoctorExampleFixtures.doctorExample2())
+                .doctor(DoctorExampleFixtures.doctorEntityExample2())
                 .patient(PatientExampleFixtures.patientExample2())
                 .build();
     }  public static MeetingRequestEntity meetingRequestDataExample3() {
@@ -28,7 +28,7 @@ public class MeetingRequestsExampleFixtures {
                 .receivedDateTime(DoctorExampleFixtures.availabilitySchedule3().getSince().toLocalDateTime())
                 .completedDateTime(DoctorExampleFixtures.availabilitySchedule3().getToWhen().toLocalDateTime())
                 .description("Trzecia zaba mi sie do d... przykleila")
-                .doctor(DoctorExampleFixtures.doctorExample3())
+                .doctor(DoctorExampleFixtures.doctorEntityExample3())
                 .patient(PatientExampleFixtures.patientExample3())
                 .build();
     }  public static MeetingRequestEntity meetingRequestDataExample4() {
@@ -37,7 +37,7 @@ public class MeetingRequestsExampleFixtures {
                 .receivedDateTime(DoctorExampleFixtures.availabilitySchedule2().getSince().toLocalDateTime())
                 .completedDateTime(DoctorExampleFixtures.availabilitySchedule3().getToWhen().toLocalDateTime())
                 .description("Boli mnie glowa")
-                .doctor(DoctorExampleFixtures.doctorExample2())
+                .doctor(DoctorExampleFixtures.doctorEntityExample2())
                 .patient(PatientExampleFixtures.patientExample3())
                 .build();
     }

@@ -1,5 +1,6 @@
 package com.HealthMeetProject.code.domain;
 
+import com.HealthMeetProject.code.api.dto.UserData;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,7 +20,7 @@ public class Patient {
     private String pesel;
     private String phone;
     private Address address;
-    private User user;
+    private UserData user;
     private Set<VisitInvoice> invoices;
     private Set<Note> notes;
     private Set<MeetingRequest> meetingRequests;

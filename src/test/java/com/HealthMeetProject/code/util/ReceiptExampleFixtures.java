@@ -8,7 +8,7 @@ public class ReceiptExampleFixtures {
                 receiptNumber("32312312321312321").
                 dateTime(DoctorExampleFixtures.availabilitySchedule1().getSince()).
                 patient(PatientExampleFixtures.patientExample1()).
-                doctor(DoctorExampleFixtures.doctorExample1()).
+                doctor(DoctorExampleFixtures.doctorEntityExample1()).
                 build();
     }
 
@@ -17,7 +17,7 @@ public class ReceiptExampleFixtures {
                 receiptNumber("32312256786345").
                 dateTime(DoctorExampleFixtures.availabilitySchedule2().getSince()).
                 patient(PatientExampleFixtures.patientExample1()).
-                doctor(DoctorExampleFixtures.doctorExample1()).
+                doctor(DoctorExampleFixtures.doctorEntityExample1()).
                 build();
     }
 
@@ -26,7 +26,7 @@ public class ReceiptExampleFixtures {
                 receiptNumber("3232132344432451").
                 dateTime(DoctorExampleFixtures.availabilitySchedule3().getSince()).
                 patient(PatientExampleFixtures.patientExample2()).
-                doctor(DoctorExampleFixtures.doctorExample1()).
+                doctor(DoctorExampleFixtures.doctorEntityExample1()).
                 build();
     }
 }

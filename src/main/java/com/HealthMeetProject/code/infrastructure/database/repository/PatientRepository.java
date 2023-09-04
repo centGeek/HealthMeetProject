@@ -89,7 +89,7 @@ public class PatientRepository implements PatientDAO {
                 .pesel(patientDTO.getPesel())
                 .phone(patientDTO.getPhone())
                 .address(addressEntity)
-                .userEntity(userEntity).build();
+                .user(userEntity).build();
     }
 
     private AddressEntity getAddressEntityToRegister(PatientDTO patientDTO) {
@@ -104,14 +104,14 @@ public class PatientRepository implements PatientDAO {
     private UserEntity getPatientEntityToRegister(PatientDTO patientDTO) {
         return UserEntity.builder()
                 .active(true)
-                .userName(patientDTO.getUserData().getUserName())
-                .password(patientDTO.getUserData().getPassword())
+                .userName(patientDTO.getUser().getUserName())
+                .password(patientDTO.getUser().getPassword())
                 .roles(Set.of(roleRepository.findByRole("PATIENT")))
                 .email(patientDTO.getEmail())
                 .build();
     }
 
     private void encodePassword(PatientEntity patientEntity, PatientDTO patientDTO) {
-        patientEntity.getUserEntity().setPassword(passwordEncoder.encode(patientDTO.getUserData().getPassword()));
+        patientEntity.getUser().setPassword(passwordEncoder.encode(patientDTO.getUser().getPassword()));
     }
 }

@@ -43,7 +43,7 @@ public class DoctorEntity {
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
-    private UserEntity userEntity;
+    private UserEntity user;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "doctor")
     private Set<VisitInvoiceEntity> invoices;

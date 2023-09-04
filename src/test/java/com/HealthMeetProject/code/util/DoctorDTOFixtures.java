@@ -26,7 +26,7 @@ public class DoctorDTOFixtures {
                 .specialization(Specialization.PULMONOLOGIST)
                 .phone("+48 724 483 007")
                 .salaryFor15minMeet(BigDecimal.valueOf(50))
-                .userData(getUserDTOToRegister())
+                .user(getUserDTOToRegister())
                 .build();
     }
 
@@ -58,7 +58,7 @@ public class DoctorDTOFixtures {
                 .specialization(Specialization.PULMONOLOGIST)
                 .phone("+48 724 483 007")
                 .salaryFor15minMeet(BigDecimal.valueOf(50))
-                .userEntity(getUserEntityToRegister())
+                .user(getUserEntityToRegister())
                 .build();
     }
 

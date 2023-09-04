@@ -24,7 +24,7 @@ public class PatientRegistrationController {
 
     @GetMapping(PATIENT_REGISTER)
     public String register(final Model model) {
-        model.addAttribute("userData", PatientDTO.builder().userData(UserData.builder().active(true).build()).build());
+        model.addAttribute("userData", PatientDTO.builder().user(UserData.builder().active(true).build()).build());
         return "patient_register";
     }
 
@@ -38,6 +38,7 @@ public class PatientRegistrationController {
             patientService.register(patientDTO);
         } catch (UserAlreadyExistsException e) {
             bindingResult.rejectValue("email", "patientDTO.email", "An account already exists for this email.");
+            bindingResult.rejectValue("phone", "patientDTO.phone", "An account already exists for this phone.");
             model.addAttribute("registrationForm", patientDTO);
             return "patient_register";
         }

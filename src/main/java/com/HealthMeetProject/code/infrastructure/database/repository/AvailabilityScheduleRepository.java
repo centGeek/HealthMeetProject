@@ -7,6 +7,7 @@ import com.HealthMeetProject.code.domain.Doctor;
 import com.HealthMeetProject.code.infrastructure.database.entity.AvailabilityScheduleEntity;
 import com.HealthMeetProject.code.infrastructure.database.entity.DoctorEntity;
 import com.HealthMeetProject.code.infrastructure.database.repository.jpa.AvailabilityScheduleJpaRepository;
+import com.HealthMeetProject.code.infrastructure.database.repository.jpa.DoctorJpaRepository;
 import com.HealthMeetProject.code.infrastructure.database.repository.mapper.AvailabilityScheduleEntityMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -17,6 +18,7 @@ import java.util.List;
 @Repository
 @AllArgsConstructor
 public class AvailabilityScheduleRepository implements AvailabilityScheduleDAO {
+    private final DoctorJpaRepository doctorJpaRepository;
     private final AvailabilityScheduleJpaRepository availabilityScheduleJpaRepository;
     private final AvailabilityScheduleEntityMapper availabilityScheduleEntityMapper;
 
@@ -33,9 +35,9 @@ public class AvailabilityScheduleRepository implements AvailabilityScheduleDAO {
                 since(since)
                 .toWhen(toWhen)
                 .doctor(doctor)
+                .available(true)
                 .build();
         availabilityScheduleJpaRepository.saveAndFlush(schedule);
-        AvailabilitySchedule availabilitySchedule = availabilityScheduleEntityMapper.map(schedule);
-        return availabilitySchedule;
+        return availabilityScheduleEntityMapper.map(schedule);
     }
 }

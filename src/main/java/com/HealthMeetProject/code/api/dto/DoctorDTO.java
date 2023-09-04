@@ -31,7 +31,7 @@ public class DoctorDTO {
     @Pattern(regexp = "^[+]\\d{2}\\s\\d{3}\\s\\d{3}\\s\\d{3}$")
     private String phone;
     private BigDecimal salaryFor15minMeet;
-    private UserData userData;
+    private UserData user;
     private Clinic clinic;
 
     public static DoctorDTO buildDefaultData() {

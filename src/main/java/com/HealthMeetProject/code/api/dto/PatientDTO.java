@@ -1,7 +1,6 @@
 package com.HealthMeetProject.code.api.dto;
 
 import com.HealthMeetProject.code.domain.Address;
-import com.HealthMeetProject.code.domain.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,5 +17,5 @@ public class PatientDTO {
     private String pesel;
     private String phone;
     private Address address;
-    private UserData userData;
+    private UserData user;
 }

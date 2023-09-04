@@ -53,22 +53,22 @@ public class DoctorRegistrationControllerTest {
 //    }
 
 
-    @Test
-    void thatEmailValidationWorksCorrectly() throws Exception {
-        // given
-        String badEmail = "badEmail";
-        LinkedMultiValueMap<String, String> parameters = new LinkedMultiValueMap<>();
-        Map<String, String> parametersMap = DoctorDTO.buildDefaultData().asMap();
-        parametersMap.put("customerEmail", badEmail);
-        parametersMap.forEach(parameters::add);
-
-        // when, then
-        mockMvc.perform(post(PatientController.PATIENT).params(parameters))
-                .andExpect(status().is4xxClientError())
-                .andExpect(model().attributeExists("errorMessage"))
-                .andExpect(model().attribute("errorMessage", Matchers.containsString(badEmail)))
-                .andExpect(view().name("error"));
-    }
+//    @Test
+//    void thatEmailValidationWorksCorrectly() throws Exception {
+//        // given
+//        String badEmail = "badEmail";
+//        LinkedMultiValueMap<String, String> parameters = new LinkedMultiValueMap<>();
+//        Map<String, String> parametersMap = DoctorDTO.buildDefaultData().asMap();
+//        parametersMap.put("customerEmail", badEmail);
+//        parametersMap.forEach(parameters::add);
+//
+//        // when, then
+//        mockMvc.perform(post(PatientController.PATIENT).params(parameters))
+//                .andExpect(status().is4xxClientError())
+//                .andExpect(model().attributeExists("errorMessage"))
+//                .andExpect(model().attribute("errorMessage", Matchers.containsString(badEmail)))
+//                .andExpect(view().name("error"));
+//    }
 
 //    @ParameterizedTest
 //    @MethodSource

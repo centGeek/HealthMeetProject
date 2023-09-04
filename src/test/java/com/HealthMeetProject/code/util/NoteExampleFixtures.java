@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 
-import static com.HealthMeetProject.code.util.DoctorExampleFixtures.doctorExample1;
+import static com.HealthMeetProject.code.util.DoctorExampleFixtures.doctorEntityExample1;
 
 public class NoteExampleFixtures {
     public static NoteEntity noteExample1() {
@@ -23,7 +23,7 @@ public class NoteExampleFixtures {
                 )
                 .patient(patientExample1())
 
-                .doctor(doctorExample1())
+                .doctor(doctorEntityExample1())
 
                 .build();
     }

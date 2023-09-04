@@ -9,8 +9,9 @@ import java.time.OffsetDateTime;
 import java.util.List;
 
 
-public interface AvailabilityScheduleDAO  {
+public interface AvailabilityScheduleDAO {
     List<AvailabilitySchedule> findAllTermsByGivenDoctor(String email);
 
     AvailabilitySchedule addTerm(OffsetDateTime since, OffsetDateTime toWhen, DoctorEntity doctorEntity);
+
 }

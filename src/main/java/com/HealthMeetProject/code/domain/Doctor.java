@@ -1,5 +1,6 @@
 package com.HealthMeetProject.code.domain;
 
+import com.HealthMeetProject.code.api.dto.UserData;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -28,6 +29,8 @@ public class Doctor {
     private BigDecimal salaryFor15minMeet;
 
     private Clinic clinic;
+
+    private UserData user;
 
     private Set<VisitInvoice> invoices;
 

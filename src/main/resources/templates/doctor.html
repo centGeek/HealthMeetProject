@@ -2,14 +2,16 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
           rel="stylesheet"
           integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
           crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/css/tempusdominus-bootstrap-4.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-timepicker/1.13.18/jquery.timepicker.min.css">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/css/tempusdominus-bootstrap-4.min.css">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/jquery-timepicker/1.13.18/jquery.timepicker.min.css">
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
@@ -17,9 +19,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-timepicker/1.13.18/jquery.timepicker.min.js"></script>
 
     <style>
-        /* Your existing CSS styles here */
 
-        /* Style for time input */
         #timepicker .form-control {
             background-color: #fff;
             border: 1px solid #ced4da;
@@ -29,7 +29,6 @@
             height: auto;
         }
 
-        /* Style for time picker icon button */
         #timepicker .input-group-prepend .btn {
             background-color: #fff;
             border: 1px solid #ced4da;
@@ -37,65 +36,61 @@
             border-radius: 0.25rem;
         }
 
-        /* Style for the time icon */
         #timepicker .input-group-prepend .btn i {
-            color: #007bff; /* Change the color to your preferred one */
+            color: #007bff;
         }
 
-        /* Style for the time icon button */
         #timepicker .input-group-prepend .btn button {
             background-color: #fff;
             border: 1px solid #ced4da;
             border-radius: 0.25rem 0 0 0.25rem;
         }
 
-        /* Style for timepicker dropdown */
-        .ui-timepicker-list {
-            padding: 0;
-            background-color: #fff;
-            border: 1px solid #ced4da;
-            max-height: 200px;
-            overflow-y: auto;
-            position: absolute;
-        }
 
-        /* Style for timepicker dropdown items */
         .ui-timepicker-list li {
             list-style: none;
             padding: 5px 10px;
             cursor: pointer;
         }
 
-        /* Style for selected time in dropdown */
-        .ui-timepicker-list li.ui-timepicker-selected {
+        .ui-timepicker-list li {
             background-color: #007bff;
             color: #fff;
         }
 
-        /* Style for timepicker up/down buttons */
-        .ui-timepicker-updown {
-            display: none;
-        }
     </style>
     <title>HealthyMeet - Available Doctors</title>
 </head>
 
 <body>
 <div class="container">
-    <h1>Here you can find all available Doctors:</h1>
+    <h1>Here is your following work schedule!</h1>
     <table class="table">
         <thead class="table-dark">
         <tr>
             <th>Since</th>
             <th>To when</th>
+            <th>available</th>
+            <th>Remove term</th>
         </tr>
         </thead>
-        <tbody>
-        <tr th:each="doctor : ${doctorTerms}">
-            <td th:text="${doctor.since}"></td>
-            <td th:text="${doctor.toWhen}"></td>
+        <tbody th:if="${not #lists.isEmpty(formattedSince)}">
+        <tr th:each="i : ${#numbers.sequence(0, #lists.size(formattedSince)-1)}">
+            <td th:text="${formattedSince[i]}"></td>
+            <td th:text="${formattedToWhen[i]}"></td>
+            <td th:text="${reserved[i]}"></td>
+            <td th:if="${reserved[i]}">
+                <form th:action="@{'/doctor/delete/term/'+${doctorTermsSorted[i].getAvailability_schedule_id()}}"
+                      th:method="delete">
+                    <input type="hidden" name="index" th:value="${termIndex}"/>
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+
+            </td>
         </tr>
         </tbody>
+
+
     </table>
 </div>
 <div class="container text-center mt-4">
@@ -106,13 +101,15 @@
         <div class="col-md-6">
             <form action="#" th:action="@{doctor/add/terms}" method="post">
                 <div class="input-group date" id="datetimepicker" data-target-input="nearest">
-                    <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker" placeholder="Select date" name="datetime"/>
+                    <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker"
+                           placeholder="Select date" name="since" id="sinceInput"/>
                     <div class="input-group-append" data-target="#datetimepicker" data-toggle="datetimepicker">
                         <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>
                     </div>
                 </div>
                 <div class="input-group date mt-2" id="datetimepicker2" data-target-input="nearest">
-                    <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker2" placeholder="Select date" name="datetime2"/>
+                    <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker2"
+                           placeholder="Select date" name="toWhen" id="toWhenInput"/>
                     <div class="input-group-append" data-target="#datetimepicker2" data-toggle="datetimepicker">
                         <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>
                     </div>
@@ -123,12 +120,26 @@
             </form>
         </div>
     </div>
+    <div class="container text-center mt-4">
+        <div class="row">
+            <div class="col-md-6">
+                <form action="/logout" th:action="@{/logout}" method="post">
+                    <button class="btn btn-danger" type="submit">Logout</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 <script>
     $(document).ready(function () {
         // Pobierz aktualną datę i czas
         var now = moment();
+
+        // Ustaw wartości pól na aktualną datę i godzinę
+        $('#sinceInput').val(now.format('YYYY-MM-DD hh:mm A'));
+        $('#toWhenInput').val(now.format('YYYY-MM-DD hh:mm A'));
 
         // Initialize the datetime picker with the current date and time
         $('#datetimepicker, #datetimepicker2').datetimepicker({
@@ -145,10 +156,11 @@
         });
 
         // Handle the button click to open the time picker
-        $('#timepicker-button').click(function() {
+        $('#timepicker-button').click(function () {
             $('.timepicker').timepicker('show');
         });
     });
 </script>
+
 </body>
 </html>

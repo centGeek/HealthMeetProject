@@ -50,7 +50,7 @@ public class MeetingRequestJpaRepositoryTest {
     void thatMeetingRequestsAreFoundByDoctors() {
         //when
         List<MeetingRequestEntity> allByDoctorEmail1 = meetingRequestJpaRepository.findAllByDoctorEmail(doctorExample1().getEmail());
-        List<MeetingRequestEntity> allByDoctorEmail2 = meetingRequestJpaRepository.findAllByDoctorEmail(doctorExample2().getEmail());
+        List<MeetingRequestEntity> allByDoctorEmail2 = meetingRequestJpaRepository.findAllByDoctorEmail(doctorEntityExample2().getEmail());
         //then
         Assertions.assertThat(allByDoctorEmail1.size()).isEqualTo(1);
         Assertions.assertThat(allByDoctorEmail2.size()).isEqualTo(2);

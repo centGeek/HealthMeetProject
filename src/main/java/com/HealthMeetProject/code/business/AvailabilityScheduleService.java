@@ -18,13 +18,17 @@ public class AvailabilityScheduleService {
     private final AvailabilityScheduleDAO availabilityScheduleDAO;
     private final AvailabilityScheduleMapper availabilityScheduleMapper;
 
-    public List<AvailabilitySchedule> findAllTermsByGivenDoctor(String email){
-        return availabilityScheduleDAO.findAllTermsByGivenDoctor(email);
+    public List<AvailabilityScheduleDTO> findAllTermsByGivenDoctor(String email){
+        return availabilityScheduleDAO.findAllTermsByGivenDoctor(email).stream().map(availabilityScheduleMapper::map).toList();
     };
 
     public AvailabilityScheduleDTO addTerm(OffsetDateTime since,OffsetDateTime toWhen, DoctorEntity doctorEntity) {
+        if (since.plusMinutes(15).isAfter(toWhen)) {
+            throw new IllegalArgumentException("Minimum planned visit is 15 minutes");
+        }
         AvailabilitySchedule availabilitySchedule = availabilityScheduleDAO.addTerm(since, toWhen, doctorEntity);
-        AvailabilityScheduleDTO availabilityScheduleDTO = availabilityScheduleMapper.map(availabilitySchedule);
-        return availabilityScheduleDTO;
+        return availabilityScheduleMapper.map(availabilitySchedule);
     }
+
+
 }

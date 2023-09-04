@@ -23,7 +23,7 @@ public class DoctorRegistrationController {
 
     @GetMapping(DOCTOR_REGISTER)
     public String register(final Model model) {
-        model.addAttribute("userData", DoctorDTO.builder().userData(UserData.builder().active(true).build()).build());
+        model.addAttribute("userData", DoctorDTO.builder().user(UserData.builder().active(true).build()).build());
         return "doctor_register";
     }
 

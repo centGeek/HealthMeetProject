@@ -2,8 +2,10 @@ package com.HealthMeetProject.code.api.controller;
 
 import com.HealthMeetProject.code.domain.exception.NotFoundException;
 import com.HealthMeetProject.code.domain.exception.ProcessingException;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -56,5 +58,10 @@ public class GlobalExceptionHandler {
         ModelAndView modelView = new ModelAndView("error");
         modelView.addObject("errorMessage", message);
         return modelView;
+    }
+    @ExceptionHandler(IllegalArgumentException.class)
+    public String handleIllegalArgumentException(Exception ex, Model model) {
+        model.addAttribute("errorMessage", ex.getMessage());
+        return "error";
     }
 }

@@ -15,7 +15,7 @@ public class AvailabilitySchedule {
     private int availability_schedule_id;
     private OffsetDateTime since;
     private OffsetDateTime toWhen;
-    private boolean availability;
+    private boolean available;
     private Doctor doctor;
 
 }

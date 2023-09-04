@@ -31,7 +31,7 @@ class DoctorJpaRepositoryTest {
     @BeforeEach
     public void given() {
         //given for every test
-        var doctors = List.of(doctorExample1(), doctorExample2(), doctorExample3());
+        var doctors = List.of(doctorEntityExample1(), doctorEntityExample2(), doctorEntityExample3());
         doctorJpaRepository.saveAllAndFlush(doctors);
     }
 

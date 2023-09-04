@@ -42,7 +42,7 @@ public class PatientEntity {
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
-    private UserEntity userEntity;
+    private UserEntity user;
 
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "patient")

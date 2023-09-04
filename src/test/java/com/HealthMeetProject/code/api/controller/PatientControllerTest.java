@@ -1,5 +1,5 @@
 package com.HealthMeetProject.code.api.controller;
 
-class PatientControllerTest {
+public class PatientControllerTest {
 
 }

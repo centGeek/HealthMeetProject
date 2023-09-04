@@ -114,7 +114,7 @@ public class DoctorRepository implements DoctorDAO {
                 .specialization(doctorDTO.getSpecialization())
                 .phone(doctorDTO.getPhone())
                 .salaryFor15minMeet(doctorDTO.getSalaryFor15minMeet())
-                .userEntity(userEntity).build();
+                .user(userEntity).build();
     }
 
     private static ClinicEntity getClinicEntityToRegister(DoctorDTO doctorDTO) {
@@ -129,15 +129,15 @@ public class DoctorRepository implements DoctorDAO {
     private UserEntity getUserEntityToRegister(DoctorDTO doctorDTO) {
         return UserEntity.builder()
                 .active(true)
-                .userName(doctorDTO.getUserData().getUserName())
-                .password(doctorDTO.getUserData().getPassword())
+                .userName(doctorDTO.getUser().getUserName())
+                .password(doctorDTO.getUser().getPassword())
                 .roles(Set.of(roleRepository.findByRole("DOCTOR")))
                 .email(doctorDTO.getEmail())
                 .build();
     }
 
     private void encodePassword(DoctorEntity doctorEntity, DoctorDTO doctorDTO) {
-        doctorEntity.getUserEntity().setPassword(passwordEncoder.encode(doctorDTO.getUserData().getPassword()));
+        doctorEntity.getUser().setPassword(passwordEncoder.encode(doctorDTO.getUser().getPassword()));
     }
 
     private boolean isEmailAlreadyExists(String email) {
