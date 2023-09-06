@@ -113,7 +113,7 @@ public class DoctorRepository implements DoctorDAO {
                 .email(doctorDTO.getEmail())
                 .specialization(doctorDTO.getSpecialization())
                 .phone(doctorDTO.getPhone())
-                .salaryFor15minMeet(doctorDTO.getSalaryFor15minMeet())
+                .earningsPerVisit(doctorDTO.getEarningsPerVisit())
                 .user(userEntity).build();
     }
 

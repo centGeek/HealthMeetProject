@@ -42,7 +42,7 @@
             color: #fff;
             border-color: #343a40;
         }
-
+        /* Dodaj stylizację dla przycisku "Show his terms" */
         .show-terms-button {
             background-color: #007bff;
             color: #fff;
@@ -54,67 +54,48 @@
         .show-terms-button:hover {
             background-color: #0056b3;
         }
-
-        .go-back-button {
-            background-color: #28a745;
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            font-size: 14px;
-            text-decoration: none;
-        }
-        .go-back-button:hover {
-            background-color: #218838;
-        }
-        .table td.since,
-        .table td.to-when {
-            text-align: center;
-        }
     </style>
+    <title>HealthyMeet - Available Doctors</title>
 </head>
 
 <body>
 <div class="container">
-    <h2 class="text-center">Here is a doctor availability within coming days!</h2>
-    <table class="table">
-        <tr>
-            <td>
-                <strong>Name:</strong> <span class="font-weight-bold text-primary" th:text="${doctor.name}"></span>
-                <strong>Surname:</strong> <span class="font-weight-bold text-primary" th:text="${doctor.surname}"></span>
-                <strong>Specialization:</strong> <span class="font-weight-bold text-primary" th:text="${doctor.specialization}"></span>
-            </td>
-        </tr>
-    </table>
+    <h1>Here you can find any available term suitable for you!</h1>
 
-    <br>
-    <br>
     <table class="table">
         <thead class="table-dark">
         <tr>
-            <th>since</th>
-            <th>to when</th>
-            <th>Make appointment</th>
+            <th>Since</th>
+            <th>To when</th>
+            <th>Meeting Request</th>
         </tr>
         </thead>
-        <tr th:each="term : ${allTermsByGivenDoctor}" class="term-row">
-            <td th:text="${term.since}" class="since"></td>
-            <td th:text="${term.toWhen}" class="to-when"></td>
+        <tbody>
+        <tr th:each="visit : ${particularVisitTime}">
+            <td th:text="${visit.since}"></td>
+            <td th:text="${visit.toWhen}"></td>
             <td>
-                <form th:if="${term.isAvailable}" method="get" th:action="@{'/patient/terms/appointment/' + ${term.availability_schedule_id}}">
-                    <input type="submit" value="Choose day" class="show-terms-button">
+                <form method="get" th:action="@{'/patient/terms/appointment/'+${givenAvailabilitySchedule.availability_schedule_id}+'/finalize/'+${visit.availability_schedule_id}}">
+                    <input type="submit" value="make meeting request" class="show-terms-button">
                 </form>
             </td>
         </tr>
-        <tr th:if="${#lists.isEmpty(allTermsByGivenDoctor)}">
-            <td colspan="3" class="text-center"> <strong> There is no available term for this doctor </strong> </td>
-        </tr>
+        </tbody>
     </table>
 </div>
 <div class="container text-center mt-4">
     <div class="row">
-        <div class="col-md-12">
-            <a th:href="@{/}" class="btn btn-info go-back-button" role="button">Go back to the main page</a>
+        <div class="col-md-3">
+            <form action="/logout" th:action="@{/logout}" method="post">
+                <button class="btn btn-danger" type="submit">Logout</button>
+            </form>
+        </div>
+        <div class="col-md-3">
+            <a th:href="@{/}" class="btn btn-info" role="button">Go back to the main page</a>
+        </div>
+        <div class="col-md-6">
+            <a th:href="@{/patient/visit_history}" class="btn btn-info" role="button">Your visit history</a>
+
         </div>
     </div>
 </div>

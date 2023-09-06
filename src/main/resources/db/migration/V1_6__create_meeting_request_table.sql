@@ -3,7 +3,7 @@ CREATE TABLE meeting_request
     meeting_id             serial                   not null,
     meeting_request_number varchar(32)              not null,
     received_date_time     timestamp with time zone not null,
-    completed_date_time    timestamp with time zone not null,
+    completed_date_time    timestamp with time zone,
     description            varchar(256)             not null,
     patient_id             int                      not null,
     doctor_id              int                      not null,

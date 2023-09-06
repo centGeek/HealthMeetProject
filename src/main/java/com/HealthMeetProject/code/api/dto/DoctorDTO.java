@@ -30,7 +30,7 @@ public class DoctorDTO {
     @Size
     @Pattern(regexp = "^[+]\\d{2}\\s\\d{3}\\s\\d{3}\\s\\d{3}$")
     private String phone;
-    private BigDecimal salaryFor15minMeet;
+    private BigDecimal earningsPerVisit;
     private UserData user;
     private Clinic clinic;
 
@@ -47,7 +47,7 @@ public class DoctorDTO {
                 .surname("Kowalski")
                 .phone("+48 783 323 323")
                 .specialization(Specialization.PSYCHIATRIST)
-                .salaryFor15minMeet(BigDecimal.ONE)
+                .earningsPerVisit(BigDecimal.ONE)
                 .build();
     }
 
@@ -57,7 +57,7 @@ public class DoctorDTO {
         ofNullable(buildDefaultData().getSurname()).ifPresent(value -> result.put("surname", value));
         ofNullable(buildDefaultData().getPhone()).ifPresent(value -> result.put("phone", value));
         ofNullable(buildDefaultData().getEmail()).ifPresent(value -> result.put("email", value));
-        ofNullable(buildDefaultData().getSalaryFor15minMeet()).ifPresent(value -> result.put("salaryFor15minMeet", value.toString()));
+        ofNullable(buildDefaultData().getEarningsPerVisit()).ifPresent(value -> result.put("salaryFor15minMeet", value.toString()));
         ofNullable(buildDefaultData().getSpecialization()).ifPresent(value -> result.put("specialization", value.toString()));
         return result;
     }

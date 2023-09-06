@@ -28,7 +28,7 @@ public class DoctorExampleFixtures {
                 .surname("Kowalski")
                 .phone("+48 783 323 323")
                 .specialization(Specialization.PSYCHIATRIST)
-                .salaryFor15minMeet(BigDecimal.ONE)
+                .earningsPerVisit(BigDecimal.ONE)
                 .build();
     }
     public static Doctor doctorExample3() {
@@ -44,7 +44,7 @@ public class DoctorExampleFixtures {
                 .email("g.shelby@gmail.com")
                 .phone("+44 782 323 323")
                 .specialization(Specialization.PSYCHIATRIST)
-                .salaryFor15minMeet(BigDecimal.valueOf(150))
+                .earningsPerVisit(BigDecimal.valueOf(150))
                 .build();
     }
     public static DoctorEntity doctorEntityExample1() {
@@ -60,7 +60,7 @@ public class DoctorExampleFixtures {
                 .surname("Kowalski")
                 .phone("+48 783 323 323")
                 .specialization(Specialization.PSYCHIATRIST)
-                .salaryFor15minMeet(BigDecimal.ONE)
+                .earningsPerVisit(BigDecimal.ONE)
                 .build();
     }
 
@@ -77,7 +77,7 @@ public class DoctorExampleFixtures {
                 .email("t.shelby@gmail.com")
                 .phone("+44 782 323 323")
                 .specialization(Specialization.CARDIOLOGIST)
-                .salaryFor15minMeet(BigDecimal.valueOf(150))
+                .earningsPerVisit(BigDecimal.valueOf(150))
                 .build();
     }
 
@@ -94,7 +94,7 @@ public class DoctorExampleFixtures {
                 .email("g.shelby@gmail.com")
                 .phone("+44 782 323 323")
                 .specialization(Specialization.PSYCHIATRIST)
-                .salaryFor15minMeet(BigDecimal.valueOf(150))
+                .earningsPerVisit(BigDecimal.valueOf(150))
                 .build();
     }
 

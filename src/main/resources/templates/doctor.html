@@ -64,7 +64,8 @@
 
 <body>
 <div class="container">
-    <h1>Here is your following work schedule!</h1>
+    <h2>Here you can manage your working schedule! <br>
+        This is your assured plan for following days!</h2>
     <table class="table">
         <thead class="table-dark">
         <tr>
@@ -101,15 +102,15 @@
         <div class="col-md-6">
             <form action="#" th:action="@{doctor/add/terms}" method="post">
                 <div class="input-group date" id="datetimepicker" data-target-input="nearest">
-                    <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker"
-                           placeholder="Select date" name="since" id="sinceInput"/>
+                    <label for="sinceInput"></label><input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker"
+                                                           placeholder="Select date" name="since" id="sinceInput"/>
                     <div class="input-group-append" data-target="#datetimepicker" data-toggle="datetimepicker">
                         <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>
                     </div>
                 </div>
                 <div class="input-group date mt-2" id="datetimepicker2" data-target-input="nearest">
-                    <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker2"
-                           placeholder="Select date" name="toWhen" id="toWhenInput"/>
+                    <label for="toWhenInput"></label><input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker2"
+                                                            placeholder="Select date" name="toWhen" id="toWhenInput"/>
                     <div class="input-group-append" data-target="#datetimepicker2" data-toggle="datetimepicker">
                         <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>
                     </div>

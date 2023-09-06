@@ -3,7 +3,10 @@ package com.HealthMeetProject.code.infrastructure.database.repository;
 
 import com.HealthMeetProject.code.api.dto.DoctorDTO;
 import com.HealthMeetProject.code.api.dto.PatientDTO;
+import com.HealthMeetProject.code.business.AvailabilityScheduleService;
 import com.HealthMeetProject.code.business.dao.PatientDAO;
+import com.HealthMeetProject.code.domain.Doctor;
+import com.HealthMeetProject.code.domain.MeetingRequest;
 import com.HealthMeetProject.code.domain.Patient;
 import com.HealthMeetProject.code.infrastructure.database.entity.*;
 import com.HealthMeetProject.code.infrastructure.database.repository.jpa.MeetingRequestJpaRepository;
@@ -53,15 +56,12 @@ public class PatientRepository implements PatientDAO {
     }
 
     @Override
-    public void saveMeetingRequest(Patient patient) {
-        List<MeetingRequestEntity> meetingRequests = patient.getMeetingRequests().stream()
-                .filter(serviceRequest -> Objects.isNull(serviceRequest.getMeetingId()))
-                .map(meetingRequestEntityMapper::mapToEntity)
-                .toList();
+    public void saveMeetingRequest(MeetingRequest meetingRequest, Patient patient) {
+        MeetingRequestEntity meetingRequestEntity = meetingRequestEntityMapper.mapToEntity(meetingRequest);
+        PatientEntity patientEntity = patientEntityMapper.mapToEntity(patient);
+        meetingRequestEntity.setPatient(patientEntity);
+        meetingRequestJpaRepository.saveAndFlush(meetingRequestEntity);
 
-        meetingRequests
-                .forEach(request -> request.setPatient(patientEntityMapper.mapToEntity(patient)));
-        meetingRequestJpaRepository.saveAllAndFlush(meetingRequests);
     }
 
     @Override

@@ -8,7 +8,6 @@ import com.HealthMeetProject.code.infrastructure.database.entity.ClinicEntity;
 import com.HealthMeetProject.code.infrastructure.database.entity.DoctorEntity;
 import com.HealthMeetProject.code.infrastructure.database.entity.UserEntity;
 import com.HealthMeetProject.code.infrastructure.security.RoleEntity;
-import com.HealthMeetProject.code.infrastructure.security.RoleRepository;
 import lombok.AllArgsConstructor;
 
 import java.math.BigDecimal;
@@ -25,7 +24,7 @@ public class DoctorDTOFixtures {
                 .email("j.kowalski@gmail.com")
                 .specialization(Specialization.PULMONOLOGIST)
                 .phone("+48 724 483 007")
-                .salaryFor15minMeet(BigDecimal.valueOf(50))
+                .earningsPerVisit(BigDecimal.valueOf(50))
                 .user(getUserDTOToRegister())
                 .build();
     }
@@ -57,7 +56,7 @@ public class DoctorDTOFixtures {
                 .email("j.Tomasz@gmail.com")
                 .specialization(Specialization.PULMONOLOGIST)
                 .phone("+48 724 483 007")
-                .salaryFor15minMeet(BigDecimal.valueOf(50))
+                .earningsPerVisit(BigDecimal.valueOf(50))
                 .user(getUserEntityToRegister())
                 .build();
     }
