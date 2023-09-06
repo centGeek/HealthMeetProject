@@ -31,4 +31,7 @@ public class AvailabilityScheduleService {
     }
 
 
+    public List<AvailabilityScheduleDTO> findAllAvailableTermsByGivenDoctor(String email) {
+         return availabilityScheduleDAO.findAllAvailableTermsByGivenDoctor(email).stream().map(availabilityScheduleMapper::map).toList();
+    }
 }

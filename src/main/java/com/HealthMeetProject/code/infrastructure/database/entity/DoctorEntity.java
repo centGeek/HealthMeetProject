@@ -34,8 +34,8 @@ public class DoctorEntity {
     @Column(name = "phone")
     private String phone;
 
-    @Column(name = "salary_for_15min_meet")
-    private BigDecimal salaryFor15minMeet;
+    @Column(name = "earnings_per_visit")
+    private BigDecimal earningsPerVisit;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "clinic_id")

@@ -49,14 +49,13 @@
 </head>
 <body>
 <div class="container">
-    <h2>Patient Registration Successful!</h2>
-    <p>Congratulations:</p>
-    <p>
-        <b>Name: <span th:if="${patientDTO.name}" th:text="${patientDTO.name}">N/A</span></b><br/>
-        <b>Surname: <span th:if="${patientDTO.surname}" th:text="${patientDTO.surname}">N/A</span></b><br/>
-        <b>Email: <span th:if="${patientDTO.email}" th:text="${patientDTO.email}">N/A</span></b>
+    <h2>You successfully made a meeting Request!</h2>
+        <b>Cost visit: <span th:if="${visitTerm.doctor.earningsPerVisit}" th:text="${visitTerm.doctor.earningsPerVisit}">N/A</span></b><br/>
+        <b>Term since: <span th:if="${visitTerm.since}" th:text="${visitTerm.since}">N/A</span></b><br/>
+        <b>Term when: <span th:if="${visitTerm.toWhen}" th:text="${visitTerm.toWhen}">N/A</span></b>
     </p>
-    <p>Your registration as a patient was successful. Thank you for joining our medical community. Welcome!</p>
+    <p>Tee you soon! Your trusted doctor</p>
+    <span th:if="${visitTerm.doctor.name}" th:text="${visitTerm.doctor.name}">N/A</span>  <span th:if="${visitTerm.doctor.surname}" th:text="${visitTerm.doctor.surname}">N/A</span>
 </div>
 
 <div class="container">

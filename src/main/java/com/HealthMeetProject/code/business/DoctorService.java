@@ -7,11 +7,12 @@ import com.HealthMeetProject.code.domain.Doctor;
 import com.HealthMeetProject.code.domain.Note;
 import com.HealthMeetProject.code.domain.Receipt;
 import com.HealthMeetProject.code.domain.Specialization;
-import com.HealthMeetProject.code.domain.exception.NotFoundException;
+import com.HealthMeetProject.code.domain.exception.AccessDeniedException;
 import com.HealthMeetProject.code.domain.exception.UserAlreadyExistsException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -31,9 +32,20 @@ public class DoctorService {
 
 
     public List<Doctor> findAllAvailableDoctors() {
+        if (!userHasPatientPermission()) {
+            throw new AccessDeniedException("You have no access to this resource.");
+        }
         List<Doctor> allAvailableDoctors = doctorDAO.findAllAvailableDoctors();
         log.info("Available doctors: [{}]", allAvailableDoctors.size());
         return allAvailableDoctors;
+    }
+
+    public boolean userHasPatientPermission() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof UserDetails userDetails) {
+            return userDetails.getAuthorities().contains(new SimpleGrantedAuthority("PATIENT"));
+        }
+        return false;
     }
 
 
@@ -76,6 +88,7 @@ public class DoctorService {
     public Optional<Doctor> findById(Integer doctorId) {
         return doctorDAO.findById(doctorId);
     }
+
     public String authenticateDoctor() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = null;

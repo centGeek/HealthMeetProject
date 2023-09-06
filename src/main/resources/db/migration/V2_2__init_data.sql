@@ -1,10 +1,10 @@
-INSERT INTO doctor (name, surname,email, specialization, phone, salary_for_15min_meet, user_id)
+INSERT INTO doctor (name, surname,email, specialization, phone, earnings_per_visit, user_id)
 VALUES ('Jan', 'Lekarski','j.lekarski@medi.com', 'CARDIOLOGIST', '+44 323 321 312', 32.00,1);
 
-INSERT INTO doctor (name, surname,email, specialization, phone, salary_for_15min_meet, user_id)
+INSERT INTO doctor (name, surname,email, specialization, phone, earnings_per_visit, user_id)
 VALUES ('Tomasz', 'Hibernate','t.hiber@medi.com' ,'GYNECOLOGIST','+48 323 321 212', 300.00, 2);
 
-INSERT INTO doctor (name, surname,email, specialization, phone, salary_for_15min_meet, user_id)
+INSERT INTO doctor (name, surname,email, specialization, phone, earnings_per_visit, user_id)
 VALUES ('Krzysztof', 'Columb','k.cool@medi.com', 'UROLOGIST','+48 212 267 217', 150.00, 3);
 
 INSERT INTO address(country, city, postal_code, address)

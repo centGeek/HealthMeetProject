@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
+          crossorigin="anonymous">
+    <style>
+        /* Dodatkowa stylizacja dla formularza */
+        .container {
+            max-width: 400px;
+        }
+    </style>
+</head>
+<body>
+<div class="container mt-5">
+    <h1 class="mb-4">Making request form</h1>
+    <form  action="#" th:action="@{/patient/terms/add/meeting_request}" method="POST">
+        <div class="mb-3">
+            <h4>Visit start: <span th:if="${visitTerm.since}" th:text="${visitTerm.since}">N/A</span></h4><br/>
+        </div>
+        <div class="mb-3">
+            <h4>Visit end: <span th:if="${visitTerm.toWhen}" th:text="${visitTerm.toWhen}">N/A</span></h4><br/>
+        </div>
+        <div class="mb-3">
+            <h4>Doctor Name: <span th:if="${visitTerm.doctor.name}" th:text="${visitTerm.doctor.name}">N/A</span></h4><br/>
+        </div>
+        <div class="mb-3">
+            <h4>Doctor Surname: <span th:if="${visitTerm.doctor.surname}" th:text="${visitTerm.doctor.surname}">N/A</span></h4><br/>
+        </div>
+        <div class="mb-3">
+            <h4>Doctor Specialization: <span th:if="${visitTerm.doctor.specialization}" th:text="${visitTerm.doctor.specialization}">N/A</span></h4><br/>
+        </div>
+        <div class="mb-3">
+            <h4>Visit cost: <span th:if="${visitTerm.doctor.earningsPerVisit}" th:text="${visitTerm.doctor.earningsPerVisit}">N/A</span></h4><br/>
+        </div>
+        <div class="mb-3">
+            <label for="opis" class="form-label"><h4>Description:</h4></label>
+            <textarea class="form-control" id="opis" name="description" rows="4" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Zapisz wizytę</button>
+    </form>
+</div>
+</body>
+</html>

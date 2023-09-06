@@ -26,7 +26,7 @@ public class Doctor {
 
     private String phone;
 
-    private BigDecimal salaryFor15minMeet;
+    private BigDecimal earningsPerVisit;
 
     private Clinic clinic;
 

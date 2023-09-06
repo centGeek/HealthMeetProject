@@ -25,5 +25,12 @@ class HomeControllerTest{
                 .andExpect(status().isOk())
                 .andExpect(view().name("home"));
     }
+    @Test
+    void aboutWorksCorrectly() throws Exception {
+        // given, when, then
+        mockMvc.perform(get(HomeController.ABOUT))
+                .andExpect(status().isOk())
+                .andExpect(view().name("about"));
+    }
 
 }

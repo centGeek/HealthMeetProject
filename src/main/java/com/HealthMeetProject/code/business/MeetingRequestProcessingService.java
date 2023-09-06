@@ -29,8 +29,8 @@ public class MeetingRequestProcessingService {
 //    }
     @Transactional
     public BigDecimal showPaymentForVisit(final MeetingRequest meetingRequest){
-        BigDecimal salaryFor15minMeet = meetingRequest.getDoctor().getSalaryFor15minMeet();
-        return salaryFor15minMeet;
+        BigDecimal costPerVisit = meetingRequest.getDoctor().getEarningsPerVisit();
+        return costPerVisit;
     }
 
 }

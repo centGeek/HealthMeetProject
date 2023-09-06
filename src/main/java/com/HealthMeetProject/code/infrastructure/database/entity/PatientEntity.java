@@ -1,16 +1,15 @@
 package com.HealthMeetProject.code.infrastructure.database.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.Set;
 
 @Data
 @NoArgsConstructor
+@EqualsAndHashCode(exclude = {"address"})
 @AllArgsConstructor
+@ToString(of = "email")
 @Entity
 @Builder
 @Table(name = "patient")
@@ -44,15 +43,12 @@ public class PatientEntity {
     @JoinColumn(name = "user_id")
     private UserEntity user;
 
-
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "patient")
     private Set<VisitInvoiceEntity> invoices;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "patient")
     private Set<NoteEntity> notes;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "patient")
-    private Set<MeetingRequestEntity> meetingRequests;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "patient")
     private Set<ReceiptEntity> receipts;

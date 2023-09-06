@@ -63,8 +63,7 @@ public class AvailabilityScheduleController {
 
     @PostMapping(DOCTOR + ADD_TERMS)
     public String addTerms(@RequestParam("since") String since,
-                           @RequestParam("toWhen") String toWhen,
-                           final Model model) {
+                           @RequestParam("toWhen") String toWhen) {
         ZoneId zoneId = ZoneId.of("UTC");
         LocalDateTime localSinceDateTime = LocalDateTime.parse(since, DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm a", Locale.ENGLISH));
         ZonedDateTime zonedSinceDateTime = ZonedDateTime.of(localSinceDateTime, zoneId);

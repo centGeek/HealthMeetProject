@@ -2,25 +2,60 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
           rel="stylesheet"
           integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
           crossorigin="anonymous">
+    <style>
+        body {
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .error-message {
+            font-weight: bold;
+            color: #f00;
+            font-size: 18px;
+        }
+        .image-container {
+            text-align: center;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+        .back-button {
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
     <title>Error Page!</title>
 </head>
 
 <body>
 <div class="container">
     <h1>Sorry mate, seems that You can't use this webapp properly!</h1>
-    <b><span th:if="${errorMessage}" th:text="${errorMessage}">Error </span></b><br/>
-    <br>
-    <img th:src="@{/images/sad.png}" alt="OH NO" width="auto" height="300px"/>
-    <br>
-    <br>
-    <p>
+    <p class="error-message" th:if="${errorMessage}" th:text="${errorMessage}">Error</p>
+
+    <div class="image-container">
+        <img th:src="@{/images/no_way.png}" alt="OH NO" width="300px" height="300px"/>
+    </div>
+
+    <div class="back-button">
         <a th:href="@{/}" class="btn btn-info" role="button">Back to the main page</a>
-    </p>
+    </div>
 </div>
 </body>
 

@@ -23,7 +23,6 @@ public class Patient {
     private UserData user;
     private Set<VisitInvoice> invoices;
     private Set<Note> notes;
-    private Set<MeetingRequest> meetingRequests;
     private Set<Receipt> receipts;
 
 

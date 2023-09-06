@@ -14,7 +14,6 @@ import java.util.stream.Collectors;
 public interface PatientEntityMapper {
     @Mapping(source = "invoices",target = "invoices", qualifiedByName = "mapInvoices")
     @Mapping(source = "notes",target = "notes", qualifiedByName = "mapNotes")
-    @Mapping(source = "meetingRequests",target = "meetingRequests", qualifiedByName = "mapMeetingRequests")
     @Mapping(source = "receipts",target = "receipts", qualifiedByName = "mapReceipts")
     Patient mapFromEntity(final PatientEntity patientEntity);
     @Named("mapInvoices")
@@ -26,10 +25,6 @@ public interface PatientEntityMapper {
     @SuppressWarnings("unused")
     default Set<Note> mapNotes(Set<NoteEntity> noteEntities) {
         return noteEntities.stream().map(this::mapFromEntity).collect(Collectors.toSet());
-    } @Named("mapMeetingRequests")
-    @SuppressWarnings("unused")
-    default Set<MeetingRequest> mapMeetingRequests(Set<MeetingRequestEntity> meetingRequestEntities) {
-        return meetingRequestEntities.stream().map(this::mapFromEntity).collect(Collectors.toSet());
     } @Named("mapReceipts")
     @SuppressWarnings("unused")
     default Set<Receipt> mapReceipts(Set<ReceiptEntity> receiptEntities) {

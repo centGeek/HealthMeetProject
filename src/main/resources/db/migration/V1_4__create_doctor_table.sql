@@ -7,7 +7,7 @@ CREATE TABLE doctor
     specialization varchar(64) not null,
     phone varchar(32) not null,
     clinic_id int,
-    salary_for_15min_meet int not null,
+    earnings_per_visit int not null,
     user_id int,
     primary key (doctor_id),
         CONSTRAINT fk_doctor_clinic

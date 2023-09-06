@@ -68,7 +68,7 @@
             <th>Name</th>
             <th>Surname</th>
             <th>Specialization</th>
-            <th>Visit Cost (15 min)</th>
+            <th>Standard Visit Cost</th>
             <th>Availability terms</th>
         </tr>
         </thead>
@@ -77,12 +77,12 @@
             <td th:text="${doctor.name}"></td>
             <td th:text="${doctor.surname}"></td>
             <td th:text="${doctor.specialization}"></td>
-            <td th:text="${doctor.salaryFor15minMeet}"></td>
+            <td th:text="${doctor.earningsPerVisit}"></td>
             <td>
-                <form method="post" th:action="@{'/terms/' + ${doctor.doctorId}}">
-                    <input type="hidden" name="doctorId" th:value="${doctor.doctorId}">
+                <form method="get" th:action="@{'/patient/terms/' + ${doctor.doctorId}}">
                     <input type="submit" value="Show his availability" class="show-terms-button">
                 </form>
+
             </td>
         </tr>
         </tbody>
