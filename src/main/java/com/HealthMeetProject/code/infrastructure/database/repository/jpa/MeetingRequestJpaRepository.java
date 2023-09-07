@@ -1,6 +1,7 @@
 package com.HealthMeetProject.code.infrastructure.database.repository.jpa;
 
 
+import com.HealthMeetProject.code.domain.MeetingRequest;
 import com.HealthMeetProject.code.infrastructure.database.entity.MeetingRequestEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -26,9 +27,21 @@ public interface MeetingRequestJpaRepository extends JpaRepository<MeetingReques
     List<MeetingRequestEntity> findAllByDoctorEmail(@Param("email") String email);
 
     @Query("""
-        SELECT csr FROM MeetingRequestEntity csr
-        WHERE csr.completedDateTime IS NULL
-        AND csr.patient.email = :email
+        SELECT mre FROM MeetingRequestEntity mre
+        WHERE mre.completedDateTime IS NULL
+        AND mre.patient.email = :email
         """)
     List<MeetingRequestEntity> findAllActiveMeetingRequests(@Param("email") String email);
+    @Query("""
+    SELECT mre FROM MeetingRequestEntity mre
+    WHERE mre.completedDateTime IS NOT NULL
+    AND mre.completedDateTime < CURRENT_TIMESTAMP
+        """)
+    List<MeetingRequestEntity> findAllVisitsEndedUp();
+@Query("""
+        select mre from MeetingRequestEntity  mre
+        WHERE mre.completedDateTime IS NOT NULL
+        and mre.patient.email = :email
+        """)
+    List<MeetingRequestEntity> findAllCompletedServiceRequests(@Param("email") String email);
 }

@@ -22,7 +22,6 @@ public class Patient {
     private Address address;
     private UserData user;
     private Set<VisitInvoice> invoices;
-    private Set<Note> notes;
     private Set<Receipt> receipts;
 
 

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Write note</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h2>Write note</h2>
+    <br>
+    <form th:method="post" th:action="@{'/doctor/issue/note/add/'+${meetingId}}">
+        <div class="mb-3">
+            <h4>Visit start: <span th:if="${now}" th:text="${now}">N/A</span></h4><br/>
+        </div>
+        <div class="mb-3">
+            <h4>Visit end: <span th:if="${now}" th:text="${now}">N/A</span></h4><br/>
+        </div>
+        <div class="mb-3">
+            <h4>Patient Name: <span th:if="${patient.name}" th:text="${patient.name}">N/A</span></h4><br/>
+        </div>
+        <div class="mb-3">
+            <h4>Patient Surname: <span th:if="${patient.surname}" th:text="${patient.surname}">N/A</span></h4><br/>
+        </div>
+            <div class="mb-3">
+                <h4>Patient Pesel: <span th:if="${patient.pesel}" th:text="${patient.pesel}">N/A</span></h4><br/>
+            </div>
+            <div class="form-group">
+                <label for="note">Illness:</label>
+                <textarea class="form-control" id="illness" name="illness"></textarea>
+            </div>
+            <div class="form-group">
+            <label for="note">Note:</label><textarea class="form-control" id="note" name="description"></textarea>
+            </div>
+        <button type="submit" class="btn btn-primary">Write</button>
+    </form>
+</div>
+</div>
+</body>
+</html>

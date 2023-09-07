@@ -46,9 +46,6 @@ public class PatientEntity {
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "patient")
     private Set<VisitInvoiceEntity> invoices;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "patient")
-    private Set<NoteEntity> notes;
-
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "patient")
     private Set<ReceiptEntity> receipts;

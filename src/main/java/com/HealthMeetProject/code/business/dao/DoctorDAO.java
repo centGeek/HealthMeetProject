@@ -7,6 +7,7 @@ import com.HealthMeetProject.code.domain.Note;
 import com.HealthMeetProject.code.domain.Receipt;
 import com.HealthMeetProject.code.domain.Specialization;
 import com.HealthMeetProject.code.infrastructure.database.entity.DoctorEntity;
+import com.HealthMeetProject.code.infrastructure.database.entity.NoteEntity;
 
 import java.time.OffsetDateTime;
 import java.util.List;
@@ -21,7 +22,7 @@ public interface DoctorDAO {
 
     void addAvailabilityTime(Doctor doctor, OffsetDateTime beginTime,OffsetDateTime endTime);
 
-    void writeNote(Note note);
+    void writeNote(NoteEntity note);
 
     void issueReceipt(Receipt receipt);
 

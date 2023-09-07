@@ -1,14 +1,13 @@
 package com.HealthMeetProject.code.infrastructure.database.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode(exclude = "doctorEntity")
+@ToString(exclude = "doctorEntity")
 @Builder
 @Entity
 @Table(name = "clinic")

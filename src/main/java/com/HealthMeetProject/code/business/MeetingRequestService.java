@@ -1,26 +1,22 @@
 package com.HealthMeetProject.code.business;
 
-import com.HealthMeetProject.code.business.DoctorService;
-import com.HealthMeetProject.code.business.PatientService;
 import com.HealthMeetProject.code.business.dao.MeetingRequestDAO;
 import com.HealthMeetProject.code.domain.Doctor;
 import com.HealthMeetProject.code.domain.MeetingRequest;
 import com.HealthMeetProject.code.domain.Patient;
 import com.HealthMeetProject.code.domain.exception.NotFoundException;
 import com.HealthMeetProject.code.domain.exception.ProcessingException;
+import com.HealthMeetProject.code.infrastructure.database.entity.MeetingRequestEntity;
+import com.HealthMeetProject.code.infrastructure.database.repository.jpa.MeetingRequestJpaRepository;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.util.List;
-import java.util.Objects;
 import java.util.Random;
-import java.util.Set;
 
 @Slf4j
 @Service
@@ -29,10 +25,13 @@ public class MeetingRequestService {
     private final DoctorService doctorService;
     private final PatientService patientService;
     private final MeetingRequestDAO meetingRequestDAO;
+    private final MeetingRequestJpaRepository meetingRequestJpaRepository;
 
 
     public List<MeetingRequest> availableServiceRequests() {
         return meetingRequestDAO.findAvailable();
+    }  public List<MeetingRequest> availableEndedVisits() {
+        return meetingRequestDAO.findEndedVisits();
     }
 
 
@@ -91,8 +90,18 @@ public class MeetingRequestService {
         validate(email);
         return meetingRequests.stream()
                 .findAny()
-                .orElseThrow(() -> new NotFoundException("Could not find any meeting requests, patient email: [%s]".formatted(email)));
+                .orElseThrow(() -> new NotFoundException("Could not find your meeting requests, your email: [%s]".formatted(email)));
     }
 
 
+    public void executeActionForMeetingRequest(Integer meetingRequestId) {
+        MeetingRequestEntity meetingRequestEntity = meetingRequestJpaRepository.findById(meetingRequestId)
+                .orElseThrow(() -> new ProcessingException("We can't find this meeting request"));
+        MeetingRequestEntity meetingRequestEntityToSave = meetingRequestEntity.withCompletedDateTime(LocalDateTime.now());
+        meetingRequestJpaRepository.saveAndFlush(meetingRequestEntityToSave);
+    }
+
+    public List<MeetingRequest> findAllCompletedServiceRequestsByEmail(String email) {
+        return meetingRequestDAO.findAllCompletedServiceRequestsByEmail(email);
+    }
 }

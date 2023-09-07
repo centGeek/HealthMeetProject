@@ -71,7 +71,7 @@
         <tr>
             <th>Since</th>
             <th>To when</th>
-            <th>available</th>
+            <th>Status</th>
             <th>Remove term</th>
         </tr>
         </thead>
@@ -97,7 +97,8 @@
 <div class="container text-center mt-4">
     <div class="row">
         <div class="col-md-6">
-            <a th:href="@{/}" class="btn btn-info" role="button">Go back to the main page</a>
+            <h6>Click here to manage meeting requests!</h6>
+            <a th:href="@{'/doctor/' + ${doctor.doctorId}+ '/meeting_requests'}" class="btn btn-success" role="button">Meeting Requests</a>
         </div>
         <div class="col-md-6">
             <form action="#" th:action="@{doctor/add/terms}" method="post">
@@ -124,12 +125,34 @@
     <div class="container text-center mt-4">
         <div class="row">
             <div class="col-md-6">
-                <form action="/logout" th:action="@{/logout}" method="post">
-                    <button class="btn btn-danger" type="submit">Logout</button>
-                </form>
+                <div class="button-container">
+                    <a th:href="@{/}" class="btn btn-info" role="button">Go back to the main page</a>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="button-container">
+                    <h6>Click here to update your account!</h6>
+                    <a th:href="@{'/doctor/' + ${doctor.doctorId} + '/edit'}" class="btn btn-success" role="button">Update</a>
+                </div>
             </div>
         </div>
     </div>
+    <div class="container text-center mt-4">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="button-container">
+                    <form action="/logout" th:action="@{/logout}" method="post">
+                        <button class="btn btn-danger" type="submit">Logout</button>
+                    </form>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+
 
 </div>
 

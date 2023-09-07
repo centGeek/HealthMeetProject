@@ -28,7 +28,7 @@ import java.util.List;
 
 @Controller
 @AllArgsConstructor
-public class MakeMeetingRequestController {
+public class MeetingRequestController {
     public static final String MAKE_APPOINTMENT = "/patient/terms/appointment/{availability_schedule_id}";
     public static final String MAKE_APPOINTMENT_FINALIZE = "/patient/terms/appointment/{availability_schedule_id}/finalize/{selectedSlotId}";
     private final AvailabilityScheduleJpaRepository availabilityScheduleJpaRepository;

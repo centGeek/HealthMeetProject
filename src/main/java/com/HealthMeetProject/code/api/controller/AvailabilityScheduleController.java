@@ -51,11 +51,13 @@ public class AvailabilityScheduleController {
                 .map(doctorTerm -> doctorTerm.getToWhen().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm a", Locale.ENGLISH)))
                 .collect(Collectors.toList());
 
-        List<Boolean> reservedTerm = doctorTermsSorted.stream().map(AvailabilityScheduleDTO::isAvailable).toList();
+        List<String> reservedTermStrings = doctorTermsSorted.stream()
+                .map(schedule -> schedule.isAvailable() ? "free day" : "working day").toList();
         model.addAttribute("doctorTermsSorted", doctorTermsSorted);
+        model.addAttribute("doctor", byEmail);
         model.addAttribute("formattedSince", formattedSince);
         model.addAttribute("formattedToWhen", formattedToWhen);
-        model.addAttribute("reserved", reservedTerm);
+        model.addAttribute("reserved", reservedTermStrings);
 
         return "doctor";
     }

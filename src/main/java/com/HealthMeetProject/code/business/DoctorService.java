@@ -3,12 +3,12 @@ package com.HealthMeetProject.code.business;
 import com.HealthMeetProject.code.api.dto.DoctorDTO;
 import com.HealthMeetProject.code.api.dto.mapper.DoctorMapper;
 import com.HealthMeetProject.code.business.dao.DoctorDAO;
-import com.HealthMeetProject.code.domain.Doctor;
-import com.HealthMeetProject.code.domain.Note;
-import com.HealthMeetProject.code.domain.Receipt;
-import com.HealthMeetProject.code.domain.Specialization;
+import com.HealthMeetProject.code.domain.*;
 import com.HealthMeetProject.code.domain.exception.AccessDeniedException;
 import com.HealthMeetProject.code.domain.exception.UserAlreadyExistsException;
+import com.HealthMeetProject.code.infrastructure.database.entity.DoctorEntity;
+import com.HealthMeetProject.code.infrastructure.database.entity.NoteEntity;
+import com.HealthMeetProject.code.infrastructure.database.entity.PatientEntity;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
@@ -68,10 +68,22 @@ public class DoctorService {
     public void addAvailabilityTime(Doctor doctor, OffsetDateTime beginTime, OffsetDateTime endTime) {
         doctorDAO.addAvailabilityTime(doctor, beginTime, endTime);
     }
-
     @Transactional
-    public void writeNote(Note note) {
+    public void addNoteToDatabase(NoteEntity note){
         doctorDAO.writeNote(note);
+    }
+
+    public NoteEntity writeNote(DoctorEntity doctor, String illness, String description, PatientEntity patient) {
+        NoteEntity build = NoteEntity.builder()
+                .doctor(doctor)
+                .patient(patient)
+                .description(description)
+                .illness(illness)
+                .startTime(OffsetDateTime.now())
+                .endTime(OffsetDateTime.now())
+                .build();
+        doctorDAO.writeNote(build);
+        return build;
     }
 
     @Transactional

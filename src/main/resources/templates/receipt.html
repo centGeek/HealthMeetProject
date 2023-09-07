@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Issue receipt</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h2 class="mb-4">Adding medicine</h2>
+
+    <form th:action="@{'/doctor/issue/receipt/add/medicine/'+${meetingId}}" method="post">
+        <div class="mb-3">
+            <label for="medicine_name" class="form-label">Medicine name:</label>
+            <input type="text" class="form-control" id="medicine_name" name="medicine_name" required>
+        </div>
+        <div class="mb-3">
+            <label for="quantity" class="form-label">Quantity:</label>
+            <input type="text" class="form-control" id="quantity" name="quantity" required>
+        </div>
+        <div class="mb-3">
+            <label for="approx_price" class="form-label">approx price:</label>
+            <input type="text" class="form-control" id="approx_price" name="approx_price" required>
+        </div>
+        <button type="submit" class="btn btn-success">Add medicine</button>
+    </form>
+
+
+
+    <h3 class="mt-4">Current medicine</h3>
+    <table class="table table-bordered">
+        </thead>
+        <tbody>
+        <tr th:each="med : ${medicineList}">
+            <td th:text="${med.name}"></td>
+            <td th:text="${med.quantity}"></td>
+            <td th:text="${med.approxPrice}"></td>
+        </tr>
+        </tbody>
+    </table>
+    </table>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.5.0/dist/js/bootstrap.min.js"></script>
+<div class="container mt-5">
+    <h2>Write note</h2>
+    <br>
+    <form th:method="post" th:action="@{'/doctor/issue/receipt/add/'+${meetingId}}">
+        <div class="mb-3">
+            <h4>Patient name: <span th:if="${patient.name}" th:text="${patient.name}">N/A</span></h4><br/>
+        </div>
+        <div class="mb-3">
+            <h4>Patient surname: <span th:if="${patient.surname}" th:text="${patient.surname}">N/A</span></h4><br/>
+        </div>
+        <div class="mb-3">
+            <h4>Issue time: <span th:if="${now}" th:text="${now}">N/A</span></h4><br/>
+        </div>
+        <div class="mb-3">
+            <h4>Patient Pesel: <span th:if="${patient.pesel}" th:text="${patient.pesel}">N/A</span></h4><br/>
+        </div>
+        <button type="submit" class="btn btn-primary">Issue receipt</button>
+    </form>
+</div>
+</div>
+
+</body>
+</html>

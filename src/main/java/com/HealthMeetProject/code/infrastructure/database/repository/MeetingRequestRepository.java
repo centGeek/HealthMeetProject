@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository
 @AllArgsConstructor
@@ -34,5 +35,17 @@ public class MeetingRequestRepository implements MeetingRequestDAO {
            return meetingRequestJpaRepository.findAllByPatientEmail(email).stream().
                 map(meetingRequestEntityMapper::mapFromEntity)
                 .toList();
+    }
+
+    @Override
+    public List<MeetingRequest> findEndedVisits() {
+        return meetingRequestJpaRepository.findAllVisitsEndedUp().stream()
+                .map(meetingRequestEntityMapper::mapFromEntity).toList();
+    }
+
+    @Override
+    public List<MeetingRequest> findAllCompletedServiceRequestsByEmail(String email) {
+        return meetingRequestJpaRepository.findAllCompletedServiceRequests(email)
+                .stream().map(meetingRequestEntityMapper::mapFromEntity).toList();
     }
 }

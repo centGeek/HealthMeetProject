@@ -21,10 +21,10 @@ import java.util.Optional;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@WebMvcTest(controllers = MakeMeetingRequestController.class)
+@WebMvcTest(controllers = MeetingRequestController.class)
 @AutoConfigureMockMvc(addFilters = false)
 @AllArgsConstructor(onConstructor = @__(@Autowired))
-public class MakeMeetingRequestControllerTest {
+public class MeetingRequestControllerTest {
     private MockMvc mockMvc;
 
     @MockBean

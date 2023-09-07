@@ -69,9 +69,8 @@ public class DoctorRepository implements DoctorDAO {
     }
 
     @Override
-    public void writeNote(Note note) {
-        NoteEntity noteEntity = noteEntityMapper.map(note);
-        noteJpaRepository.saveAndFlush(noteEntity);
+    public void writeNote(NoteEntity note) {
+        noteJpaRepository.saveAndFlush(note);
     }
 
     @Override

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Meeting Requests</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .section {
+            text-align: center;
+            margin: 40px auto;
+        }
+
+        table {
+            width: 80%;
+            border-collapse: collapse;
+            border: 1px solid #ddd;
+            margin: 20px auto;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #ddd;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+        .search-form {
+            margin-top: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<div class="section">
+    <h1>Meeting Requests</h1>
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Description</th>
+            <th>Request Date</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="meetingRequest : ${meetingRequests}">
+            <td th:text="${meetingRequest.meetingId}"></td>
+            <td th:text="${meetingRequest.description}"></td>
+            <td th:text="${meetingRequest.receivedDateTime}"></td>
+            <td>
+                <form action="#" th:action="@{'/doctor/execute-action/'+${meetingRequest.meetingId}}" th:method="patch">
+                    <input type="hidden" name="meetingRequestId" th:value="${meetingRequest.meetingId}" />
+                    <button type="submit">Confirm visit</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<br>
+<br>
+<div class="section">
+    <h1>Add receipt or note to ended up visit</h1>
+    <div class="search-form">
+        <form action="#" th:action="@{/search-by-email}" method="get">
+            <input type="text" name="email" placeholder="Enter Patient Email" />
+            <button type="submit">Search</button>
+        </form>
+    </div>
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Description</th>
+            <th>Disease</th>
+            <th>issue note</th>
+            <th>issue receipt</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="endedVisit : ${endedVisits}">
+            <td th:text="${endedVisit.meetingId}"></td>
+            <td th:text="${endedVisit.description}"></td>
+            <td th:text="${endedVisit.receivedDateTime}"></td>
+            <td>
+                <form action="#" th:action="@{'/doctor/issue/note/' + ${endedVisit.meetingId}}" th:method="get">
+                    <button type="submit">issue note</button>
+                </form>
+            </td>
+            <td>
+                <form action="#" th:action="@{'/doctor/issue/receipt/' + ${endedVisit.meetingId}}" th:method="get">
+                    <input type="hidden" name="endedVisitId" th:value="${endedVisit.meetingId}" />
+                    <button type="submit">issue receipt</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
