@@ -101,7 +101,7 @@
             <td th:text="${term.since}" class="since"></td>
             <td th:text="${term.toWhen}" class="to-when"></td>
             <td>
-                <form th:if="${term.isAvailable}" method="get" th:action="@{'/patient/terms/appointment/' + ${term.availability_schedule_id}}">
+                <form th:if="${term.isAvailableDay()}" method="get" th:action="@{'/patient/terms/appointment/' + ${term.availability_schedule_id}}">
                     <input type="submit" value="Choose day" class="show-terms-button">
                 </form>
             </td>

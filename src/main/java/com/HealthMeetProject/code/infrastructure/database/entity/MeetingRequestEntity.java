@@ -3,7 +3,7 @@ package com.HealthMeetProject.code.infrastructure.database.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 @Data
 @NoArgsConstructor
@@ -19,10 +19,18 @@ public class MeetingRequestEntity {
 
     @Column(name = "meeting_request_number", unique = true)
     private String meetingRequestNumber;
+
     @Column(name = "received_date_time")
-    private LocalDateTime receivedDateTime;
+    private OffsetDateTime receivedDateTime;
+
     @Column(name = "completed_date_time")
-    private LocalDateTime completedDateTime;
+    private OffsetDateTime completedDateTime;
+
+    @Column(name = "visit_start")
+    private OffsetDateTime visitStart;
+
+    @Column(name = "visit_end")
+    private OffsetDateTime visitEnd;
 
     @Column(name = "description")
     private String description;

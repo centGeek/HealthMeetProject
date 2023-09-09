@@ -12,10 +12,10 @@
     <br>
     <form th:method="post" th:action="@{'/doctor/issue/note/add/'+${meetingId}}">
         <div class="mb-3">
-            <h4>Visit start: <span th:if="${now}" th:text="${now}">N/A</span></h4><br/>
+            <h4>Visit start: <span th:if="${start}" th:text="${start}">N/A</span></h4><br/>
         </div>
         <div class="mb-3">
-            <h4>Visit end: <span th:if="${now}" th:text="${now}">N/A</span></h4><br/>
+            <h4>Visit end: <span th:if="${end}" th:text="${end}">N/A</span></h4><br/>
         </div>
         <div class="mb-3">
             <h4>Patient Name: <span th:if="${patient.name}" th:text="${patient.name}">N/A</span></h4><br/>

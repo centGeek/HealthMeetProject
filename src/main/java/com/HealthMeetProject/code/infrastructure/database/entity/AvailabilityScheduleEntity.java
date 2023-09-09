@@ -25,8 +25,11 @@ public class AvailabilityScheduleEntity {
     @Column(name = "to_when")
     private OffsetDateTime toWhen;
 
-    @Column(name = "available")
-    private boolean available;
+    @Column(name = "available_day")
+    private boolean availableDay;
+
+    @Column(name = "available_term")
+    private boolean availableTerm;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "doctor_id")

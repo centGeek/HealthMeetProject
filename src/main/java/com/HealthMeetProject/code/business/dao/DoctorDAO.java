@@ -2,16 +2,15 @@ package com.HealthMeetProject.code.business.dao;
 
 
 import com.HealthMeetProject.code.api.dto.DoctorDTO;
-import com.HealthMeetProject.code.domain.Doctor;
-import com.HealthMeetProject.code.domain.Note;
-import com.HealthMeetProject.code.domain.Receipt;
-import com.HealthMeetProject.code.domain.Specialization;
+import com.HealthMeetProject.code.domain.*;
 import com.HealthMeetProject.code.infrastructure.database.entity.DoctorEntity;
+import com.HealthMeetProject.code.infrastructure.database.entity.MedicineEntity;
 import com.HealthMeetProject.code.infrastructure.database.entity.NoteEntity;
 
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 public interface DoctorDAO {
     List<Doctor> findAllAvailableDoctors();
@@ -20,13 +19,14 @@ public interface DoctorDAO {
 
     List<Doctor> findAllBySpecialization(Specialization specialization);
 
-    void addAvailabilityTime(Doctor doctor, OffsetDateTime beginTime,OffsetDateTime endTime);
 
     void writeNote(NoteEntity note);
 
-    void issueReceipt(Receipt receipt);
+    void issueReceipt(Receipt receipt, Set<MedicineEntity> set);
 
     void register(DoctorDTO doctor);
 
     Optional<Doctor> findById(Integer id);
+
+    boolean findAnyTermInGivenRangeInGivenDay(OffsetDateTime since, OffsetDateTime toWhen, String doctorEmail);
 }

@@ -43,11 +43,5 @@ public class PatientEntity {
     @JoinColumn(name = "user_id")
     private UserEntity user;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "patient")
-    private Set<VisitInvoiceEntity> invoices;
-
-
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "patient")
-    private Set<ReceiptEntity> receipts;
 
 }

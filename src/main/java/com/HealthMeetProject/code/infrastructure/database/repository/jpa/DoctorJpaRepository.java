@@ -35,7 +35,6 @@ public interface DoctorJpaRepository extends JpaRepository<DoctorEntity, Integer
             """)
     List<DoctorEntity> findAllByPhone(@Param("phone") String phone);
 
-
 }
 
 

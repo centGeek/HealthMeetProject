@@ -1,16 +1,12 @@
 package com.HealthMeetProject.code.api.controller;
 
-import com.HealthMeetProject.code.business.DoctorService;
-import com.HealthMeetProject.code.business.MeetingRequestService;
+import com.HealthMeetProject.code.business.ReceiptService;
 import com.HealthMeetProject.code.domain.Medicine;
 import com.HealthMeetProject.code.domain.exception.ProcessingException;
 import com.HealthMeetProject.code.infrastructure.database.entity.DoctorEntity;
-import com.HealthMeetProject.code.infrastructure.database.entity.MedicineEntity;
 import com.HealthMeetProject.code.infrastructure.database.entity.MeetingRequestEntity;
 import com.HealthMeetProject.code.infrastructure.database.entity.PatientEntity;
-import com.HealthMeetProject.code.infrastructure.database.repository.jpa.MedicineJpaRepository;
 import com.HealthMeetProject.code.infrastructure.database.repository.jpa.MeetingRequestJpaRepository;
-import com.HealthMeetProject.code.infrastructure.database.repository.mapper.MeetingRequestEntityMapper;
 import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -25,7 +21,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 @Controller
 @AllArgsConstructor
@@ -34,12 +29,8 @@ public class ReceiptController {
     public static final String RECEIPT_PAGE_ADD = "/doctor/issue/receipt/add/{meetingId}";
     public static final String RECEIPT_PAGE_ADD_MEDICINE = "/doctor/issue/receipt/add/medicine/{meetingId}";
 
-    private final MeetingRequestService meetingRequestService;
     private final MeetingRequestJpaRepository meetingRequestJpaRepository;
-    private final MeetingRequestEntityMapper meetingRequestEntityMapper;
-    private final DoctorService doctorService;
-    private final MedicineJpaRepository medicineJpaRepository;
-
+    private final ReceiptService receiptService;
 
     @GetMapping(RECEIPT_PAGE)
     public String getReceiptPage(
@@ -63,7 +54,7 @@ public class ReceiptController {
 
     @PostMapping(RECEIPT_PAGE_ADD_MEDICINE)
     public String addMedicine(
-            @PathVariable Integer meetingId,
+            @SuppressWarnings("unused") @PathVariable Integer meetingId,
             @RequestParam("medicine_name") String medicineName,
             @RequestParam("quantity") int quantity,
             @RequestParam("approx_price") BigDecimal approxPrice,
@@ -87,11 +78,16 @@ public class ReceiptController {
     @PostMapping(RECEIPT_PAGE_ADD)
     public String issueReceipt(
             @PathVariable Integer meetingId,
-            Model model
+            HttpSession session
     ) {
-        LocalDateTime receiptIssued = LocalDateTime.now();
-        model.addAttribute("receiptIssued", receiptIssued);
-
+        @SuppressWarnings("unchecked") List<Medicine> medicineList = (List<Medicine>) session.getAttribute("medicineList");
+        if(medicineList.isEmpty()){
+            throw new ProcessingException("Can not issue receipt, because you did not added any medicine");
+        }
+        MeetingRequestEntity meetingRequestEntity = meetingRequestJpaRepository.findById(meetingId)
+                .orElseThrow(() -> new ProcessingException("Can not find meeting request"));
+        PatientEntity patient = meetingRequestEntity.getPatient();
+        receiptService.issueReceipt(medicineList,patient);
         return "redirect:/doctor";
     }
 }

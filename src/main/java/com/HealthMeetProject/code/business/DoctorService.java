@@ -9,6 +9,8 @@ import com.HealthMeetProject.code.domain.exception.UserAlreadyExistsException;
 import com.HealthMeetProject.code.infrastructure.database.entity.DoctorEntity;
 import com.HealthMeetProject.code.infrastructure.database.entity.NoteEntity;
 import com.HealthMeetProject.code.infrastructure.database.entity.PatientEntity;
+import com.HealthMeetProject.code.infrastructure.database.entity.ReceiptEntity;
+import com.HealthMeetProject.code.infrastructure.database.repository.jpa.DoctorJpaRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
@@ -19,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.OffsetDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -29,6 +32,7 @@ import java.util.Optional;
 public class DoctorService {
     private final DoctorDAO doctorDAO;
     private final DoctorMapper doctorMapper;
+    private final DoctorJpaRepository doctorJpaRepository;
 
 
     public List<Doctor> findAllAvailableDoctors() {
@@ -64,10 +68,7 @@ public class DoctorService {
         return allBySpecialization;
     }
 
-    @Transactional
-    public void addAvailabilityTime(Doctor doctor, OffsetDateTime beginTime, OffsetDateTime endTime) {
-        doctorDAO.addAvailabilityTime(doctor, beginTime, endTime);
-    }
+
     @Transactional
     public void addNoteToDatabase(NoteEntity note){
         doctorDAO.writeNote(note);
@@ -84,11 +85,6 @@ public class DoctorService {
                 .build();
         doctorDAO.writeNote(build);
         return build;
-    }
-
-    @Transactional
-    public void issueReceipt(Receipt receipt) {
-        doctorDAO.issueReceipt(receipt);
     }
 
 
@@ -114,4 +110,28 @@ public class DoctorService {
         return email;
     }
 
+    public boolean findAnyTermInGivenRangeInGivenDay(OffsetDateTime since, OffsetDateTime toWhen, String doctorEmail) {
+        return doctorDAO.findAnyTermInGivenRangeInGivenDay(since, toWhen, doctorEmail);
+    }
+    public  void conditionsToUpdate(DoctorDTO updatedDoctorDTO, Doctor existingDoctor) {
+        if (updatedDoctorDTO.getName() != null) {
+            existingDoctor.setName(updatedDoctorDTO.getName());
+        }
+        if (updatedDoctorDTO.getSurname() != null) {
+            existingDoctor.setSurname(updatedDoctorDTO.getSurname());
+        }
+        if (updatedDoctorDTO.getSpecialization() != null) {
+            existingDoctor.setSpecialization(updatedDoctorDTO.getSpecialization());
+        }
+        if (updatedDoctorDTO.getEmail() != null) {
+            existingDoctor.setEmail(updatedDoctorDTO.getEmail());
+            existingDoctor.getUser().setEmail(updatedDoctorDTO.getEmail());
+        }
+        if (updatedDoctorDTO.getPhone() != null) {
+            existingDoctor.setPhone(updatedDoctorDTO.getPhone());
+        }
+        if (updatedDoctorDTO.getEarningsPerVisit() != null) {
+            existingDoctor.setEarningsPerVisit(updatedDoctorDTO.getEarningsPerVisit());
+        }
+    }
 }

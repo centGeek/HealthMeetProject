@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
           rel="stylesheet"
           integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
@@ -12,6 +12,7 @@
             background-color: #f0f0f0;
             font-family: Arial, sans-serif;
         }
+
         .container {
             max-width: 1500px;
             margin: 0 auto;
@@ -20,27 +21,32 @@
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
+
         h1 {
             color: #333;
             margin-bottom: 20px;
             text-align: center;
         }
+
         .table {
             width: 100%;
             margin-bottom: 20px;
             border-collapse: collapse;
             background-color: #fff;
         }
+
         .table th,
         .table td {
             padding: 10px;
             text-align: left;
             border-bottom: 1px solid #ddd;
         }
+
         .table thead th {
             background-color: #343a40;
             color: #fff;
-            border-color: #343a40;}
+            border-color: #343a40;
+        }
     </style>
     <title>Patient's History</title>
 </head>
@@ -60,7 +66,7 @@
         </thead>
         <tbody>
         <tr th:each="note : ${byPatientEmail}">
-<!--            <td th:text="${#dates.format(note.date, 'dd-MM-yyyy HH:mm')}"></td>-->
+            <!--            <td th:text="${#dates.format(note.date, 'dd-MM-yyyy HH:mm')}"></td>-->
             <td th:text="${note.description}"></td>
             <td th:text="${note.illness}"></td>
             <td th:text="${note.doctor.surname}"></td>
@@ -72,7 +78,6 @@
     <table class="table table-bordered">
         <thead class="table-dark">
         <tr>
-            <th></th>
             <th>issued time</th>
             <th>completed time</th>
             <th>description</th>
@@ -81,7 +86,6 @@
         </thead>
         <tbody>
         <tr th:each="request : ${allCompletedServiceRequestsByEmail}">
-<!--            <td th:text="${#dates.format(request.meetingDateTime, 'dd-MM-yyyy HH:mm')}"></td>-->
             <td th:text="${request.receivedDateTime}"></td>
             <td th:text="${request.completedDateTime}"></td>
             <td th:text="${request.description}"></td>
@@ -91,11 +95,50 @@
     </table>
     <br>
     <br>
-    <h3>Your total spending for doctor's visit is:
-        <span th:if="${totalCosts}" th:text="${totalCosts}" class="text-primary font-weight-bold"></span>
-        <span th:unless="${totalCosts}" class="text-muted">0</span>
-    </h3>
 
+
+    <h2>Your receipts are here!</h2>
+    <table class="table table-bordered">
+        <thead class="table-dark">
+        <tr>
+            <th>Receipt id</th>
+            <th>dateTime</th>
+            <th>doctor name</th>
+            <th>doctor surname</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="receipt : ${receipts}">
+            <td th:text="${receipt.receiptId}"></td>
+            <td th:text="${receipt.dateTime}"></td>
+            <td th:text="${receipt.doctor.name}"></td>
+            <td th:text="${receipt.doctor.surname}"></td>
+        </tr>
+        </tbody>
+    </table>
+    <br>
+    <h2>Your are your medicine from last receipt!</h2>
+    <table class="table table-bordered">
+        <thead class="table-dark">
+        <tr>
+            <th>Medicine name</th>
+            <th>quantity</th>
+            <th>approx price</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="medicine : ${medicinesFromLastVisit}">
+            <td th:text="${medicine.name}"></td>
+            <td th:text="${medicine.quantity}"></td>
+            <td th:text="${medicine.approxPrice}"></td>
+        </tr>
+        </tbody>
+    </table>
+    <br>
+    <br>
+    <h3>Your total spending for doctor's visit and medicine is:
+        <span th:if="${totalCosts}" th:text="${totalCosts}" class="text-primary font-weight-bold"></span>
+        <span th:unless="${totalCosts}" class="text-muted">0</span></h3>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js"></script>
 </body>

@@ -22,8 +22,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.time.OffsetDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -46,42 +44,32 @@ public class MeetingRequestController {
         AvailabilityScheduleEntity availabilitySchedule = availabilityScheduleJpaRepository.findById(availability_schedule_id)
                 .orElseThrow(() -> new ProcessingException("some error occurred"));
         Doctor doctor = doctorEntityMapper.mapFromEntity(availabilitySchedule.getDoctor());
-        List<AvailabilitySchedule> particularVisitTime = generateTimeSlots(availabilitySchedule.getSince(), availabilitySchedule.getToWhen(), doctor);
+        List<AvailabilitySchedule> particularVisitTime = meetingRequestService.generateTimeSlots(availabilitySchedule.getSince(), availabilitySchedule.getToWhen(), doctor);
+        if (particularVisitTime.isEmpty()) {
+            availabilitySchedule.setAvailableDay(false);
+            availabilityScheduleJpaRepository.save(availabilitySchedule);
+        }
         model.addAttribute("givenAvailabilitySchedule", availabilitySchedule);
         model.addAttribute("particularVisitTime", particularVisitTime);
         return "make_appointment";
     }
 
-    public List<AvailabilitySchedule> generateTimeSlots(OffsetDateTime since, OffsetDateTime toWhen, Doctor doctor) {
-        List<AvailabilitySchedule> timeSlots = new ArrayList<>();
-        since = since.withMinute((since.getMinute() / 5) * 5);
-        OffsetDateTime currentSlot = since;
-
-        while (currentSlot.isBefore(toWhen)) {
-            AvailabilitySchedule slot = new AvailabilitySchedule(0, currentSlot, currentSlot.plusMinutes(15), true, doctor);
-            timeSlots.add(slot);
-            currentSlot = currentSlot.plusMinutes(15);
-        }
-        for (int i = 1; i < timeSlots.size(); i++) {
-            timeSlots.get(i).setAvailability_schedule_id(i);
-        }
-        return timeSlots;
-    }
 
     @GetMapping(MAKE_APPOINTMENT_FINALIZE)
     public String finalizeMeetingRequest(
             @PathVariable Integer availability_schedule_id,
             @PathVariable Integer selectedSlotId,
-            String description,
             HttpSession session,
             Model model
     ) {
         AvailabilitySchedule visitTerm = getAvailabilitySchedule(availability_schedule_id, selectedSlotId);
+        AvailabilityScheduleEntity availabilitySchedule = availabilityScheduleJpaRepository.findById(availability_schedule_id)
+                .orElseThrow(() -> new ProcessingException("some error occurred"));
+        availabilitySchedule.setAvailableTerm(false);
+        availabilityScheduleJpaRepository.save(availabilitySchedule);
 
         model.addAttribute("visitTerm", visitTerm);
-        model.addAttribute("description", description);
         session.setAttribute("visitTerm", visitTerm);
-
         return "finalize_meeting_request";
     }
 
@@ -99,7 +87,7 @@ public class MeetingRequestController {
 
         Doctor doctor = visitTerm.getDoctor();
 
-        meetingRequestService.makeMeetingRequest(patient, doctor, description);
+        meetingRequestService.makeMeetingRequest(patient, doctor, description, visitTerm);
         model.addAttribute("visitTerm", visitTerm);
         return "meeting_request_finalized";
     }
@@ -108,7 +96,7 @@ public class MeetingRequestController {
         AvailabilityScheduleEntity availabilitySchedule = availabilityScheduleJpaRepository.findById(availability_schedule_id)
                 .orElseThrow(() -> new ProcessingException("some error occurred"));
         Doctor doctor = doctorEntityMapper.mapFromEntity(availabilitySchedule.getDoctor());
-        List<AvailabilitySchedule> particularVisitTime = generateTimeSlots(availabilitySchedule.getSince(), availabilitySchedule.getToWhen(), doctor);
+        List<AvailabilitySchedule> particularVisitTime = meetingRequestService.generateTimeSlots(availabilitySchedule.getSince(), availabilitySchedule.getToWhen(), doctor);
         return particularVisitTime.get(selectedSlotId);
     }
 }

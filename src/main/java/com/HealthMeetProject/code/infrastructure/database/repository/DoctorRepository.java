@@ -6,11 +6,9 @@ import com.HealthMeetProject.code.business.dao.DoctorDAO;
 import com.HealthMeetProject.code.domain.*;
 import com.HealthMeetProject.code.domain.exception.UserAlreadyExistsException;
 import com.HealthMeetProject.code.infrastructure.database.entity.*;
-import com.HealthMeetProject.code.infrastructure.database.repository.jpa.AvailabilityScheduleJpaRepository;
-import com.HealthMeetProject.code.infrastructure.database.repository.jpa.DoctorJpaRepository;
-import com.HealthMeetProject.code.infrastructure.database.repository.jpa.NoteJpaRepository;
-import com.HealthMeetProject.code.infrastructure.database.repository.jpa.ReceiptJpaRepository;
+import com.HealthMeetProject.code.infrastructure.database.repository.jpa.*;
 import com.HealthMeetProject.code.infrastructure.database.repository.mapper.DoctorEntityMapper;
+import com.HealthMeetProject.code.infrastructure.database.repository.mapper.MedicineEntityMapper;
 import com.HealthMeetProject.code.infrastructure.database.repository.mapper.NoteEntityMapper;
 import com.HealthMeetProject.code.infrastructure.database.repository.mapper.ReceiptEntityMapper;
 import com.HealthMeetProject.code.infrastructure.security.RoleRepository;
@@ -37,6 +35,7 @@ public class DoctorRepository implements DoctorDAO {
     private RoleRepository roleRepository;
     private UserRepository userRepository;
     private PasswordEncoder passwordEncoder;
+    private MedicineJpaRepository medicineJpaRepository;
 
 
     @Override
@@ -59,14 +58,6 @@ public class DoctorRepository implements DoctorDAO {
                 .toList();
     }
 
-    @Override
-    public void addAvailabilityTime(Doctor doctor, OffsetDateTime beginTime, OffsetDateTime endTime) {
-        DoctorEntity doctorToSave = doctorEntityMapper.mapToEntity(doctor);
-        Set<AvailabilityScheduleEntity> terms = availabilityScheduleJpaRepository.findAllTermsByGivenDoctor(doctor.getEmail());
-        AvailabilityScheduleEntity availabilityScheduleToSave = AvailabilityScheduleEntity.builder().since(beginTime).toWhen(endTime).doctor(doctorToSave).build();
-        terms.add(availabilityScheduleToSave);
-        availabilityScheduleJpaRepository.saveAndFlush(availabilityScheduleToSave);
-    }
 
     @Override
     public void writeNote(NoteEntity note) {
@@ -74,9 +65,13 @@ public class DoctorRepository implements DoctorDAO {
     }
 
     @Override
-    public void issueReceipt(Receipt receipt) {
+    public void issueReceipt(Receipt receipt, Set<MedicineEntity> medicineSet) {
         ReceiptEntity receiptEntity = receiptEntityMapper.map(receipt);
-        receiptJpaRepository.saveAndFlush(receiptEntity);
+        ReceiptEntity receiptEntitySaved = receiptJpaRepository.saveAndFlush(receiptEntity);
+        for (MedicineEntity medicine : medicineSet) {
+            medicine.setReceipt(receiptEntitySaved);
+        }
+        medicineJpaRepository.saveAllAndFlush(medicineSet);
     }
 
     @Override
@@ -93,6 +88,12 @@ public class DoctorRepository implements DoctorDAO {
     @Override
     public Optional<Doctor> findById(Integer id) {
         return doctorJpaRepository.findById(id).map(doctorEntityMapper::mapFromEntity);
+    }
+
+    @Override
+    public boolean findAnyTermInGivenRangeInGivenDay(OffsetDateTime since, OffsetDateTime toWhen, String doctorEmail) {
+        List<AvailabilityScheduleEntity> anyTermInGivenRangeInGivenDay = availabilityScheduleJpaRepository.findAnyTermInGivenRangeInGivenDay(since, toWhen, doctorEmail);
+        return anyTermInGivenRangeInGivenDay.isEmpty();
     }
 
     private void conditionsToNotCreateDoctor(DoctorDTO doctorDTO) {

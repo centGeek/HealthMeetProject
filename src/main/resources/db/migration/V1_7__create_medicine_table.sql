@@ -6,6 +6,6 @@ CREATE TABLE medicine(
     receipt_id int not null,
     primary key (medicine_id),
     CONSTRAINT fk_medicine_receipt
-        FOREIGN KEY (medicine_id)
-            REFERENCES medicine (medicine_id)
+        FOREIGN KEY (receipt_id)
+            REFERENCES receipt (receipt_id)
 );

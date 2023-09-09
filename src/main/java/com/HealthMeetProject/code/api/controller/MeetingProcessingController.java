@@ -6,8 +6,6 @@ import com.HealthMeetProject.code.domain.MeetingRequest;
 import com.HealthMeetProject.code.domain.exception.ProcessingException;
 import com.HealthMeetProject.code.infrastructure.database.entity.DoctorEntity;
 import com.HealthMeetProject.code.infrastructure.database.repository.jpa.DoctorJpaRepository;
-import com.HealthMeetProject.code.infrastructure.database.repository.jpa.MeetingRequestJpaRepository;
-import com.HealthMeetProject.code.infrastructure.database.repository.mapper.MeetingRequestEntityMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,8 +21,6 @@ import java.util.stream.Collectors;
 public class MeetingProcessingController {
     private DoctorJpaRepository doctorJpaRepository;
     private MeetingRequestService meetingRequestService;
-    private MeetingRequestJpaRepository meetingRequestJpaRepository;
-    private MeetingRequestEntityMapper meetingRequestEntityMapper;
     private DoctorService doctorService;
     public static final String MEETING_REQUESTS = "/doctor/{doctorId}/meeting_requests";
 
@@ -35,12 +31,12 @@ public class MeetingProcessingController {
     ) {
         DoctorEntity byId = doctorJpaRepository.findById(doctorId)
                 .orElseThrow(() -> new ProcessingException("There is no doctor with following identifier"));
-
-        List<MeetingRequest> meetingRequests = meetingRequestService.availableServiceRequests();
+        String email = doctorService.authenticateDoctor();
+        List<MeetingRequest> meetingRequests = meetingRequestService.availableServiceRequestsByDoctor(email);
         List<MeetingRequest> collect = meetingRequests.stream().filter(request -> request.getDoctor().getDoctorId() == byId.getDoctorId()
                 && request.getCompletedDateTime()==null).collect(Collectors.toList());
 
-        List<MeetingRequest> endedVisits = meetingRequestService.availableEndedVisits();
+        List<MeetingRequest> endedVisits = meetingRequestService.availableEndedVisitsByDoctor(email);
 
         model.addAttribute("meetingRequests", collect);
         model.addAttribute("endedVisits", endedVisits);

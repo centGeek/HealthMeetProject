@@ -8,4 +8,6 @@ import org.mapstruct.ReportingPolicy;
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface AvailabilityScheduleEntityMapper {
      AvailabilitySchedule map(AvailabilityScheduleEntity availabilityScheduleEntity);
+
+     AvailabilityScheduleEntity map(AvailabilitySchedule availability);
 }

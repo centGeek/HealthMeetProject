@@ -79,33 +79,13 @@ public class DoctorController {
         Doctor existingDoctor = doctorService.findById(doctorId).orElseThrow(
                 () -> new NotFoundException("Doctor with given id is not found"));
 
-        conditionsToUpdate(updatedDoctorDTO, existingDoctor);
+        doctorService.conditionsToUpdate(updatedDoctorDTO, existingDoctor);
         DoctorEntity doctorEntity = doctorEntityMapper.mapToEntity(existingDoctor);
         doctorJpaRepository.save(doctorEntity);
 
         redirectAttributes.addFlashAttribute("successMessage", "Dane lekarza zostały zaktualizowane pomyślnie.");
-        return "redirect:/doctor/" + doctorId + "/edit";
+        return "redirect:/logout";
     }
 
-    private static void conditionsToUpdate(DoctorDTO updatedDoctorDTO, Doctor existingDoctor) {
-        if (updatedDoctorDTO.getName() != null) {
-            existingDoctor.setName(updatedDoctorDTO.getName());
-        }
-        if (updatedDoctorDTO.getSurname() != null) {
-            existingDoctor.setSurname(updatedDoctorDTO.getSurname());
-        }
-        if (updatedDoctorDTO.getSpecialization() != null) {
-            existingDoctor.setSpecialization(updatedDoctorDTO.getSpecialization());
-        }
-        if (updatedDoctorDTO.getEmail() != null) {
-            existingDoctor.setEmail(updatedDoctorDTO.getEmail());
-            existingDoctor.getUser().setEmail(updatedDoctorDTO.getEmail());
-        }
-        if (updatedDoctorDTO.getPhone() != null) {
-            existingDoctor.setPhone(updatedDoctorDTO.getPhone());
-        }
-        if (updatedDoctorDTO.getEarningsPerVisit() != null) {
-            existingDoctor.setEarningsPerVisit(updatedDoctorDTO.getEarningsPerVisit());
-        }
-    }
+
 }

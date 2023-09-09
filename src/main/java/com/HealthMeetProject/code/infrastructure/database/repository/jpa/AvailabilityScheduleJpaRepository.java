@@ -23,7 +23,7 @@ public interface AvailabilityScheduleJpaRepository extends JpaRepository<Availab
 //    Set<AvailabilityScheduleEntity> findAllTermsByGivenDoctor(@Param("doctorId") Integer doctorId);
 
     @Query("""
-            select avail from AvailabilityScheduleEntity avail where avail.doctor.email = :email\s
+            select avail from AvailabilityScheduleEntity avail where avail.doctor.email = :email\s and avail.availableDay=true
 """)
     Set<AvailabilityScheduleEntity> findAllTermsByGivenDoctor(@Param("email") String email);
 
@@ -36,8 +36,19 @@ public interface AvailabilityScheduleJpaRepository extends JpaRepository<Availab
             @Param("day") int day
     );
     @Query("""
-        select avail from AvailabilityScheduleEntity  avail where avail.available=true and avail.doctor.email =:email
+        select avail from AvailabilityScheduleEntity  avail where avail.availableDay=true and avail.doctor.email =:email
         """)
     List<AvailabilityScheduleEntity> findAllAvailableTermsByGivenDoctor(@Param("email") String email);
+    @Query("""
+                SELECT a FROM AvailabilityScheduleEntity a
+                JOIN a.doctor d
+                WHERE d.email = :doctorEmail
+                AND (
+                    (a.since > :since AND a.since < :toWhen) OR
+                    (a.toWhen > :since AND a.toWhen < :toWhen) OR
+                    (a.since < :since AND a.toWhen > :toWhen)
+                )
+            """)
+    List<AvailabilityScheduleEntity> findAnyTermInGivenRangeInGivenDay(OffsetDateTime since, OffsetDateTime toWhen, String doctorEmail);
 }
 

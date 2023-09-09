@@ -4,6 +4,7 @@ import com.HealthMeetProject.code.api.dto.AvailabilityScheduleDTO;
 import com.HealthMeetProject.code.business.AvailabilityScheduleService;
 import com.HealthMeetProject.code.business.DoctorService;
 import com.HealthMeetProject.code.domain.Doctor;
+import com.HealthMeetProject.code.domain.exception.ProcessingException;
 import com.HealthMeetProject.code.infrastructure.database.entity.DoctorEntity;
 import com.HealthMeetProject.code.infrastructure.database.repository.jpa.AvailabilityScheduleJpaRepository;
 import com.HealthMeetProject.code.infrastructure.database.repository.mapper.DoctorEntityMapper;
@@ -42,7 +43,6 @@ public class AvailabilityScheduleController {
         Doctor byEmail = doctorService.findByEmail(email);
         List<AvailabilityScheduleDTO> doctorTermsSorted = availabilityScheduleService.findAllTermsByGivenDoctor(byEmail.getEmail())
                 .stream().sorted(Comparator.comparing(AvailabilityScheduleDTO::getSince)).toList();
-
         List<String> formattedSince = doctorTermsSorted.stream()
                 .map(doctorTerm -> doctorTerm.getSince().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm a", Locale.ENGLISH)))
                 .collect(Collectors.toList());
@@ -52,7 +52,7 @@ public class AvailabilityScheduleController {
                 .collect(Collectors.toList());
 
         List<String> reservedTermStrings = doctorTermsSorted.stream()
-                .map(schedule -> schedule.isAvailable() ? "free day" : "working day").toList();
+                .map(schedule -> schedule.isAvailableDay() && schedule.isAvailableTerm() ? "free day" : "working day").toList();
         model.addAttribute("doctorTermsSorted", doctorTermsSorted);
         model.addAttribute("doctor", byEmail);
         model.addAttribute("formattedSince", formattedSince);
@@ -67,21 +67,24 @@ public class AvailabilityScheduleController {
     public String addTerms(@RequestParam("since") String since,
                            @RequestParam("toWhen") String toWhen) {
         ZoneId zoneId = ZoneId.of("UTC");
-        LocalDateTime localSinceDateTime = LocalDateTime.parse(since, DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm a", Locale.ENGLISH));
-        ZonedDateTime zonedSinceDateTime = ZonedDateTime.of(localSinceDateTime, zoneId);
-        OffsetDateTime sinceOffsetDateTime = zonedSinceDateTime.toOffsetDateTime();
-
-        LocalDateTime localWhenDateTime = LocalDateTime.parse(toWhen, DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm a", Locale.ENGLISH));
-        ZonedDateTime zonedWhenDateTime = ZonedDateTime.of(localWhenDateTime, zoneId);
-        OffsetDateTime whenOffsetDateTime = zonedWhenDateTime.toOffsetDateTime();
-
+        OffsetDateTime sinceOffsetDateTime = parseToOffsetDateTime(since, zoneId);
+        OffsetDateTime whenOffsetDateTime = parseToOffsetDateTime(toWhen, zoneId);
 
         String email = doctorService.authenticateDoctor();
         Doctor byEmail = doctorService.findByEmail(email);
         DoctorEntity doctorEntity = doctorEntityMapper.mapToEntity(byEmail);
-
+        if(!doctorService.findAnyTermInGivenRangeInGivenDay(sinceOffsetDateTime, whenOffsetDateTime, byEmail.getEmail())){
+           throw new ProcessingException("You can not add date[%s - %s], because this date cover with other date".formatted(since, toWhen));
+        }
        availabilityScheduleService.addTerm(sinceOffsetDateTime, whenOffsetDateTime, doctorEntity);
         return "redirect:/doctor";
+    }
+
+
+    private static OffsetDateTime parseToOffsetDateTime(String since, ZoneId zoneId) {
+        LocalDateTime localSinceDateTime = LocalDateTime.parse(since, DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm a", Locale.ENGLISH));
+        ZonedDateTime zonedSinceDateTime = ZonedDateTime.of(localSinceDateTime, zoneId);
+        return zonedSinceDateTime.toOffsetDateTime();
     }
 
     @DeleteMapping(DELETE_TERM)

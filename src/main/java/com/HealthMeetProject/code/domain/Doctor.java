@@ -32,10 +32,8 @@ public class Doctor {
 
     private UserData user;
 
-    private Set<VisitInvoice> invoices;
 
     private Set<MeetingRequest> meetingRequests;
 
-    private Set<Receipt> receipts;
 
 }

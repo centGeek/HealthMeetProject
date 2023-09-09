@@ -31,7 +31,8 @@ public class AvailabilityScheduleRepository implements AvailabilityScheduleDAO {
                 since(since)
                 .toWhen(toWhen)
                 .doctor(doctor)
-                .available(true)
+                .availableDay(true)
+                .availableTerm(true)
                 .build();
         availabilityScheduleJpaRepository.saveAndFlush(schedule);
         return availabilityScheduleEntityMapper.map(schedule);

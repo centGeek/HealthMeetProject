@@ -2,7 +2,6 @@ package com.HealthMeetProject.code.api.controller;
 
 import com.HealthMeetProject.code.api.dto.PatientDTO;
 import com.HealthMeetProject.code.api.dto.UserData;
-import com.HealthMeetProject.code.business.DoctorService;
 import com.HealthMeetProject.code.business.PatientService;
 import com.HealthMeetProject.code.domain.exception.UserAlreadyExistsException;
 import jakarta.validation.Valid;

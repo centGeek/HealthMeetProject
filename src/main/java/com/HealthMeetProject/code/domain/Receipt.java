@@ -2,9 +2,7 @@ package com.HealthMeetProject.code.domain;
 
 import com.HealthMeetProject.code.infrastructure.database.entity.MedicineEntity;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.OffsetDateTime;
 import java.util.Set;
@@ -12,9 +10,11 @@ import java.util.Set;
 
 @Data
 @NoArgsConstructor
+@ToString(exclude = "medicine")
 @AllArgsConstructor
+@Builder
 public class Receipt {
-    private int meetingId;
+    private int receiptId;
     private String receiptNumber;
     private OffsetDateTime dateTime;
     private Patient patient;

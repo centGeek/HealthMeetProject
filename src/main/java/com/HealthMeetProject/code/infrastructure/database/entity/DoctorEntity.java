@@ -46,12 +46,6 @@ public class DoctorEntity {
     private UserEntity user;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "doctor")
-    private Set<VisitInvoiceEntity> invoices;
-
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "doctor")
     private Set<MeetingRequestEntity> meetingRequests;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "doctor")
-    private Set<ReceiptEntity> receipts;
 }

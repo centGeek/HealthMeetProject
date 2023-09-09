@@ -1,10 +1,7 @@
 package com.HealthMeetProject.code.infrastructure.database.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.OffsetDateTime;
 import java.util.Set;
@@ -13,14 +10,16 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(exclude = "medicine")
 @Entity
+@ToString(exclude = "medicine")
 @Builder
 @Table(name = "receipt")
 public class ReceiptEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "meeting_Id")
-    private int meetingId;
+    @Column(name = "receipt_Id")
+    private int receiptId;
 
     @Column(name = "receipt_number", unique = true)
     private String receiptNumber;
@@ -28,11 +27,11 @@ public class ReceiptEntity {
     @Column(name = "date_time")
     private OffsetDateTime dateTime;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name = "patient_id")
     private PatientEntity patient;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name = "doctor_id")
     private DoctorEntity doctor;
 

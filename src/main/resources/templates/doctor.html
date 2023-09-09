@@ -80,7 +80,7 @@
             <td th:text="${formattedSince[i]}"></td>
             <td th:text="${formattedToWhen[i]}"></td>
             <td th:text="${reserved[i]}"></td>
-            <td th:if="${reserved[i]}">
+            <td th:unless="${reserved[i] == 'working day'}">
                 <form th:action="@{'/doctor/delete/term/'+${doctorTermsSorted[i].getAvailability_schedule_id()}}"
                       th:method="delete">
                     <input type="hidden" name="index" th:value="${termIndex}"/>
