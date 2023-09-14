@@ -43,14 +43,6 @@ class DoctorJpaRepositoryTest {
         Assertions.assertEquals(allAvailableDoctors.size(), 6);
     }
 
-    @Test
-    void thatDoctorsAreFoundBySpecialization() {
-        //when
-        List<DoctorEntity> allBySpecialization = doctorJpaRepository.findAllBySpecialization(Specialization.PSYCHIATRIST);
-
-        //then
-        Assertions.assertEquals(allBySpecialization.size(), 2);
-    }
 
     @Test
     void thatDoctorIsFoundByEmail() {

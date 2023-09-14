@@ -1,12 +1,14 @@
 package com.HealthMeetProject.code.api.controller;
 
 import com.HealthMeetProject.code.api.dto.AvailabilityScheduleDTO;
+import com.HealthMeetProject.code.api.dto.DoctorDTO;
+import com.HealthMeetProject.code.api.dto.mapper.DoctorMapper;
 import com.HealthMeetProject.code.business.AvailabilityScheduleService;
 import com.HealthMeetProject.code.business.DoctorService;
+import com.HealthMeetProject.code.business.dao.AvailabilityScheduleDAO;
 import com.HealthMeetProject.code.domain.Doctor;
 import com.HealthMeetProject.code.domain.exception.ProcessingException;
 import com.HealthMeetProject.code.infrastructure.database.entity.DoctorEntity;
-import com.HealthMeetProject.code.infrastructure.database.repository.jpa.AvailabilityScheduleJpaRepository;
 import com.HealthMeetProject.code.infrastructure.database.repository.mapper.DoctorEntityMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -34,13 +36,14 @@ public class AvailabilityScheduleController {
     public static final String DELETE_TERM = "/doctor/delete/term/{availability_schedule_id}";
     private final DoctorService doctorService;
     private final DoctorEntityMapper doctorEntityMapper;
+    private final DoctorMapper doctorMapper;
     private final AvailabilityScheduleService availabilityScheduleService;
-    private final AvailabilityScheduleJpaRepository availabilityScheduleJpaRepository;
+    private final AvailabilityScheduleDAO availabilityScheduleDAO;
 
     @GetMapping(DOCTOR)
     public String showYourAvailableTerms(Model model) {
         String email = doctorService.authenticateDoctor();
-        Doctor byEmail = doctorService.findByEmail(email);
+        DoctorDTO byEmail = doctorMapper.map(doctorService.findByEmail(email));
         List<AvailabilityScheduleDTO> doctorTermsSorted = availabilityScheduleService.findAllTermsByGivenDoctor(byEmail.getEmail())
                 .stream().sorted(Comparator.comparing(AvailabilityScheduleDTO::getSince)).toList();
         List<String> formattedSince = doctorTermsSorted.stream()
@@ -73,10 +76,7 @@ public class AvailabilityScheduleController {
         String email = doctorService.authenticateDoctor();
         Doctor byEmail = doctorService.findByEmail(email);
         DoctorEntity doctorEntity = doctorEntityMapper.mapToEntity(byEmail);
-        if(!doctorService.findAnyTermInGivenRangeInGivenDay(sinceOffsetDateTime, whenOffsetDateTime, byEmail.getEmail())){
-           throw new ProcessingException("You can not add date[%s - %s], because this date cover with other date".formatted(since, toWhen));
-        }
-       availabilityScheduleService.addTerm(sinceOffsetDateTime, whenOffsetDateTime, doctorEntity);
+        availabilityScheduleService.addTerm(sinceOffsetDateTime, whenOffsetDateTime, doctorEntity);
         return "redirect:/doctor";
     }
 
@@ -92,7 +92,7 @@ public class AvailabilityScheduleController {
             @PathVariable Integer availability_schedule_id
     ) {
         try {
-            availabilityScheduleJpaRepository.deleteById(availability_schedule_id);
+            availabilityScheduleDAO.deleteById(availability_schedule_id);
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("Problem with deleting occurred");
         }

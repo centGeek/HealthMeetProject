@@ -1,11 +1,12 @@
 package com.HealthMeetProject.code.api.controller;
 
 import com.HealthMeetProject.code.business.DoctorService;
-import com.HealthMeetProject.code.domain.exception.ProcessingException;
-import com.HealthMeetProject.code.infrastructure.database.entity.DoctorEntity;
-import com.HealthMeetProject.code.infrastructure.database.entity.MeetingRequestEntity;
-import com.HealthMeetProject.code.infrastructure.database.entity.PatientEntity;
-import com.HealthMeetProject.code.infrastructure.database.repository.jpa.MeetingRequestJpaRepository;
+import com.HealthMeetProject.code.business.MeetingRequestService;
+import com.HealthMeetProject.code.business.dao.NoteDAO;
+import com.HealthMeetProject.code.domain.Doctor;
+import com.HealthMeetProject.code.domain.MeetingRequest;
+import com.HealthMeetProject.code.domain.Note;
+import com.HealthMeetProject.code.domain.Patient;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.OffsetDateTime;
+import java.util.List;
 
 @Controller
 @AllArgsConstructor
@@ -22,17 +24,17 @@ public class NoteController {
     public static final String NOTE_PAGE = "/doctor/issue/note/{meetingId}";
     public static final String NOTE_PAGE_ADD = "/doctor/issue/note/add/{meetingId}";
 
-    private final MeetingRequestJpaRepository meetingRequestJpaRepository;
+    private final MeetingRequestService meetingRequestService;
     private final DoctorService doctorService;
+    private final NoteDAO noteDAO;
     @GetMapping(NOTE_PAGE)
     public String getNotePage(
             @PathVariable Integer meetingId,
             Model model
-    ){
-        MeetingRequestEntity meetingRequestEntity = meetingRequestJpaRepository.findById(meetingId)
-                .orElseThrow(() -> new ProcessingException("Can not find meeting request"));
-        DoctorEntity doctor = meetingRequestEntity.getDoctor();
-        PatientEntity patient = meetingRequestEntity.getPatient();
+    ) {
+        MeetingRequest meetingRequestEntity = meetingRequestService.findById(meetingId);
+        Doctor doctor = meetingRequestEntity.getDoctor();
+        Patient patient = meetingRequestEntity.getPatient();
         OffsetDateTime visitEnd = meetingRequestEntity.getVisitEnd();
         OffsetDateTime visitStart = meetingRequestEntity.getVisitStart();
         model.addAttribute("patient", patient);
@@ -43,19 +45,33 @@ public class NoteController {
 
         return "note";
     }
+
     @PostMapping(NOTE_PAGE_ADD)
     public String addNote(
             @PathVariable Integer meetingId,
             @RequestParam("illness") String illness,
             @RequestParam("description") String description
-    ){
-        MeetingRequestEntity meetingRequestEntity = meetingRequestJpaRepository.findById(meetingId)
-                .orElseThrow(() -> new ProcessingException("Can not find meeting request"));
-        DoctorEntity doctor = meetingRequestEntity.getDoctor();
-        PatientEntity patient = meetingRequestEntity.getPatient();
-        doctorService.writeNote(doctor, illness, description, patient);
+    ) {
+        MeetingRequest meetingRequest = meetingRequestService.findById(meetingId);
+        Doctor doctor = meetingRequest.getDoctor();
+        Patient patient = meetingRequest.getPatient();
+        doctorService.writeNote(doctor, illness, description, patient, meetingRequest.getVisitStart(), meetingRequest.getVisitEnd());
 
         return "redirect:/doctor";
 
+    }
+    @GetMapping("/doctor/illness/history/{meetingId}")
+    public String illnessHistory(
+            @PathVariable Integer meetingId,
+            Model model
+    ){
+        MeetingRequest byId = meetingRequestService.findById(meetingId);
+        Patient patient = byId.getPatient();
+        List<Note> byPatientEmail = noteDAO.findByPatientEmail(patient.getEmail());
+        model.addAttribute("byPatientEmail", byPatientEmail);
+        model.addAttribute("patientName", patient.getName());
+        model.addAttribute("patientSurname", patient.getSurname());
+        model.addAttribute("patientPesel", patient.getPesel());
+        return "patient_illness_history";
     }
 }

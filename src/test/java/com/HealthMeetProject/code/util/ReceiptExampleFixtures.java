@@ -1,32 +1,35 @@
 package com.HealthMeetProject.code.util;
 
+import com.HealthMeetProject.code.domain.Receipt;
 import com.HealthMeetProject.code.infrastructure.database.entity.ReceiptEntity;
 
 public class ReceiptExampleFixtures {
-    public static ReceiptEntity receiptExampleData1() {
+    public static ReceiptEntity receiptEntityExampleData1() {
         return ReceiptEntity.builder().
                 receiptNumber("32312312321312321").
-                dateTime(DoctorExampleFixtures.availabilitySchedule1().getSince()).
-                patient(PatientExampleFixtures.patientExample1()).
-                doctor(DoctorExampleFixtures.doctorEntityExample1()).
+                dateTime(DoctorExampleFixtures.availabilityScheduleEntity1().getSince()).
                 build();
     }
 
-    public static ReceiptEntity receiptExampleData2() {
+    public static Receipt receiptExampleData1() {
+        return Receipt.builder().
+                receiptNumber("32312312321312321")
+                .dateTime(DoctorExampleFixtures.availabilityScheduleEntity1().getSince())
+                .patient(PatientExampleFixtures.patientExample1())
+                .build();
+    }
+
+    public static ReceiptEntity receiptEntityExampleData2() {
         return ReceiptEntity.builder().
                 receiptNumber("32312256786345").
-                dateTime(DoctorExampleFixtures.availabilitySchedule2().getSince()).
-                patient(PatientExampleFixtures.patientExample1()).
-                doctor(DoctorExampleFixtures.doctorEntityExample1()).
+                dateTime(DoctorExampleFixtures.availabilityScheduleEntity2().getSince()).
                 build();
     }
 
-    public static ReceiptEntity receiptExampleData3() {
+    public static ReceiptEntity receiptEntityExampleData3() {
         return ReceiptEntity.builder().
                 receiptNumber("3232132344432451").
-                dateTime(DoctorExampleFixtures.availabilitySchedule3().getSince()).
-                patient(PatientExampleFixtures.patientExample2()).
-                doctor(DoctorExampleFixtures.doctorEntityExample1()).
+                dateTime(DoctorExampleFixtures.availabilityScheduleEntity3().getSince()).
                 build();
     }
 }

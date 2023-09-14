@@ -1,16 +1,17 @@
 package com.HealthMeetProject.code.business;
 
 import com.HealthMeetProject.code.api.dto.DoctorDTO;
-import com.HealthMeetProject.code.api.dto.mapper.DoctorMapper;
 import com.HealthMeetProject.code.business.dao.DoctorDAO;
-import com.HealthMeetProject.code.domain.*;
+import com.HealthMeetProject.code.domain.Doctor;
+import com.HealthMeetProject.code.domain.Patient;
 import com.HealthMeetProject.code.domain.exception.AccessDeniedException;
 import com.HealthMeetProject.code.domain.exception.UserAlreadyExistsException;
 import com.HealthMeetProject.code.infrastructure.database.entity.DoctorEntity;
 import com.HealthMeetProject.code.infrastructure.database.entity.NoteEntity;
 import com.HealthMeetProject.code.infrastructure.database.entity.PatientEntity;
-import com.HealthMeetProject.code.infrastructure.database.entity.ReceiptEntity;
-import com.HealthMeetProject.code.infrastructure.database.repository.jpa.DoctorJpaRepository;
+import com.HealthMeetProject.code.infrastructure.database.repository.NoteRepository;
+import com.HealthMeetProject.code.infrastructure.database.repository.mapper.DoctorEntityMapper;
+import com.HealthMeetProject.code.infrastructure.database.repository.mapper.PatientEntityMapper;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
@@ -21,7 +22,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.OffsetDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -31,8 +31,9 @@ import java.util.Optional;
 @AllArgsConstructor
 public class DoctorService {
     private final DoctorDAO doctorDAO;
-    private final DoctorMapper doctorMapper;
-    private final DoctorJpaRepository doctorJpaRepository;
+    private final DoctorEntityMapper doctorEntityMapper;
+    private final PatientEntityMapper patientEntityMapper;
+    private final NoteRepository noteRepository;
 
 
     public List<Doctor> findAllAvailableDoctors() {
@@ -62,29 +63,24 @@ public class DoctorService {
     }
 
 
-    public List<Doctor> findAllBySpecialization(Specialization specialization) {
-        List<Doctor> allBySpecialization = doctorDAO.findAllBySpecialization(specialization);
-        log.info("allDoctorsBySpecialization: [{}]", allBySpecialization.size());
-        return allBySpecialization;
-    }
 
 
     @Transactional
-    public void addNoteToDatabase(NoteEntity note){
-        doctorDAO.writeNote(note);
-    }
-
-    public NoteEntity writeNote(DoctorEntity doctor, String illness, String description, PatientEntity patient) {
+    public void writeNote(Doctor doctor, String illness, String description, Patient patient, OffsetDateTime visitStart, OffsetDateTime visitEnd) {
+        DoctorEntity doctorEntity = doctorEntityMapper.mapToEntity(doctor);
+        PatientEntity patientEntity = patientEntityMapper.mapToEntity(patient);
         NoteEntity build = NoteEntity.builder()
-                .doctor(doctor)
-                .patient(patient)
+                .doctor(doctorEntity)
+                .patient(patientEntity)
                 .description(description)
                 .illness(illness)
-                .startTime(OffsetDateTime.now())
-                .endTime(OffsetDateTime.now())
+                .startTime(visitStart)
+                .endTime(visitEnd)
                 .build();
+        if(noteRepository.isThereNoteWithTheSameTimeVisitAndDoctor(build.getStartTime(), build.getEndTime(), doctor.getEmail())){
+            throw new UserAlreadyExistsException("Note with following visit already exist");
+        }
         doctorDAO.writeNote(build);
-        return build;
     }
 
 

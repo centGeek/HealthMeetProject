@@ -1,10 +1,12 @@
 package com.HealthMeetProject.code.util;
 
+import com.HealthMeetProject.code.domain.Address;
+import com.HealthMeetProject.code.domain.Patient;
 import com.HealthMeetProject.code.infrastructure.database.entity.AddressEntity;
 import com.HealthMeetProject.code.infrastructure.database.entity.PatientEntity;
 
 public class PatientExampleFixtures {
-    public static PatientEntity patientExample1() {
+    public static PatientEntity patientEntityExample1() {
         return PatientEntity.builder()
                 .address(AddressEntity.builder()
                         .country("Poland")
@@ -19,8 +21,7 @@ public class PatientExampleFixtures {
                 .email("j.kowalski@gmail.com")
                 .build();
     }
-
-    public static PatientEntity patientExample2() {
+    public static PatientEntity patientEntityExample2() {
         return PatientEntity.builder()
                 .address(AddressEntity.builder()
                         .city("London")
@@ -36,7 +37,7 @@ public class PatientExampleFixtures {
                 .build();
     }
 
-    public static PatientEntity patientExample3() {
+    public static PatientEntity patientEntityExample3() {
         return PatientEntity.builder()
                 .address(AddressEntity.builder()
                         .city("London")
@@ -51,27 +52,20 @@ public class PatientExampleFixtures {
                 .pesel("32312321")
                 .build();
     }
-//    public static UserEntity userEntityExample1(){
-//        return UserEntity.builder()
-//                .userName("j_kowalski")
-//                .email("j.kowalski@gmail.com")
-//                .password("test")
-//                .active(true)
-//                .build();
-//    } public static UserEntity userEntityExample2(){
-//        return UserEntity.builder()
-//                .userName("t_shelby")
-//                .email("t.shelby@gmail.com")
-//                .password("test")
-//                .active(true)
-//                .build();
-//    }
-//    public static UserEntity userEntityExample3(){
-//        return UserEntity.builder()
-//                .userName("g_shelby")
-//                .email("g.shelby@gmail.com")
-//                .password("test")
-//                .active(true)
-//                .build();
-//    }
+
+    public static Patient patientExample1() {
+        return Patient.builder()
+                .address(Address.builder()
+                        .country("Poland")
+                        .city("Warszawa")
+                        .postalCode("96-323")
+                        .address("Niewiadomska 13")
+                        .build())
+                .name("Jan")
+                .surname("Kowalski")
+                .phone("+48 783 323 323")
+                .pesel("3232223212")
+                .email("j.kowalski@gmail.com")
+                .build();
+    }
 }

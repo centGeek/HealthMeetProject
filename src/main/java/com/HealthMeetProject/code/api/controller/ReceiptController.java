@@ -1,12 +1,12 @@
 package com.HealthMeetProject.code.api.controller;
 
+import com.HealthMeetProject.code.api.dto.MedicineDTO;
 import com.HealthMeetProject.code.business.ReceiptService;
-import com.HealthMeetProject.code.domain.Medicine;
+import com.HealthMeetProject.code.business.dao.MeetingRequestDAO;
+import com.HealthMeetProject.code.domain.Doctor;
+import com.HealthMeetProject.code.domain.MeetingRequest;
+import com.HealthMeetProject.code.domain.Patient;
 import com.HealthMeetProject.code.domain.exception.ProcessingException;
-import com.HealthMeetProject.code.infrastructure.database.entity.DoctorEntity;
-import com.HealthMeetProject.code.infrastructure.database.entity.MeetingRequestEntity;
-import com.HealthMeetProject.code.infrastructure.database.entity.PatientEntity;
-import com.HealthMeetProject.code.infrastructure.database.repository.jpa.MeetingRequestJpaRepository;
 import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -29,7 +29,7 @@ public class ReceiptController {
     public static final String RECEIPT_PAGE_ADD = "/doctor/issue/receipt/add/{meetingId}";
     public static final String RECEIPT_PAGE_ADD_MEDICINE = "/doctor/issue/receipt/add/medicine/{meetingId}";
 
-    private final MeetingRequestJpaRepository meetingRequestJpaRepository;
+    private final MeetingRequestDAO meetingRequestDAO;
     private final ReceiptService receiptService;
 
     @GetMapping(RECEIPT_PAGE)
@@ -38,11 +38,10 @@ public class ReceiptController {
             Model model,
             HttpSession session
     ) {
-        @SuppressWarnings("unchecked") List<Medicine> medicineList = (List<Medicine>) session.getAttribute("medicineList");
-        MeetingRequestEntity meetingRequestEntity = meetingRequestJpaRepository.findById(meetingId)
-                .orElseThrow(() -> new ProcessingException("Can not find meeting request"));
-        DoctorEntity doctor = meetingRequestEntity.getDoctor();
-        PatientEntity patient = meetingRequestEntity.getPatient();
+        @SuppressWarnings("unchecked") List<MedicineDTO> medicineList = (List<MedicineDTO>) session.getAttribute("medicineList");
+        MeetingRequest meetingRequest = meetingRequestDAO.findById(meetingId);
+        Doctor doctor = meetingRequest.getDoctor();
+        Patient patient = meetingRequest.getPatient();
         model.addAttribute("now", LocalDateTime.now());
         model.addAttribute("patient", patient);
         model.addAttribute("doctor", doctor);
@@ -60,8 +59,8 @@ public class ReceiptController {
             @RequestParam("approx_price") BigDecimal approxPrice,
             HttpSession session
             ) {
-        @SuppressWarnings("unchecked") List<Medicine> medicineList = (List<Medicine>) session.getAttribute("medicineList");
-        Medicine build = Medicine.builder()
+        @SuppressWarnings("unchecked") List<MedicineDTO> medicineList = (List<MedicineDTO>) session.getAttribute("medicineList");
+        MedicineDTO build = MedicineDTO.builder()
                 .name(medicineName)
                 .quantity(quantity)
                 .approxPrice(approxPrice)
@@ -80,13 +79,12 @@ public class ReceiptController {
             @PathVariable Integer meetingId,
             HttpSession session
     ) {
-        @SuppressWarnings("unchecked") List<Medicine> medicineList = (List<Medicine>) session.getAttribute("medicineList");
+        @SuppressWarnings("unchecked") List<MedicineDTO> medicineList = (List<MedicineDTO>) session.getAttribute("medicineList");
         if(medicineList.isEmpty()){
             throw new ProcessingException("Can not issue receipt, because you did not added any medicine");
         }
-        MeetingRequestEntity meetingRequestEntity = meetingRequestJpaRepository.findById(meetingId)
-                .orElseThrow(() -> new ProcessingException("Can not find meeting request"));
-        PatientEntity patient = meetingRequestEntity.getPatient();
+        MeetingRequest meetingRequest = meetingRequestDAO.findById(meetingId);
+        Patient patient = meetingRequest.getPatient();
         receiptService.issueReceipt(medicineList,patient);
         return "redirect:/doctor";
     }

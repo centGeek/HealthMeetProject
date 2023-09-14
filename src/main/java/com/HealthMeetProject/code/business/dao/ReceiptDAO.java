@@ -1,8 +1,10 @@
 package com.HealthMeetProject.code.business.dao;
 
 
-import com.HealthMeetProject.code.infrastructure.database.entity.DoctorEntity;
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.HealthMeetProject.code.domain.Receipt;
 
-public interface ReceiptDAO{
+import java.util.List;
+
+public interface ReceiptDAO {
+    List<Receipt> findPatientReceipts(String email);
 }

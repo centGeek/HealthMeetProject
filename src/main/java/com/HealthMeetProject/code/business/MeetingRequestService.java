@@ -1,5 +1,10 @@
 package com.HealthMeetProject.code.business;
 
+import com.HealthMeetProject.code.api.dto.AvailabilityScheduleDTO;
+import com.HealthMeetProject.code.api.dto.DoctorDTO;
+import com.HealthMeetProject.code.api.dto.mapper.AvailabilityScheduleMapper;
+import com.HealthMeetProject.code.api.dto.mapper.DoctorMapper;
+import com.HealthMeetProject.code.business.dao.AvailabilityScheduleDAO;
 import com.HealthMeetProject.code.business.dao.MeetingRequestDAO;
 import com.HealthMeetProject.code.domain.AvailabilitySchedule;
 import com.HealthMeetProject.code.domain.Doctor;
@@ -12,6 +17,7 @@ import com.HealthMeetProject.code.infrastructure.database.entity.MeetingRequestE
 import com.HealthMeetProject.code.infrastructure.database.repository.jpa.AvailabilityScheduleJpaRepository;
 import com.HealthMeetProject.code.infrastructure.database.repository.jpa.MeetingRequestJpaRepository;
 import com.HealthMeetProject.code.infrastructure.database.repository.mapper.AvailabilityScheduleEntityMapper;
+import com.HealthMeetProject.code.infrastructure.database.repository.mapper.MeetingRequestEntityMapper;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,32 +32,34 @@ import java.util.Random;
 @Service
 @AllArgsConstructor
 public class MeetingRequestService {
-    private final DoctorService doctorService;
+    private final AvailabilityScheduleMapper availabilityScheduleMapper;
+    private final DoctorMapper doctorMapper;
     private final PatientService patientService;
     private final MeetingRequestDAO meetingRequestDAO;
     private final MeetingRequestJpaRepository meetingRequestJpaRepository;
     private final AvailabilityScheduleJpaRepository availabilityScheduleJpaRepository;
     private final AvailabilityScheduleEntityMapper availabilityScheduleEntityMapper;
+    private final MeetingRequestEntityMapper meetingRequestEntityMapper;
+    private final AvailabilityScheduleDAO availabilityScheduleDAO;
 
 
-    public List<MeetingRequest> availableServiceRequestsByDoctor() {
-        return meetingRequestDAO.findAvailable();
-    }  public List<MeetingRequest> availableEndedVisits() {
-        return meetingRequestDAO.findEndedVisits();
+
+    public boolean canCancelMeeting(OffsetDateTime visitStart){
+        return OffsetDateTime.now().plusMinutes(30).plusSeconds(1).isBefore(visitStart);
     }
-
-
     @Transactional
-    public void makeMeetingRequest(Patient patient, Doctor doctor, String description, AvailabilitySchedule visitTime) {
+    public void makeMeetingRequest(Patient patient, DoctorDTO doctorDTO, String description, AvailabilityScheduleDTO visitTimeDTO) {
         validate(patient.getEmail());
+        Doctor doctor = doctorMapper.map(doctorDTO);
+        AvailabilitySchedule visitTime = availabilityScheduleMapper.map(visitTimeDTO);
         MeetingRequest meetingServiceRequest = buildMeetingRequest(patient,doctor, description, visitTime);
-        AvailabilityScheduleEntity visitTimeEntity = availabilityScheduleEntityMapper.map(visitTime);
+        AvailabilityScheduleEntity visitTimeEntity = availabilityScheduleEntityMapper.mapToEntity(visitTime);
         availabilityScheduleJpaRepository.saveAndFlush(visitTimeEntity);
         patientService.saveMeetingRequest(meetingServiceRequest, patient);
     }
 
 
-    private void validate(String email) {
+    void validate(String email) {
         List<MeetingRequest> meetingRequests = meetingRequestDAO.findAllActiveMeetingRequests(email);
         if (meetingRequests.size() != 0) {
             throw new ProcessingException(
@@ -139,4 +147,26 @@ public class MeetingRequestService {
     private boolean existMeetingRequestWithThisSlot(OffsetDateTime since, OffsetDateTime toWhen, Doctor doctor) {
         return meetingRequestDAO.findIfMeetingRequestExistsWithTheSameDateAndDoctor(since, toWhen, doctor);
     }
+
+    public MeetingRequest findById(Integer meetingId) {
+        return meetingRequestEntityMapper.mapFromEntity(
+                meetingRequestJpaRepository.findById(meetingId).orElseThrow(() ->
+                        new NotFoundException("Not found meeting request by given id")));
+    }
+    public AvailabilityScheduleDTO getAvailabilitySchedule(Integer availability_schedule_id, Integer selectedSlotId) {
+        AvailabilitySchedule availabilitySchedule = availabilityScheduleDAO.findById(availability_schedule_id);
+        Doctor doctor = availabilitySchedule.getDoctor();
+        List<AvailabilitySchedule> particularVisitTime = generateTimeSlots(availabilitySchedule.getSince(), availabilitySchedule.getToWhen(), doctor);
+        List<AvailabilityScheduleDTO> particularVisitTimeDTO = particularVisitTime.stream().map(availabilityScheduleMapper::map).toList();
+        return particularVisitTimeDTO.get(selectedSlotId);
+    }
+    public List<Boolean> canCancelMeetingList(List<MeetingRequest> allUpcomingVisits) {
+        List<Boolean> canCancelMeetingList = new ArrayList<>();
+        for (MeetingRequest allUpcomingVisit : allUpcomingVisits) {
+            boolean canCancelMeeting = canCancelMeeting(allUpcomingVisit.getVisitStart());
+            canCancelMeetingList.add(canCancelMeeting);
+        }
+        return canCancelMeetingList;
+    }
+
 }

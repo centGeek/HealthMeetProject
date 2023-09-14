@@ -24,7 +24,7 @@ import static com.HealthMeetProject.code.util.PatientExampleFixtures.*;
 public class PatientJpaRepositoryTest {
     private PatientJpaRepository patientJpaRepository;
     public void given(){
-        Set<PatientEntity> patientEntities = Set.of(patientExample1(), patientExample2(), patientExample3());
+        Set<PatientEntity> patientEntities = Set.of(patientEntityExample1(), patientEntityExample2(), patientEntityExample3());
         patientJpaRepository.saveAllAndFlush(patientEntities);
 
     }
@@ -32,9 +32,9 @@ public class PatientJpaRepositoryTest {
     void findPatientByEmail(){
         given();
         //when
-        Optional<PatientEntity> byEmail = patientJpaRepository.findByEmail(patientExample1().getEmail());
+        Optional<PatientEntity> byEmail = patientJpaRepository.findByEmail(patientEntityExample1().getEmail());
         //then
-        Assertions.assertEquals(byEmail.get().getEmail(), patientExample1().getEmail());
+        Assertions.assertEquals(byEmail.get().getEmail(), patientEntityExample1().getEmail());
 
 
     }

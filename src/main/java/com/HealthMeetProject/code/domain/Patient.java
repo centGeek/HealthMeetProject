@@ -1,10 +1,7 @@
 package com.HealthMeetProject.code.domain;
 
 import com.HealthMeetProject.code.api.dto.UserData;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.With;
+import lombok.*;
 
 import java.util.Set;
 
@@ -12,6 +9,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @With
+@Builder
 public class Patient {
     private int patientId;
     private String name;

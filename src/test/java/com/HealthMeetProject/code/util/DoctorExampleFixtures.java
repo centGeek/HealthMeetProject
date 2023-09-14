@@ -1,6 +1,8 @@
 package com.HealthMeetProject.code.util;
 
 import com.HealthMeetProject.code.api.dto.AvailabilityScheduleDTO;
+import com.HealthMeetProject.code.api.dto.DoctorDTO;
+import com.HealthMeetProject.code.domain.AvailabilitySchedule;
 import com.HealthMeetProject.code.domain.Clinic;
 import com.HealthMeetProject.code.domain.Doctor;
 import com.HealthMeetProject.code.domain.Specialization;
@@ -47,6 +49,22 @@ public class DoctorExampleFixtures {
                 .earningsPerVisit(BigDecimal.valueOf(150))
                 .build();
     }
+    public static DoctorDTO doctorDTOExample3() {
+        return DoctorDTO.builder()
+                .clinic(Clinic.builder()
+                        .clinicName("In my house")
+                        .country("Germany")
+                        .postalCode("23-321")
+                        .address("a")
+                        .build())
+                .name("Grace")
+                .surname("Shelby")
+                .email("g.shelby@gmail.com")
+                .phone("+44 782 323 323")
+                .specialization(Specialization.PSYCHIATRIST)
+                .earningsPerVisit(BigDecimal.valueOf(150))
+                .build();
+    }
     public static DoctorEntity doctorEntityExample1() {
         return DoctorEntity.builder()
                 .clinic(ClinicEntity.builder()
@@ -63,6 +81,7 @@ public class DoctorExampleFixtures {
                 .earningsPerVisit(BigDecimal.ONE)
                 .build();
     }
+
 
     public static DoctorEntity doctorEntityExample2() {
         return DoctorEntity.builder()
@@ -100,8 +119,17 @@ public class DoctorExampleFixtures {
 
 
 
-        public static AvailabilityScheduleDTO availabilityScheduleDTO1() {
+        public static AvailabilityScheduleDTO   availabilityScheduleDTO1() {
             return AvailabilityScheduleDTO.builder()
+                    .since(OffsetDateTime.of(LocalDateTime.of(2025, 5, 1, 8, 30), ZoneOffset.UTC))
+                    .toWhen(OffsetDateTime.of(LocalDateTime.of(2025, 5, 1, 16, 45), ZoneOffset.UTC))
+                    .doctor(doctorDTOExample3())
+                    .availableTerm(true)
+                    .availableDay(true)
+                    .build();
+        }
+        public static AvailabilitySchedule availabilitySchedule1() {
+            return AvailabilitySchedule.builder()
                     .since(OffsetDateTime.of(LocalDateTime.of(2025, 5, 1, 8, 30), ZoneOffset.UTC))
                     .toWhen(OffsetDateTime.of(LocalDateTime.of(2025, 5, 1, 16, 45), ZoneOffset.UTC))
                     .doctor(doctorExample3())
@@ -113,7 +141,7 @@ public class DoctorExampleFixtures {
         return AvailabilityScheduleDTO.builder()
                 .since(OffsetDateTime.of(LocalDateTime.of(2025, 4, 1, 8, 0), ZoneOffset.UTC))
                 .toWhen(OffsetDateTime.of(LocalDateTime.of(2025, 4, 1, 16, 15), ZoneOffset.UTC))
-                .doctor(doctorExample3())
+                .doctor(doctorDTOExample3())
                 .availableTerm(true)
                 .availableDay(true)
                 .build();
@@ -122,21 +150,21 @@ public class DoctorExampleFixtures {
         return AvailabilityScheduleDTO.builder()
                 .since(OffsetDateTime.of(LocalDateTime.of(2025, 5, 1, 0, 0), ZoneOffset.UTC))
                 .toWhen(OffsetDateTime.of(LocalDateTime.of(2025, 5, 1, 23, 59), ZoneOffset.UTC))
-                .doctor(doctorExample3())
+                .doctor(doctorDTOExample3())
                 .availableTerm(true)
                 .availableDay(true)
                 .build();
     }
-    public static AvailabilityScheduleEntity availabilitySchedule1() {
+    public static AvailabilityScheduleEntity availabilityScheduleEntity1() {
         return AvailabilityScheduleEntity.builder()
                 .since(OffsetDateTime.of(LocalDateTime.of(2025, 5, 1, 8, 30), ZoneOffset.UTC))
                 .toWhen(OffsetDateTime.of(LocalDateTime.of(2025, 5, 1, 16, 45), ZoneOffset.UTC))
+                .doctor(doctorEntityExample3())
                 .availableTerm(true)
                 .availableDay(true)
-                .doctor(doctorEntityExample3())
                 .build();
     }
-    public static AvailabilityScheduleEntity availabilitySchedule2() {
+    public static AvailabilityScheduleEntity availabilityScheduleEntity2() {
         return AvailabilityScheduleEntity.builder()
                 .since(OffsetDateTime.of(LocalDateTime.of(2025, 4, 1, 8, 0), ZoneOffset.UTC))
                 .toWhen(OffsetDateTime.of(LocalDateTime.of(2025, 4, 1, 16, 15), ZoneOffset.UTC))
@@ -146,7 +174,7 @@ public class DoctorExampleFixtures {
                 .build();
     }
 
-    public static AvailabilityScheduleEntity availabilitySchedule3() {
+    public static AvailabilityScheduleEntity availabilityScheduleEntity3() {
         return AvailabilityScheduleEntity.builder()
                 .since(OffsetDateTime.of(LocalDateTime.of(2025, 5, 1, 0, 0), ZoneOffset.UTC))
                 .toWhen(OffsetDateTime.of(LocalDateTime.of(2025, 5, 1, 23, 59), ZoneOffset.UTC))

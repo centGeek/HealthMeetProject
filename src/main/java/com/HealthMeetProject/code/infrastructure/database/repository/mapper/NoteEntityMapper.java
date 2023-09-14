@@ -8,5 +8,6 @@ import org.mapstruct.ReportingPolicy;
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 
 public interface NoteEntityMapper {
-    NoteEntity map(Note note);
+    NoteEntity mapToEntity(Note note);
+    Note mapFromEntity(NoteEntity note);
 }

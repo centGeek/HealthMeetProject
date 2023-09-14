@@ -5,7 +5,11 @@ import com.HealthMeetProject.code.api.dto.PatientDTO;
 import com.HealthMeetProject.code.business.dao.PatientDAO;
 import com.HealthMeetProject.code.domain.MeetingRequest;
 import com.HealthMeetProject.code.domain.Patient;
-import com.HealthMeetProject.code.infrastructure.database.entity.*;
+import com.HealthMeetProject.code.domain.exception.NotFoundException;
+import com.HealthMeetProject.code.infrastructure.database.entity.AddressEntity;
+import com.HealthMeetProject.code.infrastructure.database.entity.MeetingRequestEntity;
+import com.HealthMeetProject.code.infrastructure.database.entity.PatientEntity;
+import com.HealthMeetProject.code.infrastructure.database.entity.UserEntity;
 import com.HealthMeetProject.code.infrastructure.database.repository.jpa.MeetingRequestJpaRepository;
 import com.HealthMeetProject.code.infrastructure.database.repository.jpa.PatientJpaRepository;
 import com.HealthMeetProject.code.infrastructure.database.repository.mapper.MeetingRequestEntityMapper;
@@ -16,7 +20,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
-import java.util.Objects;
 import java.util.Set;
 
 @Repository
@@ -36,9 +39,7 @@ public class PatientRepository implements PatientDAO {
     @Override
     public void issueInvoice(Patient patient) {
         PatientEntity patientToSave = patientEntityMapper.mapToEntity(patient);
-        PatientEntity patientSaved = patientJpaRepository.saveAndFlush(patientToSave);
-
-
+        patientJpaRepository.saveAndFlush(patientToSave);
     }
 
     @Override
@@ -58,6 +59,12 @@ public class PatientRepository implements PatientDAO {
     }
 
     @Override
+    public Patient findById(Integer patientId) {
+        return patientEntityMapper.mapFromEntity(patientJpaRepository.findById(patientId)
+                .orElseThrow(() -> new NotFoundException("Can not found patient with given id")));
+    }
+
+    @Override
     public void register(PatientDTO patientDTO) {
         UserEntity userEntity = getPatientEntityToRegister(patientDTO);
         AddressEntity addressEntity = getAddressEntityToRegister(patientDTO);
@@ -65,6 +72,12 @@ public class PatientRepository implements PatientDAO {
         encodePassword(patientEntity, patientDTO);
         userRepository.saveAndFlush(userEntity);
         patientJpaRepository.saveAndFlush(patientEntity);
+    }
+
+    @Override
+    public Patient findByEmail(String email) {
+        return patientEntityMapper.mapFromEntity(patientJpaRepository.findByEmail(email)
+                .orElseThrow(() -> new NotFoundException("Could not found Patient with given email")));
     }
 
     private  PatientEntity getPatientEntityToRegister(PatientDTO patientDTO, UserEntity userEntity, AddressEntity addressEntity) {

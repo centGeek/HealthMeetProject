@@ -14,6 +14,7 @@ import java.util.Set;
 @Entity
 @ToString(exclude = "medicine")
 @Builder
+@With
 @Table(name = "receipt")
 public class ReceiptEntity {
     @Id

@@ -15,6 +15,9 @@ public interface PatientDAO {
 
     Patient savePatient(Patient patient);
 
-
+    Patient findById(Integer patientId);
     void register(PatientDTO patientDTO);
+
+    Patient findByEmail(String email);
+
 }

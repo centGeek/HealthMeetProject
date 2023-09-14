@@ -8,5 +8,7 @@ import org.mapstruct.ReportingPolicy;
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 
 public interface ReceiptEntityMapper {
-    ReceiptEntity map(Receipt receipt);
+    ReceiptEntity mapToEntity(Receipt receipt);
+
+    Receipt mapFromEntity(ReceiptEntity receipt);
 }

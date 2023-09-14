@@ -103,6 +103,7 @@
             <th>Disease</th>
             <th>issue note</th>
             <th>issue receipt</th>
+            <th>illness history</th>
         </tr>
         </thead>
         <tbody>
@@ -119,6 +120,11 @@
                 <form action="#" th:action="@{'/doctor/issue/receipt/' + ${endedVisit.meetingId}}" th:method="get">
                     <input type="hidden" name="endedVisitId" th:value="${endedVisit.meetingId}" />
                     <button type="submit">issue receipt</button>
+                </form>
+            </td>
+            <td>
+                <form action="#" th:action="@{'/doctor/illness/history/' + ${endedVisit.meetingId}}" th:method="get">
+                    <button type="submit">illness history</button>
                 </form>
             </td>
         </tr>

@@ -1,7 +1,10 @@
 package com.HealthMeetProject.code.infrastructure.database.repository.jpa;
 
+import com.HealthMeetProject.code.infrastructure.database.entity.DoctorEntity;
 import com.HealthMeetProject.code.infrastructure.database.entity.NoteEntity;
+import com.HealthMeetProject.code.infrastructure.database.entity.PatientEntity;
 import com.HealthMeetProject.code.infrastructure.database.repository.configuration.PersistenceContainerTestConfiguration;
+import com.HealthMeetProject.code.util.DoctorExampleFixtures;
 import com.HealthMeetProject.code.util.NoteExampleFixtures;
 import com.HealthMeetProject.code.util.PatientExampleFixtures;
 import lombok.AllArgsConstructor;
@@ -24,17 +27,25 @@ import java.util.Set;
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class NoteJpaRepositoryTest {
     private final NoteJpaRepository noteJpaRepository;
+    private final PatientJpaRepository patientJpaRepository;
+    private final DoctorJpaRepository doctorJpaRepository;
     @BeforeEach
     public void given(){
+        PatientEntity patientEntity = NoteExampleFixtures.patientEntityExample1();
+        DoctorEntity doctor = DoctorExampleFixtures.doctorEntityExample1();
+        doctorJpaRepository.saveAndFlush(doctor);
+        patientJpaRepository.saveAndFlush(patientEntity);
 
-        Set<NoteEntity> noteEntities = Set.of(NoteExampleFixtures.noteExample1());
-        noteJpaRepository.saveAllAndFlush(noteEntities);
+        NoteEntity noteEntity = NoteExampleFixtures.noteEntityExample1();
+        noteEntity.setPatient(patientEntity);
+        noteEntity.setDoctor(doctor);
+        noteJpaRepository.saveAndFlush(noteEntity);
 
     }
     @Test
     void thatNotesAreFoundByCustomer(){
         //when
-        List<NoteEntity> byPatient = noteJpaRepository.findByPatientEmail(PatientExampleFixtures.patientExample1().getEmail());
+        List<NoteEntity> byPatient = noteJpaRepository.findByPatientEmail(PatientExampleFixtures.patientEntityExample1().getEmail());
         //then
         Assertions.assertEquals(byPatient.size(),1);
     }

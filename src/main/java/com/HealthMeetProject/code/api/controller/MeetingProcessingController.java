@@ -2,10 +2,10 @@ package com.HealthMeetProject.code.api.controller;
 
 import com.HealthMeetProject.code.business.DoctorService;
 import com.HealthMeetProject.code.business.MeetingRequestService;
+import com.HealthMeetProject.code.business.dao.DoctorDAO;
+import com.HealthMeetProject.code.domain.Doctor;
 import com.HealthMeetProject.code.domain.MeetingRequest;
 import com.HealthMeetProject.code.domain.exception.ProcessingException;
-import com.HealthMeetProject.code.infrastructure.database.entity.DoctorEntity;
-import com.HealthMeetProject.code.infrastructure.database.repository.jpa.DoctorJpaRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 @Controller
 @AllArgsConstructor
 public class MeetingProcessingController {
-    private DoctorJpaRepository doctorJpaRepository;
+    private DoctorDAO doctorDAO;
     private MeetingRequestService meetingRequestService;
     private DoctorService doctorService;
     public static final String MEETING_REQUESTS = "/doctor/{doctorId}/meeting_requests";
@@ -29,7 +29,7 @@ public class MeetingProcessingController {
             @PathVariable Integer doctorId,
             Model model
     ) {
-        DoctorEntity byId = doctorJpaRepository.findById(doctorId)
+        Doctor byId = doctorDAO.findById(doctorId)
                 .orElseThrow(() -> new ProcessingException("There is no doctor with following identifier"));
         String email = doctorService.authenticateDoctor();
         List<MeetingRequest> meetingRequests = meetingRequestService.availableServiceRequestsByDoctor(email);

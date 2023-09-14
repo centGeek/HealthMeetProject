@@ -97,7 +97,7 @@
             <a th:href="@{/patient/visit_history}" class="btn btn-info" role="button">Your visit history</a>
         </div>
         <div class="col-md-3">
-            <a th:href="@{/patient/update_account}" class="btn btn-success" role="button">Update account</a>
+            <a th:href="@{'/patient/' + ${patient.patientId} + '/edit'}" class="btn btn-success" role="button">Update</a>
         </div>
         <div class="col-md-3">
             <form action="/logout" th:action="@{/logout}" method="post">

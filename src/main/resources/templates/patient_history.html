@@ -53,6 +53,38 @@
 
 <body>
 <div class="container">
+
+    <h1>Here is your upcoming visit list</h1>
+
+    <h2>check this out!</h2>
+    <table class="table table-bordered">
+        <thead class="table-dark">
+        <tr>
+            <th>Start time</th>
+            <th>End time</th>
+            <th>Doctor phone</th>
+            <th>Delete</th>
+        </tr>
+        </thead>
+        <tbody th:if="${not #lists.isEmpty(allUpcomingVisits)}">
+        <tr th:each="i : ${#numbers.sequence(0, #lists.size(allUpcomingVisits)-1)}">
+            <td th:text="${allUpcomingVisits[i].visitStart}"></td>
+            <td th:text="${allUpcomingVisits[i].visitEnd}"></td>
+            <td th:text="${allUpcomingVisits[i].patient.phone}"></td>
+            <td th:unless="${canCancelMeetingList[i] == 'true'}">
+                <form th:action="@{'/patient/delete/meeting/'+${allUpcomingVisits[i].meetingId}}"
+                      th:method="delete">
+                    <input type="hidden" name="index" th:value="${termIndex}"/>
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <br>
+    <br>
     <h1>Here you can check out your visit history!</h1>
 
     <h2>Patient Notes</h2>
@@ -66,7 +98,6 @@
         </thead>
         <tbody>
         <tr th:each="note : ${byPatientEmail}">
-            <!--            <td th:text="${#dates.format(note.date, 'dd-MM-yyyy HH:mm')}"></td>-->
             <td th:text="${note.description}"></td>
             <td th:text="${note.illness}"></td>
             <td th:text="${note.doctor.surname}"></td>

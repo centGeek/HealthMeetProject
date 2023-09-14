@@ -35,7 +35,7 @@ public class DoctorRegistrationControllerTest {
     private DoctorService doctorService;
 
 //    @Test
-//    void carPurchaseWorksCorrectly() throws Exception {
+//  void carPurchaseWorksCorrectly() throws Exception {
 //        // given
 //        LinkedMultiValueMap<String, String> parameters = new LinkedMultiValueMap<>();
 //        CarPurchaseDTO.buildDefaultData().asMap().forEach(parameters::add);

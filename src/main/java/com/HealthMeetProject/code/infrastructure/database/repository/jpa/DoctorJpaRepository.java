@@ -23,11 +23,6 @@ public interface DoctorJpaRepository extends JpaRepository<DoctorEntity, Integer
     Optional<DoctorEntity> findByEmail(@Param("email") String email);
 
 
-    @Query("""
-                select emp from DoctorEntity emp
-                where emp.specialization = :specialization
-            """)
-    List<DoctorEntity> findAllBySpecialization(@Param("specialization") Specialization specialization);
 
     @Query("""
                 select emp from DoctorEntity emp

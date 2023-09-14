@@ -17,7 +17,6 @@ public interface DoctorDAO {
 
     Optional<Doctor> findByEmail(String email);
 
-    List<Doctor> findAllBySpecialization(Specialization specialization);
 
 
     void writeNote(NoteEntity note);
@@ -29,4 +28,6 @@ public interface DoctorDAO {
     Optional<Doctor> findById(Integer id);
 
     boolean findAnyTermInGivenRangeInGivenDay(OffsetDateTime since, OffsetDateTime toWhen, String doctorEmail);
+
+    void save(Doctor doctor);
 }

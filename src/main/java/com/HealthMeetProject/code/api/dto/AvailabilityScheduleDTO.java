@@ -18,5 +18,5 @@ public class AvailabilityScheduleDTO {
     private OffsetDateTime toWhen;
     private boolean availableDay;
     private boolean availableTerm;
-    private Doctor doctor;
+    private DoctorDTO doctor;
 }

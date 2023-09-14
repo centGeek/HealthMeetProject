@@ -1,18 +1,16 @@
 package com.HealthMeetProject.code.api.controller;
 
+import com.HealthMeetProject.code.api.dto.AvailabilityScheduleDTO;
+import com.HealthMeetProject.code.api.dto.DoctorDTO;
+import com.HealthMeetProject.code.api.dto.mapper.AvailabilityScheduleMapper;
+import com.HealthMeetProject.code.business.AvailabilityScheduleService;
 import com.HealthMeetProject.code.business.MeetingRequestService;
 import com.HealthMeetProject.code.business.PatientService;
+import com.HealthMeetProject.code.business.dao.AvailabilityScheduleDAO;
+import com.HealthMeetProject.code.business.dao.PatientDAO;
 import com.HealthMeetProject.code.domain.AvailabilitySchedule;
 import com.HealthMeetProject.code.domain.Doctor;
 import com.HealthMeetProject.code.domain.Patient;
-import com.HealthMeetProject.code.domain.exception.NotFoundException;
-import com.HealthMeetProject.code.domain.exception.ProcessingException;
-import com.HealthMeetProject.code.infrastructure.database.entity.AvailabilityScheduleEntity;
-import com.HealthMeetProject.code.infrastructure.database.entity.PatientEntity;
-import com.HealthMeetProject.code.infrastructure.database.repository.jpa.AvailabilityScheduleJpaRepository;
-import com.HealthMeetProject.code.infrastructure.database.repository.jpa.PatientJpaRepository;
-import com.HealthMeetProject.code.infrastructure.database.repository.mapper.DoctorEntityMapper;
-import com.HealthMeetProject.code.infrastructure.database.repository.mapper.PatientEntityMapper;
 import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -29,28 +27,29 @@ import java.util.List;
 public class MeetingRequestController {
     public static final String MAKE_APPOINTMENT = "/patient/terms/appointment/{availability_schedule_id}";
     public static final String MAKE_APPOINTMENT_FINALIZE = "/patient/terms/appointment/{availability_schedule_id}/finalize/{selectedSlotId}";
-    private final AvailabilityScheduleJpaRepository availabilityScheduleJpaRepository;
-    private final DoctorEntityMapper doctorEntityMapper;
+    private final AvailabilityScheduleService availabilityScheduleService;
+    private final AvailabilityScheduleMapper availabilityScheduleMapper;
     private final MeetingRequestService meetingRequestService;
     private final PatientService patientService;
-    private final PatientJpaRepository patientJpaRepository;
-    private final PatientEntityMapper patientEntityMapper;
+    private final PatientDAO patientDAO;
+    private final AvailabilityScheduleDAO availabilityScheduleDAO;
 
     @GetMapping(MAKE_APPOINTMENT)
     public String chooseAccurateTerm(
             @PathVariable Integer availability_schedule_id,
             Model model
     ) {
-        AvailabilityScheduleEntity availabilitySchedule = availabilityScheduleJpaRepository.findById(availability_schedule_id)
-                .orElseThrow(() -> new ProcessingException("some error occurred"));
-        Doctor doctor = doctorEntityMapper.mapFromEntity(availabilitySchedule.getDoctor());
+        AvailabilitySchedule availabilitySchedule = availabilityScheduleDAO.findById(availability_schedule_id);
+        AvailabilityScheduleDTO availabilityScheduleDTO = availabilityScheduleMapper.map(availabilitySchedule);
+        Doctor doctor = availabilitySchedule.getDoctor();
         List<AvailabilitySchedule> particularVisitTime = meetingRequestService.generateTimeSlots(availabilitySchedule.getSince(), availabilitySchedule.getToWhen(), doctor);
+        List<AvailabilityScheduleDTO> particularVisitTimeDTO = particularVisitTime.stream().map(availabilityScheduleMapper::map).toList();
         if (particularVisitTime.isEmpty()) {
             availabilitySchedule.setAvailableDay(false);
-            availabilityScheduleJpaRepository.save(availabilitySchedule);
+            availabilityScheduleService.save(availabilitySchedule);
         }
-        model.addAttribute("givenAvailabilitySchedule", availabilitySchedule);
-        model.addAttribute("particularVisitTime", particularVisitTime);
+        model.addAttribute("givenAvailabilitySchedule", availabilityScheduleDTO);
+        model.addAttribute("particularVisitTime", particularVisitTimeDTO);
         return "make_appointment";
     }
 
@@ -62,14 +61,13 @@ public class MeetingRequestController {
             HttpSession session,
             Model model
     ) {
-        AvailabilitySchedule visitTerm = getAvailabilitySchedule(availability_schedule_id, selectedSlotId);
-        AvailabilityScheduleEntity availabilitySchedule = availabilityScheduleJpaRepository.findById(availability_schedule_id)
-                .orElseThrow(() -> new ProcessingException("some error occurred"));
+        AvailabilityScheduleDTO visitTermDTO = meetingRequestService.getAvailabilitySchedule(availability_schedule_id, selectedSlotId);
+        AvailabilitySchedule availabilitySchedule = availabilityScheduleDAO.findById(availability_schedule_id);
         availabilitySchedule.setAvailableTerm(false);
-        availabilityScheduleJpaRepository.save(availabilitySchedule);
+        availabilityScheduleService.save(availabilitySchedule);
 
-        model.addAttribute("visitTerm", visitTerm);
-        session.setAttribute("visitTerm", visitTerm);
+        model.addAttribute("visitTerm", visitTermDTO);
+        session.setAttribute("visitTerm", visitTermDTO);
         return "finalize_meeting_request";
     }
 
@@ -80,23 +78,16 @@ public class MeetingRequestController {
             Model model
     ) {
         String email = patientService.authenticate();
-        PatientEntity byEmail = patientJpaRepository.findByEmail(email).orElseThrow(() -> new NotFoundException("not found patient by email"));
-        Patient patient = patientEntityMapper.mapFromEntity(byEmail);
+        Patient patient = patientDAO.findByEmail(email);
 
-        AvailabilitySchedule visitTerm = (AvailabilitySchedule) session.getAttribute("visitTerm");
+        AvailabilityScheduleDTO visitTerm = (AvailabilityScheduleDTO) session.getAttribute("visitTerm");
 
-        Doctor doctor = visitTerm.getDoctor();
+        DoctorDTO doctor = visitTerm.getDoctor();
 
         meetingRequestService.makeMeetingRequest(patient, doctor, description, visitTerm);
         model.addAttribute("visitTerm", visitTerm);
         return "meeting_request_finalized";
     }
 
-    public AvailabilitySchedule getAvailabilitySchedule(Integer availability_schedule_id, Integer selectedSlotId) {
-        AvailabilityScheduleEntity availabilitySchedule = availabilityScheduleJpaRepository.findById(availability_schedule_id)
-                .orElseThrow(() -> new ProcessingException("some error occurred"));
-        Doctor doctor = doctorEntityMapper.mapFromEntity(availabilitySchedule.getDoctor());
-        List<AvailabilitySchedule> particularVisitTime = meetingRequestService.generateTimeSlots(availabilitySchedule.getSince(), availabilitySchedule.getToWhen(), doctor);
-        return particularVisitTime.get(selectedSlotId);
-    }
+
 }

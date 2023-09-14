@@ -7,5 +7,5 @@ import org.mapstruct.ReportingPolicy;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface MedicineEntityMapper {
-    MedicineEntity map(Medicine medicine);
+    MedicineEntity mapToEntity(Medicine medicine);
 }

@@ -8,13 +8,16 @@ import java.time.OffsetDateTime;
 import java.util.List;
 
 public interface MeetingRequestDAO {
-        List<MeetingRequest> findAvailable();
-        List<MeetingRequest> findAllActiveMeetingRequests(String email);
+    List<MeetingRequest> findAvailable();
 
-        List<MeetingRequest> findByPatientEmail(String email);
+    List<MeetingRequest> findAllActiveMeetingRequests(String email);
+
+    List<MeetingRequest> findByPatientEmail(String email);
 
 
-        List<MeetingRequest> findEndedVisits();
+     List<MeetingRequest> findAllUpcomingVisits(String email);
+
+    List<MeetingRequest> findEndedVisits();
 
     List<MeetingRequest> findAllCompletedServiceRequestsByEmail(String email);
 
@@ -24,4 +27,6 @@ public interface MeetingRequestDAO {
 
     boolean findIfMeetingRequestExistsWithTheSameDateAndDoctor(OffsetDateTime since, OffsetDateTime toWhen, Doctor doctor);
 
+    void deleteById(Integer meetingId);
+    MeetingRequest findById(Integer meetingId);
 }

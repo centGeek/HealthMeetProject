@@ -3,13 +3,12 @@ package com.HealthMeetProject.code.infrastructure.database.repository;
 
 import com.HealthMeetProject.code.api.dto.DoctorDTO;
 import com.HealthMeetProject.code.business.dao.DoctorDAO;
-import com.HealthMeetProject.code.domain.*;
+import com.HealthMeetProject.code.domain.Doctor;
+import com.HealthMeetProject.code.domain.Receipt;
 import com.HealthMeetProject.code.domain.exception.UserAlreadyExistsException;
 import com.HealthMeetProject.code.infrastructure.database.entity.*;
 import com.HealthMeetProject.code.infrastructure.database.repository.jpa.*;
 import com.HealthMeetProject.code.infrastructure.database.repository.mapper.DoctorEntityMapper;
-import com.HealthMeetProject.code.infrastructure.database.repository.mapper.MedicineEntityMapper;
-import com.HealthMeetProject.code.infrastructure.database.repository.mapper.NoteEntityMapper;
 import com.HealthMeetProject.code.infrastructure.database.repository.mapper.ReceiptEntityMapper;
 import com.HealthMeetProject.code.infrastructure.security.RoleRepository;
 import com.HealthMeetProject.code.infrastructure.security.UserRepository;
@@ -29,7 +28,6 @@ public class DoctorRepository implements DoctorDAO {
     private DoctorEntityMapper doctorEntityMapper;
     private AvailabilityScheduleJpaRepository availabilityScheduleJpaRepository;
     private NoteJpaRepository noteJpaRepository;
-    private NoteEntityMapper noteEntityMapper;
     private ReceiptJpaRepository receiptJpaRepository;
     private ReceiptEntityMapper receiptEntityMapper;
     private RoleRepository roleRepository;
@@ -51,12 +49,6 @@ public class DoctorRepository implements DoctorDAO {
                 .map(doctorEntityMapper::mapFromEntity);
     }
 
-    @Override
-    public List<Doctor> findAllBySpecialization(Specialization specialization) {
-        return doctorJpaRepository.findAllBySpecialization(specialization).stream()
-                .map(doctorEntityMapper::mapFromEntity)
-                .toList();
-    }
 
 
     @Override
@@ -66,7 +58,7 @@ public class DoctorRepository implements DoctorDAO {
 
     @Override
     public void issueReceipt(Receipt receipt, Set<MedicineEntity> medicineSet) {
-        ReceiptEntity receiptEntity = receiptEntityMapper.map(receipt);
+        ReceiptEntity receiptEntity = receiptEntityMapper.mapToEntity(receipt);
         ReceiptEntity receiptEntitySaved = receiptJpaRepository.saveAndFlush(receiptEntity);
         for (MedicineEntity medicine : medicineSet) {
             medicine.setReceipt(receiptEntitySaved);
@@ -94,6 +86,12 @@ public class DoctorRepository implements DoctorDAO {
     public boolean findAnyTermInGivenRangeInGivenDay(OffsetDateTime since, OffsetDateTime toWhen, String doctorEmail) {
         List<AvailabilityScheduleEntity> anyTermInGivenRangeInGivenDay = availabilityScheduleJpaRepository.findAnyTermInGivenRangeInGivenDay(since, toWhen, doctorEmail);
         return anyTermInGivenRangeInGivenDay.isEmpty();
+    }
+
+    @Override
+    public void save(Doctor doctor) {
+        DoctorEntity doctorEntity = doctorEntityMapper.mapToEntity(doctor);
+        doctorJpaRepository.save(doctorEntity);
     }
 
     private void conditionsToNotCreateDoctor(DoctorDTO doctorDTO) {

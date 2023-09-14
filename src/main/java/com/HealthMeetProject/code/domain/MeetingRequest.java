@@ -10,6 +10,7 @@ import java.time.OffsetDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@With
 public class MeetingRequest {
     private Integer meetingId;
     private String meetingRequestNumber;
