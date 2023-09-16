@@ -58,7 +58,7 @@ public class MeetingRequestControllerTest {
         List<AvailabilitySchedule> particularVisitTime = new ArrayList<>();
         //wwhen
         when(availabilityScheduleDAO.findById(1)).thenReturn(availabilitySchedule);
-        when(availabilityScheduleMapper.map(availabilitySchedule)).thenReturn(availabilityScheduleDTO);
+        when(availabilityScheduleMapper.mapToDTO(availabilitySchedule)).thenReturn(availabilityScheduleDTO);
         when(meetingRequestService.generateTimeSlots(availabilitySchedule.getSince(), availabilitySchedule.getToWhen(), availabilitySchedule.getDoctor())).thenReturn(particularVisitTime);
 
         // then

@@ -23,7 +23,7 @@ import java.util.List;
     private final DoctorService doctorService;
 
     public List<AvailabilityScheduleDTO> findAllTermsByGivenDoctor(String email){
-        return availabilityScheduleDAO.findAllTermsByGivenDoctor(email).stream().map(availabilityScheduleMapper::map).toList();
+        return availabilityScheduleDAO.findAllTermsByGivenDoctor(email).stream().map(availabilityScheduleMapper::mapToDTO).toList();
     };
 
     public AvailabilityScheduleDTO addTerm(OffsetDateTime since,OffsetDateTime toWhen, DoctorEntity doctorEntity) {
@@ -40,12 +40,12 @@ import java.util.List;
             throw new IllegalArgumentException("Maximum working day is 10 hours");
         }
         AvailabilitySchedule availabilitySchedule = availabilityScheduleDAO.addTerm(since, toWhen, doctorEntity);
-        return availabilityScheduleMapper.map(availabilitySchedule);
+        return availabilityScheduleMapper.mapToDTO(availabilitySchedule);
     }
 
 
     public List<AvailabilityScheduleDTO> findAllAvailableTermsByGivenDoctor(String email) {
-         return availabilityScheduleDAO.findAllAvailableTermsByGivenDoctor(email).stream().map(availabilityScheduleMapper::map).toList();
+         return availabilityScheduleDAO.findAllAvailableTermsByGivenDoctor(email).stream().map(availabilityScheduleMapper::mapToDTO).toList();
     }
     public void save(AvailabilitySchedule availabilitySchedule) {
         AvailabilityScheduleEntity availabilityScheduleEntity = availabilityScheduleEntityMapper.mapToEntity(availabilitySchedule);

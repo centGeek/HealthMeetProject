@@ -9,7 +9,6 @@ import com.HealthMeetProject.code.business.PatientService;
 import com.HealthMeetProject.code.business.dao.DoctorDAO;
 import com.HealthMeetProject.code.business.dao.PatientDAO;
 import com.HealthMeetProject.code.domain.Doctor;
-import com.HealthMeetProject.code.domain.MeetingRequest;
 import com.HealthMeetProject.code.domain.Patient;
 import com.HealthMeetProject.code.domain.exception.NotFoundException;
 import jakarta.persistence.EntityNotFoundException;
@@ -45,7 +44,7 @@ public class DoctorController {
         String email = patientService.authenticate();
         Patient patient = patientDAO.findByEmail(email);
         List<DoctorDTO> allAvailableDoctors = doctorService.findAllAvailableDoctors().stream()
-                .map(doctorMapper::map).toList();
+                .map(doctorMapper::mapToDTO).toList();
 
         model.addAttribute("allAvailableDoctors", allAvailableDoctors);
         model.addAttribute("patient", patient);
@@ -60,11 +59,19 @@ public class DoctorController {
         Doctor doctor = doctorDAO.findById(doctorId).orElseThrow(() -> new EntityNotFoundException(
                 "Employee entity not found, employeeId: [%s]".formatted(doctorId)
         ));
-        DoctorDTO doctorDTO = doctorMapper.map(doctor);
+        DoctorDTO doctorDTO = doctorMapper.mapToDTO(doctor);
         List<AvailabilityScheduleDTO> allTermsByGivenDoctor = availabilityScheduleService.findAllAvailableTermsByGivenDoctor(doctor.getEmail());
-
-        model.addAttribute("allTermsByGivenDoctor", allTermsByGivenDoctor);
+        List<String> since = new ArrayList<>();
+        List<String> toWhen = new ArrayList<>();
+        for (AvailabilityScheduleDTO availabilityScheduleDTO : allTermsByGivenDoctor) {
+            since.add(availabilityScheduleDTO.getSince().format(MeetingProcessingController.FORMATTER));
+            toWhen.add(availabilityScheduleDTO.getToWhen().format(MeetingProcessingController.FORMATTER));
+        }
+        model.addAttribute("since",since);
+        model.addAttribute("toWhen",toWhen);
+        model.addAttribute("allTermsByGivenDoctor",allTermsByGivenDoctor);
         model.addAttribute("doctor", doctorDTO);
+
         return "availability_terms";
     }
     @GetMapping("/doctor/{doctorId}/edit")
@@ -74,7 +81,7 @@ public class DoctorController {
 
         Doctor existingDoctor = doctorService.findById(doctorId).orElseThrow(
                 () -> new NotFoundException("Doctor with given id is not found"));
-        DoctorDTO doctorDTO = doctorMapper.map(existingDoctor);
+        DoctorDTO doctorDTO = doctorMapper.mapToDTO(existingDoctor);
         if (existingDoctor == null) {
             return "redirect:/doctors";
         }

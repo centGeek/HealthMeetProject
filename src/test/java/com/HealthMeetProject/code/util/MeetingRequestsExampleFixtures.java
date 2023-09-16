@@ -45,6 +45,8 @@ public class MeetingRequestsExampleFixtures {
                 .receivedDateTime(DoctorExampleFixtures.availabilityScheduleEntity2().getSince())
                 .completedDateTime(DoctorExampleFixtures.availabilityScheduleEntity3().getToWhen())
                 .description("Boli mnie glowa")
+                .visitStart(OffsetDateTime.now().minusHours(5))
+                .visitEnd(OffsetDateTime.now().minusHours(4).minusMinutes(45))
                 .patient(PatientExampleFixtures.patientEntityExample2())
                 .doctor(DoctorExampleFixtures.doctorEntityExample1())
                 .build();

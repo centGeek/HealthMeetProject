@@ -70,14 +70,14 @@
             <th>Action</th>
         </tr>
         </thead>
-        <tbody th:if="${not #lists.isEmpty(meetingRequests)}">
-        <tr th:each="i : ${#numbers.sequence(0, #lists.size(meetingRequests)-1)}">
-             <td th:text="${meetingRequests[i].meetingId}"></td>
-            <td th:text="${meetingRequests[i].description}"></td>
-            <td th:text="${meetingRequestsDatesToString[i]}"></td>
+        <tbody>
+        <tr th:each="meetingRequest : ${meetingRequests}">
+            <td th:text="${meetingRequest.meetingId}"></td>
+            <td th:text="${meetingRequest.description}"></td>
+            <td th:text="${meetingRequest.receivedDateTime}"></td>
             <td>
-                <form action="#" th:action="@{'/doctor/execute-action/'+${meetingRequests[i].meetingId}}" th:method="patch">
-                    <input type="hidden" name="meetingRequestId" th:value="${meetingRequests[i].meetingId}" />
+                <form action="#" th:action="@{'/doctor/execute-action/'+${meetingRequest.meetingId}}" th:method="patch">
+                    <input type="hidden" name="meetingRequestId" th:value="${meetingRequest.meetingId}" />
                     <button type="submit">Confirm visit</button>
                 </form>
             </td>
@@ -89,12 +89,7 @@
 <br>
 <div class="section">
     <h1>Add receipt or note to ended up visit</h1>
-    <div class="search-form">
-        <form action="#" th:action="@{/doctor/search-by/email}" method="get">
-            <input type="text" name="patientEmail" placeholder="Enter Patient Email" />
-            <button type="submit">Search</button>
-        </form>
-    </div>
+
     <table>
         <thead>
         <tr>
@@ -106,50 +101,27 @@
             <th>illness history</th>
         </tr>
         </thead>
-        <tbody th:if="${not #lists.isEmpty(endedVisits)}">
-        <tr th:each="i : ${#numbers.sequence(0, #lists.size(endedVisits)-1)}">
-            <td th:text="${endedVisits[i].meetingId}"></td>
-            <td th:text="${endedVisits[i].description}"></td>
-            <td th:text="${endedVisitsToString[i]}"></td>
+        <tbody th:if="${not #lists.isEmpty(allEndedUpVisits)}">
+        <tr th:each="i : ${#numbers.sequence(0, #lists.size(allEndedUpVisits)-1)}">
+            <td th:text="${allEndedUpVisits[i].meetingId}"></td>
+            <td th:text="${allEndedUpVisits[i].description}"></td>
+            <td th:text="${date[i]}"></td>
             <td>
-                <form action="#" th:action="@{'/doctor/issue/note/' + ${endedVisits[i].meetingId}}" th:method="get">
+                <form action="#" th:action="@{'/doctor/issue/note/' + ${allEndedUpVisits[i].meetingId}}" th:method="get">
                     <button type="submit">issue note</button>
                 </form>
             </td>
             <td>
-                <form action="#" th:action="@{'/doctor/issue/receipt/' + ${endedVisits[i].meetingId}}" th:method="get">
-                    <input type="hidden" name="endedVisitId" th:value="${endedVisits[i].meetingId}" />
+                <form action="#" th:action="@{'/doctor/issue/receipt/' + ${allEndedUpVisits[i].meetingId}}" th:method="get">
+                    <input type="hidden" name="endedVisitId" th:value="${allEndedUpVisits[i].meetingId}" />
                     <button type="submit">issue receipt</button>
                 </form>
             </td>
             <td>
-                <form action="#" th:action="@{'/doctor/illness/history/' + ${endedVisits[i].meetingId}}" th:method="get">
+                <form action="#" th:action="@{'/doctor/illness/history/' + ${allEndedUpVisits[i].meetingId}}" th:method="get">
                     <button type="submit">illness history</button>
                 </form>
             </td>
-        </tr>
-        </tbody>
-    </table>
-</div>
-<br>
-<br>
-<div class="section">
-    <h1>Here are all upcoming visits already confirmed! </h1>
-    <table>
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>Description</th>
-            <th>visit end time</th>
-            <th>patient email</th>
-        </tr>
-        </thead>
-        <tbody th:if="${not #lists.isEmpty(allUpcomingVisits)}">
-        <tr th:each="i : ${#numbers.sequence(0, #lists.size(allUpcomingVisits)-1)}">
-            <td th:text="${allUpcomingVisits[i].meetingId}"></td>
-            <td th:text="${allUpcomingVisits[i].description}"></td>
-            <td th:text="${upcomingVisitsToString[i]}"></td>
-            <td th:text="${allUpcomingVisits[i].patient.email}"></td>
         </tr>
         </tbody>
     </table>

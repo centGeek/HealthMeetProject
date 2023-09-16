@@ -35,7 +35,7 @@ public class ReceiptService {
         Receipt receipt = buildReceipt(patient, doctor);
         Set<MedicineEntity> toEntityMedicine= new HashSet<>();
         for (MedicineDTO medicine : medicineSet) {
-            Medicine medicineToEntity = medicineMapper.map(medicine);
+            Medicine medicineToEntity = medicineMapper.mapFromDTO(medicine);
             MedicineEntity medicineEntity = medicineEntityMapper.mapToEntity(medicineToEntity);
             toEntityMedicine.add(medicineEntity);
         }

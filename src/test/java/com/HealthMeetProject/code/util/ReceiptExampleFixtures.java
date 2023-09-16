@@ -7,8 +7,9 @@ public class ReceiptExampleFixtures {
     public static ReceiptEntity receiptEntityExampleData1() {
         return ReceiptEntity.builder().
                 receiptNumber("32312312321312321").
-                dateTime(DoctorExampleFixtures.availabilityScheduleEntity1().getSince()).
-                build();
+                dateTime(DoctorExampleFixtures.availabilityScheduleEntity1().getSince())
+                .patient(PatientExampleFixtures.patientEntityExample1())
+                .build();
     }
 
     public static Receipt receiptExampleData1() {

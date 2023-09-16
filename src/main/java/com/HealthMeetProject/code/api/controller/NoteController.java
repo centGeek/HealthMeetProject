@@ -37,11 +37,13 @@ public class NoteController {
         Patient patient = meetingRequestEntity.getPatient();
         OffsetDateTime visitEnd = meetingRequestEntity.getVisitEnd();
         OffsetDateTime visitStart = meetingRequestEntity.getVisitStart();
+        String start = visitStart.format(MeetingProcessingController.FORMATTER);
+        String end = visitEnd.format(MeetingProcessingController.FORMATTER);
         model.addAttribute("patient", patient);
         model.addAttribute("meetingId", meetingId);
         model.addAttribute("doctor", doctor);
-        model.addAttribute("start", visitStart);
-        model.addAttribute("end", visitEnd);
+        model.addAttribute("start", start);
+        model.addAttribute("end", end);
 
         return "note";
     }

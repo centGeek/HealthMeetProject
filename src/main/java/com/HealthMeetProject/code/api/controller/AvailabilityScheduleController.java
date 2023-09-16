@@ -7,7 +7,6 @@ import com.HealthMeetProject.code.business.AvailabilityScheduleService;
 import com.HealthMeetProject.code.business.DoctorService;
 import com.HealthMeetProject.code.business.dao.AvailabilityScheduleDAO;
 import com.HealthMeetProject.code.domain.Doctor;
-import com.HealthMeetProject.code.domain.exception.ProcessingException;
 import com.HealthMeetProject.code.infrastructure.database.entity.DoctorEntity;
 import com.HealthMeetProject.code.infrastructure.database.repository.mapper.DoctorEntityMapper;
 import lombok.AllArgsConstructor;
@@ -43,7 +42,7 @@ public class AvailabilityScheduleController {
     @GetMapping(DOCTOR)
     public String showYourAvailableTerms(Model model) {
         String email = doctorService.authenticateDoctor();
-        DoctorDTO byEmail = doctorMapper.map(doctorService.findByEmail(email));
+        DoctorDTO byEmail = doctorMapper.mapToDTO(doctorService.findByEmail(email));
         List<AvailabilityScheduleDTO> doctorTermsSorted = availabilityScheduleService.findAllTermsByGivenDoctor(byEmail.getEmail())
                 .stream().sorted(Comparator.comparing(AvailabilityScheduleDTO::getSince)).toList();
         List<String> formattedSince = doctorTermsSorted.stream()

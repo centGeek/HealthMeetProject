@@ -16,16 +16,5 @@ import org.mapstruct.ReportingPolicy;
 public interface PatientEntityMapper {
     Patient mapFromEntity(final PatientEntity patientEntity);
 
-    @SuppressWarnings("unused")
-    @Mapping(target = "doctor", ignore = true)
-    @Mapping(target = "patient", ignore = true)
-    Note mapFromEntity(NoteEntity entity);
-    @Mapping(target = "doctor", ignore = true)
-    @Mapping(target = "patient", ignore = true)
-    Receipt mapFromEntity(ReceiptEntity entity);
-    @Mapping(target = "doctor", ignore = true)
-    @Mapping(target = "patient", ignore = true)
-    MeetingRequest mapFromEntity(MeetingRequestEntity entity);
-
     PatientEntity mapToEntity(final Patient patient);
 }

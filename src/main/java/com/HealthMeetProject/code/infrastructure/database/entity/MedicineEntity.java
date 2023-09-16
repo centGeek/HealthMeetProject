@@ -1,16 +1,14 @@
 package com.HealthMeetProject.code.infrastructure.database.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.math.BigDecimal;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString(exclude = "receipt")
 @Entity
 @Builder
 @Table(name = "medicine")

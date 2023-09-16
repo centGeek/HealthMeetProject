@@ -45,7 +45,7 @@ public class PatientController {
     public String getPatientHistoryPage(Model model) {
         String email = patientService.authenticate();
 
-        List<MeetingRequest> allUpcomingVisits = meetingRequestDAO.findAllUpcomingVisits(email);
+        List<MeetingRequest> allUpcomingVisits = meetingRequestDAO.findAllUpcomingVisitsByPatient(email);
         List<Boolean> canCancelMeetingList = meetingRequestService.canCancelMeetingList(allUpcomingVisits);
 
         List<MeetingRequest> allCompletedServiceRequestsByEmail = meetingRequestService.findAllCompletedServiceRequestsByEmail(email);

@@ -17,7 +17,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 import static com.HealthMeetProject.code.util.DoctorExampleFixtures.*;
@@ -54,7 +53,7 @@ public class AvailabilityScheduleControllerTest {
         // Add availability schedule DTOs to the list
 
         when(doctorService.authenticateDoctor()).thenReturn("doctor@example.com");
-        when(doctorMapper.map(doctorService.findByEmail("doctor@example.com"))).thenReturn(doctorDTO);
+        when(doctorMapper.mapToDTO(doctorService.findByEmail("doctor@example.com"))).thenReturn(doctorDTO);
         when(availabilityScheduleService.findAllTermsByGivenDoctor("doctor@example.com")).thenReturn(availabilitySchedules);
 
         // Act and Assert
@@ -74,7 +73,7 @@ public class AvailabilityScheduleControllerTest {
         when(doctorService.findByEmail(email)).thenReturn(doctorExample3());
         doctorEntityExample3().setDoctorId(1);
         when(doctorEntityMapper.mapToEntity(doctorExample3())).thenReturn(doctorEntityExample3());
-        when(doctorMapper.map(doctorService.findByEmail(email))).thenReturn(DoctorExampleFixtures.doctorDTOExample3());
+        when(doctorMapper.mapToDTO(doctorService.findByEmail(email))).thenReturn(DoctorExampleFixtures.doctorDTOExample3());
         when(availabilityScheduleService.addTerm(availabilityScheduleDTO1().getSince(),
                 availabilityScheduleDTO1().getToWhen(), doctorEntityExample3())).thenReturn(availabilityScheduleDTO1());
         when(availabilityScheduleDAO.addTerm(availabilityScheduleDTO1().getSince(),

@@ -50,8 +50,8 @@ public class MeetingRequestService {
     @Transactional
     public void makeMeetingRequest(Patient patient, DoctorDTO doctorDTO, String description, AvailabilityScheduleDTO visitTimeDTO) {
         validate(patient.getEmail());
-        Doctor doctor = doctorMapper.map(doctorDTO);
-        AvailabilitySchedule visitTime = availabilityScheduleMapper.map(visitTimeDTO);
+        Doctor doctor = doctorMapper.mapFromDTO(doctorDTO);
+        AvailabilitySchedule visitTime = availabilityScheduleMapper.mapFromDTO(visitTimeDTO);
         MeetingRequest meetingServiceRequest = buildMeetingRequest(patient,doctor, description, visitTime);
         AvailabilityScheduleEntity visitTimeEntity = availabilityScheduleEntityMapper.mapToEntity(visitTime);
         availabilityScheduleJpaRepository.saveAndFlush(visitTimeEntity);
@@ -157,7 +157,7 @@ public class MeetingRequestService {
         AvailabilitySchedule availabilitySchedule = availabilityScheduleDAO.findById(availability_schedule_id);
         Doctor doctor = availabilitySchedule.getDoctor();
         List<AvailabilitySchedule> particularVisitTime = generateTimeSlots(availabilitySchedule.getSince(), availabilitySchedule.getToWhen(), doctor);
-        List<AvailabilityScheduleDTO> particularVisitTimeDTO = particularVisitTime.stream().map(availabilityScheduleMapper::map).toList();
+        List<AvailabilityScheduleDTO> particularVisitTimeDTO = particularVisitTime.stream().map(availabilityScheduleMapper::mapToDTO).toList();
         return particularVisitTimeDTO.get(selectedSlotId);
     }
     public List<Boolean> canCancelMeetingList(List<MeetingRequest> allUpcomingVisits) {

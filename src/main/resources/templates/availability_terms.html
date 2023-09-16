@@ -96,12 +96,12 @@
             <th>to when</th>
             <th>Make appointment</th>
         </tr>
-        </thead>
-        <tr th:each="term : ${allTermsByGivenDoctor}" class="term-row">
-            <td th:text="${term.since}" class="since"></td>
-            <td th:text="${term.toWhen}" class="to-when"></td>
+        <tbody th:if="${not #lists.isEmpty(since)}">
+        <tr th:each="i : ${#numbers.sequence(0, #lists.size(since)-1)}">
+            <td th:text="${since[i]}" class="since"></td>
+            <td th:text="${toWhen[i]}" class="to-when"></td>
             <td>
-                <form th:if="${term.isAvailableDay()}" method="get" th:action="@{'/patient/terms/appointment/' + ${term.availability_schedule_id}}">
+                <form th:if="${allTermsByGivenDoctor[i].isAvailableDay()}" method="get" th:action="@{'/patient/terms/appointment/' + ${allTermsByGivenDoctor[i].availability_schedule_id}}">
                     <input type="submit" value="Choose day" class="show-terms-button">
                 </form>
             </td>

@@ -14,6 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 public class MedicineRepository implements MedicineDAO {
     private final MedicineJpaRepository medicineJpaRepository;
+    private final MedicineEntityMapper medicineEntityMapper;
     @Override
     public List<MedicineEntity> findByReceipt(Integer receiptId) {
         return medicineJpaRepository.findByReceipt(receiptId);

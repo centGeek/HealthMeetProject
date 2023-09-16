@@ -80,7 +80,7 @@ public class AvailabilityScheduleServiceTest {
         DoctorEntity doctorEntity = DoctorExampleFixtures.doctorEntityExample3();
         //when
         when(availabilityScheduleDAO.addTerm(since, toWhen, doctorEntity)).thenReturn(DoctorExampleFixtures.availabilitySchedule1());
-        when(availabilityScheduleMapper.map(availabilitySchedule1)).thenReturn(availabilityScheduleDTO1);
+        when(availabilityScheduleMapper.mapToDTO(availabilitySchedule1)).thenReturn(availabilityScheduleDTO1);
         when(doctorService.findAnyTermInGivenRangeInGivenDay(any(), any(), any())).thenReturn(true);
         AvailabilityScheduleDTO availabilityScheduleDTO = availabilityScheduleService.addTerm(since, toWhen, doctorEntity);
         //then
@@ -95,7 +95,7 @@ public class AvailabilityScheduleServiceTest {
     void testFindAllAvailableTermsByGivenDoctor() {
         String doctorEmail = "test@example.com";
         List<AvailabilityScheduleDTO> availabilityScheduleDTOList = new ArrayList<>();
-        when(availabilityScheduleDAO.findAllAvailableTermsByGivenDoctor(doctorEmail).stream().map(availabilityScheduleMapper::map).toList())
+        when(availabilityScheduleDAO.findAllAvailableTermsByGivenDoctor(doctorEmail).stream().map(availabilityScheduleMapper::mapToDTO).toList())
                 .thenReturn(availabilityScheduleDTOList);
 
         List<AvailabilityScheduleDTO> result = availabilityScheduleService.findAllAvailableTermsByGivenDoctor(doctorEmail);
@@ -105,7 +105,7 @@ public class AvailabilityScheduleServiceTest {
     void testFindAllTermsByGivenDoctor() {
         String doctorEmail = "test@example.com";
         List<AvailabilityScheduleDTO> availabilityScheduleDTOList = new ArrayList<>();
-        when(availabilityScheduleDAO.findAllAvailableTermsByGivenDoctor(doctorEmail).stream().map(availabilityScheduleMapper::map).toList())
+        when(availabilityScheduleDAO.findAllAvailableTermsByGivenDoctor(doctorEmail).stream().map(availabilityScheduleMapper::mapToDTO).toList())
                 .thenReturn(availabilityScheduleDTOList);
 
         List<AvailabilityScheduleDTO> result = availabilityScheduleService.findAllAvailableTermsByGivenDoctor(doctorEmail);

@@ -54,8 +54,8 @@ public class ReceiptServiceTest {
         //when
         when(doctorService.authenticateDoctor()).thenReturn(doctor.getEmail());
         when(doctorService.findByEmail(doctor.getEmail())).thenReturn(doctor);
-        when(medicineMapper.map(MedicineExampleFixtures.medicineDTOExampleData1())).thenReturn(MedicineExampleFixtures.medicineExampleData4());
-        when(medicineEntityMapper.mapToEntity(MedicineExampleFixtures.medicineExampleData4())).thenReturn(MedicineExampleFixtures.medicineExampleData2());
+        when(medicineMapper.mapFromDTO(MedicineExampleFixtures.medicineDTOExampleData1())).thenReturn(MedicineExampleFixtures.medicineExampleData1());
+        when(medicineEntityMapper.mapToEntity(MedicineExampleFixtures.medicineExampleData1())).thenReturn(MedicineExampleFixtures.medicineEntityExampleData2());
         receiptService.issueReceipt(medicineList, patient);
 
         //then

@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -40,16 +41,26 @@ public class MeetingRequestController {
             Model model
     ) {
         AvailabilitySchedule availabilitySchedule = availabilityScheduleDAO.findById(availability_schedule_id);
-        AvailabilityScheduleDTO availabilityScheduleDTO = availabilityScheduleMapper.map(availabilitySchedule);
+        AvailabilityScheduleDTO availabilityScheduleDTO = availabilityScheduleMapper.mapToDTO(availabilitySchedule);
         Doctor doctor = availabilitySchedule.getDoctor();
         List<AvailabilitySchedule> particularVisitTime = meetingRequestService.generateTimeSlots(availabilitySchedule.getSince(), availabilitySchedule.getToWhen(), doctor);
-        List<AvailabilityScheduleDTO> particularVisitTimeDTO = particularVisitTime.stream().map(availabilityScheduleMapper::map).toList();
+        List<AvailabilityScheduleDTO> particularVisitTimeDTO = particularVisitTime.stream().map(availabilityScheduleMapper::mapToDTO).toList();
         if (particularVisitTime.isEmpty()) {
             availabilitySchedule.setAvailableDay(false);
             availabilityScheduleService.save(availabilitySchedule);
         }
+        List<String> since = new ArrayList<>();
+        List<String> toWhen = new ArrayList<>();
+
+        for (AvailabilityScheduleDTO givenTime : particularVisitTimeDTO) {
+            since.add(givenTime.getSince().format(MeetingProcessingController.FORMATTER));
+            toWhen.add(givenTime.getToWhen().format(MeetingProcessingController.FORMATTER));
+        }
         model.addAttribute("givenAvailabilitySchedule", availabilityScheduleDTO);
         model.addAttribute("particularVisitTime", particularVisitTimeDTO);
+        model.addAttribute("since", since);
+        model.addAttribute("toWhen", toWhen);
+
         return "make_appointment";
     }
 

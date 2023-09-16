@@ -38,8 +38,8 @@ public class MeetingRequestJpaRepositoryTest {
     @SuppressWarnings("OptionalGetWithoutIsPresent")
     @BeforeEach
     public void given() {
-       Set<DoctorEntity> doctors = Set.of(doctorEntityExample1(), doctorEntityExample2(), doctorEntityExample3());
-        Set<PatientEntity> patients = Set.of(patientEntityExample1(), patientEntityExample2(), patientEntityExample3());
+         Set<DoctorEntity> doctors = Set.of(doctorEntityExample1(), doctorEntityExample2(), doctorEntityExample3());
+          Set<PatientEntity> patients = Set.of(patientEntityExample1(), patientEntityExample2(), patientEntityExample3());
         doctorJpaRepository.saveAllAndFlush(doctors);
         patientJpaRepository.saveAllAndFlush(patients);
 
@@ -55,9 +55,10 @@ public class MeetingRequestJpaRepositoryTest {
         MeetingRequestEntity meetingRequestEntity1 = meetingRequestDataEntityExample1().withDoctor(doctorEntity1).withPatient(patientEntity1);
         MeetingRequestEntity meetingRequestEntity2 = meetingRequestDataEntityExample2().withDoctor(doctorEntity2).withPatient(patientEntity2);
         MeetingRequestEntity meetingRequestEntity3 = meetingRequestDataEntityExample3().withDoctor(doctorEntity3).withPatient(patientEntity3);
+        MeetingRequestEntity meetingRequestEntity4 = meetingRequestDataEntityExample4().withDoctor(doctorEntity1).withPatient(patientEntity3);
 
 
-        Set<MeetingRequestEntity> set = Set.of(meetingRequestEntity1, meetingRequestEntity2, meetingRequestEntity3);
+        Set<MeetingRequestEntity> set = Set.of(meetingRequestEntity1, meetingRequestEntity2, meetingRequestEntity3, meetingRequestEntity4);
         meetingRequestJpaRepository.saveAllAndFlush(set);
     }
 
@@ -67,7 +68,7 @@ public class MeetingRequestJpaRepositoryTest {
         List<MeetingRequestEntity> allByPatientEmail1 = meetingRequestJpaRepository.findAllByPatientEmail(patientEntityExample3().getEmail());
         List<MeetingRequestEntity> allByPatientEmail2 = meetingRequestJpaRepository.findAllByPatientEmail(patientEntityExample2().getEmail());
         //then
-        Assertions.assertThat(allByPatientEmail1.size()).isEqualTo(1);
+        Assertions.assertThat(allByPatientEmail1.size()).isEqualTo(2);
         Assertions.assertThat(allByPatientEmail2.size()).isEqualTo(1);
 
     }
@@ -78,7 +79,7 @@ public class MeetingRequestJpaRepositoryTest {
         List<MeetingRequestEntity> allByDoctorEmail1 = meetingRequestJpaRepository.findAllByDoctorEmail(doctorExample1().getEmail());
         List<MeetingRequestEntity> allByDoctorEmail2 = meetingRequestJpaRepository.findAllByDoctorEmail(doctorEntityExample2().getEmail());
         //then
-        Assertions.assertThat(allByDoctorEmail1.size()).isEqualTo(1);
+        Assertions.assertThat(allByDoctorEmail1.size()).isEqualTo(2);
         Assertions.assertThat(allByDoctorEmail2.size()).isEqualTo(1);
 
     }

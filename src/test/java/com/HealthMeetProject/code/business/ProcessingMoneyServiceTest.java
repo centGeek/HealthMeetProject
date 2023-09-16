@@ -48,7 +48,7 @@ public class ProcessingMoneyServiceTest {
     void testSumTotalCosts_NoRequests_WithMedicines() {
         List<MeetingRequest> emptyRequests = new ArrayList<>();
         List<MedicineEntity> medicines = new ArrayList<>();
-        medicines.add(MedicineExampleFixtures.medicineExampleData1()); // Assuming MedicineEntity constructor takes approxPrice
+        medicines.add(MedicineExampleFixtures.medicineEntityExampleData1()); // Assuming MedicineEntity constructor takes approxPrice
 
         BigDecimal totalCost = processingMoneyService.sumTotalCosts(emptyRequests, medicines);
 
@@ -61,7 +61,7 @@ public class ProcessingMoneyServiceTest {
         requests.add(MeetingRequestsExampleFixtures.meetingRequestDataExample1());
 
         List<MedicineEntity> medicines = new ArrayList<>();
-        medicines.add(MedicineExampleFixtures.medicineExampleData1());
+        medicines.add(MedicineExampleFixtures.medicineEntityExampleData1());
 
         BigDecimal totalCost = processingMoneyService.sumTotalCosts(requests, medicines);
 

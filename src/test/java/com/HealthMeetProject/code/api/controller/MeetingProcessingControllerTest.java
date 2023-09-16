@@ -3,6 +3,7 @@ package com.HealthMeetProject.code.api.controller;
 import com.HealthMeetProject.code.business.DoctorService;
 import com.HealthMeetProject.code.business.MeetingRequestService;
 import com.HealthMeetProject.code.business.dao.DoctorDAO;
+import com.HealthMeetProject.code.business.dao.MeetingRequestDAO;
 import com.HealthMeetProject.code.domain.Doctor;
 import com.HealthMeetProject.code.domain.MeetingRequest;
 import com.HealthMeetProject.code.infrastructure.database.entity.DoctorEntity;
@@ -10,6 +11,7 @@ import com.HealthMeetProject.code.infrastructure.database.repository.jpa.DoctorJ
 import com.HealthMeetProject.code.util.DoctorExampleFixtures;
 import com.HealthMeetProject.code.util.MeetingRequestsExampleFixtures;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -36,6 +38,9 @@ public class MeetingProcessingControllerTest {
     private MeetingRequestService meetingRequestService;
     @MockBean
     private DoctorService doctorService;
+    @MockBean
+    private MeetingRequestDAO meetingRequestDAO;
+
 
     @Test
     void thatMeetingRequestProcessingPageIsLoadedCorrectly() throws Exception {

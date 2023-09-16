@@ -28,7 +28,15 @@ public class DoctorDTOFixtures {
                 .user(getUserDTOToRegister())
                 .build();
     }
-
+    public static UserData userDataDoctor() {
+        return UserData.builder()
+                .id(1)
+                .active(true)
+                .email("test@gmail.com")
+                .userName("usertest")
+                .password("test")
+                .roles(Set.of(RoleEntity.builder().id(1).role("DOCTOR").build())).build();
+    }
     public static Clinic getClinicDTOToRegister() {
         return Clinic.builder()
                 .clinicName("Medi Clinic")

@@ -19,6 +19,7 @@ import java.util.Objects;
 public class MeetingRequestRepository implements MeetingRequestDAO {
         private final MeetingRequestJpaRepository meetingRequestJpaRepository;
         private final MeetingRequestEntityMapper meetingRequestEntityMapper;
+
     @Override
     public List<MeetingRequest> findAvailable() {
         return meetingRequestJpaRepository.findAll()
@@ -26,8 +27,18 @@ public class MeetingRequestRepository implements MeetingRequestDAO {
                 .map(meetingRequestEntityMapper::mapFromEntity)
                 .toList();
     }
-    public List<MeetingRequest> findAllUpcomingVisits(String email){
-        return meetingRequestJpaRepository.findAllUpcomingVisits(email).stream().map(meetingRequestEntityMapper::mapFromEntity).toList();
+    @Override
+    public List<MeetingRequest> findAllUpcomingVisitsByPatient(String email){
+        return meetingRequestJpaRepository.findAllUpcomingVisitsByPatient(email).stream().map(meetingRequestEntityMapper::mapFromEntity).toList();
+    }
+    public List<MeetingRequest> findAllUpcomingVisitsByDoctor(String email){
+        return meetingRequestJpaRepository.findAllUpcomingVisitsByDoctor(email).stream().map(meetingRequestEntityMapper::mapFromEntity).toList();
+    }
+
+    @Override
+    public List<MeetingRequest> findAllEndedUpVisitsByDoctorAndPatient(String doctorEmail, String patientEmail) {
+        return meetingRequestJpaRepository.findAllEndedUpVisits(doctorEmail, patientEmail).stream()
+                .map(meetingRequestEntityMapper::mapFromEntity).toList();
     }
 
 
@@ -45,11 +56,6 @@ public class MeetingRequestRepository implements MeetingRequestDAO {
                 .toList();
     }
 
-    @Override
-    public List<MeetingRequest> findEndedVisits() {
-        return meetingRequestJpaRepository.findAllVisitsEndedUp().stream()
-                .map(meetingRequestEntityMapper::mapFromEntity).toList();
-    }
 
     @Override
     public List<MeetingRequest> findAllCompletedServiceRequestsByEmail(String email) {
