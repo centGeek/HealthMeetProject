@@ -17,7 +17,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -98,7 +98,7 @@ public class MeetingProcessingControllerTest {
     void testFindByPatientEmail() throws Exception {
         // Mock data
         List<MeetingRequest> meetingRequests = new ArrayList<>();
-        OffsetDateTime now = OffsetDateTime.now();
+        LocalDateTime now = LocalDateTime.now();
         MeetingRequest meetingRequest = new MeetingRequest();
         meetingRequest.setCompletedDateTime(null);
         meetingRequest.setVisitEnd(now.plusHours(1));

@@ -38,7 +38,10 @@ public class PatientHistoryDTOService {
         List<MedicineEntity> medicinesFromLastVisit = receiptService.getMedicinesFromLastVisit(receipts);
 
         return PatientHistoryDTO.builder()
+                .allUpcomingVisits(allUpcomingVisits)
                 .canCancelMeetingList(canCancelMeetingList)
+                .allCompletedServiceRequests(allCompletedServiceRequestsByEmail)
+                .receipts(receipts)
                 .totalCosts(totalCosts)
                 .notes(byPatientEmail)
                 .medicinesFromLastVisit(medicinesFromLastVisit)

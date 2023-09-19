@@ -1,5 +1,6 @@
 package com.HealthMeetProject.code.api.controller.rest;
 
+import com.HealthMeetProject.code.api.dto.NoteDTOs;
 import com.HealthMeetProject.code.business.DoctorService;
 import com.HealthMeetProject.code.business.MeetingRequestService;
 import com.HealthMeetProject.code.business.dao.NoteDAO;
@@ -12,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -25,14 +26,14 @@ public class NoteApiController {
     private final NoteDAO noteDAO;
 
     @GetMapping("/{meetingId}")
-    public ResponseEntity<?> getNote(
+    public Note getNote(
             @PathVariable Integer meetingId
     ) {
         MeetingRequest meetingRequestEntity = meetingRequestService.findById(meetingId);
         Doctor doctor = meetingRequestEntity.getDoctor();
         Patient patient = meetingRequestEntity.getPatient();
-        OffsetDateTime visitEnd = meetingRequestEntity.getVisitEnd();
-        OffsetDateTime visitStart = meetingRequestEntity.getVisitStart();
+        LocalDateTime visitEnd = meetingRequestEntity.getVisitEnd();
+        LocalDateTime visitStart = meetingRequestEntity.getVisitStart();
 
         Note noteDTO = new Note();
         noteDTO.setPatient(patient);
@@ -41,7 +42,7 @@ public class NoteApiController {
         noteDTO.setStartTime(visitStart);
         noteDTO.setEndTime(visitEnd);
 
-        return ResponseEntity.ok(noteDTO);
+        return noteDTO;
     }
 
     @PostMapping("/add/{meetingId}")
@@ -59,15 +60,12 @@ public class NoteApiController {
     }
 
     @GetMapping("/patient/{meetingId}")
-    public ResponseEntity<?> getIllnessHistory(
+    public List<String>  getIllnessHistory(
             @PathVariable Integer meetingId
     ) {
         MeetingRequest byId = meetingRequestService.findById(meetingId);
         Patient patient = byId.getPatient();
-        List<Note> byPatientEmail = noteDAO.findByPatientEmail(patient.getEmail());
-        if (byPatientEmail.isEmpty()){
-            ResponseEntity.noContent();
-        }
-        return ResponseEntity.ok(byPatientEmail);
+       return noteDAO.findByPatientEmail(patient.getEmail()).stream().map(Note::getIllness).toList();
+
     }
 }

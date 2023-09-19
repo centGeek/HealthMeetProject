@@ -18,9 +18,8 @@ public class PatientApiController {
 
 
     @GetMapping("/history")
-    public ResponseEntity<?> getPatientHistory(@RequestParam String email) {
-        PatientHistoryDTO patientHistoryDTO = patientHistoryDTOService.patientHistoryDTO(email);
-        return ResponseEntity.ok(patientHistoryDTO);
+    public PatientHistoryDTO getPatientHistory(@RequestParam String email) {
+        return patientHistoryDTOService.patientHistoryDTO(email);
     }
 
     @DeleteMapping("/meeting/{meetingId}")

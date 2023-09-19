@@ -12,6 +12,7 @@ import com.HealthMeetProject.code.domain.Patient;
 import com.HealthMeetProject.code.util.DoctorDTOFixtures;
 import com.HealthMeetProject.code.util.DoctorExampleFixtures;
 import com.HealthMeetProject.code.util.PatientExampleFixtures;
+import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,25 +38,18 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class MeetingRequestControllerTest {
     private MockMvc mockMvc;
 
-
     @MockBean
-    private final AvailabilityScheduleService availabilityScheduleService;
+    private AvailabilityScheduleService availabilityScheduleService;
     @MockBean
-    private final AvailabilityScheduleMapper availabilityScheduleMapper;
+    private AvailabilityScheduleMapper availabilityScheduleMapper;
     @MockBean
-    private final MeetingRequestService meetingRequestService;
+    private MeetingRequestService meetingRequestService;
     @MockBean
-    private final PatientService patientService;
+    private PatientService patientService;
     @MockBean
-    private final PatientDAO patientDAO;
-
+    private PatientDAO patientDAO;
     @MockBean
-    private MockHttpSession session;
-
-    @MockBean
-    private final AvailabilityScheduleDAO availabilityScheduleDAO;
-
-
+    private AvailabilityScheduleDAO availabilityScheduleDAO;
 
     @Test
     void testChooseAccurateTerm() throws Exception {
@@ -115,11 +109,9 @@ public class MeetingRequestControllerTest {
 
         when(patientService.authenticate()).thenReturn(email);
         when(patientDAO.findByEmail(email)).thenReturn(patient);
-        when(session.getAttribute("visitTerm")).thenReturn(availabilityScheduleDTO);
 
         mockMvc.perform(post("/patient/terms/add/meeting_request")
-                        .param("description", description)
-                        .session(session))
+                        .param("description", description))
                 .andExpect(status().isOk())
                 .andExpect(view().name("meeting_request_finalized"))
                 .andExpect(model().attributeExists("visitTerm"))

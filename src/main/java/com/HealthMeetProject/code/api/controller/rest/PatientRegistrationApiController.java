@@ -14,36 +14,31 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
+
 @RestController
-@RequestMapping("/api/patients")
+@RequestMapping()
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class PatientRegistrationApiController {
-
+    public static final String BASE_PATH = "/api/patients";
+    public static final String PATIENT_ID = "/%s";
     private final PatientService patientService;
     private final PatientDAO patientDAO;
     private final PatientMapper patientMapper;
 
 
-    @PostMapping()
-    public ResponseEntity<?> registerPatient(@RequestBody @Valid PatientDTO patientDTO) {
-        try {
+    @PostMapping
+    public ResponseEntity<PatientDTO> registerPatient(@RequestBody @Valid Patient patient) {
+        PatientDTO patientDTO = patientMapper.mapToDTO(patient);
             patientService.register(patientDTO);
-            return ResponseEntity.ok(patientDTO);
-        } catch (UserAlreadyExistsException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body("An account already exists for this email or phone.");
-        }
+            return ResponseEntity
+                    .created(URI.create(BASE_PATH + PATIENT_ID.formatted(patient.getPatientId())))
+                    .build();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PatientDTO> getPatientById(@PathVariable Integer id) {
-        try {
-            Patient byId = patientDAO.findById(id);
-            PatientDTO patientDTO = patientMapper.mapToDTO(byId);
-            return ResponseEntity.ok(patientDTO);
-        } catch (NotFoundException exception) {
-            return ResponseEntity.notFound().build();
-        }
+    public PatientDTO getPatientById(@PathVariable Integer id) {
+        return  patientMapper.mapToDTO(patientDAO.findById(id));
 
     }
 

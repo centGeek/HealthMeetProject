@@ -1,6 +1,7 @@
 package com.HealthMeetProject.code.api.controller.rest;
 
 import com.HealthMeetProject.code.api.dto.AvailabilityScheduleDTO;
+import com.HealthMeetProject.code.api.dto.AvailabilityScheduleDTOs;
 import com.HealthMeetProject.code.api.dto.DoctorDTO;
 import com.HealthMeetProject.code.api.dto.DoctorDTOs;
 import com.HealthMeetProject.code.api.dto.mapper.DoctorMapper;
@@ -8,6 +9,7 @@ import com.HealthMeetProject.code.business.AvailabilityScheduleService;
 import com.HealthMeetProject.code.business.DoctorService;
 import com.HealthMeetProject.code.business.dao.DoctorDAO;
 import com.HealthMeetProject.code.domain.Doctor;
+import com.HealthMeetProject.code.domain.exception.NotFoundException;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,33 +30,28 @@ public class DoctorApiController {
     private final DoctorMapper doctorMapper;
     private final AvailabilityScheduleService availabilityScheduleService;
     private final DoctorDAO doctorDAO;
+
     @GetMapping()
-    public DoctorDTOs getAllDoctors(){
+    public DoctorDTOs getAllDoctors() {
         return doctorDAO.findAllDoctors();
     }
-    @GetMapping("/{doctorId}")
-    public ResponseEntity<?> getDoctorDetails(@PathVariable Integer doctorId) {
-        Optional<Doctor> doctor = doctorService.findById(doctorId);
-        if (doctor.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Doctor not found");
-        }
 
-        DoctorDTO doctorDTO = doctorMapper.mapToDTO(doctor.get());
-        return ResponseEntity.ok(doctorDTO);
+    @GetMapping("/{doctorId}")
+    public DoctorDTO getDoctorDetails(@PathVariable Integer doctorId) {
+        DoctorDTO doctorDTO = doctorService.findById(doctorId).map(doctorMapper::mapToDTO).orElseThrow(
+                () -> new NotFoundException("Doctor with given email does not exist"));
+        ;
+        return doctorDTO;
     }
 
     @GetMapping("terms/{doctorId}")
-    public ResponseEntity<?> getDoctorAvailableTerms(@PathVariable Integer doctorId) {
-        Doctor doctor = doctorService.findById(doctorId).orElse(null);
-        if (doctor == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Doctor not found");
-        }
+    public AvailabilityScheduleDTOs getDoctorAvailableTerms(@PathVariable Integer doctorId) {
+        DoctorDTO doctorDTO = doctorService.findById(doctorId).map(doctorMapper::mapToDTO).orElseThrow(
+                () -> new NotFoundException("Doctor with given email does not exist"));
 
-        List<AvailabilityScheduleDTO> allTermsByGivenDoctor = availabilityScheduleService
-                .findAllAvailableTermsByGivenDoctor(doctor.getEmail());
-            return ResponseEntity.ok(allTermsByGivenDoctor);
+        return AvailabilityScheduleDTOs.of(availabilityScheduleService
+                .findAllAvailableTermsByGivenDoctor(doctorDTO.getEmail()));
     }
-//    return ResponseEntity.created(URI.create(BASE_PATH + DOCTOR_ID_RESULT.formatted(allTermsByGivenDoctor.get()))).build();
 
     @PatchMapping("/{doctorId}")
     @Transactional

@@ -12,7 +12,7 @@ import com.HealthMeetProject.code.infrastructure.database.repository.mapper.Avai
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
@@ -30,10 +30,10 @@ public class AvailabilityScheduleRepository implements AvailabilityScheduleDAO {
     }
 
     @Override
-    public AvailabilitySchedule addTerm(OffsetDateTime since, OffsetDateTime toWhen, DoctorEntity doctor) {
+    public AvailabilitySchedule addTerm(LocalDateTime since, LocalDateTime toWhen, DoctorEntity doctor) {
         AvailabilityScheduleEntity schedule = AvailabilityScheduleEntity.builder()
-                .since(since.plusHours(2))
-                .toWhen(toWhen.plusHours(2))
+                .since(since)
+                .toWhen(toWhen)
                 .doctor(doctor)
                 .availableDay(true)
                 .availableTerm(true)

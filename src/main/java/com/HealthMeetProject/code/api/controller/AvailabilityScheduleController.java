@@ -14,7 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
@@ -66,14 +66,13 @@ public class AvailabilityScheduleController {
     @PostMapping(DOCTOR + ADD_TERMS)
     public String addTerms(@RequestParam("since") String since,
                            @RequestParam("toWhen") String toWhen) {
-        ZoneId zoneId = ZoneId.of("Europe/Warsaw");
-        OffsetDateTime sinceOffsetDateTime = availabilityScheduleService.parseToOffsetDateTime(since, zoneId);
-        OffsetDateTime whenOffsetDateTime = availabilityScheduleService.parseToOffsetDateTime(toWhen, zoneId);
+        LocalDateTime sinceLocalDateTime = availabilityScheduleService.parseToLocalDateTime(since);
+        LocalDateTime whenLocalDateTime = availabilityScheduleService.parseToLocalDateTime(toWhen);
 
         String email = doctorService.authenticateDoctor();
         Doctor byEmail = doctorService.findByEmail(email);
         DoctorEntity doctorEntity = doctorEntityMapper.mapToEntity(byEmail);
-        availabilityScheduleService.addTerm(sinceOffsetDateTime, whenOffsetDateTime, doctorEntity);
+        availabilityScheduleService.addTerm(sinceLocalDateTime, whenLocalDateTime, doctorEntity);
         return "redirect:/doctor";
     }
 

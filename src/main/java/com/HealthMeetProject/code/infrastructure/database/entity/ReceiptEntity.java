@@ -3,7 +3,7 @@ package com.HealthMeetProject.code.infrastructure.database.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 
@@ -26,7 +26,7 @@ public class ReceiptEntity {
     private String receiptNumber;
 
     @Column(name = "date_time")
-    private OffsetDateTime dateTime;
+    private LocalDateTime dateTime;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name = "patient_id")

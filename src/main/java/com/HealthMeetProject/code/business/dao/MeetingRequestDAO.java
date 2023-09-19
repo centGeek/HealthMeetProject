@@ -4,7 +4,7 @@ package com.HealthMeetProject.code.business.dao;
 import com.HealthMeetProject.code.domain.Doctor;
 import com.HealthMeetProject.code.domain.MeetingRequest;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface MeetingRequestDAO {
@@ -28,7 +28,7 @@ public interface MeetingRequestDAO {
 
     List<MeetingRequest> availableEndedVisitsByDoctor(String email);
 
-    boolean findIfMeetingRequestExistsWithTheSameDateAndDoctor(OffsetDateTime since, OffsetDateTime toWhen, Doctor doctor);
+    boolean findIfMeetingRequestExistsWithTheSameDateAndDoctor(LocalDateTime since, LocalDateTime toWhen, Doctor doctor);
 
     void deleteById(Integer meetingId);
     MeetingRequest findById(Integer meetingId);

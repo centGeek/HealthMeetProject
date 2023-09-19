@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
@@ -48,8 +48,8 @@ public class ReceiptService {
 
     Receipt buildReceipt(Patient patient, Doctor doctor) {
         return Receipt.builder()
-                .receiptNumber(meetingRequestService.generateNumber(OffsetDateTime.now()))
-                .dateTime(OffsetDateTime.now())
+                .receiptNumber(meetingRequestService.generateNumber(LocalDateTime.now()))
+                .dateTime(LocalDateTime.now())
                 .patient(patient)
                 .doctor(doctor)
                 .build();

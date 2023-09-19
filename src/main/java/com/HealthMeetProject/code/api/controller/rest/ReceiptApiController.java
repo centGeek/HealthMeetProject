@@ -17,7 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -30,20 +30,19 @@ public class ReceiptApiController {
     private final DoctorMapper doctorMapper;
 
     @GetMapping("/{meetingId}")
-    public ResponseEntity<?> getReceiptPage(
+    public ReceiptDTO getReceiptPage(
             @PathVariable Integer meetingId
     ) {
         MeetingRequest meetingRequest = meetingRequestDAO.findById(meetingId);
         Doctor doctor = meetingRequest.getDoctor();
         Patient patient = meetingRequest.getPatient();
 
-        ReceiptDTO receiptDTO = ReceiptDTO.builder()
-                .now(OffsetDateTime.now().format(MeetingProcessingController.FORMATTER))
+     return ReceiptDTO.builder()
+                .now(LocalDateTime.now().format(MeetingProcessingController.FORMATTER))
                 .patientDTO(patientMapper.mapToDTO(patient))
                 .doctorDTO(doctorMapper.mapToDTO(doctor))
                 .meetingId(meetingId)
                 .build();
-        return ResponseEntity.ok(receiptDTO);
     }
 
     @PostMapping("/add/medicine/")

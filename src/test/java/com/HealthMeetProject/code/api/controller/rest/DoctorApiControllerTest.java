@@ -1,26 +1,19 @@
 package com.HealthMeetProject.code.api.controller.rest;
 
-import com.HealthMeetProject.code.api.controller.rest.DoctorApiController;
 import com.HealthMeetProject.code.api.dto.DoctorDTO;
-import com.HealthMeetProject.code.api.dto.DoctorDTOs;
+import com.HealthMeetProject.code.api.dto.mapper.DoctorMapper;
+import com.HealthMeetProject.code.business.AvailabilityScheduleService;
 import com.HealthMeetProject.code.business.DoctorService;
 import com.HealthMeetProject.code.business.dao.DoctorDAO;
-import com.HealthMeetProject.code.domain.Doctor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @WebMvcTest(DoctorApiController.class)
 public class DoctorApiControllerTest {
@@ -30,12 +23,14 @@ public class DoctorApiControllerTest {
 
     @Autowired
     private ObjectMapper objectMapper;
-
     @MockBean
-    private DoctorService doctorService;
-
+    private  DoctorService doctorService;
     @MockBean
-    private DoctorDAO doctorDAO;
+    private  DoctorMapper doctorMapper;
+    @MockBean
+    private  AvailabilityScheduleService availabilityScheduleService;
+    @MockBean
+    private  DoctorDAO doctorDAO;
 
     @Test
     public void testGetAllDoctors() throws Exception {

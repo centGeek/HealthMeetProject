@@ -1,5 +1,6 @@
 package com.HealthMeetProject.code.api.controller.rest;
 
+import com.HealthMeetProject.code.api.dto.MeetingRequestsDTOs;
 import com.HealthMeetProject.code.business.DoctorService;
 import com.HealthMeetProject.code.business.MeetingRequestService;
 import com.HealthMeetProject.code.business.dao.DoctorDAO;
@@ -28,10 +29,9 @@ public class MeetingProcessingApiController {
     private final MeetingRequestService meetingRequestService;
     private final MeetingRequestDAO meetingRequestDAO;
     private final DoctorService doctorService;
-    public static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
-    @GetMapping("/doctors/{doctorId}")
-    public ResponseEntity<?> getMeetingRequests(
+    @GetMapping("/upcoming-visits/{doctorId}")
+    public MeetingRequestsDTOs getWaitingForConfirmationMeetingRequests(
             @PathVariable Integer doctorId
     ) {
         Doctor doctor = doctorDAO.findById(doctorId)
@@ -40,18 +40,27 @@ public class MeetingProcessingApiController {
         String email = doctorService.authenticateDoctor();
         List<MeetingRequest> meetingRequests = meetingRequestService.availableServiceRequestsByDoctor(email);
 
-        List<MeetingRequest> filteredMeetingRequests = meetingRequests.stream()
-                .filter(request -> request.getDoctor().getDoctorId()==(doctor.getDoctorId())
+        return MeetingRequestsDTOs.of(meetingRequests.stream()
+                .filter(request -> request.getDoctor().getDoctorId() == (doctor.getDoctorId())
                         && request.getCompletedDateTime() == null)
-                .collect(Collectors.toList());
+                .collect(Collectors.toList()));
 
-        List<String> formattedDates = new ArrayList<>();
-        formatDate(filteredMeetingRequests, formattedDates);
-
-        return ResponseEntity.ok(filteredMeetingRequests);
     }
 
-    @PatchMapping()
+    @GetMapping("/ended-visits")
+    public MeetingRequestsDTOs findEndedVisitsByPatientEmail(
+            @RequestParam String patientEmail
+    ) {
+        String doctorEmail = doctorService.authenticateDoctor();
+
+        return MeetingRequestsDTOs.of(meetingRequestDAO
+                .findAllEndedUpVisitsByDoctorAndPatient(doctorEmail, patientEmail)
+                .stream()
+                .sorted(Comparator.comparing(MeetingRequest::getVisitEnd).reversed())
+                .collect(Collectors.toList()));
+
+    }
+    @PatchMapping
     public ResponseEntity<?> confirmMeetingRequest(
             @PathVariable Integer meetingRequestId
     ) {
@@ -59,28 +68,4 @@ public class MeetingProcessingApiController {
         return ResponseEntity.ok(meetingRequestEntity);
     }
 
-    @GetMapping("/doctors")
-    public ResponseEntity<?> findEndedVisitsByPatientEmail(
-            @RequestParam String patientEmail
-    ) {
-        String doctorEmail = doctorService.authenticateDoctor();
-
-        List<MeetingRequest> allEndedUpVisits = meetingRequestDAO
-                .findAllEndedUpVisitsByDoctorAndPatient(doctorEmail, patientEmail)
-                .stream()
-                .sorted(Comparator.comparing(MeetingRequest::getVisitEnd).reversed())
-                .collect(Collectors.toList());
-
-        List<String> formattedDates = new ArrayList<>();
-        formatDate(allEndedUpVisits, formattedDates);
-
-        return ResponseEntity.ok(allEndedUpVisits);
-    }
-
-    private void formatDate(List<MeetingRequest> meetingRequests, List<String> formattedDates) {
-        for (MeetingRequest meetingRequest : meetingRequests) {
-            String formatted = meetingRequest.getVisitEnd().format(FORMATTER);
-            formattedDates.add(formatted);
-        }
-    }
 }

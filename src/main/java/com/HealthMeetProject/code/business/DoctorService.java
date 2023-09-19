@@ -21,7 +21,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.util.List;
@@ -68,10 +68,7 @@ public class DoctorService {
 
 
     @Transactional
-    public void writeNote(Doctor doctor, String illness, String description, Patient patient, OffsetDateTime visitStart, OffsetDateTime visitEnd) {
-        ZoneOffset visitStartOffset = visitStart.getOffset();
-        OffsetDateTime visitStartModified = visitStart.minusSeconds(visitStartOffset.getTotalSeconds());
-        OffsetDateTime visitEndModified = visitEnd.minusSeconds(visitStartOffset.getTotalSeconds());
+    public void writeNote(Doctor doctor, String illness, String description, Patient patient, LocalDateTime visitStart, LocalDateTime visitEnd) {
         DoctorEntity doctorEntity = doctorEntityMapper.mapToEntity(doctor);
         PatientEntity patientEntity = patientEntityMapper.mapToEntity(patient);
         NoteEntity build = NoteEntity.builder()
@@ -79,8 +76,8 @@ public class DoctorService {
                 .patient(patientEntity)
                 .description(description)
                 .illness(illness)
-                .startTime(visitStartModified)
-                .endTime(visitEndModified)
+                .startTime(visitStart)
+                .endTime(visitEnd)
                 .build();
         if(noteRepository.isThereNoteWithTheSameTimeVisitAndDoctor(build.getStartTime(), build.getEndTime(), doctor.getEmail())){
             throw new UserAlreadyExistsException("Note with following visit already exist");
@@ -111,7 +108,7 @@ public class DoctorService {
         return email;
     }
 
-    public boolean findAnyTermInGivenRangeInGivenDay(OffsetDateTime since, OffsetDateTime toWhen, String doctorEmail) {
+    public boolean findAnyTermInGivenRangeInGivenDay(LocalDateTime since, LocalDateTime toWhen, String doctorEmail) {
         return doctorDAO.findAnyTermInGivenRangeInGivenDay(since, toWhen, doctorEmail);
     }
     public  void conditionsToUpdate(DoctorDTO updatedDoctorDTO, Doctor existingDoctor) {

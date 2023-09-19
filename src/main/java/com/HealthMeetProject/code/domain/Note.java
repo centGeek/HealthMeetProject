@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 
 
 @Data
@@ -18,9 +18,9 @@ public class Note {
 
     private String illness;
 
-    private OffsetDateTime startTime;
+    private LocalDateTime startTime;
 
-    private OffsetDateTime endTime;
+    private LocalDateTime endTime;
 
     private Patient patient;
 

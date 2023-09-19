@@ -1,78 +1,72 @@
 package com.HealthMeetProject.code.api.controller.rest;
 
 import com.HealthMeetProject.code.api.dto.AvailabilityScheduleDTO;
+import com.HealthMeetProject.code.api.dto.AvailabilityScheduleDTOs;
 import com.HealthMeetProject.code.business.AvailabilityScheduleService;
 import com.HealthMeetProject.code.business.DoctorService;
 import com.HealthMeetProject.code.business.dao.AvailabilityScheduleDAO;
 import com.HealthMeetProject.code.domain.Doctor;
+import com.HealthMeetProject.code.domain.exception.NotFoundException;
 import com.HealthMeetProject.code.infrastructure.database.entity.DoctorEntity;
 import com.HealthMeetProject.code.infrastructure.database.repository.mapper.DoctorEntityMapper;
-import jakarta.persistence.criteria.CriteriaBuilder;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.OffsetDateTime;
-import java.time.ZoneId;
+import java.net.URI;
+import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/availability-schedule")
+@RequestMapping(AvailabilityScheduleApiController.BASE_PATH)
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class AvailabilityScheduleApiController {
-
+    public static final String BASE_PATH = "/api/availability-schedule";
+    public static final String AVAILABILITY_ID = "/%s";
     private final DoctorService doctorService;
     private final DoctorEntityMapper doctorEntityMapper;
     private final AvailabilityScheduleService availabilityScheduleService;
     private final AvailabilityScheduleDAO availabilityScheduleDAO;
 
     @GetMapping()
-    public ResponseEntity<?> getAllAvailableTerms() {
-        List<AvailabilityScheduleDTO> availabilityScheduleDTOList = availabilityScheduleDAO.findAll()
-                .stream()
+    public AvailabilityScheduleDTOs getAllAvailableTerms() {
+        return AvailabilityScheduleDTOs.of(availabilityScheduleDAO.findAll().stream()
                 .sorted(Comparator.comparing(AvailabilityScheduleDTO::getSince))
-                .collect(Collectors.toList());
-
-        return ResponseEntity.ok(availabilityScheduleDTOList);
+                .collect(Collectors.toList()));
     }
-    @GetMapping("/{doctorId}")
-    public ResponseEntity<?> getDoctorAvailableTerms(@PathVariable Integer doctorId) {
-        Optional<Doctor> doctor = doctorService.findById(doctorId); // Implement findById method in DoctorService
-        if (doctor.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Doctor not found");
-        }
 
-        List<AvailabilityScheduleDTO> doctorTermsSorted = availabilityScheduleService.findAllAvailableTermsByGivenDoctor(doctor.get().getEmail())
+    @GetMapping("/{doctorId}")
+    public AvailabilityScheduleDTOs getDoctorAvailableTerms(@PathVariable Integer doctorId) {
+        Doctor doctor = doctorService.findById(doctorId).orElseThrow(() ->
+                new NotFoundException("Doctor with given email does not exist"));
+        List<AvailabilityScheduleDTO> doctorTermsSorted = availabilityScheduleService.findAllAvailableTermsByGivenDoctor(doctor.getEmail())
                 .stream()
                 .sorted(Comparator.comparing(AvailabilityScheduleDTO::getSince))
                 .collect(Collectors.toList());
+        return AvailabilityScheduleDTOs.of(doctorTermsSorted);
 
-        return ResponseEntity.ok(doctorTermsSorted);
     }
 
     @PostMapping("/{doctorId}")
-    public ResponseEntity<?> addTerms(
+    public ResponseEntity<AvailabilityScheduleDTO> addTerms(
             @PathVariable Integer doctorId,
-            @RequestParam("since") String since,
-            @RequestParam("toWhen") String toWhen
+            @RequestBody AvailabilityScheduleDTO availabilityScheduleDTO
     ) {
-        ZoneId zoneId = ZoneId.of("Europe/Warsaw");
-        OffsetDateTime sinceOffsetDateTime = availabilityScheduleService.parseToOffsetDateTime(since, zoneId);
-        OffsetDateTime whenOffsetDateTime = availabilityScheduleService.parseToOffsetDateTime(toWhen, zoneId);
+        LocalDateTime sinceLocalDateTime = availabilityScheduleService.parseToLocalDateTime(availabilityScheduleDTO.getSince().toString());
+        LocalDateTime whenLocalDateTime = availabilityScheduleService.parseToLocalDateTime(availabilityScheduleDTO.getSince().toString());
 
-        Optional<Doctor> doctor = doctorService.findById(doctorId);
-        if (doctor.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Doctor not found");
-        }
+        Doctor doctor = doctorService.findById(doctorId).orElseThrow(() -> new NotFoundException("Not found doctor"));
 
-        DoctorEntity doctorEntity = doctorEntityMapper.mapToEntity(doctor.get());
-        availabilityScheduleService.addTerm(sinceOffsetDateTime, whenOffsetDateTime, doctorEntity);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        DoctorEntity doctorEntity = doctorEntityMapper.mapToEntity(doctor);
+        availabilityScheduleService.addTerm(sinceLocalDateTime, whenLocalDateTime, doctorEntity);
+        return ResponseEntity
+                .created(URI.create(BASE_PATH + AVAILABILITY_ID.formatted(doctor.getDoctorId())))
+                .build();
     }
 
     @DeleteMapping("/delete/{availabilityScheduleId}")

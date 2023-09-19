@@ -10,7 +10,7 @@ import com.HealthMeetProject.code.infrastructure.database.repository.mapper.Meet
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
@@ -74,7 +74,7 @@ public class MeetingRequestRepository implements MeetingRequestDAO {
     }
 
     @Override
-    public boolean findIfMeetingRequestExistsWithTheSameDateAndDoctor(OffsetDateTime since, OffsetDateTime toWhen, Doctor doctor) {
+    public boolean findIfMeetingRequestExistsWithTheSameDateAndDoctor(LocalDateTime since, LocalDateTime toWhen, Doctor doctor) {
         MeetingRequestEntity meets = meetingRequestJpaRepository.findIfMeetingRequestExistsWithTheSameDateAndDoctor(since, toWhen, doctor.getEmail());
         return Objects.nonNull(meets);
     }

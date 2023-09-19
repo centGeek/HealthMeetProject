@@ -27,7 +27,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.math.BigDecimal;
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -119,7 +119,7 @@ class DoctorServiceTest {
         when(noteRepository.isThereNoteWithTheSameTimeVisitAndDoctor(any(), any(), any())).thenReturn(false);
 
         assertDoesNotThrow(() -> doctorService.writeNote(DoctorExampleFixtures.doctorExample1(), "illness", "description",
-                PatientExampleFixtures.patientExample1(), OffsetDateTime.now(), OffsetDateTime.now()));
+                PatientExampleFixtures.patientExample1(), LocalDateTime.now(), LocalDateTime.now()));
 
     }
 
@@ -128,7 +128,7 @@ class DoctorServiceTest {
         when(noteRepository.isThereNoteWithTheSameTimeVisitAndDoctor(any(), any(), any())).thenReturn(true);
 
         UserAlreadyExistsException exception = assertThrows(UserAlreadyExistsException.class, () -> doctorService.writeNote(DoctorExampleFixtures.doctorExample1(), "illness", "description",
-                PatientExampleFixtures.patientExample1(), OffsetDateTime.now(), OffsetDateTime.now()));
+                PatientExampleFixtures.patientExample1(), LocalDateTime.now(), LocalDateTime.now()));
 
         String expectedMessage = "Note with following visit already exist";
         String actualMessage = exception.getMessage();

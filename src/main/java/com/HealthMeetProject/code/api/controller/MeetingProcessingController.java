@@ -67,7 +67,7 @@ public class MeetingProcessingController {
 
     private static void formatDate(List<MeetingRequest> endedVisits, List<String> endedVisitsToString) {
         for (MeetingRequest endedVisit : endedVisits) {
-            String formatted = endedVisit.getVisitEnd().format(FORMATTER);
+            String formatted = endedVisit.getVisitStart().format(FORMATTER);
             endedVisitsToString.add(formatted);
         }
     }

@@ -6,8 +6,6 @@ import com.HealthMeetProject.code.business.dao.NoteDAO;
 import com.HealthMeetProject.code.domain.Doctor;
 import com.HealthMeetProject.code.domain.MeetingRequest;
 import com.HealthMeetProject.code.domain.Patient;
-import com.HealthMeetProject.code.infrastructure.database.repository.jpa.MeetingRequestJpaRepository;
-import com.HealthMeetProject.code.infrastructure.database.repository.mapper.NoteEntityMapper;
 import com.HealthMeetProject.code.util.MeetingRequestsExampleFixtures;
 import com.HealthMeetProject.code.util.NoteExampleFixtures;
 import lombok.AllArgsConstructor;
@@ -18,9 +16,9 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
-import static java.time.OffsetDateTime.now;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -74,8 +72,8 @@ public class NoteControllerTest {
         meetingRequest.setMeetingId(meetingId);
         meetingRequest.setDoctor(new Doctor());
         meetingRequest.setPatient(new Patient());
-        meetingRequest.setVisitStart(now());
-        meetingRequest.setVisitEnd(now().plusHours(1));
+        meetingRequest.setVisitStart(LocalDateTime.now());
+        meetingRequest.setVisitEnd(LocalDateTime.now().plusHours(1));
 
         when(meetingRequestService.findById(meetingId)).thenReturn(meetingRequest);
 

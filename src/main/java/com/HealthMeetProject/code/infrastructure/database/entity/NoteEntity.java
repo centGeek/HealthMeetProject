@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 
 
 @Data
@@ -28,10 +28,10 @@ public class NoteEntity {
     private String illness;
 
     @Column(name = "start_date")
-    private OffsetDateTime startTime;
+    private LocalDateTime startTime;
 
     @Column(name = "end_date")
-    private OffsetDateTime endTime;
+    private LocalDateTime endTime;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name = "patient_id")

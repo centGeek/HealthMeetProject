@@ -1,6 +1,7 @@
 package com.HealthMeetProject.code.api.controller.rest;
 
 import com.HealthMeetProject.code.api.dto.AvailabilityScheduleDTO;
+import com.HealthMeetProject.code.api.dto.AvailabilityScheduleDTOs;
 import com.HealthMeetProject.code.api.dto.DoctorDTO;
 import com.HealthMeetProject.code.api.dto.mapper.AvailabilityScheduleMapper;
 import com.HealthMeetProject.code.business.AvailabilityScheduleService;
@@ -29,13 +30,13 @@ public class MeetingRequestApiController {
     private final PatientDAO patientDAO;
     private final AvailabilityScheduleDAO availabilityScheduleDAO;
 
-    @GetMapping("/{availabilityScheduleId}")
-    public ResponseEntity<?> chooseAccurateTerm(
+    @GetMapping("/slot/{availabilityScheduleId}")
+    public AvailabilityScheduleDTOs chooseAccurateTerm(
             @PathVariable Integer availabilityScheduleId
     ) {
-        List<AvailabilityScheduleDTO> particularVisitTimeDTO = meetingRequestService.getParticularVisitTimeDTO(availabilityScheduleId);
-        return ResponseEntity.ok(particularVisitTimeDTO);
+        return AvailabilityScheduleDTOs.of(meetingRequestService.getParticularVisitTimeDTO(availabilityScheduleId));
     }
+
 
     @PostMapping("/finalize")
     public ResponseEntity<?> finalizeMeetingRequest(

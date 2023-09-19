@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
@@ -82,7 +82,7 @@ public interface MeetingRequestJpaRepository extends JpaRepository<MeetingReques
                 AND mre.visitEnd = :toWhen
             """)
     MeetingRequestEntity findIfMeetingRequestExistsWithTheSameDateAndDoctor(
-            OffsetDateTime since, OffsetDateTime toWhen, String email
+            LocalDateTime since, LocalDateTime toWhen, String email
     );
 
     @Query("""

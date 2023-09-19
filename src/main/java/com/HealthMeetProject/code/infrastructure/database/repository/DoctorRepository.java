@@ -18,7 +18,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -94,7 +94,7 @@ public class DoctorRepository implements DoctorDAO {
     }
 
     @Override
-    public boolean findAnyTermInGivenRangeInGivenDay(OffsetDateTime since, OffsetDateTime toWhen, String doctorEmail) {
+    public boolean findAnyTermInGivenRangeInGivenDay(LocalDateTime since, LocalDateTime toWhen, String doctorEmail) {
         List<AvailabilityScheduleEntity> anyTermInGivenRangeInGivenDay = availabilityScheduleJpaRepository.findAnyTermInGivenRangeInGivenDay(since, toWhen, doctorEmail);
         return anyTermInGivenRangeInGivenDay.isEmpty();
     }

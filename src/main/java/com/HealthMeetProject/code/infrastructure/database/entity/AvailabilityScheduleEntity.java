@@ -3,7 +3,7 @@ package com.HealthMeetProject.code.infrastructure.database.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -20,10 +20,10 @@ public class AvailabilityScheduleEntity {
     private int availability_schedule_id;
 
     @Column(name = "since")
-    private OffsetDateTime since;
+    private LocalDateTime since;
 
     @Column(name = "to_when")
-    private OffsetDateTime toWhen;
+    private LocalDateTime toWhen;
 
     @Column(name = "available_day")
     private boolean availableDay;

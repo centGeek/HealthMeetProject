@@ -5,14 +5,14 @@ import com.HealthMeetProject.code.domain.AvailabilitySchedule;
 import com.HealthMeetProject.code.infrastructure.database.entity.AvailabilityScheduleEntity;
 import com.HealthMeetProject.code.infrastructure.database.entity.DoctorEntity;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 import java.util.List;
 
 
 public interface AvailabilityScheduleDAO {
     List<AvailabilitySchedule> findAllTermsByGivenDoctor(String email);
 
-    AvailabilitySchedule addTerm(OffsetDateTime since, OffsetDateTime toWhen, DoctorEntity doctorEntity);
+    AvailabilitySchedule addTerm(LocalDateTime since, LocalDateTime toWhen, DoctorEntity doctorEntity);
 
     List<AvailabilitySchedule> findAllAvailableTermsByGivenDoctor(String email);
 
