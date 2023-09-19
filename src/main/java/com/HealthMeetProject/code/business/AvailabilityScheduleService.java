@@ -11,8 +11,13 @@ import com.HealthMeetProject.code.infrastructure.database.repository.mapper.Avai
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Locale;
 
 @Service
 @AllArgsConstructor
@@ -43,7 +48,11 @@ import java.util.List;
         return availabilityScheduleMapper.mapToDTO(availabilitySchedule);
     }
 
-
+    public  OffsetDateTime parseToOffsetDateTime(String since, ZoneId zoneId) {
+        LocalDateTime localSinceDateTime = LocalDateTime.parse(since, DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm a", Locale.ENGLISH));
+        ZonedDateTime zonedSinceDateTime = ZonedDateTime.of(localSinceDateTime, zoneId);
+        return zonedSinceDateTime.toOffsetDateTime();
+    }
     public List<AvailabilityScheduleDTO> findAllAvailableTermsByGivenDoctor(String email) {
          return availabilityScheduleDAO.findAllAvailableTermsByGivenDoctor(email).stream().map(availabilityScheduleMapper::mapToDTO).toList();
     }

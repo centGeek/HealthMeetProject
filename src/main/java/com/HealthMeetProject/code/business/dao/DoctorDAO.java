@@ -2,6 +2,7 @@ package com.HealthMeetProject.code.business.dao;
 
 
 import com.HealthMeetProject.code.api.dto.DoctorDTO;
+import com.HealthMeetProject.code.api.dto.DoctorDTOs;
 import com.HealthMeetProject.code.domain.*;
 import com.HealthMeetProject.code.infrastructure.database.entity.DoctorEntity;
 import com.HealthMeetProject.code.infrastructure.database.entity.MedicineEntity;
@@ -14,6 +15,7 @@ import java.util.Set;
 
 public interface DoctorDAO {
     List<Doctor> findAllAvailableDoctors();
+    DoctorDTOs findAllDoctors();
 
     Optional<Doctor> findByEmail(String email);
 

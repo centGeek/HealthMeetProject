@@ -31,8 +31,8 @@ public class MeetingRequestRepository implements MeetingRequestDAO {
     public List<MeetingRequest> findAllUpcomingVisitsByPatient(String email){
         return meetingRequestJpaRepository.findAllUpcomingVisitsByPatient(email).stream().map(meetingRequestEntityMapper::mapFromEntity).toList();
     }
-    public List<MeetingRequest> findAllUpcomingVisitsByDoctor(String email){
-        return meetingRequestJpaRepository.findAllUpcomingVisitsByDoctor(email).stream().map(meetingRequestEntityMapper::mapFromEntity).toList();
+    public List<MeetingRequest> findAllUpcomingCompletedVisitsByDoctor(String email){
+        return meetingRequestJpaRepository.findAllUpcomingCompletedVisitsByDoctor(email).stream().map(meetingRequestEntityMapper::mapFromEntity).toList();
     }
 
     @Override

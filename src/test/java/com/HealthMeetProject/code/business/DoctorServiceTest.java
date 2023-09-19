@@ -2,6 +2,7 @@ package com.HealthMeetProject.code.business;
 
 import com.HealthMeetProject.code.api.dto.DoctorDTO;
 import com.HealthMeetProject.code.api.dto.UserData;
+import com.HealthMeetProject.code.api.dto.mapper.DoctorMapper;
 import com.HealthMeetProject.code.business.dao.DoctorDAO;
 import com.HealthMeetProject.code.domain.Doctor;
 import com.HealthMeetProject.code.domain.Specialization;
@@ -44,6 +45,8 @@ class DoctorServiceTest {
     private DoctorDAO doctorDAO;
     @Mock
     private DoctorEntityMapper doctorEntityMapper;
+    @Mock
+    private DoctorMapper doctorMapper;
     @Mock
     private PatientEntityMapper patientEntityMapper;
     @Mock

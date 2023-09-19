@@ -1,5 +1,6 @@
 package com.HealthMeetProject.code.infrastructure.database.repository;
 
+import com.HealthMeetProject.code.api.dto.mapper.AvailabilityScheduleMapper;
 import com.HealthMeetProject.code.domain.AvailabilitySchedule;
 import com.HealthMeetProject.code.infrastructure.database.entity.AvailabilityScheduleEntity;
 import com.HealthMeetProject.code.infrastructure.database.repository.jpa.AvailabilityScheduleJpaRepository;
@@ -23,6 +24,9 @@ public class AvailabilityScheduleRepositoryTest {
 
     @Mock
     private AvailabilityScheduleJpaRepository availabilityScheduleJpaRepository;
+
+    @Mock
+    private  AvailabilityScheduleMapper availabilityScheduleMapper;
 
     @Mock
     private AvailabilityScheduleEntityMapper availabilityScheduleEntityMapper;

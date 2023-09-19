@@ -1,19 +1,22 @@
 package com.HealthMeetProject.code.business;
 
 import com.HealthMeetProject.code.api.dto.MedicineDTO;
+import com.HealthMeetProject.code.api.dto.PatientHistoryDTO;
 import com.HealthMeetProject.code.api.dto.mapper.MedicineMapper;
 import com.HealthMeetProject.code.business.dao.DoctorDAO;
 import com.HealthMeetProject.code.business.dao.MedicineDAO;
-import com.HealthMeetProject.code.domain.Doctor;
-import com.HealthMeetProject.code.domain.Medicine;
-import com.HealthMeetProject.code.domain.Patient;
-import com.HealthMeetProject.code.domain.Receipt;
+import com.HealthMeetProject.code.business.dao.MeetingRequestDAO;
+import com.HealthMeetProject.code.business.dao.ReceiptDAO;
+import com.HealthMeetProject.code.domain.*;
 import com.HealthMeetProject.code.infrastructure.database.entity.MedicineEntity;
+import com.HealthMeetProject.code.infrastructure.database.entity.NoteEntity;
+import com.HealthMeetProject.code.infrastructure.database.repository.jpa.NoteJpaRepository;
 import com.HealthMeetProject.code.infrastructure.database.repository.mapper.MedicineEntityMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.*;
 
@@ -26,6 +29,7 @@ public class ReceiptService {
     private MedicineEntityMapper medicineEntityMapper;
     private MedicineMapper medicineMapper;
     private MedicineDAO medicineDAO;
+
 
     @Transactional
     public void issueReceipt(List<MedicineDTO> medicineList, Patient patient) {
@@ -62,6 +66,7 @@ public class ReceiptService {
         }
         return medicinesFromLastVisit;
     }
+
 
 }
 

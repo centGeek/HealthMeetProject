@@ -14,10 +14,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
 import java.util.List;
@@ -68,9 +66,9 @@ public class AvailabilityScheduleController {
     @PostMapping(DOCTOR + ADD_TERMS)
     public String addTerms(@RequestParam("since") String since,
                            @RequestParam("toWhen") String toWhen) {
-        ZoneId zoneId = ZoneId.of("UTC");
-        OffsetDateTime sinceOffsetDateTime = parseToOffsetDateTime(since, zoneId);
-        OffsetDateTime whenOffsetDateTime = parseToOffsetDateTime(toWhen, zoneId);
+        ZoneId zoneId = ZoneId.of("Europe/Warsaw");
+        OffsetDateTime sinceOffsetDateTime = availabilityScheduleService.parseToOffsetDateTime(since, zoneId);
+        OffsetDateTime whenOffsetDateTime = availabilityScheduleService.parseToOffsetDateTime(toWhen, zoneId);
 
         String email = doctorService.authenticateDoctor();
         Doctor byEmail = doctorService.findByEmail(email);
@@ -80,11 +78,7 @@ public class AvailabilityScheduleController {
     }
 
 
-    private static OffsetDateTime parseToOffsetDateTime(String since, ZoneId zoneId) {
-        LocalDateTime localSinceDateTime = LocalDateTime.parse(since, DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm a", Locale.ENGLISH));
-        ZonedDateTime zonedSinceDateTime = ZonedDateTime.of(localSinceDateTime, zoneId);
-        return zonedSinceDateTime.toOffsetDateTime();
-    }
+
 
     @DeleteMapping(DELETE_TERM)
     public String deleteTerm(

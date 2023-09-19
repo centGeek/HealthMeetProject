@@ -1,5 +1,6 @@
 package com.HealthMeetProject.code.business.dao;
 
+import com.HealthMeetProject.code.api.dto.AvailabilityScheduleDTO;
 import com.HealthMeetProject.code.domain.AvailabilitySchedule;
 import com.HealthMeetProject.code.infrastructure.database.entity.AvailabilityScheduleEntity;
 import com.HealthMeetProject.code.infrastructure.database.entity.DoctorEntity;
@@ -20,4 +21,6 @@ public interface AvailabilityScheduleDAO {
     void deleteById(Integer availabilityScheduleId);
 
     void save(AvailabilityScheduleEntity availabilityScheduleEntity);
+
+    List<AvailabilityScheduleDTO> findAll(); 
 }

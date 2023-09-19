@@ -1,5 +1,7 @@
 package com.HealthMeetProject.code.infrastructure.database.repository;
 
+import com.HealthMeetProject.code.api.dto.AvailabilityScheduleDTO;
+import com.HealthMeetProject.code.api.dto.mapper.AvailabilityScheduleMapper;
 import com.HealthMeetProject.code.business.dao.AvailabilityScheduleDAO;
 import com.HealthMeetProject.code.domain.AvailabilitySchedule;
 import com.HealthMeetProject.code.domain.exception.NotFoundException;
@@ -18,6 +20,7 @@ import java.util.List;
 public class AvailabilityScheduleRepository implements AvailabilityScheduleDAO {
     private final AvailabilityScheduleJpaRepository availabilityScheduleJpaRepository;
     private final AvailabilityScheduleEntityMapper availabilityScheduleEntityMapper;
+    private final AvailabilityScheduleMapper availabilityScheduleMapper;
 
 
     @Override
@@ -29,8 +32,8 @@ public class AvailabilityScheduleRepository implements AvailabilityScheduleDAO {
     @Override
     public AvailabilitySchedule addTerm(OffsetDateTime since, OffsetDateTime toWhen, DoctorEntity doctor) {
         AvailabilityScheduleEntity schedule = AvailabilityScheduleEntity.builder()
-                .since(since)
-                .toWhen(toWhen)
+                .since(since.plusHours(2))
+                .toWhen(toWhen.plusHours(2))
                 .doctor(doctor)
                 .availableDay(true)
                 .availableTerm(true)
@@ -58,5 +61,10 @@ public class AvailabilityScheduleRepository implements AvailabilityScheduleDAO {
     @Override
     public void save(AvailabilityScheduleEntity availabilityScheduleEntity) {
         availabilityScheduleJpaRepository.save(availabilityScheduleEntity);
+    }
+
+    @Override
+    public List<AvailabilityScheduleDTO> findAll() {
+        return availabilityScheduleJpaRepository.findAll().stream().map(availabilityScheduleEntityMapper::mapFromEntity).map(availabilityScheduleMapper::mapToDTO).toList();
     }
 }

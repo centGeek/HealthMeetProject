@@ -14,7 +14,7 @@ import java.util.Set;
 public interface AvailabilityScheduleJpaRepository extends JpaRepository<AvailabilityScheduleEntity, Integer> {
 
     @Query("""
-            select avail from AvailabilityScheduleEntity avail where avail.doctor.email = :email\s and avail.availableDay=true and avail.since > CURRENT_TIMESTAMP
+            select avail from AvailabilityScheduleEntity avail where avail.doctor.email = :email\s and avail.availableDay=true and avail.toWhen > CURRENT_TIMESTAMP
 """)
     Set<AvailabilityScheduleEntity> findAllTermsByGivenDoctor(@Param("email") String email);
 

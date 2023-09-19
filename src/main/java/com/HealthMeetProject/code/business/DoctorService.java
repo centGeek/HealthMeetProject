@@ -22,6 +22,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.OffsetDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -67,6 +69,9 @@ public class DoctorService {
 
     @Transactional
     public void writeNote(Doctor doctor, String illness, String description, Patient patient, OffsetDateTime visitStart, OffsetDateTime visitEnd) {
+        ZoneOffset visitStartOffset = visitStart.getOffset();
+        OffsetDateTime visitStartModified = visitStart.minusSeconds(visitStartOffset.getTotalSeconds());
+        OffsetDateTime visitEndModified = visitEnd.minusSeconds(visitStartOffset.getTotalSeconds());
         DoctorEntity doctorEntity = doctorEntityMapper.mapToEntity(doctor);
         PatientEntity patientEntity = patientEntityMapper.mapToEntity(patient);
         NoteEntity build = NoteEntity.builder()
@@ -74,8 +79,8 @@ public class DoctorService {
                 .patient(patientEntity)
                 .description(description)
                 .illness(illness)
-                .startTime(visitStart)
-                .endTime(visitEnd)
+                .startTime(visitStartModified)
+                .endTime(visitEndModified)
                 .build();
         if(noteRepository.isThereNoteWithTheSameTimeVisitAndDoctor(build.getStartTime(), build.getEndTime(), doctor.getEmail())){
             throw new UserAlreadyExistsException("Note with following visit already exist");
@@ -130,4 +135,5 @@ public class DoctorService {
             existingDoctor.setEarningsPerVisit(updatedDoctorDTO.getEarningsPerVisit());
         }
     }
+
 }

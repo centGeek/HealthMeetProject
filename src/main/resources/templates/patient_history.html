@@ -66,13 +66,13 @@
             <th>Delete</th>
         </tr>
         </thead>
-        <tbody th:if="${not #lists.isEmpty(allUpcomingVisits)}">
-        <tr th:each="i : ${#numbers.sequence(0, #lists.size(allUpcomingVisits)-1)}">
-            <td th:text="${allUpcomingVisits[i].visitStart}"></td>
-            <td th:text="${allUpcomingVisits[i].visitEnd}"></td>
-            <td th:text="${allUpcomingVisits[i].patient.phone}"></td>
-            <td th:unless="${canCancelMeetingList[i] == 'true'}">
-                <form th:action="@{'/patient/delete/meeting/'+${allUpcomingVisits[i].meetingId}}"
+        <tbody th:if="${not #lists.isEmpty(patientHistoryDTO.allUpcomingVisits())}">
+        <tr th:each="i : ${#numbers.sequence(0, #lists.size(patientHistoryDTO.allUpcomingVisits())-1)}">
+            <td th:text="${patientHistoryDTO.allUpcomingVisits()[i].visitStart}"></td>
+            <td th:text="${patientHistoryDTO.allUpcomingVisits()[i].visitEnd}"></td>
+            <td th:text="${patientHistoryDTO.allUpcomingVisits()[i].patient.phone}"></td>
+            <td th:unless="${patientHistoryDTO.canCancelMeetingList()[i] == 'true'}">
+                <form th:action="@{'/patient/delete/meeting/'+${patientHistoryDTO.allUpcomingVisits()[i].meetingId}}"
                       th:method="delete">
                     <input type="hidden" name="index" th:value="${termIndex}"/>
                     <button type="submit" class="btn btn-danger">Delete</button>
@@ -97,7 +97,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="note : ${byPatientEmail}">
+        <tr th:each="note : ${patientHistoryDTO.notes()}">
             <td th:text="${note.description}"></td>
             <td th:text="${note.illness}"></td>
             <td th:text="${note.doctor.surname}"></td>
@@ -116,7 +116,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="request : ${allCompletedServiceRequestsByEmail}">
+        <tr th:each="request : ${patientHistoryDTO.allCompletedServiceRequests()}">
             <td th:text="${request.receivedDateTime}"></td>
             <td th:text="${request.completedDateTime}"></td>
             <td th:text="${request.description}"></td>
@@ -139,7 +139,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="receipt : ${receipts}">
+        <tr th:each="receipt : ${patientHistoryDTO.receipts()}">
             <td th:text="${receipt.receiptId}"></td>
             <td th:text="${receipt.dateTime}"></td>
             <td th:text="${receipt.doctor.name}"></td>
@@ -158,7 +158,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="medicine : ${medicinesFromLastVisit}">
+        <tr th:each="medicine : ${patientHistoryDTO.medicinesFromLastVisit()}">
             <td th:text="${medicine.name}"></td>
             <td th:text="${medicine.quantity}"></td>
             <td th:text="${medicine.approxPrice}"></td>
@@ -168,8 +168,8 @@
     <br>
     <br>
     <h3>Your total spending for doctor's visit and medicine is:
-        <span th:if="${totalCosts}" th:text="${totalCosts}" class="text-primary font-weight-bold"></span>
-        <span th:unless="${totalCosts}" class="text-muted">0</span></h3>
+        <span th:if="${patientHistoryDTO.totalCosts()}" th:text="${patientHistoryDTO.totalCosts()}" class="text-primary font-weight-bold"></span>
+        <span th:unless="${patientHistoryDTO.totalCosts()}" class="text-muted">0</span></h3>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js"></script>
 </body>

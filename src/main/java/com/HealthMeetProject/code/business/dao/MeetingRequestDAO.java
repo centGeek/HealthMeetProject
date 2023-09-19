@@ -17,7 +17,7 @@ public interface MeetingRequestDAO {
 
      List<MeetingRequest> findAllUpcomingVisitsByPatient(String email);
 
-     List<MeetingRequest> findAllUpcomingVisitsByDoctor(String email);
+     List<MeetingRequest> findAllUpcomingCompletedVisitsByDoctor(String email);
 
     List<MeetingRequest> findAllEndedUpVisitsByDoctorAndPatient(String doctorEmail, String patientEmail);
 

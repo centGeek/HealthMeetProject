@@ -2,6 +2,8 @@ package com.HealthMeetProject.code.infrastructure.database.repository;
 
 
 import com.HealthMeetProject.code.api.dto.DoctorDTO;
+import com.HealthMeetProject.code.api.dto.DoctorDTOs;
+import com.HealthMeetProject.code.api.dto.mapper.DoctorMapper;
 import com.HealthMeetProject.code.business.dao.DoctorDAO;
 import com.HealthMeetProject.code.domain.Doctor;
 import com.HealthMeetProject.code.domain.Receipt;
@@ -34,6 +36,7 @@ public class DoctorRepository implements DoctorDAO {
     private UserRepository userRepository;
     private PasswordEncoder passwordEncoder;
     private MedicineJpaRepository medicineJpaRepository;
+    private DoctorMapper doctorMapper;
 
 
     @Override
@@ -44,11 +47,19 @@ public class DoctorRepository implements DoctorDAO {
     }
 
     @Override
+    public DoctorDTOs findAllDoctors() {
+        List<DoctorDTO> list = doctorJpaRepository.findAll().stream().map(doctorEntityMapper::mapFromEntity).map(doctorMapper::mapToDTO).toList();
+      return DoctorDTOs
+                .builder()
+                .doctorDTOList(list)
+                .build();
+    }
+
+    @Override
     public Optional<Doctor> findByEmail(String email) {
         return doctorJpaRepository.findByEmail(email)
                 .map(doctorEntityMapper::mapFromEntity);
     }
-
 
 
     @Override

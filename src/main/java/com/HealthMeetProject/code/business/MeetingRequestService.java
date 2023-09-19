@@ -24,6 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -41,6 +42,7 @@ public class MeetingRequestService {
     private final AvailabilityScheduleEntityMapper availabilityScheduleEntityMapper;
     private final MeetingRequestEntityMapper meetingRequestEntityMapper;
     private final AvailabilityScheduleDAO availabilityScheduleDAO;
+    private final AvailabilityScheduleService availabilityScheduleService;
 
 
 
@@ -75,11 +77,11 @@ public class MeetingRequestService {
             AvailabilitySchedule visitTime
     ) {
         OffsetDateTime now = OffsetDateTime.now();
-        return MeetingRequest.builder()
+             return MeetingRequest.builder()
                 .meetingRequestNumber(generateNumber(now))
                 .receivedDateTime(OffsetDateTime.now())
-                .visitStart(visitTime.getSince())
-                .visitEnd(visitTime.getToWhen())
+                .visitStart(visitTime.getSince().minusHours(2))
+                .visitEnd(visitTime.getToWhen().minusHours(2))
                 .description(description)
                 .patient(patient)
                 .doctor(doctor)
@@ -106,12 +108,12 @@ public class MeetingRequestService {
 
 
 
-    public void executeActionForMeetingRequest(Integer meetingRequestId) {
+    public MeetingRequestEntity executeActionForMeetingRequest(Integer meetingRequestId) {
         MeetingRequestEntity meetingRequestEntity = meetingRequestJpaRepository.findById(meetingRequestId)
                 .orElseThrow(() -> new ProcessingException("We can't find this meeting request"));
-          meetingRequestEntity.setCompletedDateTime(OffsetDateTime.now());
-
+        meetingRequestEntity.setCompletedDateTime(OffsetDateTime.now());
         meetingRequestJpaRepository.save(meetingRequestEntity);
+        return meetingRequestEntity;
     }
 
     public List<MeetingRequest> findAllCompletedServiceRequestsByEmail(String email) {
@@ -168,5 +170,16 @@ public class MeetingRequestService {
         }
         return canCancelMeetingList;
     }
+    public List<AvailabilityScheduleDTO> getParticularVisitTimeDTO(Integer availabilityScheduleId) {
+        AvailabilitySchedule availabilitySchedule = availabilityScheduleDAO.findById(availabilityScheduleId);
+        Doctor doctor = availabilitySchedule.getDoctor();
+        List<AvailabilitySchedule> particularVisitTime = generateTimeSlots(availabilitySchedule.getSince(), availabilitySchedule.getToWhen(), doctor);
+        List<AvailabilityScheduleDTO> particularVisitTimeDTO = particularVisitTime.stream().map(availabilityScheduleMapper::mapToDTO).toList();
 
+        if (particularVisitTime.isEmpty()) {
+            availabilitySchedule.setAvailableDay(false);
+            availabilityScheduleService.save(availabilitySchedule);
+        }
+        return particularVisitTimeDTO;
+    }
 }

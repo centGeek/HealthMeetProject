@@ -2,10 +2,8 @@ package com.HealthMeetProject.code.api.controller;
 
 
 import com.HealthMeetProject.code.api.dto.PatientDTO;
-import com.HealthMeetProject.code.business.MeetingRequestService;
-import com.HealthMeetProject.code.business.PatientService;
-import com.HealthMeetProject.code.business.ProcessingMoneyService;
-import com.HealthMeetProject.code.business.ReceiptService;
+import com.HealthMeetProject.code.api.dto.PatientHistoryDTO;
+import com.HealthMeetProject.code.business.*;
 import com.HealthMeetProject.code.business.dao.MedicineDAO;
 import com.HealthMeetProject.code.business.dao.MeetingRequestDAO;
 import com.HealthMeetProject.code.business.dao.PatientDAO;
@@ -29,45 +27,21 @@ import java.util.List;
 @Controller
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class PatientController {
-    private final MeetingRequestService meetingRequestService;
     private final MeetingRequestDAO meetingRequestDAO;
-    private final NoteJpaRepository noteJpaRepository;
     private final PatientService patientService;
-    private final ReceiptService receiptService;
     private final PatientDAO patientDAO;
-    private final ReceiptDAO receiptDAO;
-    private final MedicineDAO medicineDAO;
-    private final ProcessingMoneyService processingMoneyService;
+    private final PatientHistoryDTOService patientHistoryDTOService;
     public static final String PATIENT_HISTORY = "/patient/visit_history";
     public static final String PATIENT = "/patient";
 
     @GetMapping(PATIENT_HISTORY)
     public String getPatientHistoryPage(Model model) {
-        String email = patientService.authenticate();
-
-        List<MeetingRequest> allUpcomingVisits = meetingRequestDAO.findAllUpcomingVisitsByPatient(email);
-        List<Boolean> canCancelMeetingList = meetingRequestService.canCancelMeetingList(allUpcomingVisits);
-
-        List<MeetingRequest> allCompletedServiceRequestsByEmail = meetingRequestService.findAllCompletedServiceRequestsByEmail(email);
-        List<MedicineEntity> medicines = medicineDAO.findByPatientEmail(email);
-
-        BigDecimal totalCosts = processingMoneyService.sumTotalCosts(allCompletedServiceRequestsByEmail, medicines);
-
-        List<NoteEntity> byPatientEmail = noteJpaRepository.findByPatientEmail(email);
-        List<Receipt> receipts = receiptDAO.findPatientReceipts(email);
-
-        List<MedicineEntity> medicinesFromLastVisit = receiptService.getMedicinesFromLastVisit(receipts);
-        model.addAttribute("allUpcomingVisits", allUpcomingVisits);
-        model.addAttribute("canCancelMeetingList", canCancelMeetingList);
-        model.addAttribute("allCompletedServiceRequestsByEmail", allCompletedServiceRequestsByEmail);
-        model.addAttribute("byPatientEmail", byPatientEmail);
-        model.addAttribute("totalCosts", totalCosts);
-        model.addAttribute("receipts", receipts);
-        model.addAttribute("medicinesFromLastVisit", medicinesFromLastVisit);
+        String authenticate = patientService.authenticate();
+        PatientHistoryDTO patientHistoryDTO = patientHistoryDTOService.patientHistoryDTO(authenticate);
+        model.addAttribute("patientHistoryDTO", patientHistoryDTO);
 
         return "patient_history";
     }
-
 
 
 
