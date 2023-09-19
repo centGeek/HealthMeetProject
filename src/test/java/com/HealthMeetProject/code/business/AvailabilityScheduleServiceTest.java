@@ -14,7 +14,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,12 +41,12 @@ public class AvailabilityScheduleServiceTest {
     public void addingTooShortTerm() {
         //given,when
         AvailabilitySchedule availabilitySchedule1 = DoctorExampleFixtures.availabilitySchedule1();
-        availabilitySchedule1.setSince(OffsetDateTime.now());
-        DoctorExampleFixtures.availabilitySchedule1().setToWhen(OffsetDateTime.now().plusMinutes(14).plusSeconds(59));
+        availabilitySchedule1.setSince(LocalDateTime.now());
+        DoctorExampleFixtures.availabilitySchedule1().setToWhen(LocalDateTime.now().plusMinutes(14).plusSeconds(59));
 
 
-        OffsetDateTime since = availabilitySchedule1.getSince();
-        OffsetDateTime toWhen = availabilitySchedule1.getToWhen();
+        LocalDateTime since = availabilitySchedule1.getSince();
+        LocalDateTime toWhen = availabilitySchedule1.getToWhen();
 
         DoctorEntity doctorEntity = DoctorExampleFixtures.doctorEntityExample3();
 
@@ -58,12 +58,12 @@ public class AvailabilityScheduleServiceTest {
     public void addingTooLongTerm() {
         //given,when
         AvailabilitySchedule availabilitySchedule1 = DoctorExampleFixtures.availabilitySchedule1();
-        availabilitySchedule1.setSince(OffsetDateTime.now());
-        DoctorExampleFixtures.availabilitySchedule1().setToWhen(OffsetDateTime.now().plusMinutes(10).plusSeconds(1));
+        availabilitySchedule1.setSince(LocalDateTime.now());
+        DoctorExampleFixtures.availabilitySchedule1().setToWhen(LocalDateTime.now().plusMinutes(10).plusSeconds(1));
 
 
-        OffsetDateTime since = availabilitySchedule1.getSince();
-        OffsetDateTime toWhen = availabilitySchedule1.getToWhen();
+        LocalDateTime since = availabilitySchedule1.getSince();
+        LocalDateTime toWhen = availabilitySchedule1.getToWhen();
 
         DoctorEntity doctorEntity = DoctorExampleFixtures.doctorEntityExample3();
 
@@ -75,8 +75,8 @@ public class AvailabilityScheduleServiceTest {
         //given
         AvailabilitySchedule availabilitySchedule1 = DoctorExampleFixtures.availabilitySchedule1();
         AvailabilityScheduleDTO availabilityScheduleDTO1 = DoctorExampleFixtures.availabilityScheduleDTO1();
-        OffsetDateTime since = availabilitySchedule1.getSince();
-        OffsetDateTime toWhen = availabilitySchedule1.getToWhen();
+        LocalDateTime since = availabilitySchedule1.getSince();
+        LocalDateTime toWhen = availabilitySchedule1.getToWhen();
         DoctorEntity doctorEntity = DoctorExampleFixtures.doctorEntityExample3();
         //when
         when(availabilityScheduleDAO.addTerm(since, toWhen, doctorEntity)).thenReturn(DoctorExampleFixtures.availabilitySchedule1());

@@ -9,8 +9,6 @@ import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 
 import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
-import java.time.ZoneOffset;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -31,8 +29,8 @@ public class NoteEntityMapperTest {
                 .illness("flu")
                 .doctor(DoctorExampleFixtures.doctorEntityExample1())
                 .patient(PatientExampleFixtures.patientEntityExample1())
-                .startTime(OffsetDateTime.of(LocalDateTime.of(2020, 3, 2, 10, 0), ZoneOffset.UTC))
-                .endTime(OffsetDateTime.of(LocalDateTime.of(2020, 3, 2, 10, 0), ZoneOffset.UTC))
+                .startTime(LocalDateTime.of(2020, 3, 2, 10, 0))
+                .endTime(LocalDateTime.of(2020, 3, 2, 10, 0))
                 .build();
         //when
         Note note = mapper.mapFromEntity(noteEntity);
@@ -50,8 +48,8 @@ public class NoteEntityMapperTest {
                 .illness("flu")
                 .doctor(DoctorExampleFixtures.doctorExample1())
                 .patient(PatientExampleFixtures.patientExample1())
-                .startTime(OffsetDateTime.of(LocalDateTime.of(2020, 3, 2, 10, 0), ZoneOffset.UTC))
-                .endTime(OffsetDateTime.of(LocalDateTime.of(2020, 3, 2, 10, 0), ZoneOffset.UTC))
+                .startTime(LocalDateTime.of(2020, 3, 2, 10, 0))
+                .endTime(LocalDateTime.of(2020, 3, 2, 10, 0))
                 .build();
         //when
         NoteEntity noteEntity = mapper.mapToEntity(note);

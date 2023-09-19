@@ -23,7 +23,8 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -41,11 +42,12 @@ public class MeetingRequestService {
     private final AvailabilityScheduleEntityMapper availabilityScheduleEntityMapper;
     private final MeetingRequestEntityMapper meetingRequestEntityMapper;
     private final AvailabilityScheduleDAO availabilityScheduleDAO;
+    private final AvailabilityScheduleService availabilityScheduleService;
 
 
 
-    public boolean canCancelMeeting(OffsetDateTime visitStart){
-        return OffsetDateTime.now().plusMinutes(30).plusSeconds(1).isBefore(visitStart);
+    public boolean canCancelMeeting(LocalDateTime visitStart){
+        return LocalDateTime.now().plusMinutes(30).plusSeconds(1).isBefore(visitStart);
     }
     @Transactional
     public void makeMeetingRequest(Patient patient, DoctorDTO doctorDTO, String description, AvailabilityScheduleDTO visitTimeDTO) {
@@ -74,10 +76,10 @@ public class MeetingRequestService {
             String description,
             AvailabilitySchedule visitTime
     ) {
-        OffsetDateTime now = OffsetDateTime.now();
-        return MeetingRequest.builder()
+        LocalDateTime now = LocalDateTime.now();
+             return MeetingRequest.builder()
                 .meetingRequestNumber(generateNumber(now))
-                .receivedDateTime(OffsetDateTime.now())
+                .receivedDateTime(LocalDateTime.now())
                 .visitStart(visitTime.getSince())
                 .visitEnd(visitTime.getToWhen())
                 .description(description)
@@ -86,7 +88,7 @@ public class MeetingRequestService {
                 .build();
     }
 
-     String generateNumber(OffsetDateTime when) {
+     String generateNumber(LocalDateTime when) {
         return "%s.%s.%s-%s.%s.%s.%s".formatted(
                 when.getYear(),
                 when.getMonth().ordinal(),
@@ -106,12 +108,12 @@ public class MeetingRequestService {
 
 
 
-    public void executeActionForMeetingRequest(Integer meetingRequestId) {
+    public MeetingRequestEntity executeActionForMeetingRequest(Integer meetingRequestId) {
         MeetingRequestEntity meetingRequestEntity = meetingRequestJpaRepository.findById(meetingRequestId)
                 .orElseThrow(() -> new ProcessingException("We can't find this meeting request"));
-          meetingRequestEntity.setCompletedDateTime(OffsetDateTime.now());
-
+        meetingRequestEntity.setCompletedDateTime(LocalDateTime.now());
         meetingRequestJpaRepository.save(meetingRequestEntity);
+        return meetingRequestEntity;
     }
 
     public List<MeetingRequest> findAllCompletedServiceRequestsByEmail(String email) {
@@ -125,10 +127,10 @@ public class MeetingRequestService {
     public List<MeetingRequest> availableEndedVisitsByDoctor(String email) {
         return meetingRequestDAO.availableEndedVisitsByDoctor(email);
     }
-    public List<AvailabilitySchedule> generateTimeSlots(OffsetDateTime since, OffsetDateTime toWhen, Doctor doctor) {
+    public List<AvailabilitySchedule> generateTimeSlots(LocalDateTime since, LocalDateTime toWhen, Doctor doctor) {
         List<AvailabilitySchedule> timeSlots = new ArrayList<>();
         since = since.withMinute((since.getMinute() / 5) * 5);
-        OffsetDateTime currentSlot = since;
+        LocalDateTime currentSlot = since;
 
 
         while (currentSlot.isBefore(toWhen)) {
@@ -144,7 +146,7 @@ public class MeetingRequestService {
         return timeSlots;
     }
 
-    private boolean existMeetingRequestWithThisSlot(OffsetDateTime since, OffsetDateTime toWhen, Doctor doctor) {
+    private boolean existMeetingRequestWithThisSlot(LocalDateTime since, LocalDateTime toWhen, Doctor doctor) {
         return meetingRequestDAO.findIfMeetingRequestExistsWithTheSameDateAndDoctor(since, toWhen, doctor);
     }
 
@@ -168,5 +170,16 @@ public class MeetingRequestService {
         }
         return canCancelMeetingList;
     }
+    public List<AvailabilityScheduleDTO> getParticularVisitTimeDTO(Integer availabilityScheduleId) {
+        AvailabilitySchedule availabilitySchedule = availabilityScheduleDAO.findById(availabilityScheduleId);
+        Doctor doctor = availabilitySchedule.getDoctor();
+        List<AvailabilitySchedule> particularVisitTime = generateTimeSlots(availabilitySchedule.getSince(), availabilitySchedule.getToWhen(), doctor);
+        List<AvailabilityScheduleDTO> particularVisitTimeDTO = particularVisitTime.stream().map(availabilityScheduleMapper::mapToDTO).toList();
 
+        if (particularVisitTime.isEmpty()) {
+            availabilitySchedule.setAvailableDay(false);
+            availabilityScheduleService.save(availabilitySchedule);
+        }
+        return particularVisitTimeDTO;
+    }
 }

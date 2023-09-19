@@ -2,6 +2,7 @@ package com.HealthMeetProject.code.business;
 
 import com.HealthMeetProject.code.api.dto.DoctorDTO;
 import com.HealthMeetProject.code.api.dto.UserData;
+import com.HealthMeetProject.code.api.dto.mapper.DoctorMapper;
 import com.HealthMeetProject.code.business.dao.DoctorDAO;
 import com.HealthMeetProject.code.domain.Doctor;
 import com.HealthMeetProject.code.domain.Specialization;
@@ -26,7 +27,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.math.BigDecimal;
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -44,6 +45,8 @@ class DoctorServiceTest {
     private DoctorDAO doctorDAO;
     @Mock
     private DoctorEntityMapper doctorEntityMapper;
+    @Mock
+    private DoctorMapper doctorMapper;
     @Mock
     private PatientEntityMapper patientEntityMapper;
     @Mock
@@ -116,7 +119,7 @@ class DoctorServiceTest {
         when(noteRepository.isThereNoteWithTheSameTimeVisitAndDoctor(any(), any(), any())).thenReturn(false);
 
         assertDoesNotThrow(() -> doctorService.writeNote(DoctorExampleFixtures.doctorExample1(), "illness", "description",
-                PatientExampleFixtures.patientExample1(), OffsetDateTime.now(), OffsetDateTime.now()));
+                PatientExampleFixtures.patientExample1(), LocalDateTime.now(), LocalDateTime.now()));
 
     }
 
@@ -125,7 +128,7 @@ class DoctorServiceTest {
         when(noteRepository.isThereNoteWithTheSameTimeVisitAndDoctor(any(), any(), any())).thenReturn(true);
 
         UserAlreadyExistsException exception = assertThrows(UserAlreadyExistsException.class, () -> doctorService.writeNote(DoctorExampleFixtures.doctorExample1(), "illness", "description",
-                PatientExampleFixtures.patientExample1(), OffsetDateTime.now(), OffsetDateTime.now()));
+                PatientExampleFixtures.patientExample1(), LocalDateTime.now(), LocalDateTime.now()));
 
         String expectedMessage = "Note with following visit already exist";
         String actualMessage = exception.getMessage();

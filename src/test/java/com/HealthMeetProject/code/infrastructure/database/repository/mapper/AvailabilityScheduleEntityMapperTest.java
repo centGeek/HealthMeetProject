@@ -29,8 +29,8 @@ public class AvailabilityScheduleEntityMapperTest {
         entity.setAvailableTerm(true);
         entity.setAvailableDay(true);
         entity.setDoctor(DoctorExampleFixtures.doctorEntityExample1());
-        entity.setSince(OffsetDateTime.of(LocalDateTime.of(2025, 2, 12, 14, 20), ZoneOffset.UTC));
-        entity.setToWhen(OffsetDateTime.of(LocalDateTime.of(2025, 2, 12, 20, 20), ZoneOffset.UTC));
+        entity.setSince(LocalDateTime.of(2025, 2, 12, 14, 20));
+        entity.setToWhen(LocalDateTime.of(2025, 2, 12, 20, 20));
         //when
         AvailabilitySchedule schedule = mapper.mapFromEntity(entity);
         //then
@@ -58,8 +58,8 @@ public class AvailabilityScheduleEntityMapperTest {
         schedule.setAvailableTerm(false);
         schedule.setAvailableDay(false);
         schedule.setDoctor(DoctorExampleFixtures.doctorExample1());
-        schedule.setSince(OffsetDateTime.of(LocalDateTime.of(2025, 3, 12, 14, 20), ZoneOffset.UTC));
-        schedule.setToWhen(OffsetDateTime.of(LocalDateTime.of(2025, 3, 12, 20, 20), ZoneOffset.UTC));
+        schedule.setSince(LocalDateTime.of(2025, 3, 12, 14, 20));
+        schedule.setToWhen(LocalDateTime.of(2025, 3, 12, 20, 20));
         //when
         AvailabilityScheduleEntity entity = mapper.mapToEntity(schedule);
         //then

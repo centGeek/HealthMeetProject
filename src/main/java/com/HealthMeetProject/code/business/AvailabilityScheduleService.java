@@ -11,8 +11,13 @@ import com.HealthMeetProject.code.infrastructure.database.repository.mapper.Avai
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Locale;
 
 @Service
 @AllArgsConstructor
@@ -26,11 +31,11 @@ import java.util.List;
         return availabilityScheduleDAO.findAllTermsByGivenDoctor(email).stream().map(availabilityScheduleMapper::mapToDTO).toList();
     };
 
-    public AvailabilityScheduleDTO addTerm(OffsetDateTime since,OffsetDateTime toWhen, DoctorEntity doctorEntity) {
+    public AvailabilityScheduleDTO addTerm(LocalDateTime since,LocalDateTime toWhen, DoctorEntity doctorEntity) {
         if(!doctorService.findAnyTermInGivenRangeInGivenDay(since, toWhen, doctorEntity.getEmail())){
             throw new ProcessingException("You can not add date[%s - %s], because this date cover with other date".formatted(since, toWhen));
         }
-        if(since.isBefore(OffsetDateTime.now())){
+        if(since.isBefore(LocalDateTime.now())){
             throw new ProcessingException("You can not add date[%s - %s], because this date isn't entirely in the future".formatted(since, toWhen));
         }
         if (since.plusMinutes(15).isAfter(toWhen)) {
@@ -43,7 +48,10 @@ import java.util.List;
         return availabilityScheduleMapper.mapToDTO(availabilitySchedule);
     }
 
-
+    public  LocalDateTime parseToLocalDateTime(String since) {
+        LocalDateTime localSinceDateTime = LocalDateTime.parse(since, DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm a"));
+        return localSinceDateTime;
+    }
     public List<AvailabilityScheduleDTO> findAllAvailableTermsByGivenDoctor(String email) {
          return availabilityScheduleDAO.findAllAvailableTermsByGivenDoctor(email).stream().map(availabilityScheduleMapper::mapToDTO).toList();
     }

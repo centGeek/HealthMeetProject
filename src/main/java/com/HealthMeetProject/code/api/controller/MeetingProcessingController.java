@@ -49,7 +49,7 @@ public class MeetingProcessingController {
         List<MeetingRequest> endedVisits = meetingRequestService.availableEndedVisitsByDoctor(email)
                 .stream().sorted(Comparator.comparing(MeetingRequest::getVisitEnd).reversed()).toList();
 
-        List<MeetingRequest> allUpcomingVisits = meetingRequestDAO.findAllUpcomingVisitsByDoctor(email)
+        List<MeetingRequest> allUpcomingVisits = meetingRequestDAO.findAllUpcomingCompletedVisitsByDoctor(email)
                 .stream().sorted(Comparator.comparing(MeetingRequest::getVisitEnd)).toList();
 
         List<String> endedVisitsToString = new ArrayList<>();
@@ -67,7 +67,7 @@ public class MeetingProcessingController {
 
     private static void formatDate(List<MeetingRequest> endedVisits, List<String> endedVisitsToString) {
         for (MeetingRequest endedVisit : endedVisits) {
-            String formatted = endedVisit.getVisitEnd().format(FORMATTER);
+            String formatted = endedVisit.getVisitStart().format(FORMATTER);
             endedVisitsToString.add(formatted);
         }
     }

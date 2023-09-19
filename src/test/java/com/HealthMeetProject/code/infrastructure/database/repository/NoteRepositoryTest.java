@@ -11,7 +11,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -30,8 +30,8 @@ public class NoteRepositoryTest {
     private NoteRepository noteRepository;
     @Test
     public void testIsThereNoteWithTheSameTimeVisitAndDoctor_True() {
-        OffsetDateTime startTime = OffsetDateTime.now();
-        OffsetDateTime endTime = startTime.plusHours(1);
+        LocalDateTime startTime = LocalDateTime.now();
+        LocalDateTime endTime = startTime.plusHours(1);
         String email = "doctor@example.com";
         NoteEntity noteEntity = NoteExampleFixtures.noteEntityExample1();
 
@@ -45,8 +45,8 @@ public class NoteRepositoryTest {
 
     @Test
     public void testIsThereNoteWithTheSameTimeVisitAndDoctor_False() {
-        OffsetDateTime startTime = OffsetDateTime.now();
-        OffsetDateTime endTime = startTime.plusHours(1);
+        LocalDateTime startTime = LocalDateTime.now();
+        LocalDateTime endTime = startTime.plusHours(1);
         String email = "doctor@example.com";
 
         when(noteJpaRepository.isThereNoteWithTheSameTimeVisitAndDoctor(startTime, endTime, email))

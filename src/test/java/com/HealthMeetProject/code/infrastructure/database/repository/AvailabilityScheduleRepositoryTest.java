@@ -1,5 +1,6 @@
 package com.HealthMeetProject.code.infrastructure.database.repository;
 
+import com.HealthMeetProject.code.api.dto.mapper.AvailabilityScheduleMapper;
 import com.HealthMeetProject.code.domain.AvailabilitySchedule;
 import com.HealthMeetProject.code.infrastructure.database.entity.AvailabilityScheduleEntity;
 import com.HealthMeetProject.code.infrastructure.database.repository.jpa.AvailabilityScheduleJpaRepository;
@@ -12,7 +13,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 import java.util.*;
 
 import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
@@ -23,6 +24,9 @@ public class AvailabilityScheduleRepositoryTest {
 
     @Mock
     private AvailabilityScheduleJpaRepository availabilityScheduleJpaRepository;
+
+    @Mock
+    private  AvailabilityScheduleMapper availabilityScheduleMapper;
 
     @Mock
     private AvailabilityScheduleEntityMapper availabilityScheduleEntityMapper;
@@ -47,8 +51,8 @@ public class AvailabilityScheduleRepositoryTest {
     @Test
     void testAddTerm() {
         // given
-        OffsetDateTime since = OffsetDateTime.now();
-        OffsetDateTime toWhen = since.plusHours(2);
+        LocalDateTime since = LocalDateTime.now();
+        LocalDateTime toWhen = since.plusHours(2);
         AvailabilityScheduleEntity scheduleEntity = DoctorExampleFixtures.availabilityScheduleEntity1();
         AvailabilitySchedule schedule = DoctorExampleFixtures.availabilitySchedule1();
 

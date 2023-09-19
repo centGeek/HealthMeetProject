@@ -21,7 +21,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -66,7 +68,7 @@ public class DoctorService {
 
 
     @Transactional
-    public void writeNote(Doctor doctor, String illness, String description, Patient patient, OffsetDateTime visitStart, OffsetDateTime visitEnd) {
+    public void writeNote(Doctor doctor, String illness, String description, Patient patient, LocalDateTime visitStart, LocalDateTime visitEnd) {
         DoctorEntity doctorEntity = doctorEntityMapper.mapToEntity(doctor);
         PatientEntity patientEntity = patientEntityMapper.mapToEntity(patient);
         NoteEntity build = NoteEntity.builder()
@@ -106,7 +108,7 @@ public class DoctorService {
         return email;
     }
 
-    public boolean findAnyTermInGivenRangeInGivenDay(OffsetDateTime since, OffsetDateTime toWhen, String doctorEmail) {
+    public boolean findAnyTermInGivenRangeInGivenDay(LocalDateTime since, LocalDateTime toWhen, String doctorEmail) {
         return doctorDAO.findAnyTermInGivenRangeInGivenDay(since, toWhen, doctorEmail);
     }
     public  void conditionsToUpdate(DoctorDTO updatedDoctorDTO, Doctor existingDoctor) {
@@ -130,4 +132,5 @@ public class DoctorService {
             existingDoctor.setEarningsPerVisit(updatedDoctorDTO.getEarningsPerVisit());
         }
     }
+
 }

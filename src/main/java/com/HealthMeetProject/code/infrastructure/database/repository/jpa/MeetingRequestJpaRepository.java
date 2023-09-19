@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
@@ -55,8 +55,9 @@ public interface MeetingRequestJpaRepository extends JpaRepository<MeetingReques
             SELECT mre FROM MeetingRequestEntity mre
             WHERE  mre.visitStart > CURRENT_TIMESTAMP
             AND mre.doctor.email = :email
+            AND mre.completedDateTime is not null
                 """)
-    List<MeetingRequestEntity> findAllUpcomingVisitsByDoctor(@Param("email") String email);
+    List<MeetingRequestEntity> findAllUpcomingCompletedVisitsByDoctor(@Param("email") String email);
 
     @Query("""
             select mre from MeetingRequestEntity  mre
@@ -81,7 +82,7 @@ public interface MeetingRequestJpaRepository extends JpaRepository<MeetingReques
                 AND mre.visitEnd = :toWhen
             """)
     MeetingRequestEntity findIfMeetingRequestExistsWithTheSameDateAndDoctor(
-            OffsetDateTime since, OffsetDateTime toWhen, String email
+            LocalDateTime since, LocalDateTime toWhen, String email
     );
 
     @Query("""

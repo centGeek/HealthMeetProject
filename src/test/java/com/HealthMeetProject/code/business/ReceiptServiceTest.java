@@ -18,6 +18,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -66,7 +67,7 @@ public class ReceiptServiceTest {
 
     @Test
     void testBuildReceipt() {
-        when(meetingRequestService.generateNumber(any(OffsetDateTime.class))).thenReturn("2023.8.11-17.9.49.49");
+        when(meetingRequestService.generateNumber(any(LocalDateTime.class))).thenReturn("2023.8.11-17.9.49.49");
         Patient patient = PatientExampleFixtures.patientExample1();
         Doctor doctor = DoctorExampleFixtures.doctorExample1();
         Receipt receipt = receiptService.buildReceipt(patient, doctor);

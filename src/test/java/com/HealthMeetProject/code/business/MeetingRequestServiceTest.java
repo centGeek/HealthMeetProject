@@ -18,6 +18,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,8 +47,8 @@ public class MeetingRequestServiceTest {
     private MeetingRequestService meetingRequestService;
     @Test
     public void thatMeetingCanBeCanceledTest(){
-        OffsetDateTime visitStart1 = OffsetDateTime.now().plusHours(1);
-        OffsetDateTime visitStart2 = OffsetDateTime.now().plusMinutes(30).plusSeconds(1);
+        LocalDateTime visitStart1 = LocalDateTime.now().plusHours(1);
+        LocalDateTime visitStart2 = LocalDateTime.now().plusMinutes(30).plusSeconds(1);
         boolean result1 = meetingRequestService.canCancelMeeting(visitStart1);
         boolean result2 = meetingRequestService.canCancelMeeting(visitStart2);
 

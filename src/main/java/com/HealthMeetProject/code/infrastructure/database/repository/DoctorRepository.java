@@ -2,6 +2,8 @@ package com.HealthMeetProject.code.infrastructure.database.repository;
 
 
 import com.HealthMeetProject.code.api.dto.DoctorDTO;
+import com.HealthMeetProject.code.api.dto.DoctorDTOs;
+import com.HealthMeetProject.code.api.dto.mapper.DoctorMapper;
 import com.HealthMeetProject.code.business.dao.DoctorDAO;
 import com.HealthMeetProject.code.domain.Doctor;
 import com.HealthMeetProject.code.domain.Receipt;
@@ -16,7 +18,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -34,6 +36,7 @@ public class DoctorRepository implements DoctorDAO {
     private UserRepository userRepository;
     private PasswordEncoder passwordEncoder;
     private MedicineJpaRepository medicineJpaRepository;
+    private DoctorMapper doctorMapper;
 
 
     @Override
@@ -44,11 +47,19 @@ public class DoctorRepository implements DoctorDAO {
     }
 
     @Override
+    public DoctorDTOs findAllDoctors() {
+        List<DoctorDTO> list = doctorJpaRepository.findAll().stream().map(doctorEntityMapper::mapFromEntity).map(doctorMapper::mapToDTO).toList();
+      return DoctorDTOs
+                .builder()
+                .doctorDTOList(list)
+                .build();
+    }
+
+    @Override
     public Optional<Doctor> findByEmail(String email) {
         return doctorJpaRepository.findByEmail(email)
                 .map(doctorEntityMapper::mapFromEntity);
     }
-
 
 
     @Override
@@ -83,7 +94,7 @@ public class DoctorRepository implements DoctorDAO {
     }
 
     @Override
-    public boolean findAnyTermInGivenRangeInGivenDay(OffsetDateTime since, OffsetDateTime toWhen, String doctorEmail) {
+    public boolean findAnyTermInGivenRangeInGivenDay(LocalDateTime since, LocalDateTime toWhen, String doctorEmail) {
         List<AvailabilityScheduleEntity> anyTermInGivenRangeInGivenDay = availabilityScheduleJpaRepository.findAnyTermInGivenRangeInGivenDay(since, toWhen, doctorEmail);
         return anyTermInGivenRangeInGivenDay.isEmpty();
     }
