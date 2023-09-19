@@ -1,5 +1,7 @@
 package com.HealthMeetProject.code.infrastructure.database.repository;
 
+import com.HealthMeetProject.code.api.dto.AvailabilityScheduleDTO;
+import com.HealthMeetProject.code.api.dto.mapper.AvailabilityScheduleMapper;
 import com.HealthMeetProject.code.business.dao.AvailabilityScheduleDAO;
 import com.HealthMeetProject.code.domain.AvailabilitySchedule;
 import com.HealthMeetProject.code.domain.exception.NotFoundException;
@@ -10,7 +12,7 @@ import com.HealthMeetProject.code.infrastructure.database.repository.mapper.Avai
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
@@ -18,6 +20,7 @@ import java.util.List;
 public class AvailabilityScheduleRepository implements AvailabilityScheduleDAO {
     private final AvailabilityScheduleJpaRepository availabilityScheduleJpaRepository;
     private final AvailabilityScheduleEntityMapper availabilityScheduleEntityMapper;
+    private final AvailabilityScheduleMapper availabilityScheduleMapper;
 
 
     @Override
@@ -27,7 +30,7 @@ public class AvailabilityScheduleRepository implements AvailabilityScheduleDAO {
     }
 
     @Override
-    public AvailabilitySchedule addTerm(OffsetDateTime since, OffsetDateTime toWhen, DoctorEntity doctor) {
+    public AvailabilitySchedule addTerm(LocalDateTime since, LocalDateTime toWhen, DoctorEntity doctor) {
         AvailabilityScheduleEntity schedule = AvailabilityScheduleEntity.builder()
                 .since(since)
                 .toWhen(toWhen)
@@ -58,5 +61,10 @@ public class AvailabilityScheduleRepository implements AvailabilityScheduleDAO {
     @Override
     public void save(AvailabilityScheduleEntity availabilityScheduleEntity) {
         availabilityScheduleJpaRepository.save(availabilityScheduleEntity);
+    }
+
+    @Override
+    public List<AvailabilityScheduleDTO> findAll() {
+        return availabilityScheduleJpaRepository.findAll().stream().map(availabilityScheduleEntityMapper::mapFromEntity).map(availabilityScheduleMapper::mapToDTO).toList();
     }
 }

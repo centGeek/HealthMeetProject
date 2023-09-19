@@ -20,32 +20,27 @@ public class NoteExampleFixtures {
 
                 .illness("Cos z glowa")
 
-                .startTime(OffsetDateTime.of(LocalDateTime.of(2025, 4, 1, 8, 0), ZoneOffset.UTC))
+                .startTime(LocalDateTime.of(2025, 4, 1, 8, 0))
 
-                .endTime(OffsetDateTime.of(LocalDateTime.of(2025, 4, 1, 16, 15), ZoneOffset.UTC)
-                )
+                .endTime(LocalDateTime.of(2025, 4, 1, 16, 15))
                 .patient(patientEntityExample1())
 
                 .doctor(doctorEntityExample1())
 
                 .build();
     }
+
     public static Note noteExample1() {
         return Note.builder()
                 .description("Dzielny pacjent")
-
                 .illness("Cos z glowa")
-
-                .startTime(OffsetDateTime.of(LocalDateTime.of(2025, 4, 1, 8, 0), ZoneOffset.UTC))
-
-                .endTime(OffsetDateTime.of(LocalDateTime.of(2025, 4, 1, 16, 15), ZoneOffset.UTC)
-                )
+                .startTime(LocalDateTime.of(2025, 4, 1, 8, 0))
+                .endTime(LocalDateTime.of(2025, 4, 1, 16, 15))
                 .patient(patientExample1())
-
                 .doctor(DoctorExampleFixtures.doctorExample1())
-
                 .build();
     }
+
     public static PatientEntity patientEntityExample1() {
         return PatientEntity.builder()
                 .address(AddressEntity.builder()
@@ -61,6 +56,7 @@ public class NoteExampleFixtures {
                 .pesel("3232223212")
                 .build();
     }
+
     public static Patient patientExample1() {
         return Patient.builder()
                 .address(Address.builder()

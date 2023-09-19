@@ -1,9 +1,6 @@
 package com.HealthMeetProject.code.api.controller;
 
-import com.HealthMeetProject.code.business.MeetingRequestService;
-import com.HealthMeetProject.code.business.PatientService;
-import com.HealthMeetProject.code.business.ProcessingMoneyService;
-import com.HealthMeetProject.code.business.ReceiptService;
+import com.HealthMeetProject.code.business.*;
 import com.HealthMeetProject.code.business.dao.MedicineDAO;
 import com.HealthMeetProject.code.business.dao.MeetingRequestDAO;
 import com.HealthMeetProject.code.business.dao.PatientDAO;
@@ -39,23 +36,13 @@ public class PatientControllerTest {
 
     private MockMvc mockMvc;
     @MockBean
-    private MeetingRequestService meetingRequestService;
+    private final MeetingRequestDAO meetingRequestDAO;
     @MockBean
-    private MeetingRequestDAO meetingRequestDAO;
+    private final PatientService patientService;
     @MockBean
-    private NoteJpaRepository noteJpaRepository;
+    private final PatientDAO patientDAO;
     @MockBean
-    private PatientService patientService;
-    @MockBean
-    private ReceiptService receiptService;
-    @MockBean
-    private PatientDAO patientDAO;
-    @MockBean
-    private ReceiptDAO receiptDAO;
-    @MockBean
-    private MedicineDAO medicineDAO;
-    @MockBean
-    private ProcessingMoneyService processingMoneyService;
+    private final PatientHistoryDTOService patientHistoryDTOService;
 
 //    @Test
 //    void testGetPatientHistoryPage() throws Exception {

@@ -9,4 +9,7 @@ import org.mapstruct.ReportingPolicy;
 
 public interface PatientMapper {
     PatientDTO mapToDTO(Patient patient);
+
+    Patient mapFromDTO(PatientDTO patientDTO);
+
 }

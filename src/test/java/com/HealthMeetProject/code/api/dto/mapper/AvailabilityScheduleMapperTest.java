@@ -8,8 +8,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
-import java.time.ZoneOffset;
 
 public class AvailabilityScheduleMapperTest {
     private AvailabilityScheduleMapper mapper;
@@ -27,8 +25,8 @@ public class AvailabilityScheduleMapperTest {
         availabilitySchedule.setAvailableTerm(true);
         availabilitySchedule.setAvailableDay(true);
         availabilitySchedule.setDoctor(DoctorExampleFixtures.doctorExample3());
-        availabilitySchedule.setSince(OffsetDateTime.of(LocalDateTime.of(2025, 2, 12, 14, 20), ZoneOffset.UTC));
-        availabilitySchedule.setToWhen(OffsetDateTime.of(LocalDateTime.of(2025, 2, 12, 20, 20), ZoneOffset.UTC));
+        availabilitySchedule.setSince(LocalDateTime.of(2025, 2, 12, 14, 20));
+        availabilitySchedule.setToWhen(LocalDateTime.of(2025, 2, 12, 20, 20));
         //when
         AvailabilityScheduleDTO availabilityScheduleDTO = mapper.mapToDTO(availabilitySchedule);
         //then
@@ -43,8 +41,8 @@ public class AvailabilityScheduleMapperTest {
         availabilityScheduleDTO.setAvailableTerm(false);
         availabilityScheduleDTO.setAvailableDay(false);
         availabilityScheduleDTO.setDoctor(DoctorExampleFixtures.doctorDTOExample3());
-        availabilityScheduleDTO.setSince(OffsetDateTime.of(LocalDateTime.of(2025, 3, 12, 14, 20), ZoneOffset.UTC));
-        availabilityScheduleDTO.setToWhen(OffsetDateTime.of(LocalDateTime.of(2025, 3, 12, 20, 20), ZoneOffset.UTC));
+        availabilityScheduleDTO.setSince(LocalDateTime.of(2025, 3, 12, 14, 20));
+        availabilityScheduleDTO.setToWhen(LocalDateTime.of(2025, 3, 12, 20, 20));
         //when
         AvailabilitySchedule availabilitySchedule = mapper.mapFromDTO(availabilityScheduleDTO);
         //then

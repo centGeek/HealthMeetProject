@@ -26,6 +26,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
 
     //db
     implementation 'org.flywaydb:flyway-core'
@@ -36,8 +37,12 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     implementation "org.mapstruct:mapstruct:${mapstructVersion}"
     annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+    //noinspection VulnerableLibrariesLocal
     implementation 'org.webjars:jquery:3.6.0'
     implementation 'org.webjars:jquery-ui:1.13.0'
+
+    implementation "org.springdoc:springdoc-openapi-starter-webmvc-ui:${springDocOpenApiVersion}"
+
     // test
     testRuntimeOnly 'com.h2database:h2'
     testCompileOnly 'org.projectlombok:lombok'
@@ -63,5 +68,11 @@ test {
 }
 jacocoTestReport {
     dependsOn test
+}
+bootJar {
+    archiveFileName = "HealthyMeet.${archiveExtension.get()}"
+}
+jar {
+    enabled = false
 }
 compileJava.options.encoding = 'UTF-8'

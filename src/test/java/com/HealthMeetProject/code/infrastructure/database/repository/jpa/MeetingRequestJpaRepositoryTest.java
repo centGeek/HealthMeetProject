@@ -100,8 +100,8 @@ public class MeetingRequestJpaRepositoryTest {
     @Test
     void findIfMeetingRequestExistsWithTheSameDateAndDoctorTest(){
         //given
-        OffsetDateTime since = OffsetDateTime.of(LocalDateTime.of(2025, 5, 1, 8, 30), ZoneOffset.UTC);
-        OffsetDateTime toWhen = OffsetDateTime.of(LocalDateTime.of(2025, 5, 1, 16, 45), ZoneOffset.UTC);
+        LocalDateTime since = LocalDateTime.of(2025, 5, 1, 8, 30);
+        LocalDateTime toWhen = LocalDateTime.of(2025, 5, 1, 16, 45);
         DoctorEntity doctorEntity = doctorEntityExample1();
 
         //when

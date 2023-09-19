@@ -6,16 +6,15 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class AvailabilityScheduleDTO {
     private int availability_schedule_id;
-    private OffsetDateTime since;
-    private OffsetDateTime toWhen;
+    private LocalDateTime since;
+    private LocalDateTime toWhen;
     private boolean availableDay;
     private boolean availableTerm;
     private DoctorDTO doctor;

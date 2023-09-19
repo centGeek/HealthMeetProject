@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
@@ -14,10 +14,10 @@ import java.time.OffsetDateTime;
 public class MeetingRequest {
     private Integer meetingId;
     private String meetingRequestNumber;
-    private OffsetDateTime receivedDateTime;
-    private OffsetDateTime completedDateTime;
-    private OffsetDateTime visitStart;
-    private OffsetDateTime visitEnd;
+    private LocalDateTime receivedDateTime;
+    private LocalDateTime completedDateTime;
+    private LocalDateTime visitStart;
+    private LocalDateTime visitEnd;
     private String description;
     private Doctor doctor;
     private Patient patient;

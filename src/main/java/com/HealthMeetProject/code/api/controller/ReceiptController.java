@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -43,7 +43,7 @@ public class ReceiptController {
         MeetingRequest meetingRequest = meetingRequestDAO.findById(meetingId);
         Doctor doctor = meetingRequest.getDoctor();
         Patient patient = meetingRequest.getPatient();
-        model.addAttribute("now", OffsetDateTime.now().format(MeetingProcessingController.FORMATTER));
+        model.addAttribute("now", LocalDateTime.now().format(MeetingProcessingController.FORMATTER));
         model.addAttribute("patient", patient);
         model.addAttribute("doctor", doctor);
         model.addAttribute("meetingId", meetingId);

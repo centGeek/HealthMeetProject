@@ -3,6 +3,7 @@ package com.HealthMeetProject.code.util;
 import com.HealthMeetProject.code.domain.MeetingRequest;
 import com.HealthMeetProject.code.infrastructure.database.entity.MeetingRequestEntity;
 
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 
 public class MeetingRequestsExampleFixtures {
@@ -45,8 +46,8 @@ public class MeetingRequestsExampleFixtures {
                 .receivedDateTime(DoctorExampleFixtures.availabilityScheduleEntity2().getSince())
                 .completedDateTime(DoctorExampleFixtures.availabilityScheduleEntity3().getToWhen())
                 .description("Boli mnie glowa")
-                .visitStart(OffsetDateTime.now().minusHours(5))
-                .visitEnd(OffsetDateTime.now().minusHours(4).minusMinutes(45))
+                .visitStart(LocalDateTime.now().minusHours(5))
+                .visitEnd(LocalDateTime.now().minusHours(4).minusMinutes(45))
                 .patient(PatientExampleFixtures.patientEntityExample2())
                 .doctor(DoctorExampleFixtures.doctorEntityExample1())
                 .build();
@@ -56,8 +57,8 @@ public class MeetingRequestsExampleFixtures {
                 .meetingRequestNumber("321323123")
                 .receivedDateTime(DoctorExampleFixtures.availabilityScheduleEntity2().getSince())
                 .completedDateTime(DoctorExampleFixtures.availabilityScheduleEntity3().getToWhen())
-                .visitStart(OffsetDateTime.now())
-                .visitEnd(OffsetDateTime.now().plusMinutes(15L))
+                .visitStart(LocalDateTime.now())
+                .visitEnd(LocalDateTime.now().plusMinutes(15L))
                 .description("Boli mnie glowa")
                 .patient(PatientExampleFixtures.patientExample1())
                 .doctor(DoctorExampleFixtures.doctorExample1())

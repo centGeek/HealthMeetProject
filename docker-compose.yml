@@ -1,0 +1,25 @@
+version: '3'
+services:
+  db:
+    image: postgres:15
+    restart: always
+    environment:
+      POSTGRES_DB: myapp
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+    volumes:
+      - ./postgresql-data:/var/lib/postgresql/data
+
+  app:
+    build:
+      context: .
+    restart: always
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/myapp
+      SPRING_DATASOURCE_USERNAME: user
+      SPRING_DATASOURCE_PASSWORD: password
+      WAIT_HOSTS: db:5432
+    ports:
+      - "8191:8191"
+    depends_on:
+      - db

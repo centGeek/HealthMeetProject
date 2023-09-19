@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Controller
@@ -35,8 +35,8 @@ public class NoteController {
         MeetingRequest meetingRequestEntity = meetingRequestService.findById(meetingId);
         Doctor doctor = meetingRequestEntity.getDoctor();
         Patient patient = meetingRequestEntity.getPatient();
-        OffsetDateTime visitEnd = meetingRequestEntity.getVisitEnd();
-        OffsetDateTime visitStart = meetingRequestEntity.getVisitStart();
+        LocalDateTime visitEnd = meetingRequestEntity.getVisitEnd();
+        LocalDateTime visitStart = meetingRequestEntity.getVisitStart();
         String start = visitStart.format(MeetingProcessingController.FORMATTER);
         String end = visitEnd.format(MeetingProcessingController.FORMATTER);
         model.addAttribute("patient", patient);

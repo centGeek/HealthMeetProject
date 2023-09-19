@@ -15,7 +15,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -60,8 +60,8 @@ public class MeetingRequestRepositoryTest {
     }
     @Test
     public void testFindIfMeetingRequestExistsWithTheSameDateAndDoctor() {
-        OffsetDateTime since = OffsetDateTime.now();
-        OffsetDateTime toWhen = since.plusHours(1);
+        LocalDateTime since = LocalDateTime.now();
+        LocalDateTime toWhen = since.plusHours(1);
         String doctorEmail = "j.kowalski@gmail.com";
         Doctor doctor = DoctorExampleFixtures.doctorExample1();
 
@@ -75,8 +75,8 @@ public class MeetingRequestRepositoryTest {
 
     @Test
     public void testFindIfMeetingRequestExistsWithTheSameDateAndDoctor_NotFound() {
-        OffsetDateTime since = OffsetDateTime.now();
-        OffsetDateTime toWhen = since.plusHours(1);
+        LocalDateTime since = LocalDateTime.now();
+        LocalDateTime toWhen = since.plusHours(1);
         String doctorEmail = "j.kowalski@gmail.com";
         Doctor doctor = DoctorExampleFixtures.doctorExample1();
 
