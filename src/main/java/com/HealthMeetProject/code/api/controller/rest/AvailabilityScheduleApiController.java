@@ -9,6 +9,7 @@ import com.HealthMeetProject.code.domain.Doctor;
 import com.HealthMeetProject.code.domain.exception.NotFoundException;
 import com.HealthMeetProject.code.infrastructure.database.entity.DoctorEntity;
 import com.HealthMeetProject.code.infrastructure.database.repository.mapper.DoctorEntityMapper;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,9 +35,10 @@ public class AvailabilityScheduleApiController {
     private final AvailabilityScheduleDAO availabilityScheduleDAO;
 
     @GetMapping()
-    public AvailabilityScheduleDTOs getAllAvailableTerms() {
+    public AvailabilityScheduleDTOs getAllAvailableWorkingDays() {
         return AvailabilityScheduleDTOs.of(availabilityScheduleDAO.findAll().stream()
                 .sorted(Comparator.comparing(AvailabilityScheduleDTO::getSince))
+                .filter(AvailabilityScheduleDTO::isAvailableDay)
                 .collect(Collectors.toList()));
     }
 
@@ -69,15 +71,15 @@ public class AvailabilityScheduleApiController {
                 .build();
     }
 
-    @DeleteMapping("/delete/{availabilityScheduleId}")
+    @DeleteMapping("/{availabilityScheduleId}")
     public ResponseEntity<?> deleteTerm(
             @PathVariable Integer availabilityScheduleId
     ) {
         try {
             availabilityScheduleDAO.deleteById(availabilityScheduleId);
-            return ResponseEntity.noContent().build();
+            return ResponseEntity.ok().build();
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Problem with deleting occurred");
+            return ResponseEntity.notFound().build();
         }
     }
 }

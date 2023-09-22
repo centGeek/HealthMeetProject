@@ -102,6 +102,7 @@ public class MeetingProcessingControllerTest {
         MeetingRequest meetingRequest = new MeetingRequest();
         meetingRequest.setCompletedDateTime(null);
         meetingRequest.setVisitEnd(now.plusHours(1));
+        meetingRequest.setVisitStart(now.plusMinutes(45));
         meetingRequests.add(meetingRequest);
 
         when(doctorService.authenticateDoctor()).thenReturn("doctor@example.com");

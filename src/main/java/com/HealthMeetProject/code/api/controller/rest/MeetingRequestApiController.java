@@ -11,6 +11,7 @@ import com.HealthMeetProject.code.business.dao.AvailabilityScheduleDAO;
 import com.HealthMeetProject.code.business.dao.PatientDAO;
 import com.HealthMeetProject.code.domain.AvailabilitySchedule;
 import com.HealthMeetProject.code.domain.Patient;
+import com.HealthMeetProject.code.domain.exception.ProcessingException;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -43,6 +44,9 @@ public class MeetingRequestApiController {
             @RequestParam Integer availabilityScheduleId,
             @RequestParam Integer selectedSlotId
     ) {
+        if(availabilityScheduleId==null || selectedSlotId==null){
+            throw new ProcessingException("some unexpected error occurred");
+        }
         AvailabilityScheduleDTO visitTermDTO = meetingRequestService.getAvailabilitySchedule(availabilityScheduleId, selectedSlotId);
         AvailabilitySchedule availabilitySchedule = availabilityScheduleDAO.findById(availabilityScheduleId);
         availabilitySchedule.setAvailableTerm(false);
@@ -51,9 +55,9 @@ public class MeetingRequestApiController {
         return ResponseEntity.ok(visitTermDTO);
     }
 
-    @PostMapping("/add")
+    @PostMapping("/{availabilityScheduleId}")
     public ResponseEntity<?> addMeetingRequest(
-            @RequestParam Integer availabilityScheduleId,
+            @PathVariable Integer availabilityScheduleId,
             @RequestParam String description
     ) {
         String email = patientService.authenticate();

@@ -18,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,6 +27,7 @@ import java.util.Optional;
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class DoctorApiController {
     public static final String BASE_PATH = "/api/doctors";
+    public static final String DOCTOR_ID = "/%s";
     private final DoctorService doctorService;
     private final DoctorMapper doctorMapper;
     private final AvailabilityScheduleService availabilityScheduleService;
@@ -38,10 +40,8 @@ public class DoctorApiController {
 
     @GetMapping("/{doctorId}")
     public DoctorDTO getDoctorDetails(@PathVariable Integer doctorId) {
-        DoctorDTO doctorDTO = doctorService.findById(doctorId).map(doctorMapper::mapToDTO).orElseThrow(
+       return doctorService.findById(doctorId).map(doctorMapper::mapToDTO).orElseThrow(
                 () -> new NotFoundException("Doctor with given email does not exist"));
-        ;
-        return doctorDTO;
     }
 
     @GetMapping("terms/{doctorId}")
@@ -61,7 +61,7 @@ public class DoctorApiController {
     ) {
         Doctor existingDoctor = doctorService.findById(doctorId).orElse(null);
         if (existingDoctor == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Doctor not found");
+            return ResponseEntity.noContent().build();
         }
 
         doctorService.conditionsToUpdate(updatedDoctorDTO, existingDoctor);
@@ -69,4 +69,18 @@ public class DoctorApiController {
 
         return ResponseEntity.ok(existingDoctor);
     }
+    @PostMapping
+    public ResponseEntity<DoctorDTO> registerDoctor(@Valid @RequestBody DoctorDTO doctorDTO) {
+        doctorService.register(doctorDTO);
+        return ResponseEntity
+                .created(URI.create(BASE_PATH + DOCTOR_ID.formatted(doctorDTO.getDoctorId())))
+                .build();
+    }
+    @GetMapping("/{id}")
+    public DoctorDTO getPatientById(@PathVariable Integer id) {
+        //noinspection OptionalGetWithoutIsPresent
+        return doctorMapper.mapToDTO(doctorDAO.findById(id).get());
+
+    }
+
 }

@@ -19,6 +19,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -34,7 +35,7 @@ public class PatientService {
         patientDAO.saveMeetingRequest(meetingRequest, patient);
     }
 
-
+    @Transactional
     public void register(PatientDTO patientDTO) throws UserAlreadyExistsException {
         patientDAO.register(patientDTO);
     }

@@ -52,7 +52,7 @@ dependencies {
     testImplementation 'org.testcontainers:junit-jupiter'
     testImplementation 'org.testcontainers:postgresql'
     implementation "org.jacoco:org.jacoco.core:${jacocoVersion}"
-
+    testImplementation "io.rest-assured:rest-assured:${restAssuredVersion}"
 }
 
 

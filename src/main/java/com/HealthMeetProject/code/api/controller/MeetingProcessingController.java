@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -42,7 +43,8 @@ public class MeetingProcessingController {
         String email = doctorService.authenticateDoctor();
         List<MeetingRequest> meetingRequests = meetingRequestService.availableServiceRequestsByDoctor(email);
         List<MeetingRequest> collect = meetingRequests.stream().filter(request -> request.getDoctor().getDoctorId() == byId.getDoctorId()
-                && request.getCompletedDateTime()==null).collect(Collectors.toList());
+                && request.getCompletedDateTime()==null).filter(request -> request.getVisitStart()
+                .minusMinutes(5).isAfter(LocalDateTime.now())).collect(Collectors.toList());
         List<String> collectToString = new ArrayList<>();
         formatDate(collect, collectToString);
 

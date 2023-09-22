@@ -5,10 +5,13 @@ import com.HealthMeetProject.code.business.dao.MedicineDAO;
 import com.HealthMeetProject.code.business.dao.MeetingRequestDAO;
 import com.HealthMeetProject.code.business.dao.PatientDAO;
 import com.HealthMeetProject.code.business.dao.ReceiptDAO;
+import com.HealthMeetProject.code.domain.Address;
 import com.HealthMeetProject.code.domain.MeetingRequest;
 import com.HealthMeetProject.code.domain.Receipt;
 import com.HealthMeetProject.code.infrastructure.database.entity.MedicineEntity;
+import com.HealthMeetProject.code.infrastructure.database.entity.MeetingRequestEntity;
 import com.HealthMeetProject.code.infrastructure.database.entity.NoteEntity;
+import com.HealthMeetProject.code.infrastructure.database.repository.jpa.MeetingRequestJpaRepository;
 import com.HealthMeetProject.code.infrastructure.database.repository.jpa.NoteJpaRepository;
 import com.HealthMeetProject.code.util.*;
 import lombok.AllArgsConstructor;
@@ -43,6 +46,7 @@ public class PatientControllerTest {
     private final PatientDAO patientDAO;
     @MockBean
     private final PatientHistoryDTOService patientHistoryDTOService;
+
 
 //    @Test
 //    void testGetPatientHistoryPage() throws Exception {
@@ -96,13 +100,6 @@ public class PatientControllerTest {
 //                .andExpect(model().attribute("medicinesFromLastVisit", medicinesFromLastVisit));
 //    }
 
-    @Test
-    void testDeleteMeeting() throws Exception {
-
-        mockMvc.perform(delete("/patient/delete/meeting/1"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("patient_history"));
-    }
 
     @Test
     void testShowEditDoctorForm() throws Exception {
@@ -111,16 +108,17 @@ public class PatientControllerTest {
                 .andExpect(view().name("redirect:/patient"));
     }
 
-//    @Test
-//    void testUpdateDoctor() throws Exception {
-//
-//        mockMvc.perform(patch("/patient/1/edit")
-//                        .param("name", "John")
-//                        .param("surname", "Doe")
-//                        .param("email", "john.doe@example.com")
-//                        .param("phone", "123-456-789")
-//                        .param("address", "123 Main St"))
-//                .andExpect(status().is3xxRedirection())
-//                .andExpect(redirectedUrl("/logout"));
-//    }
+    @Test
+    void testUpdateDoctor() throws Exception {
+
+        mockMvc.perform(patch("/patient/1/edit")
+                        .param("name", "John")
+                        .param("surname", "Doe")
+                        .param("email", "john.doe@example.com")
+                        .param("phone", "123-456-789")
+                        .param("Country","Polska" )
+                        .param("City","Poscien Zamion"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/logout"));
+    }
 }

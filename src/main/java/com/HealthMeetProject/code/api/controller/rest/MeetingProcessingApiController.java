@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -42,7 +43,8 @@ public class MeetingProcessingApiController {
 
         return MeetingRequestsDTOs.of(meetingRequests.stream()
                 .filter(request -> request.getDoctor().getDoctorId() == (doctor.getDoctorId())
-                        && request.getCompletedDateTime() == null)
+                        && request.getCompletedDateTime() == null).filter(request -> request.getVisitStart()
+                        .minusMinutes(5).isAfter(LocalDateTime.now()))
                 .collect(Collectors.toList()));
 
     }
@@ -60,7 +62,7 @@ public class MeetingProcessingApiController {
                 .collect(Collectors.toList()));
 
     }
-    @PatchMapping
+    @PatchMapping("/{meetingRequestId}")
     public ResponseEntity<?> confirmMeetingRequest(
             @PathVariable Integer meetingRequestId
     ) {

@@ -55,10 +55,10 @@ public class SecurityConfiguration {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(requests -> requests
                         .requestMatchers("/login", "/error", "/images/no_way.png", "/", "/doctor_register", "/patient_register", "/about",
-                                "/doctor_register/add", "/patient_register/add").permitAll()
+                                "/doctor_register/add", "/patient_register/add", "/swagger-ui/**").permitAll()
                         .requestMatchers("/patient/**", "terms/**").hasAnyAuthority("PATIENT")
                         .requestMatchers("/doctor/**").hasAnyAuthority("DOCTOR")
-                        .requestMatchers("/swagger-ui/index.html", "/api/**").hasAnyAuthority("REST_API")
+                        .requestMatchers("/api/**").hasAnyAuthority("REST_API")
                         .anyRequest().authenticated()
                 )
                 .formLogin(AbstractAuthenticationFilterConfigurer::permitAll)

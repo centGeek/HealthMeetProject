@@ -3,19 +3,26 @@ package com.HealthMeetProject.code.api.controller.rest;
 import com.HealthMeetProject.code.domain.exception.AccessDeniedException;
 import com.HealthMeetProject.code.domain.exception.NotFoundException;
 import com.HealthMeetProject.code.domain.exception.ProcessingException;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-@RestControllerAdvice
+@Slf4j
+@RestControllerAdvice(annotations = RestController.class)
+@Order(Ordered.HIGHEST_PRECEDENCE)
 public class GlobalExceptionApiHandler {
+
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Map<String, String>> handleException(Exception ex) {

@@ -49,8 +49,7 @@ import java.util.Locale;
     }
 
     public  LocalDateTime parseToLocalDateTime(String since) {
-        LocalDateTime localSinceDateTime = LocalDateTime.parse(since, DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm a"));
-        return localSinceDateTime;
+        return LocalDateTime.parse(since, DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm a"));
     }
     public List<AvailabilityScheduleDTO> findAllAvailableTermsByGivenDoctor(String email) {
          return availabilityScheduleDAO.findAllAvailableTermsByGivenDoctor(email).stream().map(availabilityScheduleMapper::mapToDTO).toList();

@@ -35,6 +35,8 @@ public class MeetingRequestController {
     private final PatientDAO patientDAO;
     private final AvailabilityScheduleDAO availabilityScheduleDAO;
 
+
+
     @GetMapping(MAKE_APPOINTMENT)
     public String chooseAccurateTerm(
             @PathVariable Integer availability_schedule_id,

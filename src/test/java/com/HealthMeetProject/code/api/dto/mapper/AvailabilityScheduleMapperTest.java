@@ -36,7 +36,7 @@ public class AvailabilityScheduleMapperTest {
     @Test
     public void shouldMapToEntity() {
         //given
-        AvailabilityScheduleDTO availabilityScheduleDTO = new AvailabilityScheduleDTO();
+        AvailabilityScheduleDTO availabilityScheduleDTO = DoctorExampleFixtures.availabilityScheduleDTO1();
         availabilityScheduleDTO.setAvailability_schedule_id(5);
         availabilityScheduleDTO.setAvailableTerm(false);
         availabilityScheduleDTO.setAvailableDay(false);

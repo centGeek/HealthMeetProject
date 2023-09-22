@@ -16,7 +16,7 @@ import java.util.Set;
 public class DoctorDTOFixtures {
 
 
-    public static DoctorDTO getDoctorDTOToRegister() {
+    public static DoctorDTO getDoctorDTO1() {
         return DoctorDTO.builder()
                 .name("Jan")
                 .clinic(getClinicDTOToRegister())
@@ -25,7 +25,19 @@ public class DoctorDTOFixtures {
                 .specialization(Specialization.PULMONOLOGIST)
                 .phone("+48 724 483 007")
                 .earningsPerVisit(BigDecimal.valueOf(50))
-                .user(getUserDTOToRegister())
+                .user(getUserDTO1())
+                .build();
+    }
+    public static DoctorDTO getDoctorDTO2() {
+        return DoctorDTO.builder()
+                .name("Krzysiek")
+                .clinic(getClinicDTOToRegister())
+                .surname("Stodołski")
+                .email("k.stodoła@gmail.com")
+                .specialization(Specialization.ENDOCRINOLOGIST)
+                .phone("+48 589 483 007")
+                .earningsPerVisit(BigDecimal.valueOf(12))
+                .user(getUserDTO2())
                 .build();
     }
     public static UserData userDataDoctor() {
@@ -46,13 +58,22 @@ public class DoctorDTOFixtures {
                 .build();
     }
 
-    private static UserData getUserDTOToRegister() {
+    private static UserData getUserDTO1() {
         return UserData.builder()
                 .active(true)
                 .userName("j_kowalski")
                 .password("test")
                 .roles(Set.of(new RoleEntity(3, "DOCTOR")))
                 .email("j.kowalski@gmail.com")
+                .build();
+    }
+    private static UserData getUserDTO2() {
+        return UserData.builder()
+                .active(true)
+                .userName("k_stodola")
+                .password("test")
+                .roles(Set.of(new RoleEntity(3, "DOCTOR")))
+                .email("k.stodola@gmail.com")
                 .build();
     }
 

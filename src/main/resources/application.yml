@@ -1,5 +1,5 @@
 server:
-  port: 8191
+  port: 8190
   servlet:
     context-path: /HealthMeet
 
