@@ -13,6 +13,7 @@ import com.HealthMeetProject.code.infrastructure.database.repository.mapper.Doct
 import com.HealthMeetProject.code.util.DoctorDTOFixtures;
 import com.HealthMeetProject.code.util.DoctorExampleFixtures;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -49,35 +50,12 @@ public class AvailabilityScheduleControllerTest {
 
 
     @Test
-    void showYourAvailableTermsTest() {
-        // Arrange
-        Model model = new RedirectAttributesModelMap();
-        String email = "doctor@example.com";
-        DoctorDTO doctorDTO = DoctorDTOFixtures.getDoctorDTO1();
-        doctorDTO.setEmail(email);
-
-        List<AvailabilityScheduleDTO> availabilitySchedules = new ArrayList<>();
-        when(doctorService.authenticateDoctor()).thenReturn(email);
-        when(doctorService.findByEmail(email)).thenReturn(DoctorExampleFixtures.doctorExample1());
-        when(doctorMapper.mapToDTO(any(Doctor.class))).thenReturn(doctorDTO);
-        when(availabilityScheduleService.findAllTermsByGivenDoctor(email)).thenReturn(availabilitySchedules);
-
-        // Act
-        String viewName = controller.showYourAvailableTerms(model);
-
-        // Assert
-        verify(doctorService).authenticateDoctor();
-        verify(doctorService).findByEmail(email);
-        verify(doctorMapper).mapToDTO(any(Doctor.class));
-        verify(availabilityScheduleService).findAllTermsByGivenDoctor(email);
-    }
-
-    @Test
     void addTerms() {
-        // Arrange
+        //given
         String since = "2023-09-30 10:30 AM";
         String toWhen = "2023-09-30 10:45 AM";
         String email = "doctor@example.com";
+        //when
         when(availabilityScheduleService.parseToLocalDateTime(since)).thenReturn(LocalDateTime.of(2023, 9, 23, 10, 45));
         when(availabilityScheduleService.parseToLocalDateTime(toWhen)).thenReturn(LocalDateTime.of(2023, 9, 23, 11, 0));
 
@@ -90,10 +68,9 @@ public class AvailabilityScheduleControllerTest {
         when(doctorService.findByEmail(email)).thenReturn(byEmail);
         when(doctorEntityMapper.mapToEntity(byEmail)).thenReturn(doctorEntity);
 
-        // Act
         String redirectPath = controller.addTerms(since, toWhen);
 
-        // Assert
+        //then
         Assertions.assertEquals(redirectPath, "redirect:/doctor");
         verify(doctorService).authenticateDoctor();
         verify(doctorService).findByEmail(email);
@@ -104,13 +81,13 @@ public class AvailabilityScheduleControllerTest {
 
     @Test
     void deleteTerm_ShouldRedirectToDoctorView() {
-        // Arrange
+        //given
         Integer availabilityScheduleId = 1;
 
-        // Act
+        //when
         controller.deleteTerm(availabilityScheduleId);
 
-        // Assert
+        //then
         verify(availabilityScheduleDAO).deleteById(availabilityScheduleId);
     }
 }

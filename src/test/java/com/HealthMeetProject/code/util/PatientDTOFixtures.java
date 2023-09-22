@@ -27,16 +27,16 @@ public class PatientDTOFixtures {
     public static PatientDTO patientDTOExample2() {
         return PatientDTO.builder()
                 .address(Address.builder()
-                        .city("London")
+                        .city("Warsaw")
                         .country("England")
                         .postalCode("323-321")
                         .address("English 13")
                         .build())
-                .name("Tommy")
-                .surname("Shelby")
-                .email("t.shelby@gmail.com")
-                .phone("+44 782 323 323")
-                .pesel("323223223")
+                .name("Krzysztof")
+                .surname("Zduński")
+                .email("k.zdunski@tlen.com")
+                .phone("+48 531 235 803")
+                .pesel("4342125313")
                 .build();
     }
 

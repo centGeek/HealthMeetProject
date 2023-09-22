@@ -110,9 +110,8 @@ public class ReceiptApiControllerTest {
         // Arrange
         Integer meetingId = 1;
         MeetingRequest meetingRequest = new MeetingRequest();
-        Patient patient = new Patient();
+        Patient patient = PatientExampleFixtures.patientExample1();
         List<MedicineDTO> medicineList = new ArrayList<>();
-        when(meetingRequestDAO.findById(meetingId)).thenReturn(meetingRequest);
         meetingRequest.setPatient(patient);
 
         // Act and Assert

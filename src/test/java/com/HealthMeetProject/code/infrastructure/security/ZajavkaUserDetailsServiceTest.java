@@ -26,7 +26,7 @@ public class ZajavkaUserDetailsServiceTest {
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         userDetailsService = new ZajavkaUserDetailsService(userRepository);
     }
 

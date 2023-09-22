@@ -23,6 +23,8 @@ public class PatientControllerRest  extends RestAssuredIntegrationTestBase imple
         patient1.setUser(UserData.builder().userName("j_kowalski").email("j.kowalski@tlen.com")
                 .password("test").roles(Set.of(role)).active(true).build());
         PatientDTO patient2 = PatientDTOFixtures.patientDTOExample2();
+        patient2.setUser(UserData.builder().userName("k_zdunski").email("k.zdunski@tlen.com")
+                .password("test").roles(Set.of(role)).active(true).build());
         roleRepository.saveAndFlush(RoleEntity.builder().role("PATIENT").id(30001).build());
         // when
         savePatient(patient1);
