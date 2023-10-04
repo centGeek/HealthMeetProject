@@ -58,7 +58,7 @@ public class DoctorDTOFixtures {
                 .build();
     }
 
-    private static UserData getUserDTO1() {
+    public static UserData getUserDTO1() {
         return UserData.builder()
                 .active(true)
                 .userName("j_kowalski")

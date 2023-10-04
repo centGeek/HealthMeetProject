@@ -37,15 +37,15 @@ public class PatientApiControllerTest {
 
     @Test
     public void testRegisterPatient() {
-        // Arrange
+        //given
         Patient patient = new Patient();
         PatientDTO patientDTO = new PatientDTO();
         when(patientMapper.mapToDTO(patient)).thenReturn(patientDTO);
 
-        // Act
+        //when
         ResponseEntity<PatientDTO> responseEntity = patientApiController.registerPatient(patient);
 
-        // Assert
+        //then
         assertEquals(201, responseEntity.getStatusCodeValue());
 
         // Sprawdź, czy metoda register została wywołana z odpowiednimi argumentami
@@ -54,17 +54,17 @@ public class PatientApiControllerTest {
 
     @Test
     public void testGetPatientById() {
-        // Arrange
+        //given
         Integer patientId = 1;
         Patient patient = new Patient();
         when(patientDAO.findById(patientId)).thenReturn(patient);
         PatientDTO patientDTO = new PatientDTO();
         when(patientMapper.mapToDTO(patient)).thenReturn(patientDTO);
 
-        // Act
+        //when
         PatientDTO resultDTO = patientApiController.getPatientById(patientId);
 
-        // Assert
+        //then
         assertEquals(patientDTO, resultDTO);
     }
 }

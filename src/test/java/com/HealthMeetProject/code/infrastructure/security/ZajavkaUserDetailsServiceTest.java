@@ -67,8 +67,6 @@ public class ZajavkaUserDetailsServiceTest {
         when(userRepository.findByEmail("nonexistent@example.com")).thenReturn(null);
 
         // when, then
-        assertThrows(NotFoundException.class, () -> {
-            userDetailsService.loadUserByUsername("nonexistent@example.com");
-        });
+        assertThrows(NotFoundException.class, () -> userDetailsService.loadUserByUsername("nonexistent@example.com"));
     }
 }

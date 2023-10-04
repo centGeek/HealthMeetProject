@@ -1,11 +1,10 @@
 package com.HealthMeetProject.code.api.controller.rest.integration;
 
 import com.HealthMeetProject.code.HealthMeetProjectApplication;
+import com.HealthMeetProject.code.infrastructure.database.repository.MeetingRequestRepository;
 import com.HealthMeetProject.code.infrastructure.database.repository.configuration.PersistenceContainerTestConfiguration;
-import com.HealthMeetProject.code.infrastructure.database.repository.jpa.DoctorJpaRepository;
-import com.HealthMeetProject.code.infrastructure.database.repository.jpa.NoteJpaRepository;
-import com.HealthMeetProject.code.infrastructure.database.repository.jpa.PatientJpaRepository;
-import com.HealthMeetProject.code.infrastructure.database.repository.jpa.ReceiptJpaRepository;
+import com.HealthMeetProject.code.infrastructure.database.repository.jpa.*;
+import com.HealthMeetProject.code.infrastructure.security.RoleEntity;
 import com.HealthMeetProject.code.infrastructure.security.RoleRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,17 +25,19 @@ import org.springframework.test.context.ActiveProfiles;
     @Autowired
     private PatientJpaRepository patientRepository;
     @Autowired
+    private MeetingRequestJpaRepository meetingRequestRepository;
+
+    @Autowired
     private RoleRepository roleRepository;
-//
-//    @Autowired
-//    private PatientJpaRepository patientJpaRepository;
-//    @Autowired
-//    private ReceiptJpaRepository repository;
+
 
     @BeforeEach
     public void after() {
         doctorRepository.deleteAll();
         patientRepository.deleteAll();
-        roleRepository.findById(10L);
+        meetingRequestRepository.deleteAll();
+        roleRepository.saveAndFlush(RoleEntity.builder().id(1).role("DOCTOR").build());
+        roleRepository.saveAndFlush(RoleEntity.builder().id(2).role("PATIENT").build());
+
     }
 }

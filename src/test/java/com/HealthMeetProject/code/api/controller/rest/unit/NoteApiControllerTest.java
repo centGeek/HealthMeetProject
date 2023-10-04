@@ -41,7 +41,7 @@ public class NoteApiControllerTest {
 
     @Test
     public void testGetNote() {
-        // Arrange
+        //given
         Integer meetingId = 1;
         MeetingRequest meetingRequest = new MeetingRequest();
         meetingRequest.setMeetingId(meetingId);
@@ -55,10 +55,10 @@ public class NoteApiControllerTest {
         meetingRequest.setVisitEnd(visitEnd);
         when(meetingRequestService.findById(meetingId)).thenReturn(meetingRequest);
 
-        // Act
+        //when
         Note note = noteApiController.getNote(meetingId);
 
-        // Assert
+        //then
         assertEquals(meetingId, note.getNoteId());
         assertEquals(doctor, note.getDoctor());
         assertEquals(patient, note.getPatient());
@@ -68,7 +68,7 @@ public class NoteApiControllerTest {
 
     @Test
     public void testAddNote() {
-        // Arrange
+        //given
         Integer meetingId = 1;
         String illness = "Test illness";
         String description = "Test description";
@@ -83,10 +83,10 @@ public class NoteApiControllerTest {
         meetingRequest.setVisitEnd(visitEnd);
         when(meetingRequestService.findById(meetingId)).thenReturn(meetingRequest);
 
-        // Act
+        //when
         ResponseEntity<?> responseEntity = noteApiController.addNote(meetingId, illness, description);
 
-        // Assert
+        //then
         assertEquals(200, responseEntity.getStatusCodeValue());
 
         // Sprawdź, czy metoda writeNote została wywołana z odpowiednimi argumentami
@@ -95,7 +95,7 @@ public class NoteApiControllerTest {
 
     @Test
     public void testGetIllnessHistory() {
-        // Arrange
+        //given
         Integer meetingId = 1;
         MeetingRequest meetingRequest = new MeetingRequest();
         Patient patient = new Patient();
@@ -110,10 +110,10 @@ public class NoteApiControllerTest {
         noteList.add(note2);
         when(noteDAO.findByPatientEmail(patient.getEmail())).thenReturn(noteList);
 
-        // Act
+        //when
         List<String> illnessHistory = noteApiController.getIllnessHistory(meetingId);
 
-        // Assert
+        //then
         assertEquals(2, illnessHistory.size());
         assertEquals("Illness 1", illnessHistory.get(0));
         assertEquals("Illness 2", illnessHistory.get(1));

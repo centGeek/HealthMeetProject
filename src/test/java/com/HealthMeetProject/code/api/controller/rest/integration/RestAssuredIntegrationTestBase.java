@@ -1,5 +1,6 @@
 package com.HealthMeetProject.code.api.controller.rest.integration;
 
+import com.HealthMeetProject.code.api.controller.rest.integration.support.AuthenticationTestSupport;
 import com.HealthMeetProject.code.api.controller.rest.integration.support.ControllerTestSupport;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.RestAssured;
@@ -17,7 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public abstract class RestAssuredIntegrationTestBase
         extends AbstractIntegrationTest
-        implements ControllerTestSupport, pl.zajavka.integration.support.AuthenticationTestSupport {
+        implements ControllerTestSupport, AuthenticationTestSupport {
     @LocalServerPort
     private int serverPort;
     @Value("${server.servlet.context-path}")

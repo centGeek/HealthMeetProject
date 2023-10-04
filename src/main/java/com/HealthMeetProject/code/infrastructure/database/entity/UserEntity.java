@@ -37,7 +37,7 @@ public class UserEntity {
     @Column(name = "active")
     private Boolean active;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
             name = "healthy_meet_user_role",
             joinColumns = @JoinColumn(name = "user_id"),

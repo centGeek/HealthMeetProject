@@ -79,17 +79,15 @@ public class AvailabilityScheduleApiMockitoControllerTest {
     @Test
     public void testAddTerms() {
         //given
-        Integer doctorId = 1;
         AvailabilityScheduleDTO availabilityScheduleDTO = DoctorExampleFixtures.availabilityScheduleDTO1();
         availabilityScheduleDTO.setSince(LocalDateTime.now());
-
-        Doctor doctor = DoctorExampleFixtures.doctorExample1();
-        doctor.setDoctorId(doctorId);
+        Doctor doctor = DoctorExampleFixtures.doctorExample3();
+        doctor.setDoctorId(5);
         //when
-        when(doctorService.findById(doctorId)).thenReturn(Optional.of(doctor));
-        when(doctorEntityMapper.mapToEntity(doctor)).thenReturn(DoctorExampleFixtures.doctorEntityExample1());
+        when(doctorService.findById(any())).thenReturn(Optional.of(doctor));
+        when(doctorEntityMapper.mapToEntity(any())).thenReturn(DoctorExampleFixtures.doctorEntityExample1());
 
-        ResponseEntity<AvailabilityScheduleDTO> responseEntity = controller.addTerms(doctorId, availabilityScheduleDTO);
+        ResponseEntity<AvailabilityScheduleDTO> responseEntity = controller.addTerms(availabilityScheduleDTO);
 
         //then
         assertNotNull(responseEntity);

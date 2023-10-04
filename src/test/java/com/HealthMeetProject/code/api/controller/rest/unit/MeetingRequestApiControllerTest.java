@@ -68,12 +68,10 @@ public class MeetingRequestApiControllerTest {
         Integer availabilityScheduleId = 1;
         String description = "Test description";
         when(availabilityScheduleDAO.findById(availabilityScheduleId)).thenReturn(DoctorExampleFixtures.availabilitySchedule1());
-        when(patientService.authenticate()).thenReturn("patient@example.com");
         when(patientDAO.findByEmail("patient@example.com")).thenReturn(new Patient());
         when(availabilityScheduleMapper.mapToDTO(any(AvailabilitySchedule.class))).thenReturn(DoctorExampleFixtures.availabilityScheduleDTO1());
-        ResponseEntity<?> responseEntity = meetingRequestApiController.addMeetingRequest(availabilityScheduleId, description);
+        ResponseEntity<?> responseEntity = meetingRequestApiController.addMeetingRequest(availabilityScheduleId, description,"patient@example.com");
 
-        verify(patientService, times(1)).authenticate();
         verify(patientDAO, times(1)).findByEmail("patient@example.com");
         verify(meetingRequestService, times(1)).makeMeetingRequest(any(Patient.class), any(DoctorDTO.class), eq(description), any(AvailabilityScheduleDTO.class));
 

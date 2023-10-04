@@ -17,10 +17,10 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/notes")
+@RequestMapping(NoteApiController.BASE_PATH)
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class NoteApiController {
-
+    public static final String BASE_PATH = "/api/notes";
     private final MeetingRequestService meetingRequestService;
     private final DoctorService doctorService;
     private final NoteDAO noteDAO;

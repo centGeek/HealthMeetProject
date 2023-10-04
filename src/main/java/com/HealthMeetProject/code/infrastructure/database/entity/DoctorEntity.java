@@ -37,15 +37,15 @@ public class DoctorEntity {
     @Column(name = "earnings_per_visit")
     private BigDecimal earningsPerVisit;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "clinic_id")
     private ClinicEntity clinic;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private UserEntity user;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "doctor")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "doctor")
     private Set<MeetingRequestEntity> meetingRequests;
 
 }

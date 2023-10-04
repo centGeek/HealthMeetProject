@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
 public class AvailabilityScheduleDTO {
     private int availability_schedule_id;

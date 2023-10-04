@@ -58,10 +58,10 @@ public class MeetingRequestApiController {
     @PostMapping("/{availabilityScheduleId}")
     public ResponseEntity<?> addMeetingRequest(
             @PathVariable Integer availabilityScheduleId,
-            @RequestParam String description
+            @RequestParam String description,
+            @RequestHeader String patientEmail
     ) {
-        String email = patientService.authenticate();
-        Patient patient = patientDAO.findByEmail(email);
+        Patient patient = patientDAO.findByEmail(patientEmail);
 
         AvailabilityScheduleDTO visitTerm = availabilityScheduleMapper.mapToDTO(availabilityScheduleDAO.findById(availabilityScheduleId));
         DoctorDTO doctor = visitTerm.getDoctor();
@@ -70,4 +70,6 @@ public class MeetingRequestApiController {
 
         return ResponseEntity.ok("Meeting request added successfully");
     }
+
+
 }

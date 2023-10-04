@@ -41,4 +41,16 @@ public interface PatientControllerTestSupport {
                 .extract()
                 .as(PatientDTO.class);
     }
+
+
+
+    default ExtractableResponse<Response> deleteMeeting(final Integer meetingId) {
+        return requestSpecification()
+                .pathParam("meetingId", meetingId)
+                .delete(PatientApiController.BASE_PATH+"/meeting/{meetingId}")
+                .then()
+                .statusCode(HttpStatus.OK.value())
+                .and()
+                .extract();
+    }
 }

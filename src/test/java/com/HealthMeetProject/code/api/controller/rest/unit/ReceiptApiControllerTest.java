@@ -46,7 +46,7 @@ public class ReceiptApiControllerTest {
 
     @Test
     public void testGetReceiptPage() {
-        // Arrange
+        //given
         Integer meetingId = 1;
         MeetingRequest meetingRequest = new MeetingRequest();
         Doctor doctor = new Doctor();
@@ -57,27 +57,27 @@ public class ReceiptApiControllerTest {
         when(patientMapper.mapToDTO(patient)).thenReturn(PatientDTOFixtures.patientDTOExample1());
         when(doctorMapper.mapToDTO(doctor)).thenReturn(DoctorDTOFixtures.getDoctorDTO1());
 
-        // Act
+        //when
         ReceiptDTO receiptDTO = receiptApiController.getReceiptPage(meetingId);
 
-        // Assert
+        //then
         assertNotNull(receiptDTO);
         assertEquals(meetingId, receiptDTO.meetingId());
     }
 
     @Test
     public void testAddMedicine() {
-        // Arrange
+        //given
         String medicineName = "Medicine A";
         int quantity = 3;
         BigDecimal approxPrice = BigDecimal.valueOf(15.99);
         List<MedicineDTO> medicineList = new ArrayList<>();
 
-        // Act
+        //when
         ResponseEntity<?> responseEntity = receiptApiController.addMedicine(
                 medicineName, quantity, approxPrice, medicineList);
 
-        // Assert
+        //then
         assertEquals(200, responseEntity.getStatusCodeValue());
         assertFalse(medicineList.isEmpty());
         MedicineDTO addedMedicine = medicineList.get(0);
@@ -88,7 +88,7 @@ public class ReceiptApiControllerTest {
 
     @Test
     public void testIssueReceipt_Success() {
-        // Arrange
+        //given
         Integer meetingId = 1;
         MeetingRequest meetingRequest = MeetingRequestsExampleFixtures.meetingRequestDataExample1();
         Patient patient = PatientExampleFixtures.patientExample1();
@@ -97,24 +97,24 @@ public class ReceiptApiControllerTest {
         when(meetingRequestDAO.findById(meetingId)).thenReturn(meetingRequest);
         meetingRequest.setPatient(patient);
 
-        // Act
+        //when
         ResponseEntity<?> responseEntity = receiptApiController.issueReceipt(meetingId, medicineList);
 
-        // Assert
+        //then
         assertEquals(200, responseEntity.getStatusCodeValue());
         verify(receiptService, times(1)).issueReceipt(medicineList, patient);
     }
 
     @Test
     public void testIssueReceipt_NoMedicine() {
-        // Arrange
+        //given
         Integer meetingId = 1;
         MeetingRequest meetingRequest = new MeetingRequest();
         Patient patient = PatientExampleFixtures.patientExample1();
         List<MedicineDTO> medicineList = new ArrayList<>();
         meetingRequest.setPatient(patient);
 
-        // Act and Assert
+        //when and Assert
         assertThrows(ProcessingException.class,
                 () -> receiptApiController.issueReceipt(meetingId, medicineList));
         verify(receiptService, never()).issueReceipt(medicineList, patient);

@@ -1,4 +1,4 @@
-package pl.zajavka.integration.support;
+package com.HealthMeetProject.code.api.controller.rest.integration.support;
 
 import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.RequestSpecification;

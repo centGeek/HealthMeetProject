@@ -15,8 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -33,13 +31,13 @@ public class MeetingProcessingApiController {
 
     @GetMapping("/upcoming-visits/{doctorId}")
     public MeetingRequestsDTOs getWaitingForConfirmationMeetingRequests(
-            @PathVariable Integer doctorId
+            @PathVariable Integer doctorId,
+            @RequestParam String doctorEmail
     ) {
         Doctor doctor = doctorDAO.findById(doctorId)
                 .orElseThrow(() -> new ProcessingException("There is no doctor with the following identifier"));
 
-        String email = doctorService.authenticateDoctor();
-        List<MeetingRequest> meetingRequests = meetingRequestService.availableServiceRequestsByDoctor(email);
+        List<MeetingRequest> meetingRequests = meetingRequestService.availableServiceRequestsByDoctor(doctorEmail);
 
         return MeetingRequestsDTOs.of(meetingRequests.stream()
                 .filter(request -> request.getDoctor().getDoctorId() == (doctor.getDoctorId())

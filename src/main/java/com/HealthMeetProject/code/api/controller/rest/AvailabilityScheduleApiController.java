@@ -34,7 +34,7 @@ public class AvailabilityScheduleApiController {
     private final AvailabilityScheduleService availabilityScheduleService;
     private final AvailabilityScheduleDAO availabilityScheduleDAO;
 
-    @GetMapping()
+    @GetMapping
     public AvailabilityScheduleDTOs getAllAvailableWorkingDays() {
         return AvailabilityScheduleDTOs.of(availabilityScheduleDAO.findAll().stream()
                 .sorted(Comparator.comparing(AvailabilityScheduleDTO::getSince))
@@ -54,15 +54,14 @@ public class AvailabilityScheduleApiController {
 
     }
 
-    @PostMapping("/{doctorId}")
+    @PostMapping
     public ResponseEntity<AvailabilityScheduleDTO> addTerms(
-            @PathVariable Integer doctorId,
-            @RequestBody AvailabilityScheduleDTO availabilityScheduleDTO
+            @RequestBody @Valid AvailabilityScheduleDTO availabilityScheduleDTO
     ) {
         LocalDateTime sinceLocalDateTime = availabilityScheduleService.parseToLocalDateTime(availabilityScheduleDTO.getSince().toString());
         LocalDateTime whenLocalDateTime = availabilityScheduleService.parseToLocalDateTime(availabilityScheduleDTO.getSince().toString());
 
-        Doctor doctor = doctorService.findById(doctorId).orElseThrow(() -> new NotFoundException("Not found doctor"));
+        Doctor doctor = doctorService.findById(availabilityScheduleDTO.getDoctor().getDoctorId()).orElseThrow(() -> new NotFoundException("Not found doctor"));
 
         DoctorEntity doctorEntity = doctorEntityMapper.mapToEntity(doctor);
         availabilityScheduleService.addTerm(sinceLocalDateTime, whenLocalDateTime, doctorEntity);
