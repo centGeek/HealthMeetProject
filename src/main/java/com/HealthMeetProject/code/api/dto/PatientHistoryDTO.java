@@ -10,7 +10,11 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @Builder
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode
 public class PatientHistoryDTO {
     private List<MeetingRequest> allUpcomingVisits;
     private List<Boolean> canCancelMeetingList;

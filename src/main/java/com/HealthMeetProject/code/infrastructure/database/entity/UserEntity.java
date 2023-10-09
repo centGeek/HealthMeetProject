@@ -3,17 +3,16 @@ package com.HealthMeetProject.code.infrastructure.database.entity;
 import com.HealthMeetProject.code.infrastructure.security.RoleEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
 import java.util.Set;
 
-@Data
-@Builder
+@Getter
+@Setter
+@EqualsAndHashCode
 @AllArgsConstructor
+@Builder
 @NoArgsConstructor
 @Entity
 @Table(name = "healthy_meet_user")

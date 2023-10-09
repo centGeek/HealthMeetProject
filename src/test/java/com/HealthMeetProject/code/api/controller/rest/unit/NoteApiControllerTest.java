@@ -8,12 +8,10 @@ import com.HealthMeetProject.code.domain.Doctor;
 import com.HealthMeetProject.code.domain.MeetingRequest;
 import com.HealthMeetProject.code.domain.Note;
 import com.HealthMeetProject.code.domain.Patient;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.ResponseEntity;
 
@@ -87,6 +85,7 @@ public class NoteApiControllerTest {
         ResponseEntity<?> responseEntity = noteApiController.addNote(meetingId, illness, description);
 
         //then
+        //noinspection deprecation
         assertEquals(200, responseEntity.getStatusCodeValue());
 
         // Sprawdź, czy metoda writeNote została wywołana z odpowiednimi argumentami
@@ -111,7 +110,7 @@ public class NoteApiControllerTest {
         when(noteDAO.findByPatientEmail(patient.getEmail())).thenReturn(noteList);
 
         //when
-        List<String> illnessHistory = noteApiController.getIllnessHistory(meetingId);
+        List<String> illnessHistory = noteApiController.getIllnessHistory(meetingId).getIllnessList();
 
         //then
         assertEquals(2, illnessHistory.size());

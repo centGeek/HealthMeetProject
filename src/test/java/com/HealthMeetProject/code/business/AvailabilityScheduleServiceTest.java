@@ -5,6 +5,7 @@ import com.HealthMeetProject.code.api.dto.mapper.AvailabilityScheduleMapper;
 import com.HealthMeetProject.code.business.dao.AvailabilityScheduleDAO;
 import com.HealthMeetProject.code.domain.AvailabilitySchedule;
 import com.HealthMeetProject.code.domain.exception.ProcessingException;
+import com.HealthMeetProject.code.infrastructure.database.entity.AvailabilityScheduleEntity;
 import com.HealthMeetProject.code.infrastructure.database.entity.DoctorEntity;
 import com.HealthMeetProject.code.infrastructure.database.repository.mapper.AvailabilityScheduleEntityMapper;
 import com.HealthMeetProject.code.util.DoctorExampleFixtures;
@@ -12,10 +13,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -59,6 +60,38 @@ public class AvailabilityScheduleServiceTest {
         //given,when
         AvailabilitySchedule availabilitySchedule1 = DoctorExampleFixtures.availabilitySchedule1();
         availabilitySchedule1.setSince(LocalDateTime.now());
+        DoctorExampleFixtures.availabilitySchedule1().setToWhen(LocalDateTime.now().plusHours(10).plusSeconds(1));
+
+
+        LocalDateTime since = availabilitySchedule1.getSince();
+        LocalDateTime toWhen = availabilitySchedule1.getToWhen();
+
+        DoctorEntity doctorEntity = DoctorExampleFixtures.doctorEntityExample3();
+
+        //then
+        assertThrows(ProcessingException.class, () -> availabilityScheduleService.addTerm(since, toWhen, doctorEntity));
+    }
+    @Test
+    public void addingImpossibleTerm() {
+        //given,when
+        AvailabilitySchedule availabilitySchedule1 = DoctorExampleFixtures.availabilitySchedule1();
+        availabilitySchedule1.setSince(LocalDateTime.now());
+        DoctorExampleFixtures.availabilitySchedule1().setToWhen(LocalDateTime.now().minusMinutes(10).plusSeconds(1));
+
+
+        LocalDateTime since = availabilitySchedule1.getSince();
+        LocalDateTime toWhen = availabilitySchedule1.getToWhen();
+
+        DoctorEntity doctorEntity = DoctorExampleFixtures.doctorEntityExample3();
+
+        //then
+        assertThrows(ProcessingException.class, () -> availabilityScheduleService.addTerm(since, toWhen, doctorEntity));
+    }
+    @Test
+    public void thatIsNotAMinimumPlannedVisit() {
+        //given,when
+        AvailabilitySchedule availabilitySchedule1 = DoctorExampleFixtures.availabilitySchedule1();
+        availabilitySchedule1.setSince(LocalDateTime.now());
         DoctorExampleFixtures.availabilitySchedule1().setToWhen(LocalDateTime.now().plusMinutes(10).plusSeconds(1));
 
 
@@ -90,27 +123,66 @@ public class AvailabilityScheduleServiceTest {
         assertTrue(availabilityScheduleDTO.isAvailableTerm());
         assertTrue(availabilityScheduleDTO.isAvailableDay());
     }
-
     @Test
-    void testFindAllAvailableTermsByGivenDoctor() {
-        String doctorEmail = "test@example.com";
-        List<AvailabilityScheduleDTO> availabilityScheduleDTOList = new ArrayList<>();
-        when(availabilityScheduleDAO.findAllAvailableTermsByGivenDoctor(doctorEmail).stream().map(availabilityScheduleMapper::mapToDTO).toList())
-                .thenReturn(availabilityScheduleDTOList);
+    public void testFindAllTermsByGivenDoctor() {
+        //given
+        String doctorEmail = "doctor@example.com";
+        AvailabilityScheduleDTO expectedDTO = DoctorExampleFixtures.availabilityScheduleDTO1();
+        AvailabilitySchedule expected = DoctorExampleFixtures.availabilitySchedule1();
+        when(availabilityScheduleDAO.findAllTermsByGivenDoctor(doctorEmail)).thenReturn(List.of(expected));
+        when(availabilityScheduleMapper.mapToDTO(any())).thenReturn(expectedDTO);
 
-        List<AvailabilityScheduleDTO> result = availabilityScheduleService.findAllAvailableTermsByGivenDoctor(doctorEmail);
-        assertEquals(availabilityScheduleDTOList, result);
-    }
-    @Test
-    void testFindAllTermsByGivenDoctor() {
-        String doctorEmail = "test@example.com";
-        List<AvailabilityScheduleDTO> availabilityScheduleDTOList = new ArrayList<>();
-        when(availabilityScheduleDAO.findAllAvailableTermsByGivenDoctor(doctorEmail).stream().map(availabilityScheduleMapper::mapToDTO).toList())
-                .thenReturn(availabilityScheduleDTOList);
+        //when
+        List<AvailabilityScheduleDTO> result = availabilityScheduleService.findAllTermsByGivenDoctor(doctorEmail);
 
-        List<AvailabilityScheduleDTO> result = availabilityScheduleService.findAllAvailableTermsByGivenDoctor(doctorEmail);
-        assertEquals(availabilityScheduleDTOList, result);
+        //then
+        assertEquals(1, result.size());
+        assertSame(expectedDTO, result.get(0));
     }
 
+    @Test
+    public void testParseToLocalDateTime() {
+        //given
+        String dateTimeString = "2023-10-06 10:30 AM";
+        LocalDateTime expectedDateTime = LocalDateTime.of(2023, 10, 6, 10, 30);
 
+        //when
+        LocalDateTime result = availabilityScheduleService.parseToLocalDateTime(dateTimeString);
+
+        //then
+        assertEquals(expectedDateTime, result);
+    }
+
+    @Test
+    public void testFindAllAvailableTermsByGivenDoctor() {
+        //given
+        String doctorEmail = "doctor@example.com";
+        AvailabilityScheduleDTO expectedDTO = DoctorExampleFixtures.availabilityScheduleDTO1();
+        AvailabilitySchedule expected = DoctorExampleFixtures.availabilitySchedule1();
+
+        when(availabilityScheduleDAO.findAllAvailableTermsByGivenDoctor(doctorEmail)).thenReturn(List.of(expected));
+        when(availabilityScheduleMapper.mapToDTO(any())).thenReturn(expectedDTO);
+
+        //when
+        List<AvailabilityScheduleDTO> result = availabilityScheduleService.findAllAvailableTermsByGivenDoctor(doctorEmail);
+
+        //then
+        assertEquals(1, result.size());
+        assertSame(expectedDTO, result.get(0));
+    }
+
+    @Test
+    public void testSave() {
+        //given
+        AvailabilitySchedule availabilitySchedule = new AvailabilitySchedule();
+        AvailabilityScheduleEntity availabilityScheduleEntity = DoctorExampleFixtures.availabilityScheduleEntity1();
+
+        when(availabilityScheduleEntityMapper.mapToEntity(availabilitySchedule)).thenReturn(availabilityScheduleEntity);
+
+        //when
+        availabilityScheduleService.save(availabilitySchedule);
+
+        //then
+        Mockito.verify(availabilityScheduleDAO, Mockito.times(1)).save(availabilityScheduleEntity);
+    }
 }

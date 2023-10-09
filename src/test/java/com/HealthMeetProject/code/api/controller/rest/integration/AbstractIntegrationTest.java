@@ -27,17 +27,13 @@ import org.springframework.test.context.ActiveProfiles;
     @Autowired
     private MeetingRequestJpaRepository meetingRequestRepository;
 
-    @Autowired
-    private RoleRepository roleRepository;
 
 
     @BeforeEach
-    public void after() {
+    public void before() {
         doctorRepository.deleteAll();
         patientRepository.deleteAll();
         meetingRequestRepository.deleteAll();
-        roleRepository.saveAndFlush(RoleEntity.builder().id(1).role("DOCTOR").build());
-        roleRepository.saveAndFlush(RoleEntity.builder().id(2).role("PATIENT").build());
 
     }
 }

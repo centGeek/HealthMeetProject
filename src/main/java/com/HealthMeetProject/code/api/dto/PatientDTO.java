@@ -1,12 +1,11 @@
 package com.HealthMeetProject.code.api.dto;
 
 import com.HealthMeetProject.code.domain.Address;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder

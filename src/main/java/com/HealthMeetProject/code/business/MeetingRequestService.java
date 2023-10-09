@@ -26,6 +26,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -50,7 +51,7 @@ public class MeetingRequestService {
         return LocalDateTime.now().plusMinutes(30).plusSeconds(1).isBefore(visitStart);
     }
     @Transactional
-    public void makeMeetingRequest(Patient patient, DoctorDTO doctorDTO, String description, AvailabilityScheduleDTO visitTimeDTO) {
+    public MeetingRequest makeMeetingRequest(Patient patient, DoctorDTO doctorDTO, String description, AvailabilityScheduleDTO visitTimeDTO) {
         validate(patient.getEmail());
         Doctor doctor = doctorMapper.mapFromDTO(doctorDTO);
         AvailabilitySchedule visitTime = availabilityScheduleMapper.mapFromDTO(visitTimeDTO);
@@ -58,6 +59,7 @@ public class MeetingRequestService {
         AvailabilityScheduleEntity visitTimeEntity = availabilityScheduleEntityMapper.mapToEntity(visitTime);
         availabilityScheduleJpaRepository.saveAndFlush(visitTimeEntity);
         patientService.saveMeetingRequest(meetingServiceRequest, patient);
+        return meetingServiceRequest;
     }
 
 
@@ -70,7 +72,7 @@ public class MeetingRequestService {
     }
 
 
-    private MeetingRequest buildMeetingRequest(
+    public MeetingRequest buildMeetingRequest(
             Patient patient,
             Doctor doctor,
             String description,
@@ -182,4 +184,5 @@ public class MeetingRequestService {
         }
         return particularVisitTimeDTO;
     }
+
 }

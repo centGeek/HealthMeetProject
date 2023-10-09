@@ -64,5 +64,14 @@ public class MeetingRequestsExampleFixtures {
                 .doctor(DoctorExampleFixtures.doctorExample1())
                 .build();
     }
-
+    public static MeetingRequest meetingRequestDataExample2() {
+        return MeetingRequest.builder()
+                .meetingRequestNumber("2132313")
+                .receivedDateTime(DoctorExampleFixtures.availabilityScheduleEntity2().getSince())
+                .completedDateTime(DoctorExampleFixtures.availabilityScheduleEntity2().getToWhen())
+                .visitStart(DoctorExampleFixtures.availabilityScheduleEntity1().getSince())
+                .visitEnd(DoctorExampleFixtures.availabilityScheduleEntity1().getToWhen())
+                .description("Druga zaba mi sie do d... przykleila")
+                .build();
+    }
 }

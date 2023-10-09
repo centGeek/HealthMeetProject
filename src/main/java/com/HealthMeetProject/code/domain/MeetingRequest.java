@@ -1,16 +1,15 @@
 package com.HealthMeetProject.code.domain;
 
-import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
-import java.time.LocalDateTime;
 
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@With
 public class MeetingRequest {
     private Integer meetingId;
     private String meetingRequestNumber;

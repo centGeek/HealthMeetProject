@@ -55,7 +55,7 @@ public class ZajavkaUserDetailsServiceTest {
         assertTrue(userDetails.isEnabled());
         assertEquals("test@example.com", userDetails.getUsername());
 
-        Set<SimpleGrantedAuthority> authoritiesSet = (Set<SimpleGrantedAuthority>) userDetails.getAuthorities();
+        @SuppressWarnings("unchecked") Set<SimpleGrantedAuthority> authoritiesSet = (Set<SimpleGrantedAuthority>) userDetails.getAuthorities();
         List<SimpleGrantedAuthority> authorities = new ArrayList<>(authoritiesSet);
         assertEquals(1, authorities.size());
         assertEquals("ROLE_USER", authorities.get(0).getAuthority());

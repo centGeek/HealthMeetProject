@@ -16,6 +16,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,19 +33,6 @@ public class MeetingRequestRepositoryTest {
     private MeetingRequestEntityMapper meetingRequestEntityMapper;
     @InjectMocks
     private MeetingRequestRepository meetingRequestRepository;
-
-
-//    @Test
-//    public void testFindAvailable() {
-//        List<MeetingRequestEntity> meetingRequestEntities = List.of(new MeetingRequestEntity(), new MeetingRequestEntity());
-//
-//        when(meetingRequestJpaRepository.findAll()).thenReturn(meetingRequestEntities);
-//        when(meetingRequestEntityMapper.mapFromEntity(any(MeetingRequestEntity.class))).thenReturn(new MeetingRequest());
-//
-//        List<MeetingRequest> result = meetingRequestRepository.findAvailable();
-//
-//        assertEquals(meetingRequestEntities.size(), result.size());
-//    }
 
     @Test
     public void testFindAllUpcomingVisits() {
@@ -125,5 +113,74 @@ public class MeetingRequestRepositoryTest {
 
         assertThrows(ProcessingException.class, () -> meetingRequestRepository.findById(meetingId));
     }
+    @Test
+    public void testFindAvailable() {
+        //given
+        List<MeetingRequestEntity> entityList = new ArrayList<>();
+        when(meetingRequestJpaRepository.findAll()).thenReturn(entityList);
+
+       //when
+        List<MeetingRequest> result = meetingRequestRepository.findAvailable();
+
+        //then
+        assertEquals(0, result.size());
+        verify(meetingRequestJpaRepository, times(1)).findAll();
+        verify(meetingRequestEntityMapper, times(entityList.size())).mapFromEntity(any());
+    }
+
+    @Test
+    public void testFindAllEndedUpVisitsByDoctorAndPatient() {
+        //given
+        String doctorEmail = "doctor@example.com";
+        String patientEmail = "patient@example.com";
+        List<MeetingRequestEntity> entityList = new ArrayList<>();
+        when(meetingRequestJpaRepository.findAllEndedUpVisits(doctorEmail, patientEmail)).thenReturn(entityList);
+
+
+       //when
+        List<MeetingRequest> result = meetingRequestRepository.findAllEndedUpVisitsByDoctorAndPatient(doctorEmail, patientEmail);
+
+        //then
+        assertEquals(0, result.size());
+        verify(meetingRequestJpaRepository, times(1)).findAllEndedUpVisits(doctorEmail, patientEmail);
+        verify(meetingRequestEntityMapper, times(entityList.size())).mapFromEntity(any());
+    }
+    @Test
+    public void testFindAllUpcomingCompletedVisitsByDoctor() {
+        //given
+        String doctorEmail = "doctor@example.com";
+        List<MeetingRequestEntity> entityList = new ArrayList<>();
+        when(meetingRequestJpaRepository.findAllUpcomingCompletedVisitsByDoctor(doctorEmail)).thenReturn(entityList);
+
+
+       //when
+        List<MeetingRequest> result = meetingRequestRepository.findAllUpcomingCompletedVisitsByDoctor(doctorEmail);
+
+        //then
+        assertNotNull(result);
+        assertEquals(0, result.size());
+        verify(meetingRequestJpaRepository, times(1)).findAllUpcomingCompletedVisitsByDoctor(doctorEmail);
+        verify(meetingRequestEntityMapper, times(entityList.size())).mapFromEntity(any());
+    }
+
+    @Test
+    public void testFindByPatientEmail() {
+        //given
+        String patientEmail = "patient@example.com";
+        List<MeetingRequestEntity> entityList = new ArrayList<>();
+        when(meetingRequestJpaRepository.findAllByPatientEmail(patientEmail)).thenReturn(entityList);
+
+
+       //when
+        List<MeetingRequest> result = meetingRequestRepository.findByPatientEmail(patientEmail);
+
+        //then
+        assertNotNull(result);
+        assertEquals(0, result.size());
+        verify(meetingRequestJpaRepository, times(1)).findAllByPatientEmail(patientEmail);
+        verify(meetingRequestEntityMapper, times(entityList.size())).mapFromEntity(any());
+    }
+
+
 
 }

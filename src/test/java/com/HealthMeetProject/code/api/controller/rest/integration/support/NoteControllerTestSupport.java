@@ -30,7 +30,7 @@ public interface NoteControllerTestSupport {
     default ExtractableResponse<Response> addNote(final Integer meetingId) {
         return requestSpecification()
                 .pathParam("meetingId", meetingId)
-                .post(BASE_PATH+ "/meeting/{meetingId}")
+                .post(NoteApiController.BASE_PATH+ "/meeting/{meetingId}")
                 .then()
                 .statusCode(HttpStatus.OK.value())
                 .and()
@@ -39,7 +39,7 @@ public interface NoteControllerTestSupport {
     default IllnessHistoryDTOs getIllnessHistory(final Integer meetingId) {
         return requestSpecification()
                 .pathParam("meetingId", meetingId)
-                .delete(BASE_PATH+"/{meeting/{meetingId}")
+                .delete(NoteApiController.BASE_PATH+"/{patient/{meetingId}")
                 .then()
                 .statusCode(HttpStatus.OK.value())
                 .and()

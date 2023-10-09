@@ -21,6 +21,8 @@ public class DoctorsControllerItRestAssuredIT extends RestAssuredIntegrationTest
     @Test
     void thatDoctorsCanSaveAndListedCorrectly() {
         // given
+        roleRepository.saveAndFlush(RoleEntity.builder().id(1).role("DOCTOR").build());
+        roleRepository.saveAndFlush(RoleEntity.builder().id(2).role("PATIENT").build());
         DoctorDTO doctor1 = DoctorDTOFixtures.getDoctorDTO1();
         DoctorDTO doctor2 = DoctorDTOFixtures.getDoctorDTO2();
         // when

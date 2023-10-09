@@ -87,8 +87,9 @@ public class DoctorService {
 
 
     @Transactional
-    public void register(DoctorDTO doctorDTO) throws UserAlreadyExistsException {
+    public DoctorDTO register(DoctorDTO doctorDTO) throws UserAlreadyExistsException {
         doctorDAO.register(doctorDTO);
+        return doctorDTO;
     }
 
     public Optional<Doctor> findById(Integer doctorId) {

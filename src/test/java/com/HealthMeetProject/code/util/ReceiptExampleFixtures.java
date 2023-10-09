@@ -26,6 +26,12 @@ public class ReceiptExampleFixtures {
                 dateTime(DoctorExampleFixtures.availabilityScheduleEntity2().getSince()).
                 build();
     }
+    public static Receipt receiptEntityData2() {
+        return Receipt.builder().
+                receiptNumber("32312256786345").
+                dateTime(DoctorExampleFixtures.availabilityScheduleEntity2().getSince()).
+                build();
+    }
 
     public static ReceiptEntity receiptEntityExampleData3() {
         return ReceiptEntity.builder().

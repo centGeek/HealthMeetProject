@@ -4,13 +4,22 @@ import com.HealthMeetProject.code.api.dto.DoctorDTO;
 import com.HealthMeetProject.code.api.dto.UserData;
 import com.HealthMeetProject.code.business.DoctorService;
 import com.HealthMeetProject.code.domain.exception.UserAlreadyExistsException;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
+import jakarta.validation.ValidationException;
+import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import java.util.List;
+import java.util.regex.Pattern;
 
 @Controller
 @AllArgsConstructor
@@ -28,10 +37,23 @@ public class DoctorRegistrationController {
     }
 
     @PostMapping(DOCTOR_REGISTER+"/add")
-    public String userRegistration(final @Valid DoctorDTO doctorDTO, final BindingResult bindingResult, final Model model) {
+    public String userRegistration(final @Valid @ModelAttribute("doctorDTO") DoctorDTO doctorDTO,
+                                   final BindingResult bindingResult, ModelMap model, HttpServletResponse response) {
         if (bindingResult.hasErrors()) {
-            model.addAttribute("registrationForm", doctorDTO);
-            return "doctor_register";
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            if(!Pattern.matches("^[+]\\d{2}\\s\\d{3}\\s\\d{3}\\s\\d{3}$", doctorDTO.getPhone())){
+                model.addAttribute("errorMessage",
+                        "Your phone: [%s] needs to fit to pattern: [+xx xxx xxx xxx]".formatted(doctorDTO.getPhone()));
+                return "error";
+            }
+            if(!Pattern.matches("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" +
+            "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$", doctorDTO.getPhone())){
+                model.addAttribute("errorMessage",
+                        "Your email: [%s] needs to fit real email pattern".formatted(doctorDTO.getEmail()));
+                return "error";
+            }
+
+
         }
         try {
             doctorService.register(doctorDTO);
@@ -40,6 +62,7 @@ public class DoctorRegistrationController {
             model.addAttribute("registrationForm", doctorDTO);
             return "doctor_register";
         }
+
 
         model.addAttribute("doctorDTO", doctorDTO);
 

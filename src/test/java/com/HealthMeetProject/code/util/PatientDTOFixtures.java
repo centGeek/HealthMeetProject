@@ -24,6 +24,16 @@ public class PatientDTOFixtures {
                 .email("j.kowalski@gmail.com")
                 .build();
     }
+
+    public static UserData userDataPatient1() {
+        return UserData.builder()
+                .email("j.kowalski@gmail.com")
+                .userName("j_kowalski")
+                .active(true)
+                .password("test")
+                .build();
+    }
+
     public static PatientDTO patientDTOExample2() {
         return PatientDTO.builder()
                 .address(Address.builder()
@@ -49,6 +59,7 @@ public class PatientDTOFixtures {
                 .password("password")
                 .roles(Set.of(RoleEntity.builder().id(2).role("PATIENT").build())).build();
     }
+
     public static UserEntity userDataPatientEntity() {
         return UserEntity.builder()
                 .id(2)

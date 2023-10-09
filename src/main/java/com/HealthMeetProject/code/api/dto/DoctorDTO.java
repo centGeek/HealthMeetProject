@@ -45,7 +45,6 @@ public class DoctorDTO {
                 .name("Jan")
                 .email("j.kowalski@gmail.com")
                 .surname("Kowalski")
-                .phone("+48 783 323 323")
                 .specialization(Specialization.PSYCHIATRIST)
                 .earningsPerVisit(BigDecimal.ONE)
                 .build();

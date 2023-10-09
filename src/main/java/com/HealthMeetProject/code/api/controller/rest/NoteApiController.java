@@ -1,5 +1,6 @@
 package com.HealthMeetProject.code.api.controller.rest;
 
+import com.HealthMeetProject.code.api.dto.IllnessHistoryDTOs;
 import com.HealthMeetProject.code.api.dto.NoteDTOs;
 import com.HealthMeetProject.code.business.DoctorService;
 import com.HealthMeetProject.code.business.MeetingRequestService;
@@ -60,12 +61,13 @@ public class NoteApiController {
     }
 
     @GetMapping("/patient/{meetingId}")
-    public List<String>  getIllnessHistory(
+    public IllnessHistoryDTOs getIllnessHistory(
             @PathVariable Integer meetingId
     ) {
         MeetingRequest byId = meetingRequestService.findById(meetingId);
         Patient patient = byId.getPatient();
-       return noteDAO.findByPatientEmail(patient.getEmail()).stream().map(Note::getIllness).toList();
+       return IllnessHistoryDTOs.of(noteDAO.findByPatientEmail(patient.getEmail())
+               .stream().map(Note::getIllness).toList());
 
     }
 }
