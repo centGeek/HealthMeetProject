@@ -44,13 +44,15 @@ public class MedicineRepositoryTest {
     public void testFindByPatientEmail() {
         //given
         String patientEmail = "patient@example.com";
-        List<MedicineEntity> medicineEntities = List.of(new MedicineEntity(), new MedicineEntity());
+        List<MedicineEntity> medicineEntities = List.of(MedicineExampleFixtures.medicineEntityExampleData1(),
+                MedicineExampleFixtures.medicineEntityExampleData2());
         //when
         when(medicineJpaRepository.findByPatientEmail(patientEmail)).thenReturn(medicineEntities);
 
         List<MedicineEntity> result = medicineRepository.findByPatientEmail(patientEmail);
         //then
         assertEquals(medicineEntities.size(), result.size());
+        assertEquals(medicineEntities.get(0), result.get(0));
     }
 
     @Test

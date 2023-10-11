@@ -2,12 +2,15 @@ package com.HealthMeetProject.code.infrastructure.database.repository;
 
 import com.HealthMeetProject.code.api.dto.DoctorDTO;
 import com.HealthMeetProject.code.api.dto.UserData;
+import com.HealthMeetProject.code.business.dao.DoctorDAO;
 import com.HealthMeetProject.code.domain.Doctor;
+import com.HealthMeetProject.code.domain.Receipt;
+import com.HealthMeetProject.code.domain.Specialization;
 import com.HealthMeetProject.code.infrastructure.database.entity.DoctorEntity;
-import com.HealthMeetProject.code.infrastructure.database.repository.jpa.AvailabilityScheduleJpaRepository;
-import com.HealthMeetProject.code.infrastructure.database.repository.jpa.DoctorJpaRepository;
-import com.HealthMeetProject.code.infrastructure.database.repository.jpa.NoteJpaRepository;
-import com.HealthMeetProject.code.infrastructure.database.repository.jpa.ReceiptJpaRepository;
+import com.HealthMeetProject.code.infrastructure.database.entity.MedicineEntity;
+import com.HealthMeetProject.code.infrastructure.database.entity.NoteEntity;
+import com.HealthMeetProject.code.infrastructure.database.entity.ReceiptEntity;
+import com.HealthMeetProject.code.infrastructure.database.repository.jpa.*;
 import com.HealthMeetProject.code.infrastructure.database.repository.mapper.DoctorEntityMapper;
 import com.HealthMeetProject.code.infrastructure.database.repository.mapper.NoteEntityMapper;
 import com.HealthMeetProject.code.infrastructure.database.repository.mapper.ReceiptEntityMapper;
@@ -15,14 +18,17 @@ import com.HealthMeetProject.code.infrastructure.security.RoleEntity;
 import com.HealthMeetProject.code.infrastructure.security.RoleRepository;
 import com.HealthMeetProject.code.infrastructure.security.UserRepository;
 import com.HealthMeetProject.code.util.DoctorExampleFixtures;
+import com.HealthMeetProject.code.util.MedicineExampleFixtures;
+import com.HealthMeetProject.code.util.ReceiptExampleFixtures;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.testcontainers.shaded.org.bouncycastle.cert.dane.DANEEntryFactory;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -35,9 +41,13 @@ public class DoctorRepositoryTest {
 
     @Mock
     private DoctorJpaRepository doctorJpaRepository;
+    @Mock
+    private DoctorDAO doctorDAO;
 
     @Mock
     private DoctorEntityMapper doctorEntityMapper;
+    @Mock
+    private MedicineJpaRepository medicineJpaRepository;
 
     @Mock
     private AvailabilityScheduleJpaRepository availabilityScheduleJpaRepository;
@@ -50,6 +60,9 @@ public class DoctorRepositoryTest {
 
     @Mock
     private ReceiptJpaRepository receiptJpaRepository;
+
+    @Mock
+    private MeetingRequestJpaRepository meetingRequestJpaRepository;
 
     @Mock
     private ReceiptEntityMapper receiptEntityMapper;
@@ -106,6 +119,59 @@ public class DoctorRepositoryTest {
         //then
         verify(userRepository, times(1)).saveAndFlush(any());
         verify(doctorJpaRepository, times(1)).saveAndFlush(any());
+    }
+    @Test
+    public void testWriteNote() {
+        //given
+        NoteEntity noteEntity = new NoteEntity();
+
+        //when
+        doctorRepository.writeNote(noteEntity);
+
+        //then
+        verify(noteJpaRepository, times(1)).saveAndFlush(noteEntity);
+    }
+
+    @Test
+    public void testIssueReceipt() {
+        //given
+        Receipt receipt = ReceiptExampleFixtures.receiptExampleData1();
+        MedicineEntity medicineEntity = MedicineExampleFixtures.medicineEntityExampleData3();
+        Set<MedicineEntity> medicineSet = Collections.singleton(medicineEntity);
+        ReceiptEntity receiptEntity = ReceiptExampleFixtures.receiptEntityExampleData1();
+
+        when(receiptEntityMapper.mapToEntity(receipt)).thenReturn(receiptEntity);
+        when(receiptJpaRepository.saveAndFlush(receiptEntity)).thenReturn(receiptEntity);
+
+        //when
+        doctorRepository.issueReceipt(receipt, medicineSet);
+
+        //then
+        verify(receiptEntityMapper, times(1)).mapToEntity(receipt);
+        verify(receiptJpaRepository, times(1)).saveAndFlush(receiptEntity);
+        verify(medicineJpaRepository, times(1)).saveAllAndFlush(medicineSet);
+    }
+
+    @Test
+    public void testFindAllAvailableDoctors() {
+        //given
+        DoctorEntity doctorEntity1 = DoctorExampleFixtures.doctorEntityExample1();
+        DoctorEntity doctorEntity2 = DoctorExampleFixtures.doctorEntityExample2();
+        Doctor doctor1 = DoctorExampleFixtures.doctorExample1();
+        Doctor doctor2 = DoctorExampleFixtures.doctorExample3();
+        List<DoctorEntity> doctorsEntity = List.of(doctorEntity1, doctorEntity2);
+        doctor2.setSpecialization(Specialization.PSYCHIATRIST);
+        when(doctorJpaRepository.findAll()).thenReturn(doctorsEntity);
+        when(doctorEntityMapper.mapFromEntity(doctorEntity1)).thenReturn(doctor1);
+        when(doctorEntityMapper.mapFromEntity(doctorEntity2)).thenReturn(doctor2);
+
+        //when
+        List<Doctor> result = doctorRepository.findAllAvailableDoctors();
+
+        //then
+        assertNotNull(result);
+        assertEquals(2, result.size());
+        assertEquals(doctorEntity1.getEmail(), result.get(0).getEmail());
     }
 
 }

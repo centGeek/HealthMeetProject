@@ -4,12 +4,14 @@ import com.HealthMeetProject.code.domain.Receipt;
 import com.HealthMeetProject.code.infrastructure.database.entity.ReceiptEntity;
 import com.HealthMeetProject.code.util.DoctorExampleFixtures;
 import com.HealthMeetProject.code.util.MedicineExampleFixtures;
+import com.HealthMeetProject.code.util.PatientExampleFixtures;
 import com.HealthMeetProject.code.util.ReceiptExampleFixtures;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 
+import java.time.LocalDateTime;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -32,7 +34,7 @@ public class ReceiptEntityMapperTest {
         Receipt receipt = mapper.mapFromEntity(receiptEntity);
 
         // then
-        assertions(receipt,receiptEntity);
+        assertions(receipt, receiptEntity);
         Assertions.assertNull(receipt.getMedicine());
         Assertions.assertNotNull(receiptEntity.getMedicine());
     }
@@ -58,6 +60,25 @@ public class ReceiptEntityMapperTest {
         assertEquals(receipt.getDateTime(), receiptEntity.getDateTime());
         assertEquals(receipt.getReceiptNumber(), receiptEntity.getReceiptNumber());
         assertEquals(receipt.getDoctor().getPhone(), receiptEntity.getDoctor().getPhone());
+    }
+
+    @Test
+    public void ReceiptEntityTest() {
+        ReceiptEntity receiptEntity = new ReceiptEntity();
+        ReceiptEntity receiptEntity1 = receiptEntity
+                .withDateTime(LocalDateTime.MAX)
+                .withReceiptId(3)
+                .withReceiptNumber("323123124")
+                .withMedicine(Set.of())
+                .withPatient(PatientExampleFixtures.patientEntityExample1());
+
+        receiptEntity.setDateTime(LocalDateTime.MAX);
+        receiptEntity.setReceiptId(3);
+        receiptEntity.setReceiptNumber("323123124");
+        receiptEntity.setMedicine(Set.of());
+        receiptEntity.setPatient(PatientExampleFixtures.patientEntityExample1());
+        Assertions.assertEquals(receiptEntity1, receiptEntity);
+        Assertions.assertEquals(receiptEntity1.hashCode(), receiptEntity.hashCode());
     }
 
 }

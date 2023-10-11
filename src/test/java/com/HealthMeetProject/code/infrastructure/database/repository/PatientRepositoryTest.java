@@ -1,6 +1,7 @@
 package com.HealthMeetProject.code.infrastructure.database.repository;
 
 import com.HealthMeetProject.code.api.dto.PatientDTO;
+import com.HealthMeetProject.code.domain.Address;
 import com.HealthMeetProject.code.domain.MeetingRequest;
 import com.HealthMeetProject.code.domain.Patient;
 import com.HealthMeetProject.code.infrastructure.database.entity.MeetingRequestEntity;
@@ -13,9 +14,11 @@ import com.HealthMeetProject.code.infrastructure.database.repository.mapper.Pati
 import com.HealthMeetProject.code.infrastructure.security.RoleEntity;
 import com.HealthMeetProject.code.infrastructure.security.RoleRepository;
 import com.HealthMeetProject.code.infrastructure.security.UserRepository;
+import com.HealthMeetProject.code.util.DoctorExampleFixtures;
 import com.HealthMeetProject.code.util.MeetingRequestsExampleFixtures;
 import com.HealthMeetProject.code.util.PatientDTOFixtures;
 import com.HealthMeetProject.code.util.PatientExampleFixtures;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -25,7 +28,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
@@ -89,20 +91,36 @@ public class PatientRepositoryTest {
         // then
         verify(meetingRequestJpaRepository).saveAndFlush(meetingRequestEntity);
     }
+
     @Test
     void testSavePatient() {
         //given
-        Patient patient = PatientExampleFixtures.patientExample1();
+        Patient startPatient = PatientExampleFixtures.patientExample1();
+        Patient patient = startPatient.withEmail("j.kowalski@gmail.com")
+                .withSurname("Kowalski")
+                .withName("Jan")
+                .withPesel("323232901")
+                .withPhone("+48 783 323 323")
+                .withAddress(Address.builder()
+                        .country("Poland")
+                        .city("Warszawa")
+                        .postalCode("96-323")
+                        .address("Niewiadomska 13")
+                        .build())
+                .withUser(DoctorExampleFixtures.doctorExample1().getUser());
+        patient.setPatientId(3);
         patient.setUser(PatientDTOFixtures.userDataPatient());
         PatientEntity patientEntity = PatientExampleFixtures.patientEntityExample1();
         patientEntity.setUser(PatientDTOFixtures.userDataPatientEntity());
         when(patientEntityMapper.mapToEntity(patient)).thenReturn(patientEntity);
         when(patientJpaRepository.save(patientEntity)).thenReturn(patientEntity);
 
+        Patient patient1 = new Patient();
+        Patient patient2 = new Patient();
         //when
         patientRepository.savePatient(patient);
-
         //then
+        Assertions.assertEquals(patient1, patient2);
         verify(patientJpaRepository).save(patientEntity);
     }
 

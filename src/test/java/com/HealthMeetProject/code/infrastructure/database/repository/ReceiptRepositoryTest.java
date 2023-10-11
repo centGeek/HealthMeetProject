@@ -38,6 +38,7 @@ public class ReceiptRepositoryTest {
         List<Receipt> actualReceipts = receiptRepository.findPatientReceipts(email);
 
         //then
+        assertEquals(expectedReceipts.get(0), actualReceipts.get(0));
         verify(receiptJpaRepository, times(1)).findPatientReceipts(email);
         assertEquals(expectedReceipts.size(), actualReceipts.size());
     }

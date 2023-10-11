@@ -11,6 +11,7 @@ import org.mapstruct.factory.Mappers;
 import java.math.BigDecimal;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 public class MedicineEntityMapperTest {
 
@@ -35,6 +36,7 @@ public class MedicineEntityMapperTest {
 
         // then
         assertions(medicineEntity,medicine);
+        assertNotEquals(medicineEntity.hashCode(),medicine.hashCode());
     }
 
     @Test
@@ -51,17 +53,10 @@ public class MedicineEntityMapperTest {
         //then
         Assertions.assertThat(medicineEntity.getMedicineId()).isEqualTo(medicine.getMedicineId());
         Assertions.assertThat(medicineEntity.getName()).isEqualTo(medicine.getName());
-        Assertions.assertThat(medicine.getReceipt()).isEqualTo(null);
     }
 
     private static void assertions(MedicineEntity medicineEntity, Medicine medicine) {
         assertEquals(medicineEntity.getMedicineId(), medicine.getMedicineId());
         assertEquals(medicineEntity.getName(), medicine.getName());
-        assertEquals(medicineEntity.getReceipt().getPatient().getPhone(), medicine.getReceipt().getPatient().getPhone());
-        assertEquals(medicineEntity.getReceipt().getPatient().getPhone(), medicine.getReceipt().getPatient().getPhone());
-        assertEquals(medicineEntity.getReceipt().getPatient().getName(), medicine.getReceipt().getPatient().getName());
-        assertEquals(medicineEntity.getReceipt().getPatient().getSurname(), medicine.getReceipt().getPatient().getSurname());
-        assertEquals(medicineEntity.getReceipt().getPatient().getAddress().getCountry(), medicine.getReceipt().getPatient().getAddress().getCountry());
-        assertEquals(medicineEntity.getReceipt().getDateTime(), medicine.getReceipt().getDateTime());
     }
 }

@@ -1,10 +1,10 @@
 package com.HealthMeetProject.code.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-@Data
+import lombok.*;
+
+@EqualsAndHashCode
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder

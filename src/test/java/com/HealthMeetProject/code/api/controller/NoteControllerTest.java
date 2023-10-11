@@ -10,6 +10,7 @@ import com.HealthMeetProject.code.util.MeetingRequestsExampleFixtures;
 import com.HealthMeetProject.code.util.NoteExampleFixtures;
 import lombok.AllArgsConstructor;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -56,7 +57,6 @@ public class NoteControllerTest {
 
     @Test
     public void testGetNotePageMeetingNotFound() throws Exception {
-        Integer meetingId = 1;
         String email = "patient@email.com";
         when(noteDAO.findByPatientEmail(email)).thenReturn(List.of(NoteExampleFixtures.noteExample1()));
         mockMvc.perform(get("/note/{meetingId}", email))
@@ -86,4 +86,18 @@ public class NoteControllerTest {
                 eq("Some Illness"), eq("Description of the illness"), eq(meetingRequest.getPatient()),
                 eq(meetingRequest.getVisitStart()), eq(meetingRequest.getVisitEnd()));
     }
+
+    @Test
+    void thatIllnessHistoryIsLoadedCorrectly() throws Exception {
+        Mockito.when(meetingRequestService.findById(any())).thenReturn(MeetingRequestsExampleFixtures.meetingRequestDataExample1());
+        Mockito.when(noteDAO.findByPatientEmail(any())).thenReturn(List.of(NoteExampleFixtures.noteExample1()));
+
+        mockMvc.perform(get("/doctor/illness/history/3"))
+                .andExpect(model().attributeExists("byPatientEmail"))
+                .andExpect(model().attributeExists("patientName"))
+                .andExpect(model().attributeExists("patientSurname"))
+                .andExpect(model().attributeExists("patientPesel"))
+                .andExpect(view().name("patient_illness_history"));
+    }
+
 }

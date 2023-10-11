@@ -3,11 +3,11 @@ package com.HealthMeetProject.code.infrastructure.database.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(exclude = "doctorEntity")
-@ToString(exclude = "doctorEntity")
 @Builder
 @Entity
 @Table(name = "clinic")

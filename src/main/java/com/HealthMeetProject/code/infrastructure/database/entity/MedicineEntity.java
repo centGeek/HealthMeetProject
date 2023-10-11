@@ -5,10 +5,11 @@ import lombok.*;
 
 import java.math.BigDecimal;
 
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(exclude = "receipt")
 @Entity
 @Builder
 @Table(name = "medicine")

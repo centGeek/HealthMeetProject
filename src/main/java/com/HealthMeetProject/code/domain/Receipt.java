@@ -8,7 +8,9 @@ import java.time.LocalDateTime;
 import java.util.Set;
 
 
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode
 @NoArgsConstructor
 @ToString(exclude = "medicine")
 @AllArgsConstructor

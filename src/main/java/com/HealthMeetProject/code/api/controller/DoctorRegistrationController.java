@@ -6,19 +6,15 @@ import com.HealthMeetProject.code.business.DoctorService;
 import com.HealthMeetProject.code.domain.exception.UserAlreadyExistsException;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
-import jakarta.validation.ValidationException;
-import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import java.util.List;
 import java.util.regex.Pattern;
 
 @Controller
@@ -37,8 +33,25 @@ public class DoctorRegistrationController {
     }
 
     @PostMapping(DOCTOR_REGISTER+"/add")
-    public String userRegistration(final @Valid @ModelAttribute("doctorDTO") DoctorDTO doctorDTO,
+    public String userRegistration(final @Valid DoctorDTO doctorDTO,
                                    final BindingResult bindingResult, ModelMap model, HttpServletResponse response) {
+        String error = handleMistakes(doctorDTO, bindingResult, model, response);
+        if (error != null) return error;
+        try {
+            doctorService.register(doctorDTO);
+        } catch (UserAlreadyExistsException e) {
+            bindingResult.rejectValue("email", "doctorDTO.email", "An account already exists for this email.");
+            model.addAttribute("registrationForm", doctorDTO);
+            return "doctor_register";
+        }
+
+
+        model.addAttribute("doctorDTO", doctorDTO);
+
+        return "doctor_register_successfully";
+    }
+
+    private String handleMistakes(DoctorDTO doctorDTO, BindingResult bindingResult, ModelMap model, HttpServletResponse response) {
         if (bindingResult.hasErrors()) {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             if(!Pattern.matches("^[+]\\d{2}\\s\\d{3}\\s\\d{3}\\s\\d{3}$", doctorDTO.getPhone())){
@@ -55,18 +68,7 @@ public class DoctorRegistrationController {
 
 
         }
-        try {
-            doctorService.register(doctorDTO);
-        } catch (UserAlreadyExistsException e) {
-            bindingResult.rejectValue("email", "doctorDTO.email", "An account already exists for this email.");
-            model.addAttribute("registrationForm", doctorDTO);
-            return "doctor_register";
-        }
-
-
-        model.addAttribute("doctorDTO", doctorDTO);
-
-        return "doctor_register_successfully";
+        return null;
     }
 
 }

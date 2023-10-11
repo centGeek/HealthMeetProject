@@ -2,13 +2,12 @@ package com.HealthMeetProject.code.domain;
 
 import com.HealthMeetProject.code.infrastructure.database.entity.ReceiptEntity;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.math.BigDecimal;
-@Data
+@EqualsAndHashCode
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder

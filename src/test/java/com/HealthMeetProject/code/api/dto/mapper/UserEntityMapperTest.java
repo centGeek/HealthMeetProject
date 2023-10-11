@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 public class UserEntityMapperTest {
     private UserEntityMapper mapper;
@@ -20,12 +21,14 @@ public class UserEntityMapperTest {
     @Test
     public void shouldMapPatientEntityToPatient() {
         // given
-        UserData userData = PatientDTOFixtures.userDataPatient();
+        UserData userData1 = PatientDTOFixtures.userDataPatient();
+        UserData userData2 = PatientDTOFixtures.userDataPatient();
         //when
-        UserEntity user = mapper.mapToEntity(userData);
+        UserEntity user = mapper.mapToEntity(userData1);
 
         // then
-        assertions(userData,user);
+        assertions(userData1,user);
+        assertEquals(userData1, userData2);
     }
     private static void assertions(UserData userData, UserEntity userEntity) {
         assertEquals(userData.getEmail(), userEntity.getEmail());

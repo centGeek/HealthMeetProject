@@ -37,6 +37,7 @@ public class PatientController {
     @GetMapping(PATIENT_HISTORY)
     public String getPatientHistoryPage(Model model) {
         String authenticate = patientService.authenticate();
+        patientHistoryDTOService.patientHistoryDTO(authenticate);
         PatientHistoryDTO patientHistoryDTO = patientHistoryDTOService.patientHistoryDTO(authenticate);
         model.addAttribute("patientHistoryDTO", patientHistoryDTO);
 

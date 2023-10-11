@@ -36,8 +36,9 @@ public class PatientService {
     }
 
     @Transactional
-    public void register(PatientDTO patientDTO) throws UserAlreadyExistsException {
+    public PatientDTO register(PatientDTO patientDTO) throws UserAlreadyExistsException {
         patientDAO.register(patientDTO);
+        return patientDTO;
     }
     public String authenticate() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

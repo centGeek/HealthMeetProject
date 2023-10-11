@@ -1,13 +1,13 @@
 package com.HealthMeetProject.code.api.dto;
 
 import com.HealthMeetProject.code.domain.MeetingRequest;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 import java.util.List;
 
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode
 @AllArgsConstructor(staticName = "of")
 @Builder
 public class MeetingRequestsDTOs {

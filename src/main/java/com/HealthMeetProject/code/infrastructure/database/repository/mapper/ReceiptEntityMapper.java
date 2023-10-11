@@ -13,9 +13,13 @@ import org.mapstruct.ReportingPolicy;
 
 public interface ReceiptEntityMapper {
     @Mapping(target = "medicine", ignore = true)
+    @Mapping(source = "doctor.meetingRequests", target = "doctor.meetingRequests", ignore = true)
+
     ReceiptEntity mapToEntity(Receipt receipt);
 
     @Mapping(target = "medicine", ignore = true)
+    @Mapping(source = "doctor.meetingRequests", target = "doctor.meetingRequests", ignore = true)
+
     Receipt mapFromEntity(ReceiptEntity receipt);
 
 }
