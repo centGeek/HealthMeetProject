@@ -41,11 +41,9 @@ W celu ułatwienia testowania aplikacji, udostępniam domyślnych użytkowników
 2. Email: s.white@gmail.com, Hasło: test
 
 ## Techniczne Aspekty
-
+Testy uruchamiane są w **testContainers**. Potrzebujemy zainstalowanego dockera na naszym systemie operacyjnym .Można również uruchomić aplikację na dockerze domyślnie pod portem 8081
 ### Testy
-
 W ramach projektu przeprowadziliśmy różne rodzaje testów, w tym:
-
 - **Unit Test**: Testy skupiające się na izolowaniu i testowaniu pojedynczych komponentów systemu, takich jak metody serwisów i kontrolerów.
 - **Parametrized Tests**: Testy z różnymi zestawami parametrów, aby sprawdzić, czy aplikacja zachowuje się poprawnie w różnych scenariuszach.
 - **WebMvcTest**: Testy warstwy kontrolerów Spring MVC.
@@ -78,7 +76,7 @@ Aby zainicjować tabele i dane w bazie danych, używamy migracji Flyway. Migracj
 
 ## Kontakt
 
-Jeśli masz pytania lub potrzebujesz pomocy z projektem, skontaktuj się ze mną pod adresem [centkowski.lukasz03@gmail.com].
+Jeżeli cię zaciekawił mój projekt, napisz pod adres email [centkowski.lukasz03@gmail.com].
 
 Dziękuję za przeczytanie tych wypocin ;)!
 
