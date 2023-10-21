@@ -21,7 +21,7 @@ public class MeetingRequestRepository implements MeetingRequestDAO {
         private final MeetingRequestEntityMapper meetingRequestEntityMapper;
 
     @Override
-    public List<MeetingRequest> findAvailable() {
+    public List<MeetingRequest> findAll() {
         return meetingRequestJpaRepository.findAll()
                 .stream()
                 .map(meetingRequestEntityMapper::mapFromEntity)
@@ -62,14 +62,18 @@ public class MeetingRequestRepository implements MeetingRequestDAO {
         return meetingRequestJpaRepository.findAllCompletedMeetingRequestsByPatient(email)
                 .stream().map(meetingRequestEntityMapper::mapFromEntity).toList();
     }
+    public void save(MeetingRequest meetingRequest){
+        MeetingRequestEntity meetingRequestEntity = meetingRequestEntityMapper.mapToEntity(meetingRequest);
+        meetingRequestJpaRepository.save(meetingRequestEntity);
+    }
 
     @Override
-    public List<MeetingRequest> availableServiceRequests(String email) {
+    public List<MeetingRequest> findAllActiveMeetingRequestsByDoctor(String email) {
         return meetingRequestJpaRepository.findAllActiveMeetingRequestsByDoctor(email).stream().map(meetingRequestEntityMapper::mapFromEntity).toList();
     }
 
     @Override
-    public List<MeetingRequest> availableEndedVisitsByDoctor(String email) {
+    public List<MeetingRequest> completedMeetingRequestsByDoctor(String email) {
         return meetingRequestJpaRepository.completedMeetingRequestsByDoctor(email).stream().map(meetingRequestEntityMapper::mapFromEntity).toList();
     }
 

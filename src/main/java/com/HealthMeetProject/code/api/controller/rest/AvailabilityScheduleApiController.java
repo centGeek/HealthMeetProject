@@ -56,18 +56,22 @@ public class AvailabilityScheduleApiController {
 
     @PostMapping
     public ResponseEntity<AvailabilityScheduleDTO> addTerms(
-            @RequestBody @Valid AvailabilityScheduleDTO availabilityScheduleDTO
+            @RequestBody AvailabilityScheduleDTO availabilityScheduleDTO
     ) {
-        LocalDateTime sinceLocalDateTime = availabilityScheduleService.parseToLocalDateTime(availabilityScheduleDTO.getSince().toString());
-        LocalDateTime whenLocalDateTime = availabilityScheduleService.parseToLocalDateTime(availabilityScheduleDTO.getSince().toString());
+        try {
 
-        Doctor doctor = doctorService.findById(availabilityScheduleDTO.getDoctor().getDoctorId()).orElseThrow(() -> new NotFoundException("Not found doctor"));
+            Doctor doctor = doctorService.findById(availabilityScheduleDTO.getDoctor().getDoctorId())
+                    .orElseThrow(() -> new NotFoundException("Not found doctor"));
 
-        DoctorEntity doctorEntity = doctorEntityMapper.mapToEntity(doctor);
-        availabilityScheduleService.addTerm(sinceLocalDateTime, whenLocalDateTime, doctorEntity);
-        return ResponseEntity
-                .created(URI.create(BASE_PATH + AVAILABILITY_ID.formatted(doctor.getDoctorId())))
-                .build();
+            DoctorEntity doctorEntity = doctorEntityMapper.mapToEntity(doctor);
+            availabilityScheduleService.addTerm(availabilityScheduleDTO.getSince(), availabilityScheduleDTO.getToWhen(), doctorEntity);
+
+            return ResponseEntity
+                    .created(URI.create(BASE_PATH + AVAILABILITY_ID.formatted(doctor.getDoctorId())))
+                    .build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     @DeleteMapping("/{availabilityScheduleId}")

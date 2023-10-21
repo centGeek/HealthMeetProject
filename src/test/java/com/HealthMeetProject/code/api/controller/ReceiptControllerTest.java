@@ -5,8 +5,6 @@ import com.HealthMeetProject.code.business.ReceiptService;
 import com.HealthMeetProject.code.business.dao.MeetingRequestDAO;
 import com.HealthMeetProject.code.domain.Medicine;
 import com.HealthMeetProject.code.domain.MeetingRequest;
-import com.HealthMeetProject.code.infrastructure.database.entity.MeetingRequestEntity;
-import com.HealthMeetProject.code.infrastructure.database.repository.jpa.MeetingRequestJpaRepository;
 import com.HealthMeetProject.code.util.MedicineExampleFixtures;
 import com.HealthMeetProject.code.util.MeetingRequestsExampleFixtures;
 import lombok.AllArgsConstructor;
@@ -20,7 +18,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;

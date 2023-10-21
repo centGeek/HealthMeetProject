@@ -1,78 +1,56 @@
 package com.HealthMeetProject.code.api.controller.rest;
 
-import com.HealthMeetProject.code.api.controller.MeetingProcessingController;
 import com.HealthMeetProject.code.api.dto.MedicineDTO;
-import com.HealthMeetProject.code.api.dto.ReceiptDTO;
-import com.HealthMeetProject.code.api.dto.mapper.DoctorMapper;
-import com.HealthMeetProject.code.api.dto.mapper.PatientMapper;
+import com.HealthMeetProject.code.api.dto.Receipts;
 import com.HealthMeetProject.code.business.ReceiptService;
-import com.HealthMeetProject.code.business.dao.MeetingRequestDAO;
 import com.HealthMeetProject.code.domain.Doctor;
-import com.HealthMeetProject.code.domain.MeetingRequest;
 import com.HealthMeetProject.code.domain.Patient;
+import com.HealthMeetProject.code.domain.Receipt;
 import com.HealthMeetProject.code.domain.exception.ProcessingException;
+import com.HealthMeetProject.code.infrastructure.database.repository.DoctorRepository;
+import com.HealthMeetProject.code.infrastructure.database.repository.PatientRepository;
+import com.HealthMeetProject.code.infrastructure.database.repository.ReceiptRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/receipt")
+@RequestMapping(ReceiptApiController.BASE_PATH)
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class ReceiptApiController {
-    private final MeetingRequestDAO meetingRequestDAO;
     private final ReceiptService receiptService;
-    private final PatientMapper patientMapper;
-    private final DoctorMapper doctorMapper;
+    private final PatientRepository patientRepository;
+    private final DoctorRepository doctorRepository;
+    private final ReceiptRepository receiptRepository;
+    public static final String BASE_PATH = "/api/receipt";
 
-    @GetMapping("/{meetingId}")
-    public ReceiptDTO getReceiptPage(
-            @PathVariable Integer meetingId
+    @GetMapping("/{patientEmail}")
+    public Receipts getReceiptPage(@PathVariable String patientEmail
     ) {
-        MeetingRequest meetingRequest = meetingRequestDAO.findById(meetingId);
-        Doctor doctor = meetingRequest.getDoctor();
-        Patient patient = meetingRequest.getPatient();
+        List<Receipt> patientReceipts = receiptRepository.findPatientReceipts(patientEmail);
 
-     return ReceiptDTO.builder()
-                .now(LocalDateTime.now().format(MeetingProcessingController.FORMATTER))
-                .patientDTO(patientMapper.mapToDTO(patient))
-                .doctorDTO(doctorMapper.mapToDTO(doctor))
-                .meetingId(meetingId)
-                .build();
+        return Receipts.of(patientReceipts);
     }
 
-    @PostMapping("/add/medicine/")
-    public ResponseEntity<?> addMedicine(
-            @RequestParam("medicine_name") String medicineName,
-            @RequestParam("quantity") int quantity,
-            @RequestParam("approx_price") BigDecimal approxPrice,
-            @ModelAttribute("medicineList") List<MedicineDTO> medicineList
-    ) {
-        MedicineDTO build = MedicineDTO.builder()
-                .name(medicineName)
-                .quantity(quantity)
-                .approxPrice(approxPrice)
-                .build();
-        medicineList.add(build);
 
-        return ResponseEntity.ok(build);
-    }
-
-    @PostMapping("/issue/{meetingId}")
+    @PostMapping("/issue")
     public ResponseEntity<?> issueReceipt(
-            @PathVariable Integer meetingId,
-            @ModelAttribute("medicineList") List<MedicineDTO> medicineList
+            @RequestParam String patientEmail,
+            @RequestParam String doctorEmail,
+            @RequestParam List<MedicineDTO> medicineList
     ) {
         if (medicineList.isEmpty()) {
             throw new ProcessingException("Cannot issue receipt because you did not add any medicine");
         }
-        MeetingRequest meetingRequest = meetingRequestDAO.findById(meetingId);
-        Patient patient = meetingRequest.getPatient();
-        receiptService.issueReceipt(medicineList, patient);
-        return ResponseEntity.ok("Receipt issued successfully");
+        Patient patient = patientRepository.findByEmail(patientEmail);
+        Doctor doctor = doctorRepository.findByEmail(doctorEmail).orElseThrow();
+        receiptService.restIssueReceipt(medicineList, patient,doctor);
+        return ResponseEntity
+                .created(URI.create(BASE_PATH))
+                .build();
     }
 }

@@ -5,15 +5,18 @@ import com.HealthMeetProject.code.api.dto.NoteDTOs;
 import com.HealthMeetProject.code.business.DoctorService;
 import com.HealthMeetProject.code.business.MeetingRequestService;
 import com.HealthMeetProject.code.business.dao.NoteDAO;
+import com.HealthMeetProject.code.business.dao.PatientDAO;
 import com.HealthMeetProject.code.domain.Doctor;
 import com.HealthMeetProject.code.domain.MeetingRequest;
 import com.HealthMeetProject.code.domain.Note;
 import com.HealthMeetProject.code.domain.Patient;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -25,20 +28,25 @@ public class NoteApiController {
     private final MeetingRequestService meetingRequestService;
     private final DoctorService doctorService;
     private final NoteDAO noteDAO;
+    private final PatientDAO patientDAO;
 
     @GetMapping("/{meetingId}")
     public Note getNote(
-            @PathVariable Integer meetingId
+            @PathVariable Integer meetingId,
+            @RequestParam String illness
+
     ) {
-        MeetingRequest meetingRequestEntity = meetingRequestService.findById(meetingId);
+        MeetingRequest meetingRequestEntity = meetingRequestService.restFindById(meetingId);
         Doctor doctor = meetingRequestEntity.getDoctor();
         Patient patient = meetingRequestEntity.getPatient();
         LocalDateTime visitEnd = meetingRequestEntity.getVisitEnd();
         LocalDateTime visitStart = meetingRequestEntity.getVisitStart();
 
         Note noteDTO = new Note();
+        noteDTO.setIllness(illness);
         noteDTO.setPatient(patient);
         noteDTO.setNoteId(meetingId);
+        noteDTO.setDescription(meetingRequestEntity.getDescription());
         noteDTO.setDoctor(doctor);
         noteDTO.setStartTime(visitStart);
         noteDTO.setEndTime(visitEnd);
@@ -46,28 +54,29 @@ public class NoteApiController {
         return noteDTO;
     }
 
-    @PostMapping("/add/{meetingId}")
+    @PostMapping("/{meetingId}")
     public ResponseEntity<?> addNote(
             @PathVariable Integer meetingId,
-            @RequestParam("illness") String illness,
-            @RequestParam("description") String description
+            @RequestBody Note note
     ) {
-        MeetingRequest meetingRequest = meetingRequestService.findById(meetingId);
-        Doctor doctor = meetingRequest.getDoctor();
-        Patient patient = meetingRequest.getPatient();
-        doctorService.writeNote(doctor, illness, description, patient, meetingRequest.getVisitStart(), meetingRequest.getVisitEnd());
-
-        return ResponseEntity.ok("Note added successfully");
+        try {
+            MeetingRequest meetingRequest = meetingRequestService.restFindById(meetingId);
+            doctorService.writeNote(note.getDoctor(), note.getIllness(), note.getDescription(), note.getPatient(), meetingRequest.getVisitStart(), meetingRequest.getVisitEnd());
+            return ResponseEntity
+                    .created(URI.create(BASE_PATH + "/"+meetingId))
+                    .build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
-    @GetMapping("/patient/{meetingId}")
+    @GetMapping("/patient/{email}")
     public IllnessHistoryDTOs getIllnessHistory(
-            @PathVariable Integer meetingId
+            @PathVariable String email
     ) {
-        MeetingRequest byId = meetingRequestService.findById(meetingId);
-        Patient patient = byId.getPatient();
-       return IllnessHistoryDTOs.of(noteDAO.findByPatientEmail(patient.getEmail())
-               .stream().map(Note::getIllness).toList());
+        Patient patient = patientDAO.findByEmail(email);
+        return IllnessHistoryDTOs.of(noteDAO.findByPatientEmail(patient.getEmail())
+                .stream().map(Note::getIllness).toList());
 
     }
 }

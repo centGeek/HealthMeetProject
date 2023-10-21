@@ -1,5 +1,7 @@
 package com.HealthMeetProject.code.infrastructure.database.entity;
 
+import com.HealthMeetProject.code.domain.Patient;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -40,4 +42,12 @@ public class ReceiptEntity {
     @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "medicine_id")
     private Set<MedicineEntity> medicine;
+    @JsonIgnore
+    public PatientEntity getPatient() {
+        return patient;
+    }
+    @JsonIgnore
+    public DoctorEntity getDoctor() {
+        return doctor;
+    }
 }

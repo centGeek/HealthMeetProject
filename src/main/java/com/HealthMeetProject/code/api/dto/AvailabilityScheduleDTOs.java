@@ -8,6 +8,7 @@ import java.util.List;
 @Setter
 @EqualsAndHashCode
 @AllArgsConstructor(staticName = "of")
+@NoArgsConstructor
 @Builder
 public class AvailabilityScheduleDTOs {
     private List<AvailabilityScheduleDTO> availabilityScheduleDTOList;

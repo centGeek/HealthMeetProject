@@ -2,13 +2,11 @@ package com.HealthMeetProject.code.api.controller;
 
 import com.HealthMeetProject.code.api.dto.DoctorDTO;
 import com.HealthMeetProject.code.business.DoctorService;
-import com.HealthMeetProject.code.util.DoctorDTOFixtures;
 import lombok.AllArgsConstructor;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +19,6 @@ import org.springframework.util.LinkedMultiValueMap;
 import java.util.Map;
 import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 

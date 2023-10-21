@@ -1,5 +1,6 @@
 package com.HealthMeetProject.code.infrastructure.database.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -14,7 +15,7 @@ import java.time.LocalDateTime;
 @With
 @Table(name = "meeting_request")
 @Builder
-public class MeetingRequestEntity {
+public class    MeetingRequestEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int meetingId;
@@ -41,8 +42,17 @@ public class MeetingRequestEntity {
     @JoinColumn(name = "doctor_id")
     private DoctorEntity doctor;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "patient_id")
     private PatientEntity patient;
 
+    @JsonIgnore
+    public DoctorEntity getDoctor() {
+        return doctor;
+    }
+
+    @JsonIgnore
+    public PatientEntity getPatient() {
+        return patient;
+    }
 }

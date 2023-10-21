@@ -49,7 +49,7 @@ public class DoctorRepository implements DoctorDAO {
     @Override
     public DoctorDTOs findAllDoctors() {
         List<DoctorDTO> list = doctorJpaRepository.findAll().stream().map(doctorEntityMapper::mapFromEntity).map(doctorMapper::mapToDTO).toList();
-      return DoctorDTOs
+        return DoctorDTOs
                 .builder()
                 .doctorDTOList(list)
                 .build();
@@ -70,12 +70,10 @@ public class DoctorRepository implements DoctorDAO {
     @Override
     public void issueReceipt(Receipt receipt, Set<MedicineEntity> medicineSet) {
         ReceiptEntity receiptEntity = receiptEntityMapper.mapToEntity(receipt);
-        ReceiptEntity receiptEntitySaved = receiptJpaRepository.saveAndFlush(receiptEntity);
-        for (MedicineEntity medicine : medicineSet) {
-            medicine.setReceipt(receiptEntitySaved);
-        }
+        receiptJpaRepository.saveAndFlush(receiptEntity);
         medicineJpaRepository.saveAllAndFlush(medicineSet);
     }
+
 
     @Override
     public void register(DoctorDTO doctorDTO) {

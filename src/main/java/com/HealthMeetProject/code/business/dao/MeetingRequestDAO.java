@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface MeetingRequestDAO {
-    List<MeetingRequest> findAvailable();
+    List<MeetingRequest> findAll();
 
     List<MeetingRequest> findAllActiveMeetingRequests(String email);
 
@@ -24,9 +24,9 @@ public interface MeetingRequestDAO {
 
     List<MeetingRequest> findAllCompletedServiceRequestsByEmail(String email);
 
-    List<MeetingRequest> availableServiceRequests(String email);
+    List<MeetingRequest> findAllActiveMeetingRequestsByDoctor(String email);
 
-    List<MeetingRequest> availableEndedVisitsByDoctor(String email);
+    List<MeetingRequest> completedMeetingRequestsByDoctor(String email);
 
     boolean findIfMeetingRequestExistsWithTheSameDateAndDoctor(LocalDateTime since, LocalDateTime toWhen, Doctor doctor);
 

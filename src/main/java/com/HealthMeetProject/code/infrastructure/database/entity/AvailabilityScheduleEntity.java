@@ -31,7 +31,7 @@ public class AvailabilityScheduleEntity {
     @Column(name = "available_term")
     private boolean availableTerm;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name = "doctor_id")
     private DoctorEntity doctor;
 

@@ -16,10 +16,11 @@ import org.springframework.test.context.TestPropertySource;
 import java.util.List;
 import java.util.Set;
 
-import static com.HealthMeetProject.code.util.DoctorExampleFixtures.*;
-import static com.HealthMeetProject.code.util.PatientExampleFixtures.*;
+import static com.HealthMeetProject.code.util.DoctorExampleFixtures.doctorEntityExample1;
+import static com.HealthMeetProject.code.util.PatientExampleFixtures.patientEntityExample1;
+import static com.HealthMeetProject.code.util.PatientExampleFixtures.patientEntityExample2;
 import static com.HealthMeetProject.code.util.ReceiptExampleFixtures.*;
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
 @TestPropertySource("classpath:application-test.yml")

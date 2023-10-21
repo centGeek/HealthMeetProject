@@ -2,7 +2,6 @@ package com.HealthMeetProject.code.business;
 
 import com.HealthMeetProject.code.api.dto.AvailabilityScheduleDTO;
 import com.HealthMeetProject.code.api.dto.DoctorDTO;
-import com.HealthMeetProject.code.api.dto.PatientDTO;
 import com.HealthMeetProject.code.api.dto.mapper.AvailabilityScheduleMapper;
 import com.HealthMeetProject.code.api.dto.mapper.DoctorMapper;
 import com.HealthMeetProject.code.api.dto.mapper.PatientMapper;
@@ -84,12 +83,19 @@ public class MeetingRequestServiceTest {
         List<MeetingRequest> meetingRequestList = List.of(MeetingRequestsExampleFixtures.meetingRequestDataExample1());
         Mockito.when(meetingRequestDAO.findAllActiveMeetingRequests(email)).thenReturn(meetingRequestList);
 
-        RuntimeException exception = assertThrows(ProcessingException.class, () ->
+         assertDoesNotThrow(() ->
                 meetingRequestService.validate(email));
 
         String expectedMessage = "There should be only one active meeting request at a time, patient email: [%s]".formatted(email);
+
+        meetingRequestList.get(0).setVisitStart(LocalDateTime.of(2030,5,25,3,2));
+        meetingRequestList.get(0).setVisitEnd(LocalDateTime.of(2030,5,25,3,2));
+        RuntimeException exception = assertThrows(ProcessingException.class, () ->
+                meetingRequestService.validate(email));
+
         String actualMessage = exception.getMessage();
         assertEquals(expectedMessage, actualMessage);
+
     }
 
     @Test
@@ -163,7 +169,7 @@ public class MeetingRequestServiceTest {
         List<MeetingRequest> requests = Arrays.asList(request1, request2);
 
        //when
-        Mockito.when(meetingRequestDAO.availableEndedVisitsByDoctor(email)).thenReturn(requests);
+        Mockito.when(meetingRequestDAO.completedMeetingRequestsByDoctor(email)).thenReturn(requests);
 
         //when
         List<MeetingRequest> result = meetingRequestService.availableEndedVisitsByDoctor(email);
@@ -224,7 +230,7 @@ public class MeetingRequestServiceTest {
         MeetingRequest request2 = new MeetingRequest();
         List<MeetingRequest> requests = Arrays.asList(request1, request2);
         //when
-        Mockito.when(meetingRequestDAO.availableServiceRequests(email)).thenReturn(requests);
+        Mockito.when(meetingRequestDAO.findAllActiveMeetingRequestsByDoctor(email)).thenReturn(requests);
         List<MeetingRequest> result = meetingRequestService.availableServiceRequestsByDoctor(email);
         //then
         assertEquals(requests.size(), result.size());

@@ -18,9 +18,9 @@ public interface DoctorsControllerTestSupport {
                 .extract()
                 .as(DoctorDTOs.class);
     }
-    default DoctorDTO getDoctor(final String path) {
+    default DoctorDTO getDoctor(final String email ) {
         return requestSpecification()
-                .get(path)
+                .get(DoctorApiController.BASE_PATH+"/"+email)
                 .then()
                 .statusCode(HttpStatus.OK.value())
                 .and()

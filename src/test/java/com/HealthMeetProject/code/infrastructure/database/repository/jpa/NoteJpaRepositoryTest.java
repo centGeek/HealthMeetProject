@@ -18,7 +18,6 @@ import org.springframework.context.annotation.Import;
 import org.springframework.test.context.TestPropertySource;
 
 import java.util.List;
-import java.util.Set;
 
 @DataJpaTest
 @TestPropertySource("classpath:application-test.yml")

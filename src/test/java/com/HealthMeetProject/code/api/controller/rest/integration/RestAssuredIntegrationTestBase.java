@@ -8,7 +8,8 @@ import io.restassured.config.ObjectMapperConfig;
 import io.restassured.config.RestAssuredConfig;
 import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.web.server.LocalServerPort;
@@ -19,6 +20,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public abstract class RestAssuredIntegrationTestBase
         extends AbstractIntegrationTest
         implements ControllerTestSupport, AuthenticationTestSupport {
+
     @LocalServerPort
     private int serverPort;
     @Value("${server.servlet.context-path}")
@@ -29,6 +31,7 @@ public abstract class RestAssuredIntegrationTestBase
     @Autowired
     @SuppressWarnings("unused")
     private ObjectMapper objectMapper;
+
 
     @Override
     public ObjectMapper getObjectMapper() {
@@ -42,7 +45,7 @@ public abstract class RestAssuredIntegrationTestBase
 
 
     @BeforeEach
-    void beforeEach() {
+    void beforeEachMethod() {
         jSessionIdValue = login("rest_api@wp.pl", "test")
                 .and()
                 .cookie("JSESSIONID")

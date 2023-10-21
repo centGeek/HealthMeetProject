@@ -1,6 +1,5 @@
 package com.HealthMeetProject.code.api.controller.rest.integration.support;
 
-import com.HealthMeetProject.code.api.controller.rest.DoctorApiController;
 import com.HealthMeetProject.code.api.controller.rest.PatientApiController;
 import com.HealthMeetProject.code.api.dto.DoctorDTO;
 import com.HealthMeetProject.code.api.dto.PatientDTO;
@@ -12,7 +11,7 @@ import org.springframework.http.HttpStatus;
 public interface PatientControllerTestSupport {
     RequestSpecification requestSpecification();
 
-    default DoctorDTO getDoctor(final String path) {
+    default DoctorDTO getThisDoctor(final String path) {
         return requestSpecification()
                 .get(path)
                 .then()

@@ -1,14 +1,16 @@
 package com.HealthMeetProject.code.infrastructure.database.repository.mapper;
 
-import com.HealthMeetProject.code.api.dto.mapper.UserEntityMapper;
-import com.HealthMeetProject.code.api.dto.mapper.UserEntityMapperImpl;
 import com.HealthMeetProject.code.domain.AvailabilitySchedule;
+import com.HealthMeetProject.code.domain.Doctor;
 import com.HealthMeetProject.code.infrastructure.database.entity.AvailabilityScheduleEntity;
+import com.HealthMeetProject.code.util.DoctorExampleFixtures;
+import com.HealthMeetProject.code.util.MeetingRequestsExampleFixtures;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 
 public class AvailabilityScheduleEntityMapperTest {
@@ -56,6 +58,24 @@ public class AvailabilityScheduleEntityMapperTest {
         AvailabilityScheduleEntity entity = availableScheduleEntityMapper.mapToEntity(schedule);
         //then
         assertEquals(entity, schedule);
+    }
+    @Test
+    public void shouldMapMeetingRequest() {
+        //given
+        AvailabilitySchedule schedule = DoctorExampleFixtures.availabilitySchedule1();
+        Doctor doctor = DoctorExampleFixtures.doctorExample1();
+        doctor.setMeetingRequests(Set.of((MeetingRequestsExampleFixtures.meetingRequestDataExample1())));
+        schedule.setDoctor(doctor);
+        AvailabilityScheduleEntity availabilityScheduleEntity = availableScheduleEntityMapper.mapToEntity(schedule);
+        AvailabilitySchedule availabilitySchedule = availableScheduleEntityMapper.mapFromEntity(availabilityScheduleEntity);
+
+
+        Assertions.assertEquals(schedule.getToWhen(), availabilitySchedule.getToWhen());
+        Assertions.assertEquals(schedule.getSince(), availabilitySchedule.getSince());
+        Assertions.assertEquals(schedule.getAvailability_schedule_id(), availabilitySchedule.getAvailability_schedule_id());
+        Assertions.assertEquals(schedule.getDoctor().getEmail(), availabilitySchedule.getDoctor().getEmail());
+        Assertions.assertEquals(schedule.getDoctor().getEarningsPerVisit(), availabilitySchedule.getDoctor().getEarningsPerVisit());
+        //when
     }
 
 

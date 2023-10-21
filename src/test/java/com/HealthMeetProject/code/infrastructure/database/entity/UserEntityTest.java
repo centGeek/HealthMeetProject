@@ -3,8 +3,6 @@ package com.HealthMeetProject.code.infrastructure.database.entity;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 public class UserEntityTest {
     @Test
     public void equalsTest() {

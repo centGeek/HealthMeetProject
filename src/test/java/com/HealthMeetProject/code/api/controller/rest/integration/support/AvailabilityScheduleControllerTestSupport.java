@@ -7,7 +7,6 @@ import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import org.springframework.http.HttpStatus;
-
 public interface AvailabilityScheduleControllerTestSupport {
     RequestSpecification requestSpecification();
 
@@ -23,7 +22,7 @@ public interface AvailabilityScheduleControllerTestSupport {
 
     default AvailabilityScheduleDTOs getAllDoctorAvailableTerms(Integer doctorId) {
         return requestSpecification()
-                .get(AvailabilityScheduleApiController.BASE_PATH + "/{doctorId}")
+                .get(AvailabilityScheduleApiController.BASE_PATH + "/"+doctorId)
                 .then()
                 .statusCode(HttpStatus.OK.value())
                 .and()
@@ -33,6 +32,7 @@ public interface AvailabilityScheduleControllerTestSupport {
 
     default ExtractableResponse<Response> addTerm(final AvailabilityScheduleDTO availabilityScheduleDTO
     ) {
+
         return requestSpecification()
                 .body(availabilityScheduleDTO)
                 .post(AvailabilityScheduleApiController.BASE_PATH)

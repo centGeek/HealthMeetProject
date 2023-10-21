@@ -12,11 +12,9 @@ import com.HealthMeetProject.code.util.DoctorExampleFixtures;
 import com.HealthMeetProject.code.util.MeetingRequestsExampleFixtures;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -28,6 +26,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 public class MeetingProcessingApiControllerTest {
 
     @Mock
@@ -64,10 +66,10 @@ public class MeetingProcessingApiControllerTest {
         when(meetingRequestService.availableServiceRequestsByDoctor("j.kowalski@gmail.com")).thenReturn(meetingRequests);
 
         //when,then
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/meeting-processing/upcoming-visits/{doctorId}", doctorId)
+        mockMvc.perform(get("/api/meeting-processing/upcoming-visits/{doctorId}", doctorId)
                         .param("doctorEmail", doctor.getEmail()))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andDo(MockMvcResultHandlers.print());
         verify(doctorDAO, times(1)).findById(doctorId);
         verify(meetingRequestService, times(1)).availableServiceRequestsByDoctor("j.kowalski@gmail.com");
@@ -83,10 +85,9 @@ public class MeetingProcessingApiControllerTest {
         when(meetingRequestDAO.findAllEndedUpVisitsByDoctorAndPatient(doctorEmail, patientEmail)).thenReturn(meetingRequests);
 
         //when & Assert
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/meeting-processing/ended-visits")
-                        .param("patientEmail", patientEmail))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(get("/api/meeting-processing/ended-visits/"+patientEmail))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andDo(MockMvcResultHandlers.print());
         verify(doctorService, times(1)).authenticateDoctor();
         verify(meetingRequestDAO, times(1)).findAllEndedUpVisitsByDoctorAndPatient(doctorEmail, patientEmail);
@@ -101,8 +102,8 @@ public class MeetingProcessingApiControllerTest {
 
         //when & Assert
         mockMvc.perform(MockMvcRequestBuilders.patch("/api/meeting-processing/{meetingRequestId}", meetingRequestId))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andDo(MockMvcResultHandlers.print());
         verify(meetingRequestService, times(1)).executeActionForMeetingRequest(meetingRequestId);
     }

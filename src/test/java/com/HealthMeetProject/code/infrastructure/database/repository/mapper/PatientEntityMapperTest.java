@@ -2,7 +2,6 @@ package com.HealthMeetProject.code.infrastructure.database.repository.mapper;
 
 import com.HealthMeetProject.code.domain.Patient;
 import com.HealthMeetProject.code.infrastructure.database.entity.PatientEntity;
-import com.HealthMeetProject.code.util.DoctorDTOFixtures;
 import com.HealthMeetProject.code.util.PatientDTOFixtures;
 import com.HealthMeetProject.code.util.PatientExampleFixtures;
 import org.junit.jupiter.api.BeforeEach;

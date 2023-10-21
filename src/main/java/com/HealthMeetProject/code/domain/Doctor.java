@@ -9,7 +9,7 @@ import java.util.Set;
 
 @Getter
 @Setter
-@EqualsAndHashCode
+@EqualsAndHashCode(exclude = "meetingRequests")
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder

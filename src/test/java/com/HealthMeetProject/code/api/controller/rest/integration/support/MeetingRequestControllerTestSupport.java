@@ -2,6 +2,8 @@ package com.HealthMeetProject.code.api.controller.rest.integration.support;
 
 import com.HealthMeetProject.code.api.controller.rest.MeetingRequestApiController;
 import com.HealthMeetProject.code.api.dto.AvailabilityScheduleDTOs;
+import com.HealthMeetProject.code.api.dto.MeetingRequestDTO;
+import com.HealthMeetProject.code.api.dto.MeetingRequestsDTOs;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
@@ -11,17 +13,17 @@ public interface MeetingRequestControllerTestSupport {
     RequestSpecification requestSpecification();
 
 
-    default AvailabilityScheduleDTOs getSlotsByMeetingRequest(final Integer meetingId){
+    default AvailabilityScheduleDTOs getSlotsByMeetingRequest(final Integer availabilityScheduleId) {
         return requestSpecification()
-                .pathParam("meetingId", meetingId)
-                .get("/api/meeting-requests/slot/{availabilityScheduleId}")
+                .get(MeetingRequestApiController.BASE_PATH + "/slot/" + availabilityScheduleId)
                 .then()
                 .statusCode(HttpStatus.OK.value())
                 .and()
                 .extract()
                 .as(AvailabilityScheduleDTOs.class);
     }
-    default ExtractableResponse<Response> finalizeMeetingRequest(final Integer meetingId, final Integer selectedSlotId){
+
+    default ExtractableResponse<Response> finalizeMeetingRequest(final Integer meetingId, final Integer selectedSlotId) {
         return requestSpecification()
                 .pathParam("meetingId", meetingId)
                 .pathParam("selectedSlotId", selectedSlotId)
@@ -31,15 +33,24 @@ public interface MeetingRequestControllerTestSupport {
                 .and()
                 .extract();
     }
-    default ExtractableResponse<Response> addMeetingRequest(final Integer availabilityScheduleId, final String description, final String doctorEmail){
+
+    default ExtractableResponse<Response> addMeetingRequest(final MeetingRequestDTO meetingRequestDTO) {
         return requestSpecification()
-                .pathParam("availabilityScheduleId", availabilityScheduleId)
-                .param("description", description)
-                .param("doctorEmail", doctorEmail)
-                .post("/api/meeting-requests/{availabilityScheduleId}")
+                .body(meetingRequestDTO)
+                .post(MeetingRequestApiController.BASE_PATH)
+                .then()
+                .statusCode(HttpStatus.CREATED.value())
+                .and()
+                .extract();
+    }
+
+    default MeetingRequestsDTOs getMeetingRequests(String email) {
+        return requestSpecification()
+                .get(MeetingRequestApiController.BASE_PATH+"/"+email)
                 .then()
                 .statusCode(HttpStatus.OK.value())
                 .and()
-                .extract();
+                .extract()
+                .as(MeetingRequestsDTOs.class);
     }
 }

@@ -1,14 +1,13 @@
 package com.HealthMeetProject.code.domain;
 
-import com.HealthMeetProject.code.infrastructure.database.entity.MedicineEntity;
-import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.Set;
 
 
-@Getter
+@Getter()
 @Setter
 @EqualsAndHashCode
 @NoArgsConstructor

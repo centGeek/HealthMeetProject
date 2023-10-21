@@ -1,8 +1,6 @@
 package com.HealthMeetProject.code.api.controller.rest;
 
-import com.HealthMeetProject.code.api.dto.AvailabilityScheduleDTO;
-import com.HealthMeetProject.code.api.dto.AvailabilityScheduleDTOs;
-import com.HealthMeetProject.code.api.dto.DoctorDTO;
+import com.HealthMeetProject.code.api.dto.*;
 import com.HealthMeetProject.code.api.dto.mapper.AvailabilityScheduleMapper;
 import com.HealthMeetProject.code.business.AvailabilityScheduleService;
 import com.HealthMeetProject.code.business.MeetingRequestService;
@@ -10,24 +8,28 @@ import com.HealthMeetProject.code.business.PatientService;
 import com.HealthMeetProject.code.business.dao.AvailabilityScheduleDAO;
 import com.HealthMeetProject.code.business.dao.PatientDAO;
 import com.HealthMeetProject.code.domain.AvailabilitySchedule;
+import com.HealthMeetProject.code.domain.MeetingRequest;
 import com.HealthMeetProject.code.domain.Patient;
 import com.HealthMeetProject.code.domain.exception.ProcessingException;
+import com.HealthMeetProject.code.infrastructure.database.repository.MeetingRequestRepository;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/meeting-requests")
+@RequestMapping(MeetingRequestApiController.BASE_PATH)
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class MeetingRequestApiController {
-
+    public static final String BASE_PATH = "/api/meeting-requests";
     private final AvailabilityScheduleService availabilityScheduleService;
     private final AvailabilityScheduleMapper availabilityScheduleMapper;
     private final MeetingRequestService meetingRequestService;
-    private final PatientService patientService;
     private final PatientDAO patientDAO;
     private final AvailabilityScheduleDAO availabilityScheduleDAO;
 
@@ -44,7 +46,7 @@ public class MeetingRequestApiController {
             @RequestParam Integer availabilityScheduleId,
             @RequestParam Integer selectedSlotId
     ) {
-        if(availabilityScheduleId==null || selectedSlotId==null){
+        if (availabilityScheduleId == null || selectedSlotId == null) {
             throw new ProcessingException("some unexpected error occurred");
         }
         AvailabilityScheduleDTO visitTermDTO = meetingRequestService.getAvailabilitySchedule(availabilityScheduleId, selectedSlotId);
@@ -55,21 +57,30 @@ public class MeetingRequestApiController {
         return ResponseEntity.ok(visitTermDTO);
     }
 
-    @PostMapping("/{availabilityScheduleId}")
-    public ResponseEntity<?> addMeetingRequest(
-            @PathVariable Integer availabilityScheduleId,
-            @RequestParam String description,
-            @RequestHeader String patientEmail
-    ) {
-        Patient patient = patientDAO.findByEmail(patientEmail);
+    @PostMapping
+    public ResponseEntity<MeetingRequestDTO> addMeetingRequest(
+            @RequestBody @Valid MeetingRequestDTO meetingRequestDTO) {
+        try {
+            Patient patient = patientDAO.findByEmail(meetingRequestDTO.getPatientEmail());
 
-        AvailabilityScheduleDTO visitTerm = availabilityScheduleMapper.mapToDTO(availabilityScheduleDAO.findById(availabilityScheduleId));
-        DoctorDTO doctor = visitTerm.getDoctor();
+            AvailabilityScheduleDTO visitTerm = availabilityScheduleMapper.mapToDTO(availabilityScheduleDAO.findById(meetingRequestDTO.getAvailabilityScheduleId()));
+            DoctorDTO doctor = visitTerm.getDoctor();
 
-        meetingRequestService.makeMeetingRequest(patient, doctor, description, visitTerm);
-
-        return ResponseEntity.ok("Meeting request added successfully");
+            meetingRequestService.makeMeetingRequest(patient, doctor, meetingRequestDTO.getDescription(), visitTerm);
+            return ResponseEntity
+                    .created(URI.create(BASE_PATH))
+                    .build();
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
-
-
+    @GetMapping("/{email}")
+    public MeetingRequestsDTOs getMeetingRequestsByDoctor(
+            @PathVariable String email
+    ){
+        List<MeetingRequest> all = meetingRequestService.restFindByDoctorEmail(email);
+        return MeetingRequestsDTOs.of(all);
+    }
 }
+

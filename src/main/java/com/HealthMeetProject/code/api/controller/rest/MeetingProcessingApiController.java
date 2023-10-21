@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/meeting-processing")
+@RequestMapping(MeetingProcessingApiController.BASE_PATH)
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class MeetingProcessingApiController {
 
@@ -28,16 +28,16 @@ public class MeetingProcessingApiController {
     private final MeetingRequestService meetingRequestService;
     private final MeetingRequestDAO meetingRequestDAO;
     private final DoctorService doctorService;
+    public static final String BASE_PATH = "/api/meeting-processing";
 
     @GetMapping("/upcoming-visits/{doctorId}")
     public MeetingRequestsDTOs getWaitingForConfirmationMeetingRequests(
-            @PathVariable Integer doctorId,
-            @RequestParam String doctorEmail
+            @PathVariable Integer doctorId
     ) {
         Doctor doctor = doctorDAO.findById(doctorId)
                 .orElseThrow(() -> new ProcessingException("There is no doctor with the following identifier"));
 
-        List<MeetingRequest> meetingRequests = meetingRequestService.availableServiceRequestsByDoctor(doctorEmail);
+        List<MeetingRequest> meetingRequests = meetingRequestService.availableServiceRequestsByDoctor(doctor.getEmail());
 
         return MeetingRequestsDTOs.of(meetingRequests.stream()
                 .filter(request -> request.getDoctor().getDoctorId() == (doctor.getDoctorId())
@@ -47,9 +47,9 @@ public class MeetingProcessingApiController {
 
     }
 
-    @GetMapping("/ended-visits")
+    @GetMapping("/ended-visits/{patientEmail}")
     public MeetingRequestsDTOs findEndedVisitsByPatientEmail(
-            @RequestParam String patientEmail
+            @PathVariable String patientEmail
     ) {
         String doctorEmail = doctorService.authenticateDoctor();
 

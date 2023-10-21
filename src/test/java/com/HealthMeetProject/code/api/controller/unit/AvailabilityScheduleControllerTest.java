@@ -1,8 +1,6 @@
 package com.HealthMeetProject.code.api.controller.unit;
 
 import com.HealthMeetProject.code.api.controller.AvailabilityScheduleController;
-import com.HealthMeetProject.code.api.dto.AvailabilityScheduleDTO;
-import com.HealthMeetProject.code.api.dto.DoctorDTO;
 import com.HealthMeetProject.code.api.dto.mapper.DoctorMapper;
 import com.HealthMeetProject.code.business.AvailabilityScheduleService;
 import com.HealthMeetProject.code.business.DoctorService;
@@ -10,23 +8,18 @@ import com.HealthMeetProject.code.business.dao.AvailabilityScheduleDAO;
 import com.HealthMeetProject.code.domain.Doctor;
 import com.HealthMeetProject.code.infrastructure.database.entity.DoctorEntity;
 import com.HealthMeetProject.code.infrastructure.database.repository.mapper.DoctorEntityMapper;
-import com.HealthMeetProject.code.util.DoctorDTOFixtures;
 import com.HealthMeetProject.code.util.DoctorExampleFixtures;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.ui.Model;
-import org.springframework.web.servlet.mvc.support.RedirectAttributesModelMap;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class AvailabilityScheduleControllerTest {

@@ -1,14 +1,11 @@
 package com.HealthMeetProject.code.api.dto;
 
 import com.HealthMeetProject.code.domain.MeetingRequest;
-import com.HealthMeetProject.code.util.DoctorExampleFixtures;
 import com.HealthMeetProject.code.util.MeetingRequestsExampleFixtures;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class MeetingRequestsDTOsTest {
     @Test

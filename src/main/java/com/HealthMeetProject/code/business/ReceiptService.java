@@ -1,22 +1,16 @@
 package com.HealthMeetProject.code.business;
 
 import com.HealthMeetProject.code.api.dto.MedicineDTO;
-import com.HealthMeetProject.code.api.dto.PatientHistoryDTO;
 import com.HealthMeetProject.code.api.dto.mapper.MedicineMapper;
 import com.HealthMeetProject.code.business.dao.DoctorDAO;
 import com.HealthMeetProject.code.business.dao.MedicineDAO;
-import com.HealthMeetProject.code.business.dao.MeetingRequestDAO;
-import com.HealthMeetProject.code.business.dao.ReceiptDAO;
 import com.HealthMeetProject.code.domain.*;
 import com.HealthMeetProject.code.infrastructure.database.entity.MedicineEntity;
-import com.HealthMeetProject.code.infrastructure.database.entity.NoteEntity;
-import com.HealthMeetProject.code.infrastructure.database.repository.jpa.NoteJpaRepository;
 import com.HealthMeetProject.code.infrastructure.database.repository.mapper.MedicineEntityMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -37,13 +31,26 @@ public class ReceiptService {
         String email = doctorService.authenticateDoctor();
         Doctor doctor = doctorService.findByEmail(email);
         Receipt receipt = buildReceipt(patient, doctor);
+        medicineMappingAndIssueReceipt(medicineSet, receipt);
+
+    }
+
+    @Transactional
+    public void restIssueReceipt(List<MedicineDTO> medicineList, Patient patient, Doctor doctor) {
+        Set<MedicineDTO> medicineSet = new HashSet<>(medicineList);
+        Receipt receipt = buildReceipt(patient, doctor);
+        medicineMappingAndIssueReceipt(medicineSet, receipt);
+
+    }
+
+    private void medicineMappingAndIssueReceipt(Set<MedicineDTO> medicineSet, Receipt receipt) {
         Set<MedicineEntity> toEntityMedicine= new HashSet<>();
         for (MedicineDTO medicine : medicineSet) {
             Medicine medicineToEntity = medicineMapper.mapFromDTO(medicine);
             MedicineEntity medicineEntity = medicineEntityMapper.mapToEntity(medicineToEntity);
             toEntityMedicine.add(medicineEntity);
         }
-        doctorDAO.issueReceipt(receipt, toEntityMedicine);
+        doctorDAO.issueReceipt(receipt,toEntityMedicine);
     }
 
     Receipt buildReceipt(Patient patient, Doctor doctor) {

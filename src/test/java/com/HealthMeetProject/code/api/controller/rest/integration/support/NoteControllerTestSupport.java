@@ -1,7 +1,6 @@
 package com.HealthMeetProject.code.api.controller.rest.integration.support;
 
 import com.HealthMeetProject.code.api.controller.rest.NoteApiController;
-import com.HealthMeetProject.code.api.dto.DoctorDTO;
 import com.HealthMeetProject.code.api.dto.IllnessHistoryDTOs;
 import com.HealthMeetProject.code.domain.Note;
 import io.restassured.response.ExtractableResponse;
@@ -9,17 +8,13 @@ import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import org.springframework.http.HttpStatus;
 
-import java.util.List;
-
-import static com.HealthMeetProject.code.api.controller.rest.PatientApiController.BASE_PATH;
-
 public interface NoteControllerTestSupport {
     RequestSpecification requestSpecification();
 
-    default Note getNote(final Integer meetingId) {
+    default Note getNote(final Integer meetingId, String illness) {
         return requestSpecification()
-                .pathParam("meetingId", meetingId)
-                .get(NoteApiController.BASE_PATH+"/{meetingId}")
+                .param("illness", illness)
+                .get(NoteApiController.BASE_PATH+"/"+meetingId)
                 .then()
                 .statusCode(HttpStatus.OK.value())
                 .and()
@@ -27,19 +22,18 @@ public interface NoteControllerTestSupport {
                 .as(Note.class);
     }
 
-    default ExtractableResponse<Response> addNote(final Integer meetingId) {
+    default ExtractableResponse<Response> addNote(final Integer meetingId, final Note note) {
         return requestSpecification()
-                .pathParam("meetingId", meetingId)
-                .post(NoteApiController.BASE_PATH+ "/meeting/{meetingId}")
+                .body(note)
+                .post(NoteApiController.BASE_PATH+"/"+meetingId)
                 .then()
-                .statusCode(HttpStatus.OK.value())
+                .statusCode(HttpStatus.CREATED.value())
                 .and()
                 .extract();
     }
-    default IllnessHistoryDTOs getIllnessHistory(final Integer meetingId) {
+    default IllnessHistoryDTOs getIllnessHistory(String email) {
         return requestSpecification()
-                .pathParam("meetingId", meetingId)
-                .delete(NoteApiController.BASE_PATH+"/{patient/{meetingId}")
+                .get(NoteApiController.BASE_PATH+"/patient/"+email)
                 .then()
                 .statusCode(HttpStatus.OK.value())
                 .and()

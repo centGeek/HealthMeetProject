@@ -1,5 +1,6 @@
 package com.HealthMeetProject.code.infrastructure.database.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -32,5 +33,9 @@ public class AddressEntity {
 
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "address")
     private PatientEntity patient;
+    @JsonIgnore
+    public PatientEntity getPatient() {
+        return patient;
+    }
 
 }

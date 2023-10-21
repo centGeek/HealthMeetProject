@@ -8,8 +8,6 @@ import com.HealthMeetProject.code.infrastructure.database.entity.NoteEntity;
 import com.HealthMeetProject.code.infrastructure.database.entity.PatientEntity;
 
 import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
-import java.time.ZoneOffset;
 
 import static com.HealthMeetProject.code.util.DoctorExampleFixtures.doctorEntityExample1;
 

@@ -21,5 +21,4 @@ public interface ReceiptEntityMapper {
     @Mapping(source = "doctor.meetingRequests", target = "doctor.meetingRequests", ignore = true)
 
     Receipt mapFromEntity(ReceiptEntity receipt);
-
 }

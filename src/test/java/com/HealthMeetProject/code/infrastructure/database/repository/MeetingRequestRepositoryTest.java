@@ -120,7 +120,7 @@ public class MeetingRequestRepositoryTest {
         when(meetingRequestJpaRepository.findAll()).thenReturn(entityList);
 
        //when
-        List<MeetingRequest> result = meetingRequestRepository.findAvailable();
+        List<MeetingRequest> result = meetingRequestRepository.findAll();
 
         //then
         assertEquals(0, result.size());

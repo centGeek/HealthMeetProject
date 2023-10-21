@@ -9,6 +9,7 @@ import java.util.List;
 @Setter
 @EqualsAndHashCode
 @AllArgsConstructor(staticName = "of")
+@NoArgsConstructor
 @Builder
 public class MeetingRequestsDTOs {
     private List<MeetingRequest> meetingRequestList;

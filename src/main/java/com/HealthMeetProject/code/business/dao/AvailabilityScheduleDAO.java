@@ -16,6 +16,8 @@ public interface AvailabilityScheduleDAO {
 
     List<AvailabilitySchedule> findAllAvailableTermsByGivenDoctor(String email);
 
+    List<AvailabilitySchedule> restFindAllAvailableTermsByGivenDoctor(String email);
+
     AvailabilitySchedule findById(Integer id);
 
     void deleteById(Integer availabilityScheduleId);

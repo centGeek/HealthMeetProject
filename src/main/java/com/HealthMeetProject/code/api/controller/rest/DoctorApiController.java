@@ -10,6 +10,7 @@ import com.HealthMeetProject.code.business.DoctorService;
 import com.HealthMeetProject.code.business.dao.DoctorDAO;
 import com.HealthMeetProject.code.domain.Doctor;
 import com.HealthMeetProject.code.domain.exception.NotFoundException;
+import com.HealthMeetProject.code.domain.exception.ProcessingException;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,12 +34,12 @@ public class DoctorApiController {
     private final AvailabilityScheduleService availabilityScheduleService;
     private final DoctorDAO doctorDAO;
 
-    @GetMapping()
+    @GetMapping
     public DoctorDTOs getAllDoctors() {
         return doctorDAO.findAllDoctors();
     }
 
-    @GetMapping("/{doctorId}")
+    @GetMapping("details/{doctorId}")
     public DoctorDTO getDoctorDetails(@PathVariable Integer doctorId) {
        return doctorService.findById(doctorId).map(doctorMapper::mapToDTO).orElseThrow(
                 () -> new NotFoundException("Doctor with given email does not exist"));
@@ -76,11 +77,12 @@ public class DoctorApiController {
                 .created(URI.create(BASE_PATH + DOCTOR_ID.formatted(doctorDTO.getDoctorId())))
                 .build();
     }
-    @GetMapping("/{id}")
-    public DoctorDTO getPatientById(@PathVariable Integer id) {
-        //noinspection OptionalGetWithoutIsPresent
-        return doctorMapper.mapToDTO(doctorDAO.findById(id).get());
+    @GetMapping("/{email}")
+    public DoctorDTO getDoctorByEmail(@PathVariable String email) {
+        return doctorMapper.mapToDTO(doctorDAO.findByEmail(email).orElseThrow(() -> new ProcessingException(
+                "Could not find doctor with given email:[%s]".formatted(email))));
 
     }
+
 
 }

@@ -4,10 +4,13 @@ import com.HealthMeetProject.code.api.controller.rest.NoteApiController;
 import com.HealthMeetProject.code.business.DoctorService;
 import com.HealthMeetProject.code.business.MeetingRequestService;
 import com.HealthMeetProject.code.business.dao.NoteDAO;
+import com.HealthMeetProject.code.business.dao.PatientDAO;
 import com.HealthMeetProject.code.domain.Doctor;
 import com.HealthMeetProject.code.domain.MeetingRequest;
 import com.HealthMeetProject.code.domain.Note;
 import com.HealthMeetProject.code.domain.Patient;
+import com.HealthMeetProject.code.util.NoteExampleFixtures;
+import com.HealthMeetProject.code.util.PatientExampleFixtures;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -21,6 +24,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
+
 @ExtendWith(MockitoExtension.class)
 public class NoteApiControllerTest {
 
@@ -32,6 +36,9 @@ public class NoteApiControllerTest {
 
     @Mock
     private NoteDAO noteDAO;
+
+    @Mock
+    private PatientDAO patientDAO;
 
     @InjectMocks
     private NoteApiController noteApiController;
@@ -51,15 +58,13 @@ public class NoteApiControllerTest {
         meetingRequest.setPatient(patient);
         meetingRequest.setVisitStart(visitStart);
         meetingRequest.setVisitEnd(visitEnd);
-        when(meetingRequestService.findById(meetingId)).thenReturn(meetingRequest);
+        when(meetingRequestService.restFindById(meetingId)).thenReturn(meetingRequest);
 
         //when
-        Note note = noteApiController.getNote(meetingId);
+        Note note = noteApiController.getNote(meetingId, "twoja noga");
 
         //then
         assertEquals(meetingId, note.getNoteId());
-        assertEquals(doctor, note.getDoctor());
-        assertEquals(patient, note.getPatient());
         assertEquals(visitStart, note.getStartTime());
         assertEquals(visitEnd, note.getEndTime());
     }
@@ -69,6 +74,7 @@ public class NoteApiControllerTest {
         //given
         Integer meetingId = 1;
         String illness = "Test illness";
+        Note note = NoteExampleFixtures.noteExample1();
         String description = "Test description";
         MeetingRequest meetingRequest = new MeetingRequest();
         Doctor doctor = new Doctor();
@@ -79,17 +85,17 @@ public class NoteApiControllerTest {
         meetingRequest.setPatient(patient);
         meetingRequest.setVisitStart(visitStart);
         meetingRequest.setVisitEnd(visitEnd);
-        when(meetingRequestService.findById(meetingId)).thenReturn(meetingRequest);
+        when(meetingRequestService.restFindById(meetingId)).thenReturn(meetingRequest);
 
         //when
-        ResponseEntity<?> responseEntity = noteApiController.addNote(meetingId, illness, description);
+        ResponseEntity<?> responseEntity = noteApiController.addNote(meetingId, note);
 
         //then
         //noinspection deprecation
-        assertEquals(200, responseEntity.getStatusCodeValue());
+        assertEquals(201, responseEntity.getStatusCodeValue());
 
-        // Sprawdź, czy metoda writeNote została wywołana z odpowiednimi argumentami
-        verify(doctorService, times(1)).writeNote(doctor, illness, description, patient, visitStart, visitEnd);
+        verify(doctorService, times(1)).writeNote(note.getDoctor(), note.getIllness(), note.getDescription(),
+                note.getPatient(), meetingRequest.getVisitStart(), meetingRequest.getVisitEnd());
     }
 
     @Test
@@ -97,9 +103,9 @@ public class NoteApiControllerTest {
         //given
         Integer meetingId = 1;
         MeetingRequest meetingRequest = new MeetingRequest();
-        Patient patient = new Patient();
+        Patient patient = PatientExampleFixtures.patientExample1();
+        patient.setPatientId(4);
         meetingRequest.setPatient(patient);
-        when(meetingRequestService.findById(meetingId)).thenReturn(meetingRequest);
         List<Note> noteList = new ArrayList<>();
         Note note1 = new Note();
         note1.setIllness("Illness 1");
@@ -108,9 +114,10 @@ public class NoteApiControllerTest {
         noteList.add(note1);
         noteList.add(note2);
         when(noteDAO.findByPatientEmail(patient.getEmail())).thenReturn(noteList);
+        when(patientDAO.findByEmail(patient.getEmail())).thenReturn(patient);
 
         //when
-        List<String> illnessHistory = noteApiController.getIllnessHistory(meetingId).getIllnessList();
+        List<String> illnessHistory = noteApiController.getIllnessHistory(patient.getEmail()).getIllnessList();
 
         //then
         assertEquals(2, illnessHistory.size());

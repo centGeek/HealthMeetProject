@@ -15,10 +15,10 @@ import java.util.Set;
 
 public interface DoctorDAO {
     List<Doctor> findAllAvailableDoctors();
+
     DoctorDTOs findAllDoctors();
 
     Optional<Doctor> findByEmail(String email);
-
 
 
     void writeNote(NoteEntity note);

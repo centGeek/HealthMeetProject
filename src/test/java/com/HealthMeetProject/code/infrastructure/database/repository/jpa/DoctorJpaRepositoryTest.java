@@ -1,6 +1,5 @@
 package com.HealthMeetProject.code.infrastructure.database.repository.jpa;
 
-import com.HealthMeetProject.code.domain.Specialization;
 import com.HealthMeetProject.code.infrastructure.database.entity.DoctorEntity;
 import com.HealthMeetProject.code.infrastructure.database.repository.configuration.PersistenceContainerTestConfiguration;
 import com.HealthMeetProject.code.infrastructure.security.UserRepository;

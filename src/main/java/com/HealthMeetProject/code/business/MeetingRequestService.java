@@ -18,19 +18,16 @@ import com.HealthMeetProject.code.infrastructure.database.repository.jpa.Availab
 import com.HealthMeetProject.code.infrastructure.database.repository.jpa.MeetingRequestJpaRepository;
 import com.HealthMeetProject.code.infrastructure.database.repository.mapper.AvailabilityScheduleEntityMapper;
 import com.HealthMeetProject.code.infrastructure.database.repository.mapper.MeetingRequestEntityMapper;
+import com.HealthMeetProject.code.infrastructure.database.repository.mapper.MeetingRequestEntityRestApiMapper;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-@Slf4j
 @Service
 @AllArgsConstructor
 public class MeetingRequestService {
@@ -44,6 +41,7 @@ public class MeetingRequestService {
     private final MeetingRequestEntityMapper meetingRequestEntityMapper;
     private final AvailabilityScheduleDAO availabilityScheduleDAO;
     private final AvailabilityScheduleService availabilityScheduleService;
+    private final MeetingRequestEntityRestApiMapper meetingRequestEntityRestApiMapper;
 
 
 
@@ -65,9 +63,13 @@ public class MeetingRequestService {
 
     void validate(String email) {
         List<MeetingRequest> meetingRequests = meetingRequestDAO.findAllActiveMeetingRequests(email);
-        if (meetingRequests.size() != 0) {
-            throw new ProcessingException(
-                    "There should be only one active meeting request at a time, patient email: [%s]".formatted(email));
+        if (!meetingRequests.isEmpty()) {
+            for (MeetingRequest meetingRequest : meetingRequests) {
+                if(meetingRequest.getVisitStart().isAfter(LocalDateTime.now())){
+                    throw new ProcessingException(
+                            "There should be only one active meeting request at a time, patient email: [%s]".formatted(email));
+                }
+            }
         }
     }
 
@@ -107,7 +109,10 @@ public class MeetingRequestService {
         return new Random().nextInt(max - min) + min;
     }
 
-
+    public List<MeetingRequest> restFindByDoctorEmail(String email){
+        return meetingRequestJpaRepository.findAllByDoctorEmail(email)
+                .stream().map(meetingRequestEntityRestApiMapper::mapFromEntity).toList();
+    }
 
 
     public MeetingRequestEntity executeActionForMeetingRequest(Integer meetingRequestId) {
@@ -123,11 +128,11 @@ public class MeetingRequestService {
     }
 
     public List<MeetingRequest> availableServiceRequestsByDoctor(String email) {
-        return meetingRequestDAO.availableServiceRequests(email);
+        return meetingRequestDAO.findAllActiveMeetingRequestsByDoctor(email);
     }
 
     public List<MeetingRequest> availableEndedVisitsByDoctor(String email) {
-        return meetingRequestDAO.availableEndedVisitsByDoctor(email);
+        return meetingRequestDAO.completedMeetingRequestsByDoctor(email);
     }
     public List<AvailabilitySchedule> generateTimeSlots(LocalDateTime since, LocalDateTime toWhen, Doctor doctor) {
         List<AvailabilitySchedule> timeSlots = new ArrayList<>();
@@ -154,6 +159,11 @@ public class MeetingRequestService {
 
     public MeetingRequest findById(Integer meetingId) {
         return meetingRequestEntityMapper.mapFromEntity(
+                meetingRequestJpaRepository.findById(meetingId).orElseThrow(() ->
+                        new NotFoundException("Not found meeting request by given id")));
+    }
+    public MeetingRequest restFindById(Integer meetingId) {
+        return meetingRequestEntityRestApiMapper.mapFromEntity(
                 meetingRequestJpaRepository.findById(meetingId).orElseThrow(() ->
                         new NotFoundException("Not found meeting request by given id")));
     }

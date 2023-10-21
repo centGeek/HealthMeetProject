@@ -9,6 +9,7 @@ import com.HealthMeetProject.code.infrastructure.database.entity.AvailabilitySch
 import com.HealthMeetProject.code.infrastructure.database.entity.DoctorEntity;
 import com.HealthMeetProject.code.infrastructure.database.repository.jpa.AvailabilityScheduleJpaRepository;
 import com.HealthMeetProject.code.infrastructure.database.repository.mapper.AvailabilityScheduleEntityMapper;
+import com.HealthMeetProject.code.infrastructure.database.repository.mapper.AvailableScheduleEntityRestApiMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -21,6 +22,7 @@ public class AvailabilityScheduleRepository implements AvailabilityScheduleDAO {
     private final AvailabilityScheduleJpaRepository availabilityScheduleJpaRepository;
     private final AvailabilityScheduleEntityMapper availabilityScheduleEntityMapper;
     private final AvailabilityScheduleMapper availabilityScheduleMapper;
+    private final AvailableScheduleEntityRestApiMapper availableScheduleEntityRestApiMapper;
 
 
     @Override
@@ -45,6 +47,12 @@ public class AvailabilityScheduleRepository implements AvailabilityScheduleDAO {
     @Override
     public List<AvailabilitySchedule> findAllAvailableTermsByGivenDoctor(String email) {
         return availabilityScheduleJpaRepository.findAllAvailableTermsByGivenDoctor(email).stream().map(availabilityScheduleEntityMapper::mapFromEntity).toList();
+    }
+
+    @Override
+    public List<AvailabilitySchedule> restFindAllAvailableTermsByGivenDoctor(String email) {
+        return availabilityScheduleJpaRepository.findAllAvailableTermsByGivenDoctor(email).stream()
+                .map(availableScheduleEntityRestApiMapper::mapFromEntity).toList();
     }
 
     @Override

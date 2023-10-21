@@ -2,9 +2,11 @@ package com.HealthMeetProject.code.infrastructure.database.repository.mapper;
 
 import com.HealthMeetProject.code.api.dto.UserData;
 import com.HealthMeetProject.code.api.dto.mapper.UserEntityMapper;
-import com.HealthMeetProject.code.domain.*;
+import com.HealthMeetProject.code.domain.Clinic;
+import com.HealthMeetProject.code.domain.Doctor;
+import com.HealthMeetProject.code.domain.MeetingRequest;
+import com.HealthMeetProject.code.domain.Specialization;
 import com.HealthMeetProject.code.infrastructure.database.entity.*;
-import com.HealthMeetProject.code.util.MeetingRequestsExampleFixtures;
 import com.HealthMeetProject.code.util.PatientExampleFixtures;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,7 +15,6 @@ import org.mapstruct.factory.Mappers;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

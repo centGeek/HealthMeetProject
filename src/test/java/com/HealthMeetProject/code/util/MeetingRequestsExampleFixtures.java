@@ -4,7 +4,6 @@ import com.HealthMeetProject.code.domain.MeetingRequest;
 import com.HealthMeetProject.code.infrastructure.database.entity.MeetingRequestEntity;
 
 import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
 
 public class MeetingRequestsExampleFixtures {
  public static MeetingRequestEntity meetingRequestDataEntityExample1() {

@@ -1,14 +1,10 @@
 package com.HealthMeetProject.code.api.dto;
 
-import com.HealthMeetProject.code.util.DoctorDTOFixtures;
 import com.HealthMeetProject.code.util.DoctorExampleFixtures;
-import org.codehaus.groovy.runtime.powerassert.AssertionRenderer;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class AvailabilityScheduleDTOsTest {
     @Test

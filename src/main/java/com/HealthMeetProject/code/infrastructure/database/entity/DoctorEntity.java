@@ -47,7 +47,7 @@ public class DoctorEntity {
     @JoinColumn(name = "user_id")
     private UserEntity user;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "doctor")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "doctor")
     private Set<MeetingRequestEntity> meetingRequests;
 
 }
