@@ -33,19 +33,20 @@ W celu ułatwienia testowania aplikacji, udostępniam domyślnych użytkowników
 
 1. Email: tom.shelby@medi.com, Hasło: test
 2. Email: grace.shelby@medi.com, Hasło: test
-3. Email: krzysztof.coolmedi.com, Hasło: test
+3. Email: krzysztof.cool@medi.com, Hasło: test
 
 ### Pacjenci
 
 1. Email: w.white@gmail.com, Hasło: test
 2. Email: s.white@gmail.com, Hasło: test
+3. Email: j.pinkman@wp.pl, Hasło: test
 
 ## Techniczne Aspekty
 Testy uruchamiane są w **testContainers**. Potrzebujemy zainstalowanego dockera na naszym systemie operacyjnym .Można również uruchomić aplikację na dockerze domyślnie pod portem 8081
 ### Testy
 W ramach projektu przeprowadziliśmy różne rodzaje testów, w tym:
 - **Unit Test**: Testy skupiające się na izolowaniu i testowaniu pojedynczych komponentów systemu, takich jak metody serwisów i kontrolerów.
-- **Parametrized Tests**: Testy z różnymi zestawami parametrów, aby sprawdzić, czy aplikacja zachowuje się poprawnie w różnych scenariuszach.
+- **Parametrized Tests**: Testy z różnymi zestawami parametrów. Sprawdzamy działanie walidacji w naszej aplikacji. 
 - **WebMvcTest**: Testy warstwy kontrolerów Spring MVC.
 - **RestAssured Tests**: Testy API REST za pomocą biblioteki RestAssured.
 - **Data JPA Tests**: Testy integracji z bazą danych przy użyciu Spring Data JPA.
@@ -74,9 +75,14 @@ Aby zainicjować tabele i dane w bazie danych, używamy migracji Flyway. Migracj
 
 4. Uruchom aplikację, klikając na plik `HealthyMeetApplication.java`, a następnie odwiedź stronę internetową, domyślnie `http://localhost:8080/HealthMeet`.
 
+## Działanie aplikacji
+1. Podczas rejestracji użytkownika trzeba pamiętać o walidacji. Dane argumenty muszą spełniać następujące wzorce:
+   **Phone**  -> **+xx xxx xxx xxx**, gdzie spacje są niezbędne, pole unikalne
+   **Email**  -> musi zawierać strukturę emailu, nie musi to być rzeczywisty adres email
+   **Nickname** -> minimum **5** znaków długości
+2. Podczas logowania używamy **emailu** i **hasła**
 ## Kontakt
 
-Jeżeli cię zaciekawił mój projekt, napisz pod adres email [centkowski.lukasz03@gmail.com].
+Jeżeli cię zaciekawił mój projekt, napisz do mnie na adres email [centkowski.lukasz03@gmail.com]
 
-Dziękuję za przeczytanie tych wypocin ;)!
 
