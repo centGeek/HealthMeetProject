@@ -6,13 +6,16 @@ import com.HealthMeetProject.code.api.dto.Receipts;
 import com.HealthMeetProject.code.api.dto.mapper.DoctorMapper;
 import com.HealthMeetProject.code.api.dto.mapper.PatientMapper;
 import com.HealthMeetProject.code.business.ReceiptService;
+import com.HealthMeetProject.code.business.dao.MedicineDAO;
+import com.HealthMeetProject.code.business.dao.PatientDAO;
+import com.HealthMeetProject.code.business.dao.ReceiptDAO;
 import com.HealthMeetProject.code.domain.Doctor;
 import com.HealthMeetProject.code.domain.MeetingRequest;
 import com.HealthMeetProject.code.domain.Patient;
 import com.HealthMeetProject.code.domain.exception.ProcessingException;
+import com.HealthMeetProject.code.infrastructure.database.entity.MedicineEntity;
 import com.HealthMeetProject.code.infrastructure.database.repository.DoctorRepository;
-import com.HealthMeetProject.code.infrastructure.database.repository.PatientRepository;
-import com.HealthMeetProject.code.infrastructure.database.repository.ReceiptRepository;
+import com.HealthMeetProject.code.infrastructure.database.repository.mapper.MedicineEntityMapper;
 import com.HealthMeetProject.code.util.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -32,7 +35,10 @@ import static org.mockito.Mockito.*;
 public class ReceiptApiControllerTest {
 
     @Mock
-    private PatientRepository patientRepository;
+    private PatientDAO patientDAO;
+
+    @Mock
+    private MedicineDAO medicineDAO;
 
     @Mock
     private ReceiptService receiptService;
@@ -43,7 +49,10 @@ public class ReceiptApiControllerTest {
     private PatientMapper patientMapper;
 
     @Mock
-    private ReceiptRepository receiptRepository;
+    private MedicineEntityMapper medicineEntityMapper;
+
+    @Mock
+    private ReceiptDAO receiptDAO;
 
     @Mock
     private DoctorMapper doctorMapper;
@@ -56,12 +65,15 @@ public class ReceiptApiControllerTest {
     public void testGetReceiptPage() {
         //given
         Integer meetingId = 0;
-        MeetingRequest meetingRequest = new MeetingRequest();
-        Doctor doctor = new Doctor();
-        Patient patient = new Patient();
+        MeetingRequest meetingRequest = MeetingRequestsExampleFixtures.meetingRequestDataExample1();
+        Doctor doctor = DoctorExampleFixtures.doctorExample1();
+        Patient patient = PatientExampleFixtures.patientExample1();
+        MedicineEntity medicine = MedicineExampleFixtures.medicineEntityExampleData1();
         meetingRequest.setDoctor(doctor);
         meetingRequest.setPatient(patient);
-        when(receiptRepository.findPatientReceipts(any())).thenReturn(List.of(ReceiptExampleFixtures.receiptExampleData1()));
+        when(receiptDAO.findPatientReceipts(any())).thenReturn(List.of(ReceiptExampleFixtures.receiptExampleData1()));
+        when(medicineDAO.findByReceipt(any())).thenReturn(List.of(medicine));
+        when(medicineEntityMapper.mapFromEntity(any())).thenReturn(MedicineExampleFixtures.medicineExampleData1());
 
         //when
         Receipts receipts = receiptApiController.getReceiptPage(patient.getEmail());
@@ -81,7 +93,7 @@ public class ReceiptApiControllerTest {
 
         List<MedicineDTO> medicineList = new ArrayList<>();
         medicineList.add(MedicineExampleFixtures.medicineDTOExampleData1());
-        when(patientRepository.findByEmail(patient.getEmail())).thenReturn(patient);
+        when(patientDAO.findByEmail(patient.getEmail())).thenReturn(patient);
         when(doctorRepository.findByEmail(patient.getEmail())).thenReturn(Optional.of(doctor));
         meetingRequest.setPatient(patient);
 

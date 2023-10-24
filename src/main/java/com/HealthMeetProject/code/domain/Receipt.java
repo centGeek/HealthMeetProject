@@ -1,6 +1,5 @@
 package com.HealthMeetProject.code.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import java.time.LocalDateTime;

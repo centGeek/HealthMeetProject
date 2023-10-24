@@ -1,11 +1,9 @@
 package com.HealthMeetProject.code.infrastructure.database.repository.mapper;
 
-import com.HealthMeetProject.code.domain.Doctor;
 import com.HealthMeetProject.code.domain.MeetingRequest;
-import com.HealthMeetProject.code.infrastructure.database.entity.ClinicEntity;
-import com.HealthMeetProject.code.infrastructure.database.entity.DoctorEntity;
 import com.HealthMeetProject.code.infrastructure.database.entity.MeetingRequestEntity;
-import org.mapstruct.*;
+import org.mapstruct.Mapper;
+import org.mapstruct.ReportingPolicy;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface MeetingRequestEntityMapper {

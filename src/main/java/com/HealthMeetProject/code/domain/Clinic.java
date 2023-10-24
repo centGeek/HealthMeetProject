@@ -2,8 +2,6 @@ package com.HealthMeetProject.code.domain;
 
 import lombok.*;
 
-import java.util.Objects;
-
 @Getter
 @Setter
 @EqualsAndHashCode

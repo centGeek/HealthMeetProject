@@ -64,8 +64,9 @@ public class ReceiptControllerTest {
         List<MedicineDTO> medicineList = new ArrayList<>();
         String medicineName = "Paracetamol";
         int quantity = 2;
-        BigDecimal approxPrice = new BigDecimal("10.00");
+        when(meetingRequestDAO.findById(any())).thenReturn(MeetingRequestsExampleFixtures.meetingRequestDataExample1());
 
+        BigDecimal approxPrice = new BigDecimal("10.00");
         mockMvc.perform(post(ReceiptController.RECEIPT_PAGE_ADD_MEDICINE, meetingId)
                         .param("medicine_name", medicineName)
                         .param("quantity", String.valueOf(quantity))

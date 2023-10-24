@@ -3,8 +3,6 @@ package com.HealthMeetProject.code.domain;
 import com.HealthMeetProject.code.api.dto.UserData;
 import lombok.*;
 
-import java.util.Set;
-
 @Getter
 @Setter
 @EqualsAndHashCode

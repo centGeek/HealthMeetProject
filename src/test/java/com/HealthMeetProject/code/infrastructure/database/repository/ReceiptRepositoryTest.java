@@ -1,6 +1,7 @@
 package com.HealthMeetProject.code.infrastructure.database.repository;
 
 import com.HealthMeetProject.code.domain.Receipt;
+import com.HealthMeetProject.code.infrastructure.database.entity.ReceiptEntity;
 import com.HealthMeetProject.code.infrastructure.database.repository.jpa.ReceiptJpaRepository;
 import com.HealthMeetProject.code.infrastructure.database.repository.mapper.ReceiptEntityMapper;
 import com.HealthMeetProject.code.util.ReceiptExampleFixtures;
@@ -8,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
@@ -41,6 +43,13 @@ public class ReceiptRepositoryTest {
         assertEquals(expectedReceipts.get(0), actualReceipts.get(0));
         verify(receiptJpaRepository, times(1)).findPatientReceipts(email);
         assertEquals(expectedReceipts.size(), actualReceipts.size());
+    }
+    @Test
+    public void testSaveReceipt() {
+        ReceiptEntity receiptEntity = new ReceiptEntity();
+        Mockito.when(receiptJpaRepository.save(Mockito.any(ReceiptEntity.class))).thenReturn(receiptEntity);
+        receiptJpaRepository.save(receiptEntity);
+        Mockito.verify(receiptJpaRepository, Mockito.times(1)).save(Mockito.any(ReceiptEntity.class));
     }
 
 }

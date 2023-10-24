@@ -10,5 +10,4 @@ import org.mapstruct.ReportingPolicy;
 public interface AvailableScheduleEntityRestApiMapper {
     @Mapping(source = "doctor", target = "doctor", ignore = true)
     AvailabilitySchedule mapFromEntity(AvailabilityScheduleEntity availabilityScheduleEntity);
-    AvailabilityScheduleEntity mapToEntity(AvailabilitySchedule availability);
 }

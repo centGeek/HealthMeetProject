@@ -3,8 +3,8 @@ package com.HealthMeetProject.code.business.dao;
 
 import com.HealthMeetProject.code.api.dto.DoctorDTO;
 import com.HealthMeetProject.code.api.dto.DoctorDTOs;
-import com.HealthMeetProject.code.domain.*;
-import com.HealthMeetProject.code.infrastructure.database.entity.DoctorEntity;
+import com.HealthMeetProject.code.domain.Doctor;
+import com.HealthMeetProject.code.domain.Receipt;
 import com.HealthMeetProject.code.infrastructure.database.entity.MedicineEntity;
 import com.HealthMeetProject.code.infrastructure.database.entity.NoteEntity;
 

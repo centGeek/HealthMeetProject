@@ -3,8 +3,6 @@ package com.HealthMeetProject.code.infrastructure.database.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.Set;
-
 @Getter
 @Setter
 @NoArgsConstructor

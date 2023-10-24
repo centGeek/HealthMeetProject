@@ -2,7 +2,7 @@ package com.HealthMeetProject.code.infrastructure.database.repository;
 
 import com.HealthMeetProject.code.api.dto.DoctorDTO;
 import com.HealthMeetProject.code.api.dto.UserData;
-import com.HealthMeetProject.code.business.dao.DoctorDAO;
+import com.HealthMeetProject.code.api.dto.mapper.DoctorMapper;
 import com.HealthMeetProject.code.domain.Doctor;
 import com.HealthMeetProject.code.domain.Receipt;
 import com.HealthMeetProject.code.domain.Specialization;
@@ -12,7 +12,6 @@ import com.HealthMeetProject.code.infrastructure.database.entity.NoteEntity;
 import com.HealthMeetProject.code.infrastructure.database.entity.ReceiptEntity;
 import com.HealthMeetProject.code.infrastructure.database.repository.jpa.*;
 import com.HealthMeetProject.code.infrastructure.database.repository.mapper.DoctorEntityMapper;
-import com.HealthMeetProject.code.infrastructure.database.repository.mapper.NoteEntityMapper;
 import com.HealthMeetProject.code.infrastructure.database.repository.mapper.ReceiptEntityMapper;
 import com.HealthMeetProject.code.infrastructure.security.RoleEntity;
 import com.HealthMeetProject.code.infrastructure.security.RoleRepository;
@@ -42,40 +41,25 @@ public class DoctorRepositoryTest {
     @Mock
     private DoctorJpaRepository doctorJpaRepository;
     @Mock
-    private DoctorDAO doctorDAO;
-
-    @Mock
     private DoctorEntityMapper doctorEntityMapper;
     @Mock
-    private MedicineJpaRepository medicineJpaRepository;
-
-    @Mock
     private AvailabilityScheduleJpaRepository availabilityScheduleJpaRepository;
-
     @Mock
     private NoteJpaRepository noteJpaRepository;
-
-    @Mock
-    private NoteEntityMapper noteEntityMapper;
-
     @Mock
     private ReceiptJpaRepository receiptJpaRepository;
-
-    @Mock
-    private MeetingRequestJpaRepository meetingRequestJpaRepository;
-
     @Mock
     private ReceiptEntityMapper receiptEntityMapper;
-
     @Mock
     private RoleRepository roleRepository;
-
     @Mock
     private UserRepository userRepository;
-
     @Mock
     private PasswordEncoder passwordEncoder;
-
+    @Mock
+    private MedicineJpaRepository medicineJpaRepository;
+    @Mock
+    private DoctorMapper doctorMapper;
     @InjectMocks
     private DoctorRepository doctorRepository;
 
@@ -142,6 +126,7 @@ public class DoctorRepositoryTest {
 
         when(receiptEntityMapper.mapToEntity(receipt)).thenReturn(receiptEntity);
         when(receiptJpaRepository.saveAndFlush(receiptEntity)).thenReturn(receiptEntity);
+        when(receiptJpaRepository.findByReceiptNumber(any())).thenReturn(receiptEntity);
 
         //when
         doctorRepository.issueReceipt(receipt, medicineSet);

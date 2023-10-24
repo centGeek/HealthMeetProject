@@ -1,6 +1,5 @@
 package com.HealthMeetProject.code.api.controller.rest;
 
-import com.HealthMeetProject.code.api.dto.AvailabilityScheduleDTO;
 import com.HealthMeetProject.code.api.dto.AvailabilityScheduleDTOs;
 import com.HealthMeetProject.code.api.dto.DoctorDTO;
 import com.HealthMeetProject.code.api.dto.DoctorDTOs;
@@ -14,14 +13,11 @@ import com.HealthMeetProject.code.domain.exception.ProcessingException;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
-import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(DoctorApiController.BASE_PATH)

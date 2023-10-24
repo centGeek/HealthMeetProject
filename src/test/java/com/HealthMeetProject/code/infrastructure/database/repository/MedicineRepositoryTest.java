@@ -1,45 +1,48 @@
 package com.HealthMeetProject.code.infrastructure.database.repository;
 
-import com.HealthMeetProject.code.domain.Medicine;
 import com.HealthMeetProject.code.infrastructure.database.entity.MedicineEntity;
+import com.HealthMeetProject.code.infrastructure.database.entity.ReceiptEntity;
 import com.HealthMeetProject.code.infrastructure.database.repository.jpa.MedicineJpaRepository;
-import com.HealthMeetProject.code.infrastructure.database.repository.mapper.MedicineEntityMapper;
 import com.HealthMeetProject.code.util.MedicineExampleFixtures;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class MedicineRepositoryTest {
 
     @Mock
-    private MedicineJpaRepository medicineJpaRepository;
-    @Mock
-    private MedicineEntityMapper medicineEntityMapper;
-    @InjectMocks
-    private MedicineRepository medicineRepository;
+    private  MedicineJpaRepository medicineJpaRepository;
 
 
     @Test
     public void testFindByReceipt() {
-        //given
         Integer receiptId = 1;
-        List<Medicine> medicineEntities = List.of(MedicineExampleFixtures.medicineExampleData1(),MedicineExampleFixtures.medicineExampleData2());
-        //when
-        when(medicineJpaRepository.findByReceipt(receiptId).stream().map(medicineEntityMapper::mapFromEntity).toList()).thenReturn(medicineEntities);
+        MedicineEntity medicineEntity1 = new MedicineEntity();
+        MedicineEntity medicineEntity2 = new MedicineEntity();
+        medicineEntity1.setReceipt(ReceiptEntity.builder().receiptId(receiptId).build());
+        medicineEntity2.setReceipt(ReceiptEntity.builder().receiptId(receiptId).build());
+        List<MedicineEntity> expectedMedicines = Arrays.asList(medicineEntity1, medicineEntity2);
 
-        List<MedicineEntity> result = medicineRepository.findByReceipt(receiptId);
-        //then
-        assertEquals(medicineEntities.size(), result.size());
+        when(medicineJpaRepository.findByReceipt(receiptId)).thenReturn(expectedMedicines);
+
+        List<MedicineEntity> result = medicineJpaRepository.findByReceipt(receiptId);
+
+        verify(medicineJpaRepository, times(1)).findByReceipt(receiptId);
+
+        assertEquals(expectedMedicines, result);
+
+        for (MedicineEntity medicineEntity : result) {
+            assertEquals(receiptId, medicineEntity.getReceipt().getReceiptId());
+        }
     }
-
     @Test
     public void testFindByPatientEmail() {
         //given
@@ -49,7 +52,7 @@ public class MedicineRepositoryTest {
         //when
         when(medicineJpaRepository.findByPatientEmail(patientEmail)).thenReturn(medicineEntities);
 
-        List<MedicineEntity> result = medicineRepository.findByPatientEmail(patientEmail);
+        List<MedicineEntity> result = medicineJpaRepository.findByPatientEmail(patientEmail);
         //then
         assertEquals(medicineEntities.size(), result.size());
         assertEquals(medicineEntities.get(0), result.get(0));
@@ -61,9 +64,8 @@ public class MedicineRepositoryTest {
         Integer receiptId = 2;
         //when
 
-        when(medicineJpaRepository.findByReceipt(receiptId).stream().map(medicineEntityMapper::mapFromEntity).toList()).thenReturn(List.of());
 
-        List<MedicineEntity> result = medicineRepository.findByReceipt(receiptId);
+        List<MedicineEntity> result = medicineJpaRepository.findByReceipt(receiptId);
         //then
         assertEquals(0, result.size());
     }
@@ -75,7 +77,7 @@ public class MedicineRepositoryTest {
         //when
         when(medicineJpaRepository.findByPatientEmail(patientEmail)).thenReturn(List.of());
 
-        List<MedicineEntity> result = medicineRepository.findByPatientEmail(patientEmail);
+        List<MedicineEntity> result = medicineJpaRepository.findByPatientEmail(patientEmail);
         //then
         assertEquals(0, result.size());
     }

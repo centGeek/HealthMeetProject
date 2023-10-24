@@ -1,11 +1,11 @@
 package com.HealthMeetProject.code.infrastructure.database.entity;
 
-import com.HealthMeetProject.code.domain.Patient;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.Set;
 
 
@@ -48,6 +48,10 @@ public class ReceiptEntity {
     }
     @JsonIgnore
     public DoctorEntity getDoctor() {
+        if(Objects.isNull(doctor)){
+            return null;
+        }
+        doctor.setMeetingRequests(null);
         return doctor;
     }
 }

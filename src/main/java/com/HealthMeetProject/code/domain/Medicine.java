@@ -1,7 +1,5 @@
 package com.HealthMeetProject.code.domain;
 
-import com.HealthMeetProject.code.infrastructure.database.entity.ReceiptEntity;
-import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;

@@ -18,12 +18,11 @@ import com.HealthMeetProject.code.infrastructure.security.RoleRepository;
 import com.HealthMeetProject.code.infrastructure.security.UserRepository;
 import com.HealthMeetProject.code.util.DoctorDTOFixtures;
 import com.HealthMeetProject.code.util.PatientDTOFixtures;
-import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.annotation.Rollback;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -51,6 +50,7 @@ public class MeetingRequestControllerTestRestAssuredIT extends RestAssuredIntegr
         patientJpaRepository.deleteAll();
         doctorJpaRepository.deleteAll();
         userRepository.deleteAll();
+        
         DoctorDTO doctorToSave = DoctorDTOFixtures.getDoctorDTO1();
         doctorToSave.setUser(DoctorDTOFixtures.getUserDTO1());
         roleRepository.saveAndFlush(RoleEntity.builder().id(41322).role("DOCTOR").build());

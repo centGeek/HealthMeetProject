@@ -1,7 +1,6 @@
 package com.HealthMeetProject.code.api.controller.rest;
 
 import com.HealthMeetProject.code.api.dto.IllnessHistoryDTOs;
-import com.HealthMeetProject.code.api.dto.NoteDTOs;
 import com.HealthMeetProject.code.business.DoctorService;
 import com.HealthMeetProject.code.business.MeetingRequestService;
 import com.HealthMeetProject.code.business.dao.NoteDAO;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @RestController
 @RequestMapping(NoteApiController.BASE_PATH)

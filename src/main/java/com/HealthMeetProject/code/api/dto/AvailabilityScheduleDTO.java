@@ -1,6 +1,5 @@
 package com.HealthMeetProject.code.api.dto;
 
-import com.HealthMeetProject.code.domain.Doctor;
 import lombok.*;
 
 import java.time.LocalDateTime;

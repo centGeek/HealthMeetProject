@@ -3,26 +3,17 @@ package com.HealthMeetProject.code.api.controller;
 
 import com.HealthMeetProject.code.api.dto.PatientDTO;
 import com.HealthMeetProject.code.api.dto.PatientHistoryDTO;
-import com.HealthMeetProject.code.business.*;
-import com.HealthMeetProject.code.business.dao.MedicineDAO;
+import com.HealthMeetProject.code.business.PatientHistoryDTOService;
+import com.HealthMeetProject.code.business.PatientService;
 import com.HealthMeetProject.code.business.dao.MeetingRequestDAO;
 import com.HealthMeetProject.code.business.dao.PatientDAO;
-import com.HealthMeetProject.code.business.dao.ReceiptDAO;
-import com.HealthMeetProject.code.domain.MeetingRequest;
 import com.HealthMeetProject.code.domain.Patient;
-import com.HealthMeetProject.code.domain.Receipt;
-import com.HealthMeetProject.code.infrastructure.database.entity.MedicineEntity;
-import com.HealthMeetProject.code.infrastructure.database.entity.NoteEntity;
-import com.HealthMeetProject.code.infrastructure.database.repository.jpa.NoteJpaRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import java.math.BigDecimal;
-import java.util.List;
 
 @Controller
 @AllArgsConstructor(onConstructor = @__(@Autowired))

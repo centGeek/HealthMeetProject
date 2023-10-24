@@ -3,22 +3,21 @@ package com.HealthMeetProject.code.api.controller.rest.integration;
 import com.HealthMeetProject.code.api.controller.rest.integration.support.PatientControllerTestSupport;
 import com.HealthMeetProject.code.api.dto.PatientDTO;
 import com.HealthMeetProject.code.api.dto.UserData;
-import com.HealthMeetProject.code.infrastructure.database.repository.MeetingRequestRepository;
 import com.HealthMeetProject.code.infrastructure.database.repository.jpa.DoctorJpaRepository;
-import com.HealthMeetProject.code.infrastructure.database.repository.jpa.MeetingRequestJpaRepository;
 import com.HealthMeetProject.code.infrastructure.database.repository.jpa.PatientJpaRepository;
 import com.HealthMeetProject.code.infrastructure.security.RoleEntity;
 import com.HealthMeetProject.code.infrastructure.security.RoleRepository;
 import com.HealthMeetProject.code.infrastructure.security.UserRepository;
 import com.HealthMeetProject.code.util.PatientDTOFixtures;
 import lombok.AllArgsConstructor;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.DirtiesContext;
 
-import java.util.List;
 import java.util.Set;
 @AllArgsConstructor(onConstructor = @__(@Autowired))
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class PatientControllerTestRestAssuredIT extends RestAssuredIntegrationTestBase implements PatientControllerTestSupport {
     private RoleRepository roleRepository;
 

@@ -12,6 +12,7 @@ class AddressEntityTest {
         addressEntity2.setAddressId(3);
         Assertions.assertEquals(addressEntity1, addressEntity2);
         addressEntity2.setAddressId(5);
+
         Assertions.assertNotEquals(addressEntity2.hashCode(), addressEntity1.hashCode());
     }
 }

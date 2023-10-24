@@ -9,8 +9,6 @@ import com.HealthMeetProject.code.api.dto.mapper.AvailabilityScheduleMapper;
 import com.HealthMeetProject.code.api.dto.mapper.DoctorMapper;
 import com.HealthMeetProject.code.domain.AvailabilitySchedule;
 import com.HealthMeetProject.code.domain.Doctor;
-import com.HealthMeetProject.code.infrastructure.database.repository.DoctorRepository;
-import com.HealthMeetProject.code.infrastructure.database.repository.PatientRepository;
 import com.HealthMeetProject.code.infrastructure.database.repository.jpa.DoctorJpaRepository;
 import com.HealthMeetProject.code.infrastructure.database.repository.jpa.PatientJpaRepository;
 import com.HealthMeetProject.code.infrastructure.security.RoleEntity;
@@ -18,16 +16,11 @@ import com.HealthMeetProject.code.infrastructure.security.RoleRepository;
 import com.HealthMeetProject.code.infrastructure.security.UserRepository;
 import com.HealthMeetProject.code.util.DoctorDTOFixtures;
 import com.HealthMeetProject.code.util.DoctorExampleFixtures;
-import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.annotation.Rollback;
 
 import java.util.Set;
 @AllArgsConstructor(onConstructor = @__(@Autowired))

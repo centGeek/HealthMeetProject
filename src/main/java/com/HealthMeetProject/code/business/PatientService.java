@@ -1,18 +1,10 @@
 package com.HealthMeetProject.code.business;
 
 import com.HealthMeetProject.code.api.dto.PatientDTO;
-import com.HealthMeetProject.code.api.dto.PatientHistoryDTO;
-import com.HealthMeetProject.code.business.dao.MedicineDAO;
-import com.HealthMeetProject.code.business.dao.MeetingRequestDAO;
 import com.HealthMeetProject.code.business.dao.PatientDAO;
-import com.HealthMeetProject.code.business.dao.ReceiptDAO;
 import com.HealthMeetProject.code.domain.MeetingRequest;
 import com.HealthMeetProject.code.domain.Patient;
-import com.HealthMeetProject.code.domain.Receipt;
 import com.HealthMeetProject.code.domain.exception.UserAlreadyExistsException;
-import com.HealthMeetProject.code.infrastructure.database.entity.MedicineEntity;
-import com.HealthMeetProject.code.infrastructure.database.entity.NoteEntity;
-import com.HealthMeetProject.code.infrastructure.database.repository.jpa.NoteJpaRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
@@ -21,9 +13,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 @Slf4j

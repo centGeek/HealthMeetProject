@@ -1,18 +1,12 @@
 package com.HealthMeetProject.code.api.controller.rest;
 
 import com.HealthMeetProject.code.api.dto.PatientDTO;
-import com.HealthMeetProject.code.api.dto.PatientHistoryDTO;
 import com.HealthMeetProject.code.api.dto.mapper.PatientMapper;
 import com.HealthMeetProject.code.business.PatientHistoryDTOService;
 import com.HealthMeetProject.code.business.PatientService;
 import com.HealthMeetProject.code.business.dao.MeetingRequestDAO;
 import com.HealthMeetProject.code.business.dao.PatientDAO;
-import com.HealthMeetProject.code.domain.MeetingRequest;
-import com.HealthMeetProject.code.domain.Note;
 import com.HealthMeetProject.code.domain.Patient;
-import com.HealthMeetProject.code.domain.Receipt;
-import com.HealthMeetProject.code.infrastructure.database.entity.MedicineEntity;
-import com.HealthMeetProject.code.infrastructure.database.entity.NoteEntity;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
-import java.util.List;
 
 @RestController
 @RequestMapping(PatientApiController.BASE_PATH)

@@ -9,7 +9,6 @@ import com.HealthMeetProject.code.domain.Doctor;
 import com.HealthMeetProject.code.domain.exception.NotFoundException;
 import com.HealthMeetProject.code.infrastructure.database.entity.DoctorEntity;
 import com.HealthMeetProject.code.infrastructure.database.repository.mapper.DoctorEntityMapper;
-import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,10 +16,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
-import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController

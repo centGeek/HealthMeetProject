@@ -1,6 +1,5 @@
 package com.HealthMeetProject.code.api.dto;
 
-import com.HealthMeetProject.code.domain.Receipt;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -14,4 +13,5 @@ public class MedicineDTO {
     private String name;
     private int quantity;
     private BigDecimal approxPrice;
+    private String patientEmail;
 }

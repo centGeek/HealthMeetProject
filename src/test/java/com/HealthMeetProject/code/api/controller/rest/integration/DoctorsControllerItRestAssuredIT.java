@@ -3,22 +3,16 @@ package com.HealthMeetProject.code.api.controller.rest.integration;
 import com.HealthMeetProject.code.api.controller.rest.integration.support.DoctorsControllerTestSupport;
 import com.HealthMeetProject.code.api.dto.DoctorDTO;
 import com.HealthMeetProject.code.api.dto.DoctorDTOs;
-import com.HealthMeetProject.code.infrastructure.database.repository.PatientRepository;
 import com.HealthMeetProject.code.infrastructure.database.repository.jpa.DoctorJpaRepository;
 import com.HealthMeetProject.code.infrastructure.database.repository.jpa.PatientJpaRepository;
 import com.HealthMeetProject.code.infrastructure.security.RoleEntity;
 import com.HealthMeetProject.code.infrastructure.security.RoleRepository;
 import com.HealthMeetProject.code.infrastructure.security.UserRepository;
 import com.HealthMeetProject.code.util.DoctorDTOFixtures;
-import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.annotation.Rollback;
 
 import java.util.Set;
 

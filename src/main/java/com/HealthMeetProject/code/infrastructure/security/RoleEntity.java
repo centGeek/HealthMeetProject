@@ -1,6 +1,5 @@
 package com.HealthMeetProject.code.infrastructure.security;
 
-import com.HealthMeetProject.code.infrastructure.database.entity.MeetingRequestEntity;
 import jakarta.persistence.*;
 import lombok.*;
 

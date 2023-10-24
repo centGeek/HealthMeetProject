@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -41,16 +40,25 @@ public class ReceiptController {
     ) {
         @SuppressWarnings("unchecked") List<MedicineDTO> medicineList = (List<MedicineDTO>) session.getAttribute("medicineList");
         MeetingRequest meetingRequest = meetingRequestDAO.findById(meetingId);
+        if(medicineList==null){
+            medicineList = new ArrayList<>();
+        }
         Doctor doctor = meetingRequest.getDoctor();
         Patient patient = meetingRequest.getPatient();
+
+        List<MedicineDTO> medicineListCopy = medicineList;
+        List<MedicineDTO> list = medicineListCopy.stream()
+                .filter(a -> a.getPatientEmail().equals(patient.getEmail())).toList();
+
         model.addAttribute("now", LocalDateTime.now().format(MeetingProcessingController.FORMATTER));
         model.addAttribute("patient", patient);
         model.addAttribute("doctor", doctor);
         model.addAttribute("meetingId", meetingId);
-        model.addAttribute("medicineList", medicineList);
+        model.addAttribute("medicineList", list);
 
         return "receipt";
     }
+
 
     @PostMapping(RECEIPT_PAGE_ADD_MEDICINE)
     public String addMedicine(
@@ -60,11 +68,13 @@ public class ReceiptController {
             @RequestParam("approx_price") BigDecimal approxPrice,
             HttpSession session
             ) {
+        MeetingRequest byId = meetingRequestDAO.findById(meetingId);
         @SuppressWarnings("unchecked") List<MedicineDTO> medicineList = (List<MedicineDTO>) session.getAttribute("medicineList");
         MedicineDTO build = MedicineDTO.builder()
                 .name(medicineName)
                 .quantity(quantity)
                 .approxPrice(approxPrice)
+                .patientEmail(byId.getPatient().getEmail())
                 .build();
         if(Objects.isNull(medicineList)){
             medicineList = new ArrayList<>();
