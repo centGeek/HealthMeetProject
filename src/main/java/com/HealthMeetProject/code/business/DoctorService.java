@@ -130,6 +130,9 @@ public class DoctorService {
         if (updatedDoctorDTO.getEarningsPerVisit() != null) {
             existingDoctor.setEarningsPerVisit(updatedDoctorDTO.getEarningsPerVisit());
         }
+        if (updatedDoctorDTO.getClinic() != null) {
+            existingDoctor.setClinic(updatedDoctorDTO.getClinic());
+        }
     }
 
 }

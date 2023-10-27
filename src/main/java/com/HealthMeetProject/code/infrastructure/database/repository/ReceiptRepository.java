@@ -8,9 +8,7 @@ import com.HealthMeetProject.code.infrastructure.database.repository.mapper.Rece
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 @AllArgsConstructor

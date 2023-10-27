@@ -24,5 +24,6 @@ public interface AvailabilityScheduleDAO {
 
     void save(AvailabilityScheduleEntity availabilityScheduleEntity);
 
-    List<AvailabilityScheduleDTO> findAll(); 
+    List<AvailabilityScheduleDTO> findAll();
+    List<AvailabilityScheduleDTO> restFindAll();
 }

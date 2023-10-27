@@ -5,6 +5,8 @@ import com.HealthMeetProject.code.api.controller.rest.integration.support.Meetin
 import com.HealthMeetProject.code.api.controller.rest.integration.support.NoteControllerTestSupport;
 import com.HealthMeetProject.code.api.controller.rest.integration.support.PatientControllerTestSupport;
 import com.HealthMeetProject.code.api.dto.*;
+import com.HealthMeetProject.code.api.dto.api.IllnessHistoryDTOs;
+import com.HealthMeetProject.code.api.dto.api.MeetingRequestsDTOs;
 import com.HealthMeetProject.code.api.dto.mapper.DoctorMapper;
 import com.HealthMeetProject.code.business.dao.AvailabilityScheduleDAO;
 import com.HealthMeetProject.code.domain.AvailabilitySchedule;

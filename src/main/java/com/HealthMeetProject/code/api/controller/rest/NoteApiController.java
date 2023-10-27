@@ -1,6 +1,6 @@
 package com.HealthMeetProject.code.api.controller.rest;
 
-import com.HealthMeetProject.code.api.dto.IllnessHistoryDTOs;
+import com.HealthMeetProject.code.api.dto.api.IllnessHistoryDTOs;
 import com.HealthMeetProject.code.business.DoctorService;
 import com.HealthMeetProject.code.business.MeetingRequestService;
 import com.HealthMeetProject.code.business.dao.NoteDAO;

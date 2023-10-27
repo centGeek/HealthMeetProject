@@ -1,5 +1,6 @@
 package com.HealthMeetProject.code.api.controller.rest.integration;
 
+import com.HealthMeetProject.code.api.controller.rest.PatientApiController;
 import com.HealthMeetProject.code.api.controller.rest.integration.support.PatientControllerTestSupport;
 import com.HealthMeetProject.code.api.dto.PatientDTO;
 import com.HealthMeetProject.code.api.dto.UserData;
@@ -47,5 +48,11 @@ public class PatientControllerTestRestAssuredIT extends RestAssuredIntegrationTe
         Assertions.assertEquals(byEmail1.getEmail(), patient1.getEmail());
         Assertions.assertEquals(byEmail1.getUser().getUserName(), patient1.getUser().getUserName());
         Assertions.assertEquals(byEmail2.getUser().getEmail(), patient2.getUser().getEmail());
+
+        String phone = "+40 230 123 064";
+        byEmail1.setPhone(phone);
+        updatePatient(byEmail1.getPatientId(), byEmail1);
+        PatientDTO byEmail3 = findByEmail(patient1.getEmail());
+        Assertions.assertEquals(byEmail3.getPhone(),phone);
     }
 }

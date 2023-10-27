@@ -12,5 +12,4 @@ public interface MeetingRequestEntityRestApiMapper {
     @Mapping(source = "doctor", target = "doctor", ignore = true)
     @Mapping(source = "patient", target = "patient", ignore = true)
     MeetingRequest mapFromEntity(final MeetingRequestEntity meetingRequestEntity);
-    MeetingRequestEntity mapToEntity(final MeetingRequest meetingRequest);
 }

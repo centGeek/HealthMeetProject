@@ -73,6 +73,15 @@ public class AvailabilityScheduleRepository implements AvailabilityScheduleDAO {
 
     @Override
     public List<AvailabilityScheduleDTO> findAll() {
-        return availabilityScheduleJpaRepository.findAll().stream().map(availabilityScheduleEntityMapper::mapFromEntity).map(availabilityScheduleMapper::mapToDTO).toList();
+        return availabilityScheduleJpaRepository.findAll().stream()
+                .map(availabilityScheduleEntityMapper::mapFromEntity)
+                .map(availabilityScheduleMapper::mapToDTO).toList();
+    }
+
+    @Override
+    public List<AvailabilityScheduleDTO> restFindAll() {
+        return availabilityScheduleJpaRepository.findAll().stream()
+                .map(availableScheduleEntityRestApiMapper::mapFromEntity)
+                .map(availabilityScheduleMapper::mapToDTO).toList();
     }
 }

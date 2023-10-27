@@ -1,14 +1,12 @@
 package com.HealthMeetProject.code.api.controller.rest.integration.support;
 
 import com.HealthMeetProject.code.api.controller.rest.ReceiptApiController;
-import com.HealthMeetProject.code.api.dto.MedicineDTO;
-import com.HealthMeetProject.code.api.dto.Receipts;
+import com.HealthMeetProject.code.api.dto.api.IssueReceiptDTO;
+import com.HealthMeetProject.code.api.dto.api.Receipts;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import org.springframework.http.HttpStatus;
-
-import java.util.List;
 
 public interface ReceiptControllerTestSupport {
     RequestSpecification requestSpecification();
@@ -24,11 +22,9 @@ public interface ReceiptControllerTestSupport {
     }
 
 
-    default ExtractableResponse<Response> issueReceipt(String patientEmail, String doctorEmail, List<MedicineDTO> medicineList) {
+    default ExtractableResponse<Response> issueReceipt(IssueReceiptDTO issueReceiptDTO) {
         return requestSpecification()
-                .param("medicineList", medicineList)
-                .param("patientEmail", patientEmail)
-                .param("doctorEmail", doctorEmail)
+                .body(issueReceiptDTO)
                 .post(ReceiptApiController.BASE_PATH + "/issue")
                 .then()
                 .statusCode(HttpStatus.CREATED.value())

@@ -5,9 +5,12 @@ import com.HealthMeetProject.code.business.AvailabilityScheduleService;
 import com.HealthMeetProject.code.business.DoctorService;
 import com.HealthMeetProject.code.business.PatientService;
 import com.HealthMeetProject.code.business.dao.DoctorDAO;
+import com.HealthMeetProject.code.business.dao.MeetingRequestDAO;
 import com.HealthMeetProject.code.business.dao.PatientDAO;
+import com.HealthMeetProject.code.domain.MeetingRequest;
 import com.HealthMeetProject.code.util.DoctorDTOFixtures;
 import com.HealthMeetProject.code.util.DoctorExampleFixtures;
+import com.HealthMeetProject.code.util.MeetingRequestsExampleFixtures;
 import com.HealthMeetProject.code.util.PatientExampleFixtures;
 import lombok.AllArgsConstructor;
 import org.junit.jupiter.api.Test;
@@ -37,6 +40,9 @@ public class DoctorControllerTest {
     private final DoctorDAO doctorDAO;
     @MockBean
     private final DoctorMapper doctorMapper;
+    @MockBean
+    private final MeetingRequestDAO meetingRequestDAO;
+
     @MockBean
     private final AvailabilityScheduleService availabilityScheduleService;
     @MockBean
@@ -83,5 +89,17 @@ public class DoctorControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.patch("/doctor/1/edit"))
                 .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
                 .andExpect(MockMvcResultMatchers.view().name("redirect:/logout"));
+    }
+    @Test
+    public void testDeleteVisit() throws Exception {
+        int meetingId = 5;
+        MeetingRequest meetingRequest = MeetingRequestsExampleFixtures.meetingRequestDataExample1();
+        meetingRequest.setMeetingId(1);
+        Mockito.when(meetingRequestDAO.findById(Mockito.anyInt()))
+                .thenReturn(meetingRequest);
+
+        mockMvc.perform(MockMvcRequestBuilders.delete("/doctor/delete-visit/{meetingId}", meetingId))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.view().name("home"));
     }
 }

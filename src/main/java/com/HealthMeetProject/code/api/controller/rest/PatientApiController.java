@@ -2,8 +2,8 @@ package com.HealthMeetProject.code.api.controller.rest;
 
 import com.HealthMeetProject.code.api.dto.PatientDTO;
 import com.HealthMeetProject.code.api.dto.mapper.PatientMapper;
-import com.HealthMeetProject.code.business.PatientHistoryDTOService;
 import com.HealthMeetProject.code.business.PatientService;
+import com.HealthMeetProject.code.business.dao.DoctorDAO;
 import com.HealthMeetProject.code.business.dao.MeetingRequestDAO;
 import com.HealthMeetProject.code.business.dao.PatientDAO;
 import com.HealthMeetProject.code.domain.Patient;
@@ -21,7 +21,6 @@ import java.net.URI;
 public class PatientApiController {
     public static final String BASE_PATH = "/api/patients";
     private final MeetingRequestDAO meetingRequestDAO;
-    private final PatientHistoryDTOService patientHistoryDTOService;
     private final PatientService patientService;
     private final PatientDAO patientDAO;
     private final PatientMapper patientMapper;
@@ -59,38 +58,22 @@ public class PatientApiController {
 
     }
 
-//    @GetMapping("/{patientId}/edit")
-//    public ResponseEntity<?> getEditPatientForm(
-//            @PathVariable Integer patientId
-//    ) {
-//        Patient existingPatient = patientDAO.findById(patientId);
-//
-//        if (existingPatient == null) {
-//            return ResponseEntity.notFound().build();
-//        }
-//
-//        PatientDTO patientDTO = PatientDTO.builder()
-//                .name(existingPatient.getName())
-//                .surname(existingPatient.getSurname())
-//                .build();
-//
-//        return ResponseEntity.ok(patientDTO);
-//    }
-//
-//    @PatchMapping("/{patientId}/edit")
-//    public ResponseEntity<?> updatePatient(
-//            @PathVariable Integer patientId,
-//            @RequestBody PatientDTO patientDTO
-//    ) {
-//        Patient existingPatient = patientDAO.findById(patientId);
-//
-//        if (existingPatient == null) {
-//            return ResponseEntity.notFound().build();
-//        }
-//
-//        Patient patient = patientMapper.mapFromDTO(patientDTO);
-//        patientDAO.savePatient(patient);
-//
-//        return ResponseEntity.ok("Patient data has been updated successfully");
-//    }
+
+
+    @PatchMapping("/{patientId}/edit")
+    public ResponseEntity<?> updatePatient(
+            @PathVariable Integer patientId,
+            @RequestBody PatientDTO patientDTO
+    ) {
+        Patient existingPatient = patientDAO.findById(patientId);
+
+        if (existingPatient == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Patient patient = patientMapper.mapFromDTO(patientDTO);
+        patientDAO.savePatient(patient);
+
+        return ResponseEntity.ok("Patient data has been updated successfully");
+    }
 }

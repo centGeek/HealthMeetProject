@@ -36,18 +36,19 @@ public class PatientController {
     }
 
 
-
     @DeleteMapping("/patient/delete/meeting/{meetingId}")
     public String deleteMeeting(
             @PathVariable Integer meetingId
     ) {
         try {
             meetingRequestDAO.deleteById(meetingId);
+
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("Problem with deleting occurred");
         }
-        return "patient_history";
+        return "home";
     }
+
     @GetMapping("/patient/{patientId}/edit")
     public String showEditDoctorForm(
             @PathVariable Integer patientId,
@@ -61,6 +62,7 @@ public class PatientController {
         model.addAttribute("patient", existingDoctor);
         return "edit-patient";
     }
+
     @PatchMapping("/patient/{patientId}/edit")
     public String updateDoctor(
             @PathVariable Integer patientId,

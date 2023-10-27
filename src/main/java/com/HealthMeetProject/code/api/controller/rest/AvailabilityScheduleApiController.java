@@ -1,7 +1,7 @@
 package com.HealthMeetProject.code.api.controller.rest;
 
 import com.HealthMeetProject.code.api.dto.AvailabilityScheduleDTO;
-import com.HealthMeetProject.code.api.dto.AvailabilityScheduleDTOs;
+import com.HealthMeetProject.code.api.dto.api.AvailabilityScheduleDTOs;
 import com.HealthMeetProject.code.business.AvailabilityScheduleService;
 import com.HealthMeetProject.code.business.DoctorService;
 import com.HealthMeetProject.code.business.dao.AvailabilityScheduleDAO;
@@ -33,7 +33,7 @@ public class AvailabilityScheduleApiController {
 
     @GetMapping
     public AvailabilityScheduleDTOs getAllAvailableWorkingDays() {
-        return AvailabilityScheduleDTOs.of(availabilityScheduleDAO.findAll().stream()
+        return AvailabilityScheduleDTOs.of(availabilityScheduleDAO.restFindAll().stream()
                 .sorted(Comparator.comparing(AvailabilityScheduleDTO::getSince))
                 .filter(AvailabilityScheduleDTO::isAvailableDay)
                 .collect(Collectors.toList()));

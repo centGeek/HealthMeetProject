@@ -14,6 +14,7 @@ import com.HealthMeetProject.code.domain.exception.NotFoundException;
 import com.HealthMeetProject.code.domain.exception.ProcessingException;
 import com.HealthMeetProject.code.infrastructure.database.entity.AvailabilityScheduleEntity;
 import com.HealthMeetProject.code.infrastructure.database.entity.MeetingRequestEntity;
+import com.HealthMeetProject.code.infrastructure.database.repository.DoctorRepository;
 import com.HealthMeetProject.code.infrastructure.database.repository.jpa.AvailabilityScheduleJpaRepository;
 import com.HealthMeetProject.code.infrastructure.database.repository.jpa.MeetingRequestJpaRepository;
 import com.HealthMeetProject.code.infrastructure.database.repository.mapper.AvailabilityScheduleEntityMapper;
@@ -42,6 +43,7 @@ public class MeetingRequestService {
     private final AvailabilityScheduleDAO availabilityScheduleDAO;
     private final AvailabilityScheduleService availabilityScheduleService;
     private final MeetingRequestEntityRestApiMapper meetingRequestEntityRestApiMapper;
+    private final DoctorRepository doctorRepository;
 
 
 
@@ -129,6 +131,9 @@ public class MeetingRequestService {
 
     public List<MeetingRequest> availableServiceRequestsByDoctor(String email) {
         return meetingRequestDAO.findAllActiveMeetingRequestsByDoctor(email);
+    }public List<MeetingRequest> restAvailableServiceRequestsByDoctor(String email) {
+        return meetingRequestDAO.restFindAllActiveMeetingRequestsByDoctor(email);
+
     }
 
     public List<MeetingRequest> availableEndedVisitsByDoctor(String email) {
@@ -170,6 +175,19 @@ public class MeetingRequestService {
     public AvailabilityScheduleDTO getAvailabilitySchedule(Integer availability_schedule_id, Integer selectedSlotId) {
         AvailabilitySchedule availabilitySchedule = availabilityScheduleDAO.findById(availability_schedule_id);
         Doctor doctor = availabilitySchedule.getDoctor();
+        List<AvailabilitySchedule> particularVisitTime = generateTimeSlots(availabilitySchedule.getSince(), availabilitySchedule.getToWhen(), doctor);
+        List<AvailabilityScheduleDTO> particularVisitTimeDTO = particularVisitTime.stream().map(availabilityScheduleMapper::mapToDTO).toList();
+        return particularVisitTimeDTO.get(selectedSlotId);
+    }
+    public AvailabilityScheduleDTO restGetAvailabilitySchedule(Integer availability_schedule_id, Integer selectedSlotId, String doctorEmail) {
+        List<AvailabilitySchedule> availabilitySchedules = availabilityScheduleDAO.restFindAllAvailableTermsByGivenDoctor(doctorEmail);
+        AvailabilitySchedule availabilitySchedule = new AvailabilitySchedule();
+        for (AvailabilitySchedule schedule : availabilitySchedules) {
+            if(schedule.getAvailability_schedule_id()==availability_schedule_id){
+                availabilitySchedule = schedule;
+            }
+        }
+        Doctor doctor = doctorRepository.findByEmail(doctorEmail).orElseThrow();
         List<AvailabilitySchedule> particularVisitTime = generateTimeSlots(availabilitySchedule.getSince(), availabilitySchedule.getToWhen(), doctor);
         List<AvailabilityScheduleDTO> particularVisitTimeDTO = particularVisitTime.stream().map(availabilityScheduleMapper::mapToDTO).toList();
         return particularVisitTimeDTO.get(selectedSlotId);

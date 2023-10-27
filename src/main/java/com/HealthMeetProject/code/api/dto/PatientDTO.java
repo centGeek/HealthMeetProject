@@ -13,7 +13,7 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 public class PatientDTO {
-    private Integer id;
+    private Integer patientId;
     private String name;
     private String surname;
     @Email

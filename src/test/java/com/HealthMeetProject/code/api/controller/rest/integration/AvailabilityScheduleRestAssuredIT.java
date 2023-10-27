@@ -2,9 +2,10 @@ package com.HealthMeetProject.code.api.controller.rest.integration;
 
 import com.HealthMeetProject.code.api.controller.rest.integration.support.AvailabilityScheduleControllerTestSupport;
 import com.HealthMeetProject.code.api.controller.rest.integration.support.DoctorsControllerTestSupport;
-import com.HealthMeetProject.code.api.dto.AvailabilityScheduleDTOs;
+import com.HealthMeetProject.code.api.dto.AvailabilityScheduleDTO;
+import com.HealthMeetProject.code.api.dto.api.AvailabilityScheduleDTOs;
 import com.HealthMeetProject.code.api.dto.DoctorDTO;
-import com.HealthMeetProject.code.api.dto.DoctorDTOs;
+import com.HealthMeetProject.code.api.dto.api.DoctorDTOs;
 import com.HealthMeetProject.code.api.dto.mapper.AvailabilityScheduleMapper;
 import com.HealthMeetProject.code.api.dto.mapper.DoctorMapper;
 import com.HealthMeetProject.code.domain.AvailabilitySchedule;
@@ -57,8 +58,20 @@ public class AvailabilityScheduleRestAssuredIT extends RestAssuredIntegrationTes
         addTerm(availabilityScheduleMapper.mapToDTO(availabilitySchedule));
         AvailabilityScheduleDTOs allDoctorAvailableTerms = getAllDoctorAvailableTerms(doctorSaved.getDoctorId());
         //then
-        Assertions.assertThat(allDoctorAvailableTerms.getAvailabilityScheduleDTOList()
-                .get(0).getSince()).isEqualTo(availabilitySchedule.getSince());
+        AvailabilityScheduleDTO availabilityScheduleDTO = allDoctorAvailableTerms.getAvailabilityScheduleDTOList()
+                .get(0);
+        Assertions.assertThat(availabilityScheduleDTO.getSince()).isEqualTo(availabilitySchedule.getSince());
 
+        availabilityScheduleDTO.setAvailableDay(true);
+        addTerm(availabilityScheduleDTO);
+
+        AvailabilityScheduleDTOs allAvailableWorkingDays = getAllAvailableWorkingDays();
+        Assertions.assertThat(allAvailableWorkingDays.getAvailabilityScheduleDTOList()
+                .size()).isEqualTo(2);
+
+        deleteTerm(allAvailableWorkingDays.getAvailabilityScheduleDTOList().get(0).getAvailability_schedule_id());
+        AvailabilityScheduleDTOs allAvailableWorkingDaysAfterDeleting = getAllAvailableWorkingDays();
+        Assertions.assertThat(allAvailableWorkingDaysAfterDeleting.getAvailabilityScheduleDTOList()
+                .size()).isEqualTo(1);
     }
 }

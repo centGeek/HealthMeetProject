@@ -6,23 +6,25 @@ import com.HealthMeetProject.code.api.dto.mapper.DoctorMapper;
 import com.HealthMeetProject.code.business.AvailabilityScheduleService;
 import com.HealthMeetProject.code.business.DoctorService;
 import com.HealthMeetProject.code.business.PatientService;
+import com.HealthMeetProject.code.business.dao.AvailabilityScheduleDAO;
 import com.HealthMeetProject.code.business.dao.DoctorDAO;
+import com.HealthMeetProject.code.business.dao.MeetingRequestDAO;
 import com.HealthMeetProject.code.business.dao.PatientDAO;
 import com.HealthMeetProject.code.domain.Doctor;
+import com.HealthMeetProject.code.domain.MeetingRequest;
 import com.HealthMeetProject.code.domain.Patient;
 import com.HealthMeetProject.code.domain.exception.NotFoundException;
+import com.HealthMeetProject.code.infrastructure.database.entity.AvailabilityScheduleEntity;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static com.HealthMeetProject.code.api.controller.PatientController.PATIENT;
 
@@ -33,6 +35,7 @@ public class DoctorController {
     private final DoctorService doctorService;
     private final DoctorDAO doctorDAO;
     private final DoctorMapper doctorMapper;
+    private final MeetingRequestDAO meetingRequestDAO;
     private final AvailabilityScheduleService availabilityScheduleService;
     private final PatientService patientService;
     private final PatientDAO patientDAO;
@@ -57,7 +60,7 @@ public class DoctorController {
             Model model
     ) {
         Doctor doctor = doctorDAO.findById(doctorId).orElseThrow(() -> new EntityNotFoundException(
-                "Employee entity not found, employeeId: [%s]".formatted(doctorId)
+                "Employee entity not found, employeeId: [%s]" .formatted(doctorId)
         ));
         DoctorDTO doctorDTO = doctorMapper.mapToDTO(doctor);
         List<AvailabilityScheduleDTO> allTermsByGivenDoctor = availabilityScheduleService.findAllAvailableTermsByGivenDoctor(doctor.getEmail());
@@ -67,13 +70,14 @@ public class DoctorController {
             since.add(availabilityScheduleDTO.getSince().format(MeetingProcessingController.FORMATTER));
             toWhen.add(availabilityScheduleDTO.getToWhen().format(MeetingProcessingController.FORMATTER));
         }
-        model.addAttribute("since",since);
-        model.addAttribute("toWhen",toWhen);
-        model.addAttribute("allTermsByGivenDoctor",allTermsByGivenDoctor);
+        model.addAttribute("since", since);
+        model.addAttribute("toWhen", toWhen);
+        model.addAttribute("allTermsByGivenDoctor", allTermsByGivenDoctor);
         model.addAttribute("doctor", doctorDTO);
 
         return "availability_terms";
     }
+
     @GetMapping("/doctor/{doctorId}/edit")
     public String showEditDoctorForm(
             @PathVariable Integer doctorId,
@@ -89,6 +93,19 @@ public class DoctorController {
         model.addAttribute("doctor", doctorDTO);
         return "edit-doctor";
     }
+
+    @DeleteMapping("/doctor/delete-visit/{meetingId}")
+    public String deleteVisit(
+            @PathVariable Integer meetingId) {
+        try {
+            meetingRequestDAO.deleteById(meetingId);
+
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("Problem with deleting occurred");
+        }
+        return "home";
+    }
+
     @PatchMapping("/doctor/{doctorId}/edit")
     public String updateDoctor(
             @PathVariable Integer doctorId,

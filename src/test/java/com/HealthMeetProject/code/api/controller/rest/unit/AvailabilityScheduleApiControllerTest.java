@@ -2,7 +2,7 @@ package com.HealthMeetProject.code.api.controller.rest.unit;
 
 import com.HealthMeetProject.code.api.controller.rest.AvailabilityScheduleApiController;
 import com.HealthMeetProject.code.api.dto.AvailabilityScheduleDTO;
-import com.HealthMeetProject.code.api.dto.AvailabilityScheduleDTOs;
+import com.HealthMeetProject.code.api.dto.api.AvailabilityScheduleDTOs;
 import com.HealthMeetProject.code.business.AvailabilityScheduleService;
 import com.HealthMeetProject.code.business.DoctorService;
 import com.HealthMeetProject.code.business.dao.AvailabilityScheduleDAO;
@@ -46,7 +46,7 @@ public class AvailabilityScheduleApiControllerTest {
     public void testGetAllAvailableTerms() {
         //given
         List<AvailabilityScheduleDTO> availableTerms = new ArrayList<>();
-        when(availabilityScheduleDAO.findAll()).thenReturn(availableTerms);
+        when(availabilityScheduleDAO.restFindAll()).thenReturn(availableTerms);
 
         //when
         AvailabilityScheduleDTOs result = controller.getAllAvailableWorkingDays();

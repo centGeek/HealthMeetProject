@@ -1,7 +1,7 @@
 package com.HealthMeetProject.code.api.controller.rest.integration.support;
 
 import com.HealthMeetProject.code.api.controller.rest.NoteApiController;
-import com.HealthMeetProject.code.api.dto.IllnessHistoryDTOs;
+import com.HealthMeetProject.code.api.dto.api.IllnessHistoryDTOs;
 import com.HealthMeetProject.code.domain.Note;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;

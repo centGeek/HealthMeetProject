@@ -24,6 +24,8 @@ public interface MeetingRequestJpaRepository extends JpaRepository<MeetingReques
             """)
     List<MeetingRequestEntity> findAllByDoctorEmail(@Param("email") String email);
 
+
+
     @Query("""
             SELECT mre FROM MeetingRequestEntity mre
             WHERE mre.completedDateTime IS NULL

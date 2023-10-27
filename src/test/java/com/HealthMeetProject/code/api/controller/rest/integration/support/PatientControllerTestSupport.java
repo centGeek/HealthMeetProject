@@ -1,7 +1,6 @@
 package com.HealthMeetProject.code.api.controller.rest.integration.support;
 
 import com.HealthMeetProject.code.api.controller.rest.PatientApiController;
-import com.HealthMeetProject.code.api.dto.DoctorDTO;
 import com.HealthMeetProject.code.api.dto.PatientDTO;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
@@ -11,14 +10,14 @@ import org.springframework.http.HttpStatus;
 public interface PatientControllerTestSupport {
     RequestSpecification requestSpecification();
 
-    default DoctorDTO getThisDoctor(final String path) {
+    default ExtractableResponse<Response> updatePatient(Integer patientId, PatientDTO patientDTO) {
         return requestSpecification()
-                .get(path)
+                .body(patientDTO)
+                .patch(PatientApiController.BASE_PATH+"/"+patientId+"/edit")
                 .then()
                 .statusCode(HttpStatus.OK.value())
                 .and()
-                .extract()
-                .as(DoctorDTO.class);
+                .extract();
     }
 
     default ExtractableResponse<Response> savePatient(final PatientDTO patientDTO) {

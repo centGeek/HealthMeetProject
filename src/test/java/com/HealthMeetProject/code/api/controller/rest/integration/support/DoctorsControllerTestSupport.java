@@ -2,7 +2,7 @@ package com.HealthMeetProject.code.api.controller.rest.integration.support;
 
 import com.HealthMeetProject.code.api.controller.rest.DoctorApiController;
 import com.HealthMeetProject.code.api.dto.DoctorDTO;
-import com.HealthMeetProject.code.api.dto.DoctorDTOs;
+import com.HealthMeetProject.code.api.dto.api.DoctorDTOs;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;

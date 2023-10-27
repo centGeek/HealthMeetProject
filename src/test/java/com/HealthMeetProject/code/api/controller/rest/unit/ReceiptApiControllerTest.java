@@ -1,8 +1,9 @@
 package com.HealthMeetProject.code.api.controller.rest.unit;
 
 import com.HealthMeetProject.code.api.controller.rest.ReceiptApiController;
+import com.HealthMeetProject.code.api.dto.api.IssueReceiptDTO;
 import com.HealthMeetProject.code.api.dto.MedicineDTO;
-import com.HealthMeetProject.code.api.dto.Receipts;
+import com.HealthMeetProject.code.api.dto.api.Receipts;
 import com.HealthMeetProject.code.api.dto.mapper.DoctorMapper;
 import com.HealthMeetProject.code.api.dto.mapper.PatientMapper;
 import com.HealthMeetProject.code.business.ReceiptService;
@@ -26,7 +27,6 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -93,17 +93,15 @@ public class ReceiptApiControllerTest {
 
         List<MedicineDTO> medicineList = new ArrayList<>();
         medicineList.add(MedicineExampleFixtures.medicineDTOExampleData1());
-        when(patientDAO.findByEmail(patient.getEmail())).thenReturn(patient);
-        when(doctorRepository.findByEmail(patient.getEmail())).thenReturn(Optional.of(doctor));
         meetingRequest.setPatient(patient);
-
+        IssueReceiptDTO issueReceiptDTO = IssueReceiptDTO.builder().patient(patient).doctor(doctor).medicineDTOList(medicineList).build();
         //when
-        ResponseEntity<?> responseEntity = receiptApiController.issueReceipt(patient.getEmail(), doctor.getEmail(), medicineList);
+        ResponseEntity<?> responseEntity = receiptApiController.issueReceipt(issueReceiptDTO);
 
         //then
         //noinspection deprecation
         assertEquals(201, responseEntity.getStatusCodeValue());
-        verify(receiptService, times(1)).restIssueReceipt(medicineList, patient, doctor);
+        verify(receiptService, times(1)).restIssueReceipt(issueReceiptDTO);
     }
 
     @Test
@@ -114,10 +112,12 @@ public class ReceiptApiControllerTest {
         Doctor doctor = DoctorExampleFixtures.doctorExample1();
         List<MedicineDTO> medicineList = new ArrayList<>();
         meetingRequest.setPatient(patient);
+        IssueReceiptDTO issueReceiptDTO = IssueReceiptDTO.builder().patient(patient).doctor(doctor).medicineDTOList(medicineList).build();
+
 
         //when, then
         assertThrows(ProcessingException.class,
-                () -> receiptApiController.issueReceipt(patient.getEmail(), doctor.getEmail(), medicineList));
+                () -> receiptApiController.issueReceipt(issueReceiptDTO));
         verify(receiptService, never()).issueReceipt(medicineList, patient);
     }
 }

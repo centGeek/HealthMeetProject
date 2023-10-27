@@ -1,10 +1,12 @@
 package com.HealthMeetProject.code.api.controller.rest.integration;
 
-import com.HealthMeetProject.code.api.controller.rest.ReceiptApiController;
-import com.HealthMeetProject.code.api.controller.rest.integration.support.*;
-import com.HealthMeetProject.code.api.dto.*;
-import com.HealthMeetProject.code.business.MeetingRequestService;
-import com.HealthMeetProject.code.business.ReceiptService;
+import com.HealthMeetProject.code.api.controller.rest.integration.support.AvailabilityScheduleControllerTestSupport;
+import com.HealthMeetProject.code.api.controller.rest.integration.support.MeetingRequestControllerTestSupport;
+import com.HealthMeetProject.code.api.controller.rest.integration.support.ReceiptControllerTestSupport;
+import com.HealthMeetProject.code.api.dto.MedicineDTO;
+import com.HealthMeetProject.code.api.dto.MeetingRequestDTO;
+import com.HealthMeetProject.code.api.dto.api.IssueReceiptDTO;
+import com.HealthMeetProject.code.api.dto.api.Receipts;
 import com.HealthMeetProject.code.business.dao.AvailabilityScheduleDAO;
 import com.HealthMeetProject.code.domain.AvailabilitySchedule;
 import com.HealthMeetProject.code.domain.Doctor;
@@ -12,14 +14,8 @@ import com.HealthMeetProject.code.domain.MeetingRequest;
 import com.HealthMeetProject.code.domain.Patient;
 import com.HealthMeetProject.code.infrastructure.database.entity.DoctorEntity;
 import com.HealthMeetProject.code.infrastructure.database.repository.DoctorRepository;
-import com.HealthMeetProject.code.infrastructure.database.repository.MeetingRequestRepository;
 import com.HealthMeetProject.code.infrastructure.database.repository.PatientRepository;
-import com.HealthMeetProject.code.infrastructure.database.repository.jpa.DoctorJpaRepository;
-import com.HealthMeetProject.code.infrastructure.database.repository.jpa.MedicineJpaRepository;
-import com.HealthMeetProject.code.infrastructure.database.repository.jpa.MeetingRequestJpaRepository;
-import com.HealthMeetProject.code.infrastructure.database.repository.jpa.PatientJpaRepository;
 import com.HealthMeetProject.code.infrastructure.database.repository.mapper.DoctorEntityMapper;
-import com.HealthMeetProject.code.infrastructure.security.UserRepository;
 import com.HealthMeetProject.code.util.*;
 import lombok.AllArgsConstructor;
 import org.junit.jupiter.api.Assertions;
@@ -36,19 +32,10 @@ public class ReceiptControllerTestRestAssuredIT extends RestAssuredIntegrationTe
         implements ReceiptControllerTestSupport, MeetingRequestControllerTestSupport,
         AvailabilityScheduleControllerTestSupport {
 
-    public MedicineJpaRepository medicineJpaRepository;
     public AvailabilityScheduleDAO availabilityScheduleDAO;
     public DoctorEntityMapper doctorEntityMapper;
-    public ReceiptService receiptService;
-    public MeetingRequestRepository meetingRequestRepository;
-    public DoctorJpaRepository doctorJpaRepository;
-    public PatientJpaRepository patientJpaRepository;
-    public UserRepository userRepository;
-    public MeetingRequestJpaRepository meetingRequestJpaRepository;
     public DoctorRepository doctorRepository;
     public PatientRepository patientRepository;
-    public MeetingRequestService meetingRequestService;
-    public ReceiptApiController receiptApiController;
 
     @Test
     public void thatMedicineIsAddedCorrectly() {
@@ -78,9 +65,11 @@ public class ReceiptControllerTestRestAssuredIT extends RestAssuredIntegrationTe
                 .availabilityScheduleId(availabilitySchedules.get(0).getAvailability_schedule_id())
                 .build();
         addMeetingRequest(meetingRequestDTO);
-        receiptService.restIssueReceipt(medicineDTOList, patient, doctor);
-        Receipts receiptPage = receiptApiController.getReceiptPage(patient.getEmail());
+        IssueReceiptDTO issueReceiptDTO = IssueReceiptDTO.builder().patient(patient).doctor(doctor).medicineDTOList(medicineDTOList).build();
+        issueReceipt(issueReceiptDTO);
+
+        Receipts receiptPage = getReceiptPage(patient.getEmail());
         Assertions.assertEquals(receiptPage.getReceipts().get(0).getMedicine().size()
-                , medicineDTOList.size());
+                ,medicineDTOList.size());
     }
 }

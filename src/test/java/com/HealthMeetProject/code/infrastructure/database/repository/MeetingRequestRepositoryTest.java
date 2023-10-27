@@ -6,6 +6,7 @@ import com.HealthMeetProject.code.domain.exception.ProcessingException;
 import com.HealthMeetProject.code.infrastructure.database.entity.MeetingRequestEntity;
 import com.HealthMeetProject.code.infrastructure.database.repository.jpa.MeetingRequestJpaRepository;
 import com.HealthMeetProject.code.infrastructure.database.repository.mapper.MeetingRequestEntityMapper;
+import com.HealthMeetProject.code.infrastructure.database.repository.mapper.MeetingRequestEntityRestApiMapper;
 import com.HealthMeetProject.code.util.DoctorExampleFixtures;
 import com.HealthMeetProject.code.util.MeetingRequestsExampleFixtures;
 import org.junit.jupiter.api.Assertions;
@@ -31,6 +32,9 @@ public class MeetingRequestRepositoryTest {
 
     @Mock
     private MeetingRequestEntityMapper meetingRequestEntityMapper;
+
+    @Mock
+    private MeetingRequestEntityRestApiMapper meetingRequestEntityRestApiMapper;
     @InjectMocks
     private MeetingRequestRepository meetingRequestRepository;
 

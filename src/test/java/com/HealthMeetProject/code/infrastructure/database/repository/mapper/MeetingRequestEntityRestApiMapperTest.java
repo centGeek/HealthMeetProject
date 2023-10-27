@@ -33,19 +33,5 @@ public class MeetingRequestEntityRestApiMapperTest {
         assertNull(request.getPatient());
     }
 
-    @Test
-    public void testMapToEntity() {
-        MeetingRequest entity = new MeetingRequest();
-        entity.setMeetingId(1);
-        entity.setDoctor(DoctorExampleFixtures.doctorExample1());
-        entity.setPatient(PatientExampleFixtures.patientExample1());
-        MeetingRequestEntity request = mapper.mapToEntity(entity);
 
-        assertEquals(entity.getMeetingId(), request.getMeetingId());
-        assertEquals(entity.getDescription(), request.getDescription());
-        assertEquals(entity.getCompletedDateTime(), request.getCompletedDateTime());
-        assertEquals(entity.getReceivedDateTime(), request.getReceivedDateTime());
-        assertEquals(entity.getDoctor().getEmail(), request.getDoctor().getEmail());
-        assertEquals(request.getPatient().getEmail(), entity.getDoctor().getEmail());
-    }
 }

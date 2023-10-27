@@ -1,6 +1,11 @@
 package com.HealthMeetProject.code.api.controller.rest;
 
-import com.HealthMeetProject.code.api.dto.*;
+import com.HealthMeetProject.code.api.dto.AvailabilityScheduleDTO;
+import com.HealthMeetProject.code.api.dto.DoctorDTO;
+import com.HealthMeetProject.code.api.dto.MeetingRequestDTO;
+import com.HealthMeetProject.code.api.dto.api.AvailabilityScheduleDTOs;
+import com.HealthMeetProject.code.api.dto.api.FinalizeSlotDTO;
+import com.HealthMeetProject.code.api.dto.api.MeetingRequestsDTOs;
 import com.HealthMeetProject.code.api.dto.mapper.AvailabilityScheduleMapper;
 import com.HealthMeetProject.code.business.AvailabilityScheduleService;
 import com.HealthMeetProject.code.business.MeetingRequestService;
@@ -41,18 +46,18 @@ public class MeetingRequestApiController {
 
     @PostMapping("/finalize")
     public ResponseEntity<?> finalizeMeetingRequest(
-            @RequestParam Integer availabilityScheduleId,
-            @RequestParam Integer selectedSlotId
+           @RequestBody FinalizeSlotDTO finalizeSlotDTO
     ) {
-        if (availabilityScheduleId == null || selectedSlotId == null) {
+        if (finalizeSlotDTO.getAvailabilityScheduleId() == null || finalizeSlotDTO.getSelectedSlotId() == null) {
             throw new ProcessingException("some unexpected error occurred");
         }
-        AvailabilityScheduleDTO visitTermDTO = meetingRequestService.getAvailabilitySchedule(availabilityScheduleId, selectedSlotId);
-        AvailabilitySchedule availabilitySchedule = availabilityScheduleDAO.findById(availabilityScheduleId);
-        availabilitySchedule.setAvailableTerm(false);
+        AvailabilityScheduleDTO visitTermDTO = meetingRequestService.restGetAvailabilitySchedule(finalizeSlotDTO.getAvailabilityScheduleId()
+                , finalizeSlotDTO.getSelectedSlotId(),finalizeSlotDTO.getDoctorEmail());
+        visitTermDTO.setAvailableTerm(false);
+        AvailabilitySchedule availabilitySchedule = availabilityScheduleMapper.mapFromDTO(visitTermDTO);
         availabilityScheduleService.save(availabilitySchedule);
 
-        return ResponseEntity.ok(visitTermDTO);
+        return ResponseEntity.created(URI.create(BASE_PATH)).build();
     }
 
     @PostMapping

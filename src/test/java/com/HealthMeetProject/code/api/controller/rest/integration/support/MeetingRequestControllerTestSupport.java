@@ -1,9 +1,10 @@
 package com.HealthMeetProject.code.api.controller.rest.integration.support;
 
 import com.HealthMeetProject.code.api.controller.rest.MeetingRequestApiController;
-import com.HealthMeetProject.code.api.dto.AvailabilityScheduleDTOs;
+import com.HealthMeetProject.code.api.dto.api.AvailabilityScheduleDTOs;
+import com.HealthMeetProject.code.api.dto.api.FinalizeSlotDTO;
 import com.HealthMeetProject.code.api.dto.MeetingRequestDTO;
-import com.HealthMeetProject.code.api.dto.MeetingRequestsDTOs;
+import com.HealthMeetProject.code.api.dto.api.MeetingRequestsDTOs;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
@@ -23,11 +24,10 @@ public interface MeetingRequestControllerTestSupport {
                 .as(AvailabilityScheduleDTOs.class);
     }
 
-    default ExtractableResponse<Response> finalizeMeetingRequest(final Integer meetingId, final Integer selectedSlotId) {
+    default ExtractableResponse<Response> finalizeMeetingRequest(FinalizeSlotDTO finalizeSlotDTO) {
         return requestSpecification()
-                .pathParam("meetingId", meetingId)
-                .pathParam("selectedSlotId", selectedSlotId)
-                .get("/api/meeting-requests/finalize")
+                .body(finalizeSlotDTO)
+                .post(MeetingRequestApiController.BASE_PATH+"/finalize")
                 .then()
                 .statusCode(HttpStatus.CREATED.value())
                 .and()

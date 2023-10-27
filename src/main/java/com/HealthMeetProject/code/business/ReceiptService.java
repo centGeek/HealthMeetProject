@@ -1,6 +1,7 @@
 package com.HealthMeetProject.code.business;
 
 import com.HealthMeetProject.code.api.dto.MedicineDTO;
+import com.HealthMeetProject.code.api.dto.api.IssueReceiptDTO;
 import com.HealthMeetProject.code.api.dto.mapper.MedicineMapper;
 import com.HealthMeetProject.code.business.dao.DoctorDAO;
 import com.HealthMeetProject.code.business.dao.MedicineDAO;
@@ -39,9 +40,9 @@ public class ReceiptService {
     }
 
     @Transactional
-    public void restIssueReceipt(List<MedicineDTO> medicineList, Patient patient, Doctor doctor) {
-        Set<MedicineDTO> medicineSet = new HashSet<>(medicineList);
-        Receipt receipt = buildReceipt(patient, doctor);
+    public void restIssueReceipt(IssueReceiptDTO issueReceiptDTO) {
+        Set<MedicineDTO> medicineSet = new HashSet<>(issueReceiptDTO.getMedicineDTOList());
+        Receipt receipt = buildReceipt(issueReceiptDTO.getPatient(), issueReceiptDTO.getDoctor());
         medicineMappingAndIssueReceipt(medicineSet, receipt);
 
     }

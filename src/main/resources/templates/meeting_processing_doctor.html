@@ -67,22 +67,30 @@
             <th>ID</th>
             <th>Description</th>
             <th>Visit start</th>
-            <th>Action</th>
+            <th>Confirm</th>
+            <th>Delete</th>
         </tr>
         </thead>
         <tbody th:if="${not #lists.isEmpty(meetingRequests)}">
         <tr th:each="i : ${#numbers.sequence(0, #lists.size(meetingRequests)-1)}">
-             <td th:text="${meetingRequests[i].meetingId}"></td>
+            <td th:text="${meetingRequests[i].meetingId}"></td>
             <td th:text="${meetingRequests[i].description}"></td>
             <td th:text="${meetingRequestsDatesToString[i]}"></td>
             <td>
-                <form action="#" th:action="@{'/doctor/execute-action/'+${meetingRequests[i].meetingId}}" th:method="patch">
+                <form action="#" th:action="@{'/doctor/execute-action/' + ${meetingRequests[i].meetingId}}" th:method="patch">
                     <input type="hidden" name="meetingRequestId" th:value="${meetingRequests[i].meetingId}" />
                     <button type="submit">Confirm visit</button>
                 </form>
             </td>
+            <td>
+                <form action="#" th:action="@{'/doctor/delete-visit/' + ${meetingRequests[i].meetingId}}" th:method="delete">
+                    <input type="hidden" name="meetingRequestId" th:value="${meetingRequests[i].meetingId}" />
+                    <button type="submit">Delete visit</button>
+                </form>
+            </td>
         </tr>
         </tbody>
+
     </table>
 </div>
 <br>

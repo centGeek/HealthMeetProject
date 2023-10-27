@@ -117,8 +117,8 @@
         </thead>
         <tbody>
         <tr th:each="request : ${patientHistoryDTO.allCompletedServiceRequests}">
-            <td th:text="${request.receivedDateTime}"></td>
-            <td th:text="${request.completedDateTime}"></td>
+            <td th:text="${#temporals.format(request.receivedDateTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
+            <td th:text="${#temporals.format(request.completedDateTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
             <td th:text="${request.description}"></td>
             <td th:text="${request.doctor.earningsPerVisit}"></td>
         </tr>
@@ -141,7 +141,7 @@
         <tbody>
         <tr th:each="receipt : ${patientHistoryDTO.receipts}">
             <td th:text="${receipt.receiptId}"></td>
-            <td th:text="${receipt.dateTime}"></td>
+            <td th:text="${#temporals.format(receipt.dateTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
             <td th:text="${receipt.doctor.name}"></td>
             <td th:text="${receipt.doctor.surname}"></td>
         </tr>

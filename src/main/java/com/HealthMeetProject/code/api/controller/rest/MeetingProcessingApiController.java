@@ -1,7 +1,6 @@
 package com.HealthMeetProject.code.api.controller.rest;
 
-import com.HealthMeetProject.code.api.dto.MeetingRequestsDTOs;
-import com.HealthMeetProject.code.business.DoctorService;
+import com.HealthMeetProject.code.api.dto.api.MeetingRequestsDTOs;
 import com.HealthMeetProject.code.business.MeetingRequestService;
 import com.HealthMeetProject.code.business.dao.DoctorDAO;
 import com.HealthMeetProject.code.business.dao.MeetingRequestDAO;
@@ -27,7 +26,6 @@ public class MeetingProcessingApiController {
     private final DoctorDAO doctorDAO;
     private final MeetingRequestService meetingRequestService;
     private final MeetingRequestDAO meetingRequestDAO;
-    private final DoctorService doctorService;
     public static final String BASE_PATH = "/api/meeting-processing";
 
     @GetMapping("/upcoming-visits/{doctorId}")
@@ -37,11 +35,13 @@ public class MeetingProcessingApiController {
         Doctor doctor = doctorDAO.findById(doctorId)
                 .orElseThrow(() -> new ProcessingException("There is no doctor with the following identifier"));
 
-        List<MeetingRequest> meetingRequests = meetingRequestService.availableServiceRequestsByDoctor(doctor.getEmail());
-
-        return MeetingRequestsDTOs.of(meetingRequests.stream()
-                .filter(request -> request.getDoctor().getDoctorId() == (doctor.getDoctorId())
-                        && request.getCompletedDateTime() == null).filter(request -> request.getVisitStart()
+        List<MeetingRequest> meetingRequests = meetingRequestService.restAvailableServiceRequestsByDoctor(doctor.getEmail());
+        for (MeetingRequest meetingRequest : meetingRequests) {
+            meetingRequest.setDoctor(doctor);
+        }
+      return  MeetingRequestsDTOs.of(meetingRequests.stream()
+                .filter(request -> request.getDoctor().getDoctorId() == (doctor.getDoctorId()))
+                .filter(request -> request.getVisitStart()
                         .minusMinutes(5).isAfter(LocalDateTime.now()))
                 .collect(Collectors.toList()));
 
@@ -49,12 +49,12 @@ public class MeetingProcessingApiController {
 
     @GetMapping("/ended-visits/{patientEmail}")
     public MeetingRequestsDTOs findEndedVisitsByPatientEmail(
-            @PathVariable String patientEmail
+            @PathVariable String patientEmail,
+            @RequestParam String doctorEmail
     ) {
-        String doctorEmail = doctorService.authenticateDoctor();
 
         return MeetingRequestsDTOs.of(meetingRequestDAO
-                .findAllEndedUpVisitsByDoctorAndPatient(doctorEmail, patientEmail)
+                .restFindAllEndedUpVisitsByDoctorAndPatient(doctorEmail, patientEmail)
                 .stream()
                 .sorted(Comparator.comparing(MeetingRequest::getVisitEnd).reversed())
                 .collect(Collectors.toList()));

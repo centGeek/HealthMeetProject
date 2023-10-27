@@ -52,6 +52,7 @@ public class AvailabilityScheduleController {
 
         List<String> reservedTermStrings = doctorTermsSorted.stream()
                 .map(schedule -> schedule.isAvailableDay() && schedule.isAvailableTerm() ? "free day" : "working day").toList();
+
         model.addAttribute("doctorTermsSorted", doctorTermsSorted);
         model.addAttribute("doctor", byEmail);
         model.addAttribute("formattedSince", formattedSince);

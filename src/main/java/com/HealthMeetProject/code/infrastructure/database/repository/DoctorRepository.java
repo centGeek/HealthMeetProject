@@ -2,7 +2,7 @@ package com.HealthMeetProject.code.infrastructure.database.repository;
 
 
 import com.HealthMeetProject.code.api.dto.DoctorDTO;
-import com.HealthMeetProject.code.api.dto.DoctorDTOs;
+import com.HealthMeetProject.code.api.dto.api.DoctorDTOs;
 import com.HealthMeetProject.code.api.dto.mapper.DoctorMapper;
 import com.HealthMeetProject.code.business.dao.DoctorDAO;
 import com.HealthMeetProject.code.domain.Doctor;
@@ -107,6 +107,7 @@ public class DoctorRepository implements DoctorDAO {
         List<AvailabilityScheduleEntity> anyTermInGivenRangeInGivenDay = availabilityScheduleJpaRepository.findAnyTermInGivenRangeInGivenDay(since, toWhen, doctorEmail);
         return anyTermInGivenRangeInGivenDay.isEmpty();
     }
+
 
     @Override
     public void save(Doctor doctor) {

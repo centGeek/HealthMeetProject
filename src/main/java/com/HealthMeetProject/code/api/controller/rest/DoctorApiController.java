@@ -1,8 +1,8 @@
 package com.HealthMeetProject.code.api.controller.rest;
 
-import com.HealthMeetProject.code.api.dto.AvailabilityScheduleDTOs;
 import com.HealthMeetProject.code.api.dto.DoctorDTO;
-import com.HealthMeetProject.code.api.dto.DoctorDTOs;
+import com.HealthMeetProject.code.api.dto.api.AvailabilityScheduleDTOs;
+import com.HealthMeetProject.code.api.dto.api.DoctorDTOs;
 import com.HealthMeetProject.code.api.dto.mapper.DoctorMapper;
 import com.HealthMeetProject.code.business.AvailabilityScheduleService;
 import com.HealthMeetProject.code.business.DoctorService;

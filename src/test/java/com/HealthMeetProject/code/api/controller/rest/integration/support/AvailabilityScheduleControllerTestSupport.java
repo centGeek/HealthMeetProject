@@ -2,7 +2,7 @@ package com.HealthMeetProject.code.api.controller.rest.integration.support;
 
 import com.HealthMeetProject.code.api.controller.rest.AvailabilityScheduleApiController;
 import com.HealthMeetProject.code.api.dto.AvailabilityScheduleDTO;
-import com.HealthMeetProject.code.api.dto.AvailabilityScheduleDTOs;
+import com.HealthMeetProject.code.api.dto.api.AvailabilityScheduleDTOs;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
@@ -42,10 +42,9 @@ public interface AvailabilityScheduleControllerTestSupport {
                 .extract();
     }
 
-    default ExtractableResponse<Response> deleteTerm(final Integer meetingId) {
+    default ExtractableResponse<Response> deleteTerm(final Integer availabilityScheduleId) {
         return requestSpecification()
-                .pathParam("meetingId", meetingId)
-                .delete(AvailabilityScheduleApiController.BASE_PATH + "/{availabilityScheduleId}")
+                .delete(AvailabilityScheduleApiController.BASE_PATH+"/"+availabilityScheduleId)
                 .then()
                 .statusCode(HttpStatus.OK.value())
                 .and()

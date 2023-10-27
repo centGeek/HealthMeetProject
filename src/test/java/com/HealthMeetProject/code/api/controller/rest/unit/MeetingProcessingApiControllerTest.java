@@ -9,6 +9,7 @@ import com.HealthMeetProject.code.domain.Doctor;
 import com.HealthMeetProject.code.domain.MeetingRequest;
 import com.HealthMeetProject.code.infrastructure.database.entity.MeetingRequestEntity;
 import com.HealthMeetProject.code.util.DoctorExampleFixtures;
+import com.HealthMeetProject.code.util.MedicineExampleFixtures;
 import com.HealthMeetProject.code.util.MeetingRequestsExampleFixtures;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,10 +20,12 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -62,36 +65,36 @@ public class MeetingProcessingApiControllerTest {
         doctor.setDoctorId(doctorId);
         List<MeetingRequest> meetingRequests = new ArrayList<>();
         when(doctorDAO.findById(doctorId)).thenReturn(java.util.Optional.of(doctor));
-        when(meetingRequestService.availableServiceRequestsByDoctor("j.kowalski@gmail.com")).thenReturn(meetingRequests);
+        when(meetingRequestService.restAvailableServiceRequestsByDoctor("j.kowalski@gmail.com")).thenReturn(meetingRequests);
 
         //when,then
-        mockMvc.perform(get("/api/meeting-processing/upcoming-visits/{doctorId}", doctorId)
-                        .param("doctorEmail", doctor.getEmail()))
+        mockMvc.perform(get(MeetingProcessingApiController.BASE_PATH+
+                        "/upcoming-visits/"+doctorId))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andDo(MockMvcResultHandlers.print());
         verify(doctorDAO, times(1)).findById(doctorId);
-        verify(meetingRequestService, times(1)).availableServiceRequestsByDoctor("j.kowalski@gmail.com");
+        verify(meetingRequestService, times(1)).restAvailableServiceRequestsByDoctor("j.kowalski@gmail.com");
     }
 
     @Test
     public void testFindEndedVisitsByPatientEmail() throws Exception {
         //given
-        String patientEmail = "patient@example.com";
-        String doctorEmail = "doctor@example.com";
         List<MeetingRequest> meetingRequests = new ArrayList<>();
-        when(doctorService.authenticateDoctor()).thenReturn(doctorEmail);
-        when(meetingRequestDAO.findAllEndedUpVisitsByDoctorAndPatient(doctorEmail, patientEmail)).thenReturn(meetingRequests);
+        MeetingRequest meetingRequest = MeetingRequestsExampleFixtures.meetingRequestDataExample1();
+        meetingRequest.setMeetingId(1);
+        meetingRequests.add(meetingRequest);
+        when(meetingRequestDAO.restFindAllEndedUpVisitsByDoctorAndPatient(any(String.class), any(String.class))).thenReturn(meetingRequests);
 
-        //when & Assert
-        mockMvc.perform(get("/api/meeting-processing/ended-visits/"+patientEmail))
+        //when, then
+        mockMvc.perform(MockMvcRequestBuilders.get(MeetingProcessingApiController.BASE_PATH + "/ended-visits/{patientEmail}", meetingRequest.getPatient().getEmail())
+                        .param("doctorEmail", "j.kowalski@gmail.com"))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
                 .andDo(MockMvcResultHandlers.print());
-        verify(doctorService, times(1)).authenticateDoctor();
-        verify(meetingRequestDAO, times(1)).findAllEndedUpVisitsByDoctorAndPatient(doctorEmail, patientEmail);
-    }
 
+        verify(meetingRequestDAO, times(1)).restFindAllEndedUpVisitsByDoctorAndPatient("j.kowalski@gmail.com", meetingRequest.getPatient().getEmail());
+    }
     @Test
     public void testConfirmMeetingRequest() throws Exception {
         //given
@@ -99,8 +102,9 @@ public class MeetingProcessingApiControllerTest {
         MeetingRequestEntity meetingRequestEntity = MeetingRequestsExampleFixtures.meetingRequestDataEntityExample1();
         when(meetingRequestService.executeActionForMeetingRequest(meetingRequestId)).thenReturn(meetingRequestEntity);
 
-        //when & Assert
-        mockMvc.perform(MockMvcRequestBuilders.patch("/api/meeting-processing/{meetingRequestId}", meetingRequestId))
+        //when,then
+        mockMvc.perform(MockMvcRequestBuilders.patch(MeetingProcessingApiController.BASE_PATH
+                        +"/{meetingRequestId}", meetingRequestId))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andDo(MockMvcResultHandlers.print());

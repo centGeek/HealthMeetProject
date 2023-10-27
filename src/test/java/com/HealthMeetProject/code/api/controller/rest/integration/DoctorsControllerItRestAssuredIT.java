@@ -2,7 +2,7 @@ package com.HealthMeetProject.code.api.controller.rest.integration;
 
 import com.HealthMeetProject.code.api.controller.rest.integration.support.DoctorsControllerTestSupport;
 import com.HealthMeetProject.code.api.dto.DoctorDTO;
-import com.HealthMeetProject.code.api.dto.DoctorDTOs;
+import com.HealthMeetProject.code.api.dto.api.DoctorDTOs;
 import com.HealthMeetProject.code.infrastructure.database.repository.jpa.DoctorJpaRepository;
 import com.HealthMeetProject.code.infrastructure.database.repository.jpa.PatientJpaRepository;
 import com.HealthMeetProject.code.infrastructure.security.RoleEntity;

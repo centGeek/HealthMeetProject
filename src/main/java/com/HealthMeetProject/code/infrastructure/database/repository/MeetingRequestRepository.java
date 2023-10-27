@@ -7,6 +7,7 @@ import com.HealthMeetProject.code.domain.exception.ProcessingException;
 import com.HealthMeetProject.code.infrastructure.database.entity.MeetingRequestEntity;
 import com.HealthMeetProject.code.infrastructure.database.repository.jpa.MeetingRequestJpaRepository;
 import com.HealthMeetProject.code.infrastructure.database.repository.mapper.MeetingRequestEntityMapper;
+import com.HealthMeetProject.code.infrastructure.database.repository.mapper.MeetingRequestEntityRestApiMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -19,6 +20,7 @@ import java.util.Objects;
 public class MeetingRequestRepository implements MeetingRequestDAO {
         private final MeetingRequestJpaRepository meetingRequestJpaRepository;
         private final MeetingRequestEntityMapper meetingRequestEntityMapper;
+        private final MeetingRequestEntityRestApiMapper meetingRequestEntityRestApiMapper;
 
     @Override
     public List<MeetingRequest> findAll() {
@@ -40,6 +42,11 @@ public class MeetingRequestRepository implements MeetingRequestDAO {
         return meetingRequestJpaRepository.findAllEndedUpVisits(doctorEmail, patientEmail).stream()
                 .map(meetingRequestEntityMapper::mapFromEntity).toList();
     }
+
+    @Override
+    public List<MeetingRequest> restFindAllEndedUpVisitsByDoctorAndPatient(String doctorEmail, String patientEmail) {
+        return meetingRequestJpaRepository.findAllEndedUpVisits(doctorEmail, patientEmail).stream()
+                .map(meetingRequestEntityMapper::mapFromEntity).toList();    }
 
 
     @Override
@@ -70,6 +77,12 @@ public class MeetingRequestRepository implements MeetingRequestDAO {
     @Override
     public List<MeetingRequest> findAllActiveMeetingRequestsByDoctor(String email) {
         return meetingRequestJpaRepository.findAllActiveMeetingRequestsByDoctor(email).stream().map(meetingRequestEntityMapper::mapFromEntity).toList();
+    }
+
+    @Override
+    public List<MeetingRequest> restFindAllActiveMeetingRequestsByDoctor(String email) {
+        return meetingRequestJpaRepository.findAllActiveMeetingRequestsByDoctor(email)
+                .stream().map(meetingRequestEntityRestApiMapper::mapFromEntity).toList();
     }
 
     @Override
