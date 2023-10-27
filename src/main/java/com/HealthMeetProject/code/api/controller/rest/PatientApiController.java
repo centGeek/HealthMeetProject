@@ -3,7 +3,6 @@ package com.HealthMeetProject.code.api.controller.rest;
 import com.HealthMeetProject.code.api.dto.PatientDTO;
 import com.HealthMeetProject.code.api.dto.mapper.PatientMapper;
 import com.HealthMeetProject.code.business.PatientService;
-import com.HealthMeetProject.code.business.dao.DoctorDAO;
 import com.HealthMeetProject.code.business.dao.MeetingRequestDAO;
 import com.HealthMeetProject.code.business.dao.PatientDAO;
 import com.HealthMeetProject.code.domain.Patient;

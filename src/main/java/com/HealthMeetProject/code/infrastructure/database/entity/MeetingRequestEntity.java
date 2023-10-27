@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @With
 @Table(name = "meeting_request")
 @Builder
-public class    MeetingRequestEntity {
+public class MeetingRequestEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int meetingId;
