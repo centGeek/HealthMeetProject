@@ -27,7 +27,7 @@ public class PatientEntityMapperTest {
         Patient patient = mapper.mapFromEntity(patientEntity);
 
         // then
-        assertions(patient,patientEntity);
+        assertions(patient, patientEntity);
     }
 
     @Test

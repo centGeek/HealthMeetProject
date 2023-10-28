@@ -33,6 +33,7 @@ public class AddressEntity {
 
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "address")
     private PatientEntity patient;
+
     @JsonIgnore
     public PatientEntity getPatient() {
         return patient;

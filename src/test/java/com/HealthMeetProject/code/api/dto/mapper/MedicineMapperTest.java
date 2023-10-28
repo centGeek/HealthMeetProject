@@ -19,6 +19,7 @@ public class MedicineMapperTest {
     public void setUp() {
         mapper = Mappers.getMapper(MedicineMapper.class);
     }
+
     @Test
     public void shouldMapMedicineDTOToMedicine() {
         // given

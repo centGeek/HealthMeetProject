@@ -8,7 +8,7 @@ import java.util.List;
 
 class AvailabilityScheduleDTOsTest {
     @Test
-    public void availabilityScheduleEquals(){
+    public void availabilityScheduleEquals() {
         AvailabilityScheduleDTOs availabilityScheduleDTOs = AvailabilityScheduleDTOs.of(List.of());
         availabilityScheduleDTOs.setAvailabilityScheduleDTOList(List.of(DoctorExampleFixtures.availabilityScheduleDTO1()));
         AvailabilityScheduleDTOs availabilityScheduleDTOs1 = AvailabilityScheduleDTOs.builder()

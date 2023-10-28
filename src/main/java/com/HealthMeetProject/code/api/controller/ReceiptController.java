@@ -40,7 +40,7 @@ public class ReceiptController {
     ) {
         @SuppressWarnings("unchecked") List<MedicineDTO> medicineList = (List<MedicineDTO>) session.getAttribute("medicineList");
         MeetingRequest meetingRequest = meetingRequestDAO.findById(meetingId);
-        if(medicineList==null){
+        if (medicineList == null) {
             medicineList = new ArrayList<>();
         }
         Doctor doctor = meetingRequest.getDoctor();
@@ -67,7 +67,7 @@ public class ReceiptController {
             @RequestParam("quantity") int quantity,
             @RequestParam("approx_price") BigDecimal approxPrice,
             HttpSession session
-            ) {
+    ) {
         MeetingRequest byId = meetingRequestDAO.findById(meetingId);
         @SuppressWarnings("unchecked") List<MedicineDTO> medicineList = (List<MedicineDTO>) session.getAttribute("medicineList");
         MedicineDTO build = MedicineDTO.builder()
@@ -76,7 +76,7 @@ public class ReceiptController {
                 .approxPrice(approxPrice)
                 .patientEmail(byId.getPatient().getEmail())
                 .build();
-        if(Objects.isNull(medicineList)){
+        if (Objects.isNull(medicineList)) {
             medicineList = new ArrayList<>();
         }
         medicineList.add(build);
@@ -91,12 +91,12 @@ public class ReceiptController {
             HttpSession session
     ) {
         @SuppressWarnings("unchecked") List<MedicineDTO> medicineList = (List<MedicineDTO>) session.getAttribute("medicineList");
-        if(medicineList.isEmpty()){
+        if (medicineList.isEmpty()) {
             throw new ProcessingException("Can not issue receipt, because you did not added any medicine");
         }
         MeetingRequest meetingRequest = meetingRequestDAO.findById(meetingId);
         Patient patient = meetingRequest.getPatient();
-        receiptService.issueReceipt(medicineList,patient);
+        receiptService.issueReceipt(medicineList, patient);
         return "redirect:/doctor";
     }
 }

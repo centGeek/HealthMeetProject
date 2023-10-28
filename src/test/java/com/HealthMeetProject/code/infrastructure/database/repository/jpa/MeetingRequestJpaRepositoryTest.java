@@ -33,11 +33,12 @@ public class MeetingRequestJpaRepositoryTest {
     private final MeetingRequestJpaRepository meetingRequestJpaRepository;
     private final DoctorJpaRepository doctorJpaRepository;
     private final PatientJpaRepository patientJpaRepository;
+
     @SuppressWarnings("OptionalGetWithoutIsPresent")
     @BeforeEach
     public void given() {
-         Set<DoctorEntity> doctors = Set.of(doctorEntityExample1(), doctorEntityExample2(), doctorEntityExample3());
-          Set<PatientEntity> patients = Set.of(patientEntityExample1(), patientEntityExample2(), patientEntityExample3());
+        Set<DoctorEntity> doctors = Set.of(doctorEntityExample1(), doctorEntityExample2(), doctorEntityExample3());
+        Set<PatientEntity> patients = Set.of(patientEntityExample1(), patientEntityExample2(), patientEntityExample3());
         doctorJpaRepository.saveAllAndFlush(doctors);
         patientJpaRepository.saveAllAndFlush(patients);
 
@@ -81,8 +82,9 @@ public class MeetingRequestJpaRepositoryTest {
         Assertions.assertThat(allByDoctorEmail2.size()).isEqualTo(1);
 
     }
+
     @Test
-    void thatAllCompletedServiceRequestsAreFound(){
+    void thatAllCompletedServiceRequestsAreFound() {
         //when
         List<MeetingRequestEntity> allCompletedServiceRequestsByPatient = meetingRequestJpaRepository.findAllCompletedMeetingRequestsByPatient(patientEntityExample1().getEmail());
         List<MeetingRequestEntity> allCompletedServiceRequestsByDoctor = meetingRequestJpaRepository.completedMeetingRequestsByDoctor(doctorEntityExample1().getEmail());
@@ -95,8 +97,9 @@ public class MeetingRequestJpaRepositoryTest {
         Assertions.assertThat(allUncompletedServiceRequestsByDoctor.size()).isEqualTo(0);
 
     }
+
     @Test
-    void findIfMeetingRequestExistsWithTheSameDateAndDoctorTest(){
+    void findIfMeetingRequestExistsWithTheSameDateAndDoctorTest() {
         //given
         LocalDateTime since = LocalDateTime.of(2025, 5, 1, 8, 30);
         LocalDateTime toWhen = LocalDateTime.of(2025, 5, 1, 16, 45);

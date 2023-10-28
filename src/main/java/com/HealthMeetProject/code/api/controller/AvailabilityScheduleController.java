@@ -77,8 +77,6 @@ public class AvailabilityScheduleController {
     }
 
 
-
-
     @DeleteMapping(DELETE_TERM)
     public String deleteTerm(
             @PathVariable Integer availability_schedule_id

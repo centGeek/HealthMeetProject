@@ -31,6 +31,7 @@ public class DoctorExampleFixtures {
                 .earningsPerVisit(BigDecimal.ONE)
                 .build();
     }
+
     public static Doctor doctorExample3() {
         return Doctor.builder()
                 .clinic(Clinic.builder()
@@ -47,6 +48,7 @@ public class DoctorExampleFixtures {
                 .earningsPerVisit(BigDecimal.valueOf(150))
                 .build();
     }
+
     public static DoctorDTO doctorDTOExample3() {
         return DoctorDTO.builder()
                 .clinic(Clinic.builder()
@@ -63,6 +65,7 @@ public class DoctorExampleFixtures {
                 .earningsPerVisit(BigDecimal.valueOf(150))
                 .build();
     }
+
     public static DoctorEntity doctorEntityExample1() {
         return DoctorEntity.builder()
                 .clinic(ClinicEntity.builder()
@@ -116,25 +119,26 @@ public class DoctorExampleFixtures {
     }
 
 
+    public static AvailabilityScheduleDTO availabilityScheduleDTO1() {
+        return AvailabilityScheduleDTO.builder()
+                .since(LocalDateTime.of(2025, 5, 1, 8, 30))
+                .toWhen(LocalDateTime.of(2025, 5, 1, 16, 45))
+                .doctor(doctorDTOExample3())
+                .availableTerm(true)
+                .availableDay(true)
+                .build();
+    }
 
-        public static AvailabilityScheduleDTO   availabilityScheduleDTO1() {
-            return AvailabilityScheduleDTO.builder()
-                    .since(LocalDateTime.of(2025, 5, 1, 8, 30))
-                    .toWhen(LocalDateTime.of(2025, 5, 1, 16, 45))
-                    .doctor(doctorDTOExample3())
-                    .availableTerm(true)
-                    .availableDay(true)
-                    .build();
-        }
-        public static AvailabilitySchedule availabilitySchedule1() {
-            return AvailabilitySchedule.builder()
-                    .since(LocalDateTime.of(2025, 5, 1, 8, 30))
-                    .toWhen(LocalDateTime.of(2025, 5, 1, 16, 45))
-                    .doctor(doctorExample3())
-                    .availableTerm(true)
-                    .availableDay(true)
-                    .build();
-        }
+    public static AvailabilitySchedule availabilitySchedule1() {
+        return AvailabilitySchedule.builder()
+                .since(LocalDateTime.of(2025, 5, 1, 8, 30))
+                .toWhen(LocalDateTime.of(2025, 5, 1, 16, 45))
+                .doctor(doctorExample3())
+                .availableTerm(true)
+                .availableDay(true)
+                .build();
+    }
+
     public static AvailabilityScheduleEntity availabilityScheduleEntity1() {
         return AvailabilityScheduleEntity.builder()
                 .since(LocalDateTime.of(2025, 5, 1, 8, 30))
@@ -144,6 +148,7 @@ public class DoctorExampleFixtures {
                 .availableDay(true)
                 .build();
     }
+
     public static AvailabilityScheduleEntity availabilityScheduleEntity2() {
         return AvailabilityScheduleEntity.builder()
                 .since(LocalDateTime.of(2025, 4, 1, 8, 0))

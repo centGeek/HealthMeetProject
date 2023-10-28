@@ -41,7 +41,7 @@ public class MeetingRequestRepositoryTest {
     @Test
     public void testFindAllUpcomingVisits() {
         String email = "patient@example.com";
-        List<MeetingRequestEntity> meetingRequestEntities = List.of( MeetingRequestsExampleFixtures.meetingRequestDataEntityExample1());
+        List<MeetingRequestEntity> meetingRequestEntities = List.of(MeetingRequestsExampleFixtures.meetingRequestDataEntityExample1());
 
         when(meetingRequestJpaRepository.findAllUpcomingVisitsByPatient(email)).thenReturn(meetingRequestEntities);
         when(meetingRequestEntityMapper.mapFromEntity(any(MeetingRequestEntity.class))).thenReturn(MeetingRequestsExampleFixtures.meetingRequestDataExample1());
@@ -50,6 +50,7 @@ public class MeetingRequestRepositoryTest {
 
         assertEquals(meetingRequestEntities.size(), result.size());
     }
+
     @Test
     public void testFindIfMeetingRequestExistsWithTheSameDateAndDoctor() {
         LocalDateTime since = LocalDateTime.now();
@@ -128,7 +129,7 @@ public class MeetingRequestRepositoryTest {
         when(meetingRequestJpaRepository.findAllEndedUpVisits(doctorEmail, patientEmail)).thenReturn(entityList);
 
 
-       //when
+        //when
         List<MeetingRequest> result = meetingRequestRepository.findAllEndedUpVisitsByDoctorAndPatient(doctorEmail, patientEmail);
 
         //then
@@ -136,6 +137,7 @@ public class MeetingRequestRepositoryTest {
         verify(meetingRequestJpaRepository, times(1)).findAllEndedUpVisits(doctorEmail, patientEmail);
         verify(meetingRequestEntityMapper, times(entityList.size())).mapFromEntity(any());
     }
+
     @Test
     public void testFindAllUpcomingCompletedVisitsByDoctor() {
         //given
@@ -144,7 +146,7 @@ public class MeetingRequestRepositoryTest {
         when(meetingRequestJpaRepository.findAllUpcomingCompletedVisitsByDoctor(doctorEmail)).thenReturn(entityList);
 
 
-       //when
+        //when
         List<MeetingRequest> result = meetingRequestRepository.findAllUpcomingCompletedVisitsByDoctor(doctorEmail);
 
         //then
@@ -162,7 +164,7 @@ public class MeetingRequestRepositoryTest {
         when(meetingRequestJpaRepository.findAllByPatientEmail(patientEmail)).thenReturn(entityList);
 
 
-       //when
+        //when
         List<MeetingRequest> result = meetingRequestRepository.findByPatientEmail(patientEmail);
 
         //then
@@ -171,7 +173,6 @@ public class MeetingRequestRepositoryTest {
         verify(meetingRequestJpaRepository, times(1)).findAllByPatientEmail(patientEmail);
         verify(meetingRequestEntityMapper, times(entityList.size())).mapFromEntity(any());
     }
-
 
 
 }

@@ -17,14 +17,18 @@ import java.util.Objects;
 public class NoteRepository implements NoteDAO {
     private final NoteJpaRepository noteJpaRepository;
     private final NoteEntityMapper noteEntityMapper;
+
     @Override
-   public Boolean isThereNoteWithTheSameTimeVisitAndDoctor(LocalDateTime startTime, LocalDateTime endTime, String email){
+    public Boolean isThereNoteWithTheSameTimeVisitAndDoctor(LocalDateTime startTime, LocalDateTime endTime, String email) {
         NoteEntity thereNoteWithTheSameTimeVisitAndDoctor = noteJpaRepository.isThereNoteWithTheSameTimeVisitAndDoctor(startTime, endTime, email);
         return !Objects.isNull(thereNoteWithTheSameTimeVisitAndDoctor);
     }
+
     @Override
-    public List<Note> findByPatientEmail(String patientEmail){
-       return noteJpaRepository.findByPatientEmail(patientEmail).stream().map(noteEntityMapper::mapFromEntity).toList();
-    };
+    public List<Note> findByPatientEmail(String patientEmail) {
+        return noteJpaRepository.findByPatientEmail(patientEmail).stream().map(noteEntityMapper::mapFromEntity).toList();
+    }
+
+    ;
 
 }

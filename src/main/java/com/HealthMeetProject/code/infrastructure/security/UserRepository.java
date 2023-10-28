@@ -10,12 +10,12 @@ import org.springframework.stereotype.Repository;
 public interface UserRepository extends JpaRepository<UserEntity, Long> {
 
     @Query("""
-            select usr from UserEntity usr where usr.email =:email
-""")
+                        select usr from UserEntity usr where usr.email =:email
+            """)
     UserEntity findByEmail(@Param("email") String email);
 
     @Query("""
-            select usr from UserEntity usr where usr.userName =:username
-""")
+                        select usr from UserEntity usr where usr.userName =:username
+            """)
     UserEntity findByUsername(@Param("username") String username);
 }

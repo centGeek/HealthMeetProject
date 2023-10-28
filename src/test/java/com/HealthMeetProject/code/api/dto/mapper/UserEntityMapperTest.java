@@ -26,9 +26,10 @@ public class UserEntityMapperTest {
         UserEntity user = mapper.mapToEntity(userData1);
 
         // then
-        assertions(userData1,user);
+        assertions(userData1, user);
         assertEquals(userData1, userData2);
     }
+
     private static void assertions(UserData userData, UserEntity userEntity) {
         assertEquals(userData.getEmail(), userEntity.getEmail());
         assertEquals(userData.getPassword(), userEntity.getPassword());

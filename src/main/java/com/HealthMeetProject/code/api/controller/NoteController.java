@@ -27,6 +27,7 @@ public class NoteController {
     private final MeetingRequestService meetingRequestService;
     private final DoctorService doctorService;
     private final NoteDAO noteDAO;
+
     @GetMapping(NOTE_PAGE)
     public String getNotePage(
             @PathVariable Integer meetingId,
@@ -62,11 +63,12 @@ public class NoteController {
         return "redirect:/doctor";
 
     }
+
     @GetMapping("/doctor/illness/history/{meetingId}")
     public String illnessHistory(
             @PathVariable Integer meetingId,
             Model model
-    ){
+    ) {
         MeetingRequest byId = meetingRequestService.findById(meetingId);
         Patient patient = byId.getPatient();
         List<Note> byPatientEmail = noteDAO.findByPatientEmail(patient.getEmail());

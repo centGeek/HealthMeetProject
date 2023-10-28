@@ -38,6 +38,7 @@ public class NoteControllerTest {
     private final DoctorService doctorService;
     @MockBean
     private final NoteDAO noteDAO;
+
     @Test
     void thatNotePageIsLoadedCorrectly() throws Exception {
         Integer meetingId = 4;

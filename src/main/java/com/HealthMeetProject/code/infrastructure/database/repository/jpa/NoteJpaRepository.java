@@ -15,12 +15,13 @@ public interface NoteJpaRepository extends JpaRepository<NoteEntity, Integer> {
 
 
     @Query("""
-    select note from NoteEntity note where note.patient.email =:patientEmail
-""")
+                select note from NoteEntity note where note.patient.email =:patientEmail
+            """)
     List<NoteEntity> findByPatientEmail(@Param("patientEmail") String patientEmail);
+
     @Query("""
-        select note from NoteEntity note where note.startTime = :startTime and note.endTime =:endTime and note.doctor.email =:email
-""")
+                    select note from NoteEntity note where note.startTime = :startTime and note.endTime =:endTime and note.doctor.email =:email
+            """)
     NoteEntity isThereNoteWithTheSameTimeVisitAndDoctor(@Param("startTime") LocalDateTime startTime,
-                                                                  @Param("endTime") LocalDateTime endTime, @Param("email") String email);
+                                                        @Param("endTime") LocalDateTime endTime, @Param("email") String email);
 }

@@ -6,9 +6,9 @@ import com.HealthMeetProject.code.infrastructure.database.entity.MeetingRequestE
 import java.time.LocalDateTime;
 
 public class MeetingRequestsExampleFixtures {
- public static MeetingRequestEntity meetingRequestDataEntityExample1() {
+    public static MeetingRequestEntity meetingRequestDataEntityExample1() {
 
-     return MeetingRequestEntity.builder()
+        return MeetingRequestEntity.builder()
                 .meetingRequestNumber("3213231")
                 .receivedDateTime(DoctorExampleFixtures.availabilityScheduleEntity2().getSince())
                 .completedDateTime(DoctorExampleFixtures.availabilityScheduleEntity2().getToWhen())
@@ -30,7 +30,9 @@ public class MeetingRequestsExampleFixtures {
                 .description("Druga zaba mi sie do d... przykleila")
 
                 .build();
-    }  public static MeetingRequestEntity meetingRequestDataEntityExample3() {
+    }
+
+    public static MeetingRequestEntity meetingRequestDataEntityExample3() {
         return MeetingRequestEntity.builder()
                 .meetingRequestNumber("1323132")
                 .receivedDateTime(DoctorExampleFixtures.availabilityScheduleEntity3().getSince())
@@ -39,7 +41,9 @@ public class MeetingRequestsExampleFixtures {
                 .visitEnd(DoctorExampleFixtures.availabilityScheduleEntity1().getToWhen())
                 .description("Trzecia zaba mi sie do d... przykleila")
                 .build();
-    }  public static MeetingRequestEntity meetingRequestDataEntityExample4() {
+    }
+
+    public static MeetingRequestEntity meetingRequestDataEntityExample4() {
         return MeetingRequestEntity.builder()
                 .meetingRequestNumber("321323123")
                 .receivedDateTime(DoctorExampleFixtures.availabilityScheduleEntity2().getSince())
@@ -51,6 +55,7 @@ public class MeetingRequestsExampleFixtures {
                 .doctor(DoctorExampleFixtures.doctorEntityExample1())
                 .build();
     }
+
     public static MeetingRequest meetingRequestDataExample1() {
         return MeetingRequest.builder()
                 .meetingRequestNumber("321323123")
@@ -63,6 +68,7 @@ public class MeetingRequestsExampleFixtures {
                 .doctor(DoctorExampleFixtures.doctorExample1())
                 .build();
     }
+
     public static MeetingRequest meetingRequestDataExample2() {
         return MeetingRequest.builder()
                 .meetingRequestNumber("2132313")

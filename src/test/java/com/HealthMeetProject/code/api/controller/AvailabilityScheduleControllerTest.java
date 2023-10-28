@@ -43,7 +43,7 @@ public class AvailabilityScheduleControllerTest {
     private final DoctorMapper doctorMapper;
 
 
-   @Test
+    @Test
     void testShowYourAvailableTerms() throws Exception {
         // Arrange
         DoctorDTO doctorDTO = new DoctorDTO();

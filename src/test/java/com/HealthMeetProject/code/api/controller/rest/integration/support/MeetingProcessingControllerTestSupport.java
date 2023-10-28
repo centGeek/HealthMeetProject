@@ -9,19 +9,21 @@ import org.springframework.http.HttpStatus;
 
 public interface MeetingProcessingControllerTestSupport {
     RequestSpecification requestSpecification();
+
     default MeetingRequestsDTOs getWaitingForConfirmationMeetingRequests(final Integer doctorId) {
         return requestSpecification()
-                .get(MeetingProcessingApiController.BASE_PATH+"/upcoming-visits/"+doctorId)
+                .get(MeetingProcessingApiController.BASE_PATH + "/upcoming-visits/" + doctorId)
                 .then()
                 .statusCode(HttpStatus.OK.value())
                 .and()
                 .extract()
                 .as(MeetingRequestsDTOs.class);
     }
+
     default MeetingRequestsDTOs findEndedVisitsByPatientEmail(final String patientEmail, String doctorEmail) {
         return requestSpecification()
                 .param("doctorEmail", doctorEmail)
-                .get(MeetingProcessingApiController.BASE_PATH+"/ended-visits/"+patientEmail)
+                .get(MeetingProcessingApiController.BASE_PATH + "/ended-visits/" + patientEmail)
                 .then()
                 .statusCode(HttpStatus.OK.value())
                 .and()
@@ -31,7 +33,7 @@ public interface MeetingProcessingControllerTestSupport {
 
     default ExtractableResponse<Response> confirmMeetingRequest(Integer meetingRequestId) {
         return requestSpecification()
-                .patch(MeetingProcessingApiController.BASE_PATH+"/"+meetingRequestId)
+                .patch(MeetingProcessingApiController.BASE_PATH + "/" + meetingRequestId)
                 .then()
                 .statusCode(HttpStatus.OK.value())
                 .and()

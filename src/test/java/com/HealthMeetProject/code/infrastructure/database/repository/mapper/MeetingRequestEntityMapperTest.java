@@ -48,7 +48,7 @@ class MeetingRequestEntityMapperTest {
         MeetingRequestEntity meetingRequestEntity = mapper.mapToEntity(meetingRequest);
 
         // then
-        assertions(meetingRequestEntity,meetingRequest);
+        assertions(meetingRequestEntity, meetingRequest);
     }
 
     @Test
@@ -67,7 +67,7 @@ class MeetingRequestEntityMapperTest {
         //when
         MeetingRequest meetingRequest = mapper.mapFromEntity(meetingRequestEntity);
         //then
-       assertions(meetingRequestEntity, meetingRequest);
+        assertions(meetingRequestEntity, meetingRequest);
     }
 
     private static void assertions(MeetingRequestEntity meetingRequestEntity, MeetingRequest meetingRequest) {

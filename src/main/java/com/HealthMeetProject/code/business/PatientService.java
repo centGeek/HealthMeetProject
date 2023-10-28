@@ -20,7 +20,8 @@ import java.util.Objects;
 @AllArgsConstructor
 public class PatientService {
     private PatientDAO patientDAO;
-    void saveMeetingRequest(MeetingRequest meetingRequest, Patient patient){
+
+    void saveMeetingRequest(MeetingRequest meetingRequest, Patient patient) {
         patientDAO.saveMeetingRequest(meetingRequest, patient);
     }
 
@@ -29,6 +30,7 @@ public class PatientService {
         patientDAO.register(patientDTO);
         return patientDTO;
     }
+
     public String authenticate() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = null;

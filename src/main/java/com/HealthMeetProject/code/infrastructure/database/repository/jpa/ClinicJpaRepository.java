@@ -7,7 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ClinicJpaRepository extends JpaRepository<ClinicEntity, Integer> {
 
-  
 
-    
 }

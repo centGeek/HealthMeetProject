@@ -15,14 +15,15 @@ import java.util.List;
 public class ReceiptRepository implements ReceiptDAO {
     private final ReceiptJpaRepository receiptJpaRepository;
     private final ReceiptEntityMapper receiptEntityMapper;
+
     @Override
-    public List<Receipt> findPatientReceipts(String email){
+    public List<Receipt> findPatientReceipts(String email) {
         return receiptJpaRepository.findPatientReceipts(email).stream().map(receiptEntityMapper::mapFromEntity).toList();
     }
 
 
     @Override
-    public void save(Receipt receipt){
+    public void save(Receipt receipt) {
         ReceiptEntity receiptEntity = receiptEntityMapper.mapToEntity(receipt);
         receiptJpaRepository.save(receiptEntity);
     }

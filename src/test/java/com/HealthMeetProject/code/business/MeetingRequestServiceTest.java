@@ -83,13 +83,13 @@ public class MeetingRequestServiceTest {
         List<MeetingRequest> meetingRequestList = List.of(MeetingRequestsExampleFixtures.meetingRequestDataExample1());
         Mockito.when(meetingRequestDAO.findAllActiveMeetingRequests(email)).thenReturn(meetingRequestList);
 
-         assertDoesNotThrow(() ->
+        assertDoesNotThrow(() ->
                 meetingRequestService.validate(email));
 
         String expectedMessage = "There should be only one active meeting request at a time, patient email: [%s]".formatted(email);
 
-        meetingRequestList.get(0).setVisitStart(LocalDateTime.of(2030,5,25,3,2));
-        meetingRequestList.get(0).setVisitEnd(LocalDateTime.of(2030,5,25,3,2));
+        meetingRequestList.get(0).setVisitStart(LocalDateTime.of(2030, 5, 25, 3, 2));
+        meetingRequestList.get(0).setVisitEnd(LocalDateTime.of(2030, 5, 25, 3, 2));
         RuntimeException exception = assertThrows(ProcessingException.class, () ->
                 meetingRequestService.validate(email));
 
@@ -164,11 +164,11 @@ public class MeetingRequestServiceTest {
     public void testAvailableEndedVisitsByDoctor() {
         //given
         String email = "doctor@example.com";
-        MeetingRequest request1 =MeetingRequestsExampleFixtures.meetingRequestDataExample1();
+        MeetingRequest request1 = MeetingRequestsExampleFixtures.meetingRequestDataExample1();
         MeetingRequest request2 = MeetingRequestsExampleFixtures.meetingRequestDataExample2();
         List<MeetingRequest> requests = Arrays.asList(request1, request2);
 
-       //when
+        //when
         Mockito.when(meetingRequestDAO.completedMeetingRequestsByDoctor(email)).thenReturn(requests);
 
         //when
@@ -192,6 +192,7 @@ public class MeetingRequestServiceTest {
         //then
         assertEquals(meetingRequest, result);
     }
+
     @Test
     public void testExecuteActionForMeetingRequest() {
         //given
@@ -235,6 +236,7 @@ public class MeetingRequestServiceTest {
         //then
         assertEquals(requests.size(), result.size());
     }
+
     @Test
     public void testGenerateNumber() {
         //given

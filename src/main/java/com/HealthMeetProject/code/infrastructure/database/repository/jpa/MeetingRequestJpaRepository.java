@@ -25,7 +25,6 @@ public interface MeetingRequestJpaRepository extends JpaRepository<MeetingReques
     List<MeetingRequestEntity> findAllByDoctorEmail(@Param("email") String email);
 
 
-
     @Query("""
             SELECT mre FROM MeetingRequestEntity mre
             WHERE mre.completedDateTime IS NULL
@@ -53,6 +52,7 @@ public interface MeetingRequestJpaRepository extends JpaRepository<MeetingReques
             AND mre.patient.email = :email
                 """)
     List<MeetingRequestEntity> findAllUpcomingVisitsByPatient(@Param("email") String email);
+
     @Query("""
             SELECT mre FROM MeetingRequestEntity mre
             WHERE  mre.visitStart > CURRENT_TIMESTAMP

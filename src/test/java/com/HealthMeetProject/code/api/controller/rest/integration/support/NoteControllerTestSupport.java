@@ -14,7 +14,7 @@ public interface NoteControllerTestSupport {
     default Note getNote(final Integer meetingId, String illness) {
         return requestSpecification()
                 .param("illness", illness)
-                .get(NoteApiController.BASE_PATH+"/"+meetingId)
+                .get(NoteApiController.BASE_PATH + "/" + meetingId)
                 .then()
                 .statusCode(HttpStatus.OK.value())
                 .and()
@@ -25,15 +25,16 @@ public interface NoteControllerTestSupport {
     default ExtractableResponse<Response> addNote(final Integer meetingId, final Note note) {
         return requestSpecification()
                 .body(note)
-                .post(NoteApiController.BASE_PATH+"/"+meetingId)
+                .post(NoteApiController.BASE_PATH + "/" + meetingId)
                 .then()
                 .statusCode(HttpStatus.CREATED.value())
                 .and()
                 .extract();
     }
+
     default IllnessHistoryDTOs getIllnessHistory(String email) {
         return requestSpecification()
-                .get(NoteApiController.BASE_PATH+"/patient/"+email)
+                .get(NoteApiController.BASE_PATH + "/patient/" + email)
                 .then()
                 .statusCode(HttpStatus.OK.value())
                 .and()

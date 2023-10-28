@@ -3,6 +3,7 @@ package com.HealthMeetProject.code.domain;
 import lombok.*;
 
 import java.math.BigDecimal;
+
 @EqualsAndHashCode
 @Getter
 @Setter

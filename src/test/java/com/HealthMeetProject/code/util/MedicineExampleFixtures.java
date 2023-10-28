@@ -15,6 +15,7 @@ public class MedicineExampleFixtures {
                 .receipt(ReceiptExampleFixtures.receiptEntityExampleData1())
                 .build();
     }
+
     public static Medicine medicineExampleData1() {
         return Medicine.builder()
                 .name("Morfina")

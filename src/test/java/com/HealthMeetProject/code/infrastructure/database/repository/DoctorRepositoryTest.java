@@ -104,6 +104,7 @@ public class DoctorRepositoryTest {
         verify(userRepository, times(1)).saveAndFlush(any());
         verify(doctorJpaRepository, times(1)).saveAndFlush(any());
     }
+
     @Test
     public void testWriteNote() {
         //given

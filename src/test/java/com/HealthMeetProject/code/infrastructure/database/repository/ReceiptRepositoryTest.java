@@ -16,6 +16,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
+
 @ExtendWith(MockitoExtension.class)
 public class ReceiptRepositoryTest {
 
@@ -44,6 +45,7 @@ public class ReceiptRepositoryTest {
         verify(receiptJpaRepository, times(1)).findPatientReceipts(email);
         assertEquals(expectedReceipts.size(), actualReceipts.size());
     }
+
     @Test
     public void testSaveReceipt() {
         ReceiptEntity receiptEntity = new ReceiptEntity();

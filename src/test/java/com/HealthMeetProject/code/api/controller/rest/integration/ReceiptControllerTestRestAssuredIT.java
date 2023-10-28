@@ -26,6 +26,7 @@ import org.springframework.test.annotation.DirtiesContext;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class ReceiptControllerTestRestAssuredIT extends RestAssuredIntegrationTestBase
@@ -70,6 +71,6 @@ public class ReceiptControllerTestRestAssuredIT extends RestAssuredIntegrationTe
 
         Receipts receiptPage = getReceiptPage(patient.getEmail());
         Assertions.assertEquals(receiptPage.getReceipts().get(0).getMedicine().size()
-                ,medicineDTOList.size());
+                , medicineDTOList.size());
     }
 }

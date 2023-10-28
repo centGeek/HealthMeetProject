@@ -37,7 +37,7 @@ public class DoctorApiController {
 
     @GetMapping("details/{doctorId}")
     public DoctorDTO getDoctorDetails(@PathVariable Integer doctorId) {
-       return doctorService.findById(doctorId).map(doctorMapper::mapToDTO).orElseThrow(
+        return doctorService.findById(doctorId).map(doctorMapper::mapToDTO).orElseThrow(
                 () -> new NotFoundException("Doctor with given email does not exist"));
     }
 
@@ -66,6 +66,7 @@ public class DoctorApiController {
 
         return ResponseEntity.ok(existingDoctor);
     }
+
     @PostMapping
     public ResponseEntity<DoctorDTO> registerDoctor(@Valid @RequestBody DoctorDTO doctorDTO) {
         doctorService.register(doctorDTO);
@@ -73,6 +74,7 @@ public class DoctorApiController {
                 .created(URI.create(BASE_PATH + DOCTOR_ID.formatted(doctorDTO.getDoctorId())))
                 .build();
     }
+
     @GetMapping("/{email}")
     public DoctorDTO getDoctorByEmail(@PathVariable String email) {
         return doctorMapper.mapToDTO(doctorDAO.findByEmail(email).orElseThrow(() -> new ProcessingException(

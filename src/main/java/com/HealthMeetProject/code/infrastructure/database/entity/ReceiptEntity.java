@@ -42,13 +42,15 @@ public class ReceiptEntity {
     @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "medicine_id")
     private Set<MedicineEntity> medicine;
+
     @JsonIgnore
     public PatientEntity getPatient() {
         return patient;
     }
+
     @JsonIgnore
     public DoctorEntity getDoctor() {
-        if(Objects.isNull(doctor)){
+        if (Objects.isNull(doctor)) {
             return null;
         }
         doctor.setMeetingRequests(null);

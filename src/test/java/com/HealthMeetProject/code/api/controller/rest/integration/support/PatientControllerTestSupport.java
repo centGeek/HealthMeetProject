@@ -13,7 +13,7 @@ public interface PatientControllerTestSupport {
     default ExtractableResponse<Response> updatePatient(Integer patientId, PatientDTO patientDTO) {
         return requestSpecification()
                 .body(patientDTO)
-                .patch(PatientApiController.BASE_PATH+"/"+patientId+"/edit")
+                .patch(PatientApiController.BASE_PATH + "/" + patientId + "/edit")
                 .then()
                 .statusCode(HttpStatus.OK.value())
                 .and()
@@ -29,10 +29,11 @@ public interface PatientControllerTestSupport {
                 .and()
                 .extract();
     }
-    default PatientDTO findByEmail(final String email){
+
+    default PatientDTO findByEmail(final String email) {
         return requestSpecification()
                 .pathParam("email", email)
-                .get(PatientApiController.BASE_PATH+"/by-email/{email}")
+                .get(PatientApiController.BASE_PATH + "/by-email/{email}")
                 .then()
                 .statusCode(HttpStatus.OK.value())
                 .and()
@@ -41,11 +42,10 @@ public interface PatientControllerTestSupport {
     }
 
 
-
     default ExtractableResponse<Response> deleteMeeting(final Integer meetingId) {
         return requestSpecification()
                 .pathParam("meetingId", meetingId)
-                .delete(PatientApiController.BASE_PATH+"/meeting/{meetingId}")
+                .delete(PatientApiController.BASE_PATH + "/meeting/{meetingId}")
                 .then()
                 .statusCode(HttpStatus.OK.value())
                 .and()

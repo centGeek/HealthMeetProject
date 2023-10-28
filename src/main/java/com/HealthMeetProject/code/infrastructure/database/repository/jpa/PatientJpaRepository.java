@@ -12,8 +12,8 @@ import java.util.Optional;
 @Repository
 public interface PatientJpaRepository extends JpaRepository<PatientEntity, Integer> {
 
-@Query("""
-    select pat from PatientEntity pat where pat.email =:email
-""")
+    @Query("""
+                select pat from PatientEntity pat where pat.email =:email
+            """)
     Optional<PatientEntity> findByEmail(@Param("email") String email);
 }

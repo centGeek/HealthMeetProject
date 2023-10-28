@@ -48,13 +48,13 @@ public class ReceiptService {
     }
 
     private void medicineMappingAndIssueReceipt(Set<MedicineDTO> medicineSet, Receipt receipt) {
-        Set<MedicineEntity> toEntityMedicine= new HashSet<>();
+        Set<MedicineEntity> toEntityMedicine = new HashSet<>();
         for (MedicineDTO medicine : medicineSet) {
             Medicine medicineToEntity = medicineMapper.mapFromDTO(medicine);
             MedicineEntity medicineEntity = medicineEntityMapper.mapToEntity(medicineToEntity);
             toEntityMedicine.add(medicineEntity);
         }
-        doctorDAO.issueReceipt(receipt,toEntityMedicine);
+        doctorDAO.issueReceipt(receipt, toEntityMedicine);
     }
 
     Receipt buildReceipt(Patient patient, Doctor doctor) {
@@ -65,6 +65,7 @@ public class ReceiptService {
                 .doctor(doctor)
                 .build();
     }
+
     public List<MedicineEntity> getMedicinesFromLastVisit(List<Receipt> receipts) {
         Optional<Integer> maxReceiptId = receipts.stream()
                 .map(Receipt::getReceiptId)

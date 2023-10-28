@@ -10,6 +10,6 @@ import org.springframework.context.annotation.Import;
 @SpringBootTest(
         classes = {HealthMeetProjectApplication.class},
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-    public abstract class AbstractIntegrationTest {
+public abstract class AbstractIntegrationTest {
 
 }

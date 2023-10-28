@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.DirtiesContext;
 
 import java.util.Set;
+
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class PatientControllerTestRestAssuredIT extends RestAssuredIntegrationTestBase implements PatientControllerTestSupport {
@@ -24,6 +25,7 @@ public class PatientControllerTestRestAssuredIT extends RestAssuredIntegrationTe
     private DoctorJpaRepository doctorJpaRepository;
     private UserRepository userRepository;
     private PatientJpaRepository patientJpaRepository;
+
     @Test
     void thatPatientFindingByEmailAndSavingWorksCorrectly() {
         // given
@@ -52,6 +54,6 @@ public class PatientControllerTestRestAssuredIT extends RestAssuredIntegrationTe
         byEmail1.setPhone(phone);
         updatePatient(byEmail1.getPatientId(), byEmail1);
         PatientDTO byEmail3 = findByEmail(patient1.getEmail());
-        Assertions.assertEquals(byEmail3.getPhone(),phone);
+        Assertions.assertEquals(byEmail3.getPhone(), phone);
     }
 }

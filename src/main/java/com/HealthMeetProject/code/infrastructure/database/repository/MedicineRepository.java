@@ -13,6 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 public class MedicineRepository implements MedicineDAO {
     private final MedicineJpaRepository medicineJpaRepository;
+
     @Override
     public List<MedicineEntity> findByReceipt(Integer receiptId) {
         List<MedicineEntity> byReceipt = medicineJpaRepository.findByReceipt(receiptId);

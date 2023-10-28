@@ -29,29 +29,32 @@ public class HomeControllerIT extends AbstractIT {
     }
 
     @Test
-    void thatPatientLoggingPageLoadedCorrectly(){
+    void thatPatientLoggingPageLoadedCorrectly() {
         String url = String.format("http://localhost:%s%s/patient", port, basePath);
 
         String page = this.testRestTemplate.getForObject(url, String.class);
         Assertions.assertThat(page).contains("Login Form");
     }
+
     @Test
-    void thatDoctorLoggingPageLoadedCorrectly(){
+    void thatDoctorLoggingPageLoadedCorrectly() {
         String url = String.format("http://localhost:%s%s/doctor", port, basePath);
 
         String page = this.testRestTemplate.getForObject(url, String.class);
         Assertions.assertThat(page).contains("Login Form");
     }
+
     @Test
-    void thatDoctorRegistryPageLoadedCorrectly(){
+    void thatDoctorRegistryPageLoadedCorrectly() {
         String url = String.format("http://localhost:%s%s/doctor_register", port, basePath);
 
         String page = this.testRestTemplate.getForObject(url, String.class);
         Assertions.assertThat(page).contains("Register Page");
         Assertions.assertThat(page).contains("Clinic");
     }
+
     @Test
-    void thatPatientRegistryPageLoadedCorrectly(){
+    void thatPatientRegistryPageLoadedCorrectly() {
         String url = String.format("http://localhost:%s%s/patient_register", port, basePath);
 
         String page = this.testRestTemplate.getForObject(url, String.class);

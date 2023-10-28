@@ -67,8 +67,8 @@ public class PatientControllerTest {
                         .param("surname", "Doe")
                         .param("email", "john.doe@example.com")
                         .param("phone", "123-456-789")
-                        .param("Country","Polska" )
-                        .param("City","Poscien Zamion"))
+                        .param("Country", "Polska")
+                        .param("City", "Poscien Zamion"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/logout"));
     }

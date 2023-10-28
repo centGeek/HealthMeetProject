@@ -20,6 +20,7 @@ import org.springframework.http.ResponseEntity;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
+
 @ExtendWith(MockitoExtension.class)
 public class MeetingRequestApiControllerTest {
 
@@ -29,7 +30,7 @@ public class MeetingRequestApiControllerTest {
     @Mock
     private AvailabilityScheduleDAO availabilityScheduleDAO;
     @Mock
-    private  AvailabilityScheduleMapper availabilityScheduleMapper;
+    private AvailabilityScheduleMapper availabilityScheduleMapper;
 
 
     @Mock

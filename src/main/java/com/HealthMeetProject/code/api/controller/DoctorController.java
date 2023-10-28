@@ -56,7 +56,7 @@ public class DoctorController {
             Model model
     ) {
         Doctor doctor = doctorDAO.findById(doctorId).orElseThrow(() -> new EntityNotFoundException(
-                "Employee entity not found, employeeId: [%s]" .formatted(doctorId)
+                "Employee entity not found, employeeId: [%s]".formatted(doctorId)
         ));
         DoctorDTO doctorDTO = doctorMapper.mapToDTO(doctor);
         List<AvailabilityScheduleDTO> allTermsByGivenDoctor = availabilityScheduleService.findAllAvailableTermsByGivenDoctor(doctor.getEmail());

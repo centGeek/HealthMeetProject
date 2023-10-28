@@ -16,12 +16,14 @@ public interface ReceiptJpaRepository extends JpaRepository<ReceiptEntity, Integ
             select receipt from ReceiptEntity  receipt where receipt.patient.email =:email
             """)
     List<ReceiptEntity> findPatientReceipts(@Param("email") String email);
+
     @Query("""           
-        select receipt from ReceiptEntity  receipt where receipt.receiptNumber =:receiptNumber
-        """)
+            select receipt from ReceiptEntity  receipt where receipt.receiptNumber =:receiptNumber
+            """)
     ReceiptEntity findByReceiptNumber(@Param("receiptNumber") String receiptNumber);
+
     @Query("""           
-        select meetingRequestEntity from MeetingRequestEntity meetingRequestEntity where meetingRequestEntity.visitEnd =:visitEnd
-        """)
+            select meetingRequestEntity from MeetingRequestEntity meetingRequestEntity where meetingRequestEntity.visitEnd =:visitEnd
+            """)
     ReceiptEntity findByVisitEnd(LocalDateTime visitEnd);
 }

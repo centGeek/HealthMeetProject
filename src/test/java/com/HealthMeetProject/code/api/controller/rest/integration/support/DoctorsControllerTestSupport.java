@@ -7,8 +7,10 @@ import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import org.springframework.http.HttpStatus;
+
 public interface DoctorsControllerTestSupport {
     RequestSpecification requestSpecification();
+
     default DoctorDTOs listDoctors() {
         return requestSpecification()
                 .get(DoctorApiController.BASE_PATH)
@@ -18,9 +20,10 @@ public interface DoctorsControllerTestSupport {
                 .extract()
                 .as(DoctorDTOs.class);
     }
-    default DoctorDTO getDoctor(final String email ) {
+
+    default DoctorDTO getDoctor(final String email) {
         return requestSpecification()
-                .get(DoctorApiController.BASE_PATH+"/"+email)
+                .get(DoctorApiController.BASE_PATH + "/" + email)
                 .then()
                 .statusCode(HttpStatus.OK.value())
                 .and()

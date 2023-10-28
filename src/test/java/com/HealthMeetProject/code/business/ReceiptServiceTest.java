@@ -81,6 +81,7 @@ public class ReceiptServiceTest {
         assertEquals(receipt.getPatient(), patient);
 
     }
+
     @Test
     public void testGetMedicinesFromLastVisit() {
         //given
@@ -95,8 +96,8 @@ public class ReceiptServiceTest {
         receipts.add(receipt1);
         receipts.add(receipt2);
 
-        MedicineEntity medicine1 =MedicineExampleFixtures.medicineEntityExampleData1();
-        MedicineEntity medicine2 =MedicineExampleFixtures.medicineEntityExampleData2();
+        MedicineEntity medicine1 = MedicineExampleFixtures.medicineEntityExampleData1();
+        MedicineEntity medicine2 = MedicineExampleFixtures.medicineEntityExampleData2();
 
         List<MedicineEntity> expectedMedicines = new ArrayList<>();
         expectedMedicines.add(medicine1);

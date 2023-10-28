@@ -17,6 +17,7 @@ import org.springframework.test.annotation.DirtiesContext;
 import java.util.Set;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 

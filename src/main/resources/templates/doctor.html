@@ -98,19 +98,22 @@
     <div class="row">
         <div class="col-md-6">
             <h6>Click here to manage meeting requests!</h6>
-            <a th:href="@{'/doctor/' + ${doctor.doctorId}+ '/meeting_requests'}" class="btn btn-success" role="button">Meeting Requests</a>
+            <a th:href="@{'/doctor/' + ${doctor.doctorId}+ '/meeting_requests'}" class="btn btn-success" role="button">Meeting
+                Requests</a>
         </div>
         <div class="col-md-6">
             <form action="#" th:action="@{doctor/add/terms}" method="post">
                 <div class="input-group date" id="datetimepicker" data-target-input="nearest">
-                    <label for="sinceInput"></label><input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker"
+                    <label for="sinceInput"></label><input type="text" class="form-control datetimepicker-input"
+                                                           data-target="#datetimepicker"
                                                            placeholder="Select date" name="since" id="sinceInput"/>
                     <div class="input-group-append" data-target="#datetimepicker" data-toggle="datetimepicker">
                         <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>
                     </div>
                 </div>
                 <div class="input-group date mt-2" id="datetimepicker2" data-target-input="nearest">
-                    <label for="toWhenInput"></label><input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker2"
+                    <label for="toWhenInput"></label><input type="text" class="form-control datetimepicker-input"
+                                                            data-target="#datetimepicker2"
                                                             placeholder="Select date" name="toWhen" id="toWhenInput"/>
                     <div class="input-group-append" data-target="#datetimepicker2" data-toggle="datetimepicker">
                         <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>
@@ -146,9 +149,9 @@
                     </form>
                 </div>
             </div>
-            </div>
         </div>
     </div>
+</div>
 </div>
 </body>
 </html>

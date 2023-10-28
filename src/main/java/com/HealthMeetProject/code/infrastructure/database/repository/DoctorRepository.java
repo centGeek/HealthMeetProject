@@ -75,11 +75,11 @@ public class DoctorRepository implements DoctorDAO {
         for (MedicineEntity medicineEntity : medicineSet) {
             medicineEntity.setReceipt(ReceiptEntity
                     .builder()
-                            .receiptNumber(receipt.getReceiptNumber())
-                            .dateTime(receipt.getDateTime())
-                            .receiptId(byReceiptNumber.getReceiptId())
-                            .patient(byReceiptNumber.getPatient())
-                            .doctor(byReceiptNumber.getDoctor())
+                    .receiptNumber(receipt.getReceiptNumber())
+                    .dateTime(receipt.getDateTime())
+                    .receiptId(byReceiptNumber.getReceiptId())
+                    .patient(byReceiptNumber.getPatient())
+                    .doctor(byReceiptNumber.getDoctor())
                     .build());
         }
         medicineJpaRepository.saveAllAndFlush(medicineSet);

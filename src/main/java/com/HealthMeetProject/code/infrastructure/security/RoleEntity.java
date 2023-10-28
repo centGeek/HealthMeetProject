@@ -19,10 +19,12 @@ public class RoleEntity {
     private Integer id;
     @Column(name = "role")
     private String role;
+
     public int hashCode() {
         int result = Objects.hash(id, role);
         return result;
     }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

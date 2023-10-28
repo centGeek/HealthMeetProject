@@ -63,8 +63,6 @@ public class DoctorService {
     }
 
 
-
-
     @Transactional
     public void writeNote(Doctor doctor, String illness, String description, Patient patient, LocalDateTime visitStart, LocalDateTime visitEnd) {
         DoctorEntity doctorEntity = doctorEntityMapper.mapToEntity(doctor);
@@ -77,7 +75,7 @@ public class DoctorService {
                 .startTime(visitStart)
                 .endTime(visitEnd)
                 .build();
-        if(noteRepository.isThereNoteWithTheSameTimeVisitAndDoctor(build.getStartTime(), build.getEndTime(), doctor.getEmail())){
+        if (noteRepository.isThereNoteWithTheSameTimeVisitAndDoctor(build.getStartTime(), build.getEndTime(), doctor.getEmail())) {
             throw new UserAlreadyExistsException("Note with following visit already exist");
         }
         doctorDAO.writeNote(build);
@@ -110,7 +108,8 @@ public class DoctorService {
     public boolean findAnyTermInGivenRangeInGivenDay(LocalDateTime since, LocalDateTime toWhen, String doctorEmail) {
         return doctorDAO.findAnyTermInGivenRangeInGivenDay(since, toWhen, doctorEmail);
     }
-    public  void conditionsToUpdate(DoctorDTO updatedDoctorDTO, Doctor existingDoctor) {
+
+    public void conditionsToUpdate(DoctorDTO updatedDoctorDTO, Doctor existingDoctor) {
         if (updatedDoctorDTO.getName() != null) {
             existingDoctor.setName(updatedDoctorDTO.getName());
         }

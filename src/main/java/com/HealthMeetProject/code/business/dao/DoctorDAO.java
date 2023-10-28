@@ -32,5 +32,5 @@ public interface DoctorDAO {
     boolean findAnyTermInGivenRangeInGivenDay(LocalDateTime since, LocalDateTime toWhen, String doctorEmail);
 
 
-        void save(Doctor doctor);
+    void save(Doctor doctor);
 }

@@ -27,7 +27,7 @@ public interface MeetingRequestControllerTestSupport {
     default ExtractableResponse<Response> finalizeMeetingRequest(FinalizeSlotDTO finalizeSlotDTO) {
         return requestSpecification()
                 .body(finalizeSlotDTO)
-                .post(MeetingRequestApiController.BASE_PATH+"/finalize")
+                .post(MeetingRequestApiController.BASE_PATH + "/finalize")
                 .then()
                 .statusCode(HttpStatus.CREATED.value())
                 .and()
@@ -46,7 +46,7 @@ public interface MeetingRequestControllerTestSupport {
 
     default MeetingRequestsDTOs getMeetingRequests(String email) {
         return requestSpecification()
-                .get(MeetingRequestApiController.BASE_PATH+"/"+email)
+                .get(MeetingRequestApiController.BASE_PATH + "/" + email)
                 .then()
                 .statusCode(HttpStatus.OK.value())
                 .and()

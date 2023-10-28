@@ -14,7 +14,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(controllers = HomeController.class)
 @AutoConfigureMockMvc(addFilters = false)
 @AllArgsConstructor(onConstructor = @__(@Autowired))
-class HomeControllerTest{
+class HomeControllerTest {
 
     private MockMvc mockMvc;
 
@@ -25,6 +25,7 @@ class HomeControllerTest{
                 .andExpect(status().isOk())
                 .andExpect(view().name("home"));
     }
+
     @Test
     void aboutWorksCorrectly() throws Exception {
         // given, when, then

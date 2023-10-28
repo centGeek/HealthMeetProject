@@ -27,11 +27,12 @@ public class GlobalExceptionHandler {
         modelView.addObject("errorMessage", message);
         return modelView;
     }
-        @ExceptionHandler(AccessDeniedException.class)
-        public String handleAccessDeniedException(AccessDeniedException ex, Model model) {
-            model.addAttribute("errorMessage", ex.getMessage());
-            return "error";
-        }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public String handleAccessDeniedException(AccessDeniedException ex, Model model) {
+        model.addAttribute("errorMessage", ex.getMessage());
+        return "error";
+    }
 
     @ExceptionHandler(NotFoundException.class)
     @ResponseStatus(value = HttpStatus.NOT_FOUND)
@@ -64,6 +65,7 @@ public class GlobalExceptionHandler {
         modelView.addObject("errorMessage", message);
         return modelView;
     }
+
     @ExceptionHandler(IllegalArgumentException.class)
     public String handleIllegalArgumentException(Exception ex, Model model) {
         model.addAttribute("errorMessage", ex.getMessage());

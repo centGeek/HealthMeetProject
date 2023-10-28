@@ -80,7 +80,7 @@ public class PatientRepository implements PatientDAO {
                 .orElseThrow(() -> new NotFoundException("Could not found Patient with given email")));
     }
 
-    private  PatientEntity getPatientEntityToRegister(PatientDTO patientDTO, UserEntity userEntity, AddressEntity addressEntity) {
+    private PatientEntity getPatientEntityToRegister(PatientDTO patientDTO, UserEntity userEntity, AddressEntity addressEntity) {
         return PatientEntity.builder()
                 .name(patientDTO.getName())
                 .surname(patientDTO.getSurname())

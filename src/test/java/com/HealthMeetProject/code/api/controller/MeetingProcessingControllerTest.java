@@ -81,10 +81,11 @@ public class MeetingProcessingControllerTest {
 
         verify(meetingRequestService, times(1)).executeActionForMeetingRequest(meetingRequestId);
     }
+
     @Test
     void testConfirmMeetingRequest() throws Exception {
         // Mock data
-        MeetingRequestEntity meetingRequestEntity =MeetingRequestsExampleFixtures.meetingRequestDataEntityExample1();
+        MeetingRequestEntity meetingRequestEntity = MeetingRequestsExampleFixtures.meetingRequestDataEntityExample1();
 
         when(meetingRequestService.executeActionForMeetingRequest(1)).thenReturn(meetingRequestEntity);
 

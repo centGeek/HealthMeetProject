@@ -17,39 +17,43 @@ import java.util.List;
 
 @Service
 @AllArgsConstructor
-    public class AvailabilityScheduleService {
+public class AvailabilityScheduleService {
     private final AvailabilityScheduleDAO availabilityScheduleDAO;
     private final AvailabilityScheduleEntityMapper availabilityScheduleEntityMapper;
     private final AvailabilityScheduleMapper availabilityScheduleMapper;
     private final DoctorService doctorService;
 
-    public List<AvailabilityScheduleDTO> findAllTermsByGivenDoctor(String email){
+    public List<AvailabilityScheduleDTO> findAllTermsByGivenDoctor(String email) {
         return availabilityScheduleDAO.findAllTermsByGivenDoctor(email).stream().map(availabilityScheduleMapper::mapToDTO).toList();
-    };
+    }
 
-    public AvailabilityScheduleDTO addTerm(LocalDateTime since,LocalDateTime toWhen, DoctorEntity doctorEntity) {
-        if(!doctorService.findAnyTermInGivenRangeInGivenDay(since, toWhen, doctorEntity.getEmail())){
+    ;
+
+    public AvailabilityScheduleDTO addTerm(LocalDateTime since, LocalDateTime toWhen, DoctorEntity doctorEntity) {
+        if (!doctorService.findAnyTermInGivenRangeInGivenDay(since, toWhen, doctorEntity.getEmail())) {
             throw new ProcessingException("You can not add date[%s - %s], because this date cover with other date".formatted(since, toWhen));
         }
-        if(since.isBefore(LocalDateTime.now())){
+        if (since.isBefore(LocalDateTime.now())) {
             throw new ProcessingException("You can not add date[%s - %s], because this date isn't entirely in the future".formatted(since, toWhen));
         }
         if (since.plusMinutes(15).isAfter(toWhen)) {
             throw new IllegalArgumentException("Minimum planned visit is 15 minutes");
         }
-        if(since.plusHours(10).isBefore(toWhen)){
+        if (since.plusHours(10).isBefore(toWhen)) {
             throw new IllegalArgumentException("Maximum working day is 10 hours");
         }
         AvailabilitySchedule availabilitySchedule = availabilityScheduleDAO.addTerm(since, toWhen, doctorEntity);
         return availabilityScheduleMapper.mapToDTO(availabilitySchedule);
     }
 
-    public  LocalDateTime parseToLocalDateTime(String since) {
+    public LocalDateTime parseToLocalDateTime(String since) {
         return LocalDateTime.parse(since, DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm a"));
     }
+
     public List<AvailabilityScheduleDTO> findAllAvailableTermsByGivenDoctor(String email) {
-         return availabilityScheduleDAO.findAllAvailableTermsByGivenDoctor(email).stream().map(availabilityScheduleMapper::mapToDTO).toList();
+        return availabilityScheduleDAO.findAllAvailableTermsByGivenDoctor(email).stream().map(availabilityScheduleMapper::mapToDTO).toList();
     }
+
     public void save(AvailabilitySchedule availabilitySchedule) {
         AvailabilityScheduleEntity availabilityScheduleEntity = availabilityScheduleEntityMapper.mapToEntity(availabilitySchedule);
         availabilityScheduleDAO.save(availabilityScheduleEntity);

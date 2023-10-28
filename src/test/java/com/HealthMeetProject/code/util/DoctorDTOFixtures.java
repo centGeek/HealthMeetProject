@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 
 import java.math.BigDecimal;
 import java.util.Set;
+
 @AllArgsConstructor
 public class DoctorDTOFixtures {
 
@@ -25,6 +26,7 @@ public class DoctorDTOFixtures {
                 .user(getUserDTO1())
                 .build();
     }
+
     public static DoctorDTO getDoctorDTO2() {
         return DoctorDTO.builder()
                 .name("Krzysiek")
@@ -37,6 +39,7 @@ public class DoctorDTOFixtures {
                 .user(getUserDTO2())
                 .build();
     }
+
     public static UserData userDataDoctor() {
         return UserData.builder()
                 .id(1)
@@ -46,6 +49,7 @@ public class DoctorDTOFixtures {
                 .password("test")
                 .roles(Set.of(RoleEntity.builder().id(1).role("DOCTOR").build())).build();
     }
+
     public static Clinic getClinicDTOToRegister() {
         return Clinic.builder()
                 .clinicName("Medi Clinic")
@@ -64,6 +68,7 @@ public class DoctorDTOFixtures {
                 .email("j.kowalski@gmail.com")
                 .build();
     }
+
     private static UserData getUserDTO2() {
         return UserData.builder()
                 .active(true)

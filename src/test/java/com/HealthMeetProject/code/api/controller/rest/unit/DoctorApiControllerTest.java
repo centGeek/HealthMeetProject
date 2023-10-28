@@ -26,6 +26,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
+
 @ExtendWith(MockitoExtension.class)
 public class DoctorApiControllerTest {
 
@@ -43,7 +44,6 @@ public class DoctorApiControllerTest {
 
     @InjectMocks
     private DoctorApiController controller;
-
 
 
     @Test
@@ -65,7 +65,7 @@ public class DoctorApiControllerTest {
     public void testGetDoctorDetails() {
         //given
         Integer doctorId = 1;
-        DoctorDTO doctorDTO =DoctorDTOFixtures.getDoctorDTO1();
+        DoctorDTO doctorDTO = DoctorDTOFixtures.getDoctorDTO1();
         when(doctorService.findById(doctorId)).thenReturn(Optional.of(DoctorExampleFixtures.doctorExample1()));
         when(doctorMapper.mapToDTO(any(Doctor.class))).thenReturn(doctorDTO);
 

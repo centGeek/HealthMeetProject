@@ -8,5 +8,6 @@ import org.mapstruct.ReportingPolicy;
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface AvailabilityScheduleMapper {
     AvailabilityScheduleDTO mapToDTO(AvailabilitySchedule availabilitySchedule);
+
     AvailabilitySchedule mapFromDTO(AvailabilityScheduleDTO availabilitySchedule);
 }

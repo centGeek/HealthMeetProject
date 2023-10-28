@@ -121,7 +121,7 @@ public class MeetingRequestControllerTestRestAssuredIT extends RestAssuredIntegr
         Assertions.assertEquals(0, waitingForConfirmationMeetingRequestsAfterConfirmation.getMeetingRequestList().size());
 
 
-        MeetingRequestsDTOs endedVisitsByPatientEmail =findEndedVisitsByPatientEmail(doctorDTO.getEmail(), patientDTO.getEmail());
+        MeetingRequestsDTOs endedVisitsByPatientEmail = findEndedVisitsByPatientEmail(doctorDTO.getEmail(), patientDTO.getEmail());
         Assertions.assertEquals(0, endedVisitsByPatientEmail.getMeetingRequestList().size());
 
 

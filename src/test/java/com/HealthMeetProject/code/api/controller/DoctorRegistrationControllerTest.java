@@ -44,7 +44,7 @@ public class DoctorRegistrationControllerTest {
         parametersMap.forEach(parameters::add);
 
         // when, then
-        mockMvc.perform(post(DoctorRegistrationController.DOCTOR_REGISTER+"/add").params(parameters))
+        mockMvc.perform(post(DoctorRegistrationController.DOCTOR_REGISTER + "/add").params(parameters))
                 .andExpect(status().is4xxClientError())
                 .andExpect(model().attributeExists("errorMessage"))
                 .andExpect(model().attribute("errorMessage", Matchers.containsString(badEmail)))
@@ -64,18 +64,19 @@ public class DoctorRegistrationControllerTest {
         if (correctPhone) {
             DoctorDTO doctorDTO = DoctorDTO.buildDefaultData();
             Mockito.when(doctorService.register(Mockito.any())).thenReturn(doctorDTO);
-            mockMvc.perform(post(DoctorRegistrationController.DOCTOR_REGISTER+"/add").params(parameters))
+            mockMvc.perform(post(DoctorRegistrationController.DOCTOR_REGISTER + "/add").params(parameters))
                     .andExpect(status().isOk())
                     .andExpect(model().attributeExists("doctorDTO"))
                     .andExpect(view().name("doctor_register_successfully"));
         } else {
-            mockMvc.perform(post(DoctorRegistrationController.DOCTOR_REGISTER+"/add").params(parameters))
+            mockMvc.perform(post(DoctorRegistrationController.DOCTOR_REGISTER + "/add").params(parameters))
                     .andExpect(status().is4xxClientError())
                     .andExpect(model().attributeExists("errorMessage"))
                     .andExpect(model().attribute("errorMessage", Matchers.containsString(phone)))
                     .andExpect(view().name("error"));
         }
     }
+
     public static Stream<Arguments> thatPhoneValidationWorksCorrectly() {
         return Stream.of(
                 Arguments.of(false, ""),

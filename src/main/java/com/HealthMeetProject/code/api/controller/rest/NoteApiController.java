@@ -61,7 +61,7 @@ public class NoteApiController {
             MeetingRequest meetingRequest = meetingRequestService.restFindById(meetingId);
             doctorService.writeNote(note.getDoctor(), note.getIllness(), note.getDescription(), note.getPatient(), meetingRequest.getVisitStart(), meetingRequest.getVisitEnd());
             return ResponseEntity
-                    .created(URI.create(BASE_PATH + "/"+meetingId))
+                    .created(URI.create(BASE_PATH + "/" + meetingId))
                     .build();
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();

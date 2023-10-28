@@ -28,6 +28,7 @@ public class NoteRepositoryTest {
 
     @InjectMocks
     private NoteRepository noteRepository;
+
     @Test
     public void testIsThereNoteWithTheSameTimeVisitAndDoctor_True() {
         LocalDateTime startTime = LocalDateTime.now();

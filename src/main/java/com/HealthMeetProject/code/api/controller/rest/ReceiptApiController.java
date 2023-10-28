@@ -46,7 +46,7 @@ public class ReceiptApiController {
     @PostMapping("/issue")
     public ResponseEntity<?> issueReceipt(
             @RequestBody IssueReceiptDTO issueReceiptDTO
-            ) {
+    ) {
         if (issueReceiptDTO.getMedicineDTOList().isEmpty()) {
             throw new ProcessingException("Cannot issue receipt because you did not add any medicine");
         }

@@ -33,7 +33,7 @@ public class AvailabilityScheduleServiceTest {
     @Mock
     private AvailabilityScheduleMapper availabilityScheduleMapper;
     @Mock
-    private  DoctorService doctorService;
+    private DoctorService doctorService;
     @InjectMocks
     private AvailabilityScheduleService availabilityScheduleService;
 
@@ -71,6 +71,7 @@ public class AvailabilityScheduleServiceTest {
         //then
         assertThrows(ProcessingException.class, () -> availabilityScheduleService.addTerm(since, toWhen, doctorEntity));
     }
+
     @Test
     public void addingImpossibleTerm() {
         //given,when
@@ -87,6 +88,7 @@ public class AvailabilityScheduleServiceTest {
         //then
         assertThrows(ProcessingException.class, () -> availabilityScheduleService.addTerm(since, toWhen, doctorEntity));
     }
+
     @Test
     public void thatIsNotAMinimumPlannedVisit() {
         //given,when
@@ -103,6 +105,7 @@ public class AvailabilityScheduleServiceTest {
         //then
         assertThrows(ProcessingException.class, () -> availabilityScheduleService.addTerm(since, toWhen, doctorEntity));
     }
+
     @Test
     public void addingTermProperly() {
         //given
@@ -123,6 +126,7 @@ public class AvailabilityScheduleServiceTest {
         assertTrue(availabilityScheduleDTO.isAvailableTerm());
         assertTrue(availabilityScheduleDTO.isAvailableDay());
     }
+
     @Test
     public void testFindAllTermsByGivenDoctor() {
         //given

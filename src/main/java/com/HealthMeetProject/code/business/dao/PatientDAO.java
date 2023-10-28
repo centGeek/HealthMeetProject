@@ -8,11 +8,13 @@ import com.HealthMeetProject.code.domain.Patient;
 public interface PatientDAO {
 
     void issueInvoice(Patient patient);
+
     void saveMeetingRequest(MeetingRequest meetingRequest, Patient patient);
 
     Patient savePatient(Patient patient);
 
     Patient findById(Integer patientId);
+
     void register(PatientDTO patientDTO);
 
     Patient findByEmail(String email);

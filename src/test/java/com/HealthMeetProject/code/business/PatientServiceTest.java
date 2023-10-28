@@ -85,7 +85,7 @@ public class PatientServiceTest {
 
         Patient existingPatient = PatientExampleFixtures.patientExample1();
         existingPatient.setUser(new UserData(
-                3,"testsurname", "password", "test@email.com", true, Set.of(new RoleEntity(2, "PATIENT"))));
+                3, "testsurname", "password", "test@email.com", true, Set.of(new RoleEntity(2, "PATIENT"))));
         patientService.conditionsToUpdate(updatedPatientDTO, existingPatient);
 
         assertEquals("John", existingPatient.getName());

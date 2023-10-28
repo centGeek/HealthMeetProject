@@ -18,15 +18,16 @@ import java.util.Objects;
 @Repository
 @AllArgsConstructor
 public class MeetingRequestRepository implements MeetingRequestDAO {
-        private final MeetingRequestJpaRepository meetingRequestJpaRepository;
-        private final MeetingRequestEntityMapper meetingRequestEntityMapper;
-        private final MeetingRequestEntityRestApiMapper meetingRequestEntityRestApiMapper;
+    private final MeetingRequestJpaRepository meetingRequestJpaRepository;
+    private final MeetingRequestEntityMapper meetingRequestEntityMapper;
+    private final MeetingRequestEntityRestApiMapper meetingRequestEntityRestApiMapper;
 
     @Override
-    public List<MeetingRequest> findAllUpcomingVisitsByPatient(String email){
+    public List<MeetingRequest> findAllUpcomingVisitsByPatient(String email) {
         return meetingRequestJpaRepository.findAllUpcomingVisitsByPatient(email).stream().map(meetingRequestEntityMapper::mapFromEntity).toList();
     }
-    public List<MeetingRequest> findAllUpcomingCompletedVisitsByDoctor(String email){
+
+    public List<MeetingRequest> findAllUpcomingCompletedVisitsByDoctor(String email) {
         return meetingRequestJpaRepository.findAllUpcomingCompletedVisitsByDoctor(email).stream().map(meetingRequestEntityMapper::mapFromEntity).toList();
     }
 
@@ -39,7 +40,8 @@ public class MeetingRequestRepository implements MeetingRequestDAO {
     @Override
     public List<MeetingRequest> restFindAllEndedUpVisitsByDoctorAndPatient(String doctorEmail, String patientEmail) {
         return meetingRequestJpaRepository.findAllEndedUpVisits(doctorEmail, patientEmail).stream()
-                .map(meetingRequestEntityMapper::mapFromEntity).toList();    }
+                .map(meetingRequestEntityMapper::mapFromEntity).toList();
+    }
 
 
     @Override
@@ -51,7 +53,7 @@ public class MeetingRequestRepository implements MeetingRequestDAO {
 
     @Override
     public List<MeetingRequest> findByPatientEmail(String email) {
-           return meetingRequestJpaRepository.findAllByPatientEmail(email).stream().
+        return meetingRequestJpaRepository.findAllByPatientEmail(email).stream().
                 map(meetingRequestEntityMapper::mapFromEntity)
                 .toList();
     }
@@ -62,7 +64,8 @@ public class MeetingRequestRepository implements MeetingRequestDAO {
         return meetingRequestJpaRepository.findAllCompletedMeetingRequestsByPatient(email)
                 .stream().map(meetingRequestEntityMapper::mapFromEntity).toList();
     }
-    public void save(MeetingRequest meetingRequest){
+
+    public void save(MeetingRequest meetingRequest) {
         MeetingRequestEntity meetingRequestEntity = meetingRequestEntityMapper.mapToEntity(meetingRequest);
         meetingRequestJpaRepository.save(meetingRequestEntity);
     }

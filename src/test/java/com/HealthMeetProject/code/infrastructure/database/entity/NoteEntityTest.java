@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 class NoteEntityTest {
     @Test
-    public void noteEntityTest(){
+    public void noteEntityTest() {
         NoteEntity noteEntity1 = new NoteEntity();
         noteEntity1.setNoteId(3);
         noteEntity1.setDescription("zupaGrzybowa");

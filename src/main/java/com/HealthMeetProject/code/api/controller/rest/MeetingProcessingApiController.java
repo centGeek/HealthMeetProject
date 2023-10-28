@@ -39,7 +39,7 @@ public class MeetingProcessingApiController {
         for (MeetingRequest meetingRequest : meetingRequests) {
             meetingRequest.setDoctor(doctor);
         }
-      return  MeetingRequestsDTOs.of(meetingRequests.stream()
+        return MeetingRequestsDTOs.of(meetingRequests.stream()
                 .filter(request -> request.getDoctor().getDoctorId() == (doctor.getDoctorId()))
                 .filter(request -> request.getVisitStart()
                         .minusMinutes(5).isAfter(LocalDateTime.now()))
@@ -60,6 +60,7 @@ public class MeetingProcessingApiController {
                 .collect(Collectors.toList()));
 
     }
+
     @PatchMapping("/{meetingRequestId}")
     public ResponseEntity<?> confirmMeetingRequest(
             @PathVariable Integer meetingRequestId

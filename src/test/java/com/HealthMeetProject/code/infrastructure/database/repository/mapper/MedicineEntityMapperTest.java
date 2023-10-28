@@ -41,7 +41,7 @@ public class MedicineEntityMapperTest {
         MedicineEntity medicineEntity = mapper.mapToEntity(medicine);
 
         // then
-        assertions(medicineEntity,medicine);
+        assertions(medicineEntity, medicine);
         assertEquals(medicineEntity.getReceipt().getDateTime(),
                 medicine.getReceipt().getDateTime());
         assertEquals(medicineEntity.getReceipt().getDoctor().getEmail(),
@@ -49,7 +49,7 @@ public class MedicineEntityMapperTest {
         assertEquals(medicineEntity.getReceipt().getPatient().getEmail(),
                 medicine.getReceipt().getPatient().getEmail());
 
-        assertNotEquals(medicineEntity.hashCode(),medicine.hashCode());
+        assertNotEquals(medicineEntity.hashCode(), medicine.hashCode());
     }
 
     @Test

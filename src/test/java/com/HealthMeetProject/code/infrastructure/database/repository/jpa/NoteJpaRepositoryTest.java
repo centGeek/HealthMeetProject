@@ -28,8 +28,9 @@ public class NoteJpaRepositoryTest {
     private final NoteJpaRepository noteJpaRepository;
     private final PatientJpaRepository patientJpaRepository;
     private final DoctorJpaRepository doctorJpaRepository;
+
     @BeforeEach
-    public void given(){
+    public void given() {
         PatientEntity patientEntity = NoteExampleFixtures.patientEntityExample1();
         DoctorEntity doctor = DoctorExampleFixtures.doctorEntityExample1();
         doctorJpaRepository.saveAndFlush(doctor);
@@ -41,12 +42,13 @@ public class NoteJpaRepositoryTest {
         noteJpaRepository.saveAndFlush(noteEntity);
 
     }
+
     @Test
-    void thatNotesAreFoundByCustomer(){
+    void thatNotesAreFoundByCustomer() {
         //when
         List<NoteEntity> byPatient = noteJpaRepository.findByPatientEmail(PatientExampleFixtures.patientEntityExample1().getEmail());
         //then
-        Assertions.assertEquals(byPatient.size(),1);
+        Assertions.assertEquals(byPatient.size(), 1);
     }
 
 }

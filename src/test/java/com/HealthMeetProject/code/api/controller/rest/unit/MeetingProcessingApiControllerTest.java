@@ -66,8 +66,8 @@ public class MeetingProcessingApiControllerTest {
         when(meetingRequestService.restAvailableServiceRequestsByDoctor("j.kowalski@gmail.com")).thenReturn(meetingRequests);
 
         //when,then
-        mockMvc.perform(get(MeetingProcessingApiController.BASE_PATH+
-                        "/upcoming-visits/"+doctorId))
+        mockMvc.perform(get(MeetingProcessingApiController.BASE_PATH +
+                        "/upcoming-visits/" + doctorId))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andDo(MockMvcResultHandlers.print());
@@ -93,6 +93,7 @@ public class MeetingProcessingApiControllerTest {
 
         verify(meetingRequestDAO, times(1)).restFindAllEndedUpVisitsByDoctorAndPatient("j.kowalski@gmail.com", meetingRequest.getPatient().getEmail());
     }
+
     @Test
     public void testConfirmMeetingRequest() throws Exception {
         //given
@@ -102,7 +103,7 @@ public class MeetingProcessingApiControllerTest {
 
         //when,then
         mockMvc.perform(MockMvcRequestBuilders.patch(MeetingProcessingApiController.BASE_PATH
-                        +"/{meetingRequestId}", meetingRequestId))
+                        + "/{meetingRequestId}", meetingRequestId))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andDo(MockMvcResultHandlers.print());

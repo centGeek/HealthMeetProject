@@ -46,16 +46,16 @@ public class MeetingRequestService {
     private final DoctorRepository doctorRepository;
 
 
-
-    public boolean canCancelMeeting(LocalDateTime visitStart){
+    public boolean canCancelMeeting(LocalDateTime visitStart) {
         return LocalDateTime.now().plusMinutes(30).plusSeconds(1).isBefore(visitStart);
     }
+
     @Transactional
     public MeetingRequest makeMeetingRequest(Patient patient, DoctorDTO doctorDTO, String description, AvailabilityScheduleDTO visitTimeDTO) {
         validate(patient.getEmail());
         Doctor doctor = doctorMapper.mapFromDTO(doctorDTO);
         AvailabilitySchedule visitTime = availabilityScheduleMapper.mapFromDTO(visitTimeDTO);
-        MeetingRequest meetingServiceRequest = buildMeetingRequest(patient,doctor, description, visitTime);
+        MeetingRequest meetingServiceRequest = buildMeetingRequest(patient, doctor, description, visitTime);
         AvailabilityScheduleEntity visitTimeEntity = availabilityScheduleEntityMapper.mapToEntity(visitTime);
         availabilityScheduleJpaRepository.saveAndFlush(visitTimeEntity);
         patientService.saveMeetingRequest(meetingServiceRequest, patient);
@@ -67,7 +67,7 @@ public class MeetingRequestService {
         List<MeetingRequest> meetingRequests = meetingRequestDAO.findAllActiveMeetingRequests(email);
         if (!meetingRequests.isEmpty()) {
             for (MeetingRequest meetingRequest : meetingRequests) {
-                if(meetingRequest.getVisitStart().isAfter(LocalDateTime.now())){
+                if (meetingRequest.getVisitStart().isAfter(LocalDateTime.now())) {
                     throw new ProcessingException(
                             "There should be only one active meeting request at a time, patient email: [%s]".formatted(email));
                 }
@@ -83,7 +83,7 @@ public class MeetingRequestService {
             AvailabilitySchedule visitTime
     ) {
         LocalDateTime now = LocalDateTime.now();
-             return MeetingRequest.builder()
+        return MeetingRequest.builder()
                 .meetingRequestNumber(generateNumber(now))
                 .receivedDateTime(LocalDateTime.now())
                 .visitStart(visitTime.getSince())
@@ -94,7 +94,7 @@ public class MeetingRequestService {
                 .build();
     }
 
-     String generateNumber(LocalDateTime when) {
+    String generateNumber(LocalDateTime when) {
         return "%s.%s.%s-%s.%s.%s.%s".formatted(
                 when.getYear(),
                 when.getMonth().ordinal(),
@@ -107,11 +107,11 @@ public class MeetingRequestService {
     }
 
     @SuppressWarnings("SameParameterValue")
-   private int randomInt(int min, int max) {
+    private int randomInt(int min, int max) {
         return new Random().nextInt(max - min) + min;
     }
 
-    public List<MeetingRequest> restFindByDoctorEmail(String email){
+    public List<MeetingRequest> restFindByDoctorEmail(String email) {
         return meetingRequestJpaRepository.findAllByDoctorEmail(email)
                 .stream().map(meetingRequestEntityRestApiMapper::mapFromEntity).toList();
     }
@@ -131,7 +131,9 @@ public class MeetingRequestService {
 
     public List<MeetingRequest> availableServiceRequestsByDoctor(String email) {
         return meetingRequestDAO.findAllActiveMeetingRequestsByDoctor(email);
-    }public List<MeetingRequest> restAvailableServiceRequestsByDoctor(String email) {
+    }
+
+    public List<MeetingRequest> restAvailableServiceRequestsByDoctor(String email) {
         return meetingRequestDAO.restFindAllActiveMeetingRequestsByDoctor(email);
 
     }
@@ -139,6 +141,7 @@ public class MeetingRequestService {
     public List<MeetingRequest> availableEndedVisitsByDoctor(String email) {
         return meetingRequestDAO.completedMeetingRequestsByDoctor(email);
     }
+
     public List<AvailabilitySchedule> generateTimeSlots(LocalDateTime since, LocalDateTime toWhen, Doctor doctor) {
         List<AvailabilitySchedule> timeSlots = new ArrayList<>();
         since = since.withMinute((since.getMinute() / 5) * 5);
@@ -147,7 +150,7 @@ public class MeetingRequestService {
 
         while (currentSlot.isBefore(toWhen)) {
             AvailabilitySchedule slot = new AvailabilitySchedule(0, currentSlot, currentSlot.plusMinutes(15), false, true, doctor);
-            if(!existMeetingRequestWithThisSlot(currentSlot, currentSlot.plusMinutes(15), doctor)){
+            if (!existMeetingRequestWithThisSlot(currentSlot, currentSlot.plusMinutes(15), doctor)) {
                 timeSlots.add(slot);
             }
             currentSlot = currentSlot.plusMinutes(15);
@@ -167,11 +170,13 @@ public class MeetingRequestService {
                 meetingRequestJpaRepository.findById(meetingId).orElseThrow(() ->
                         new NotFoundException("Not found meeting request by given id")));
     }
+
     public MeetingRequest restFindById(Integer meetingId) {
         return meetingRequestEntityRestApiMapper.mapFromEntity(
                 meetingRequestJpaRepository.findById(meetingId).orElseThrow(() ->
                         new NotFoundException("Not found meeting request by given id")));
     }
+
     public AvailabilityScheduleDTO getAvailabilitySchedule(Integer availability_schedule_id, Integer selectedSlotId) {
         AvailabilitySchedule availabilitySchedule = availabilityScheduleDAO.findById(availability_schedule_id);
         Doctor doctor = availabilitySchedule.getDoctor();
@@ -179,11 +184,12 @@ public class MeetingRequestService {
         List<AvailabilityScheduleDTO> particularVisitTimeDTO = particularVisitTime.stream().map(availabilityScheduleMapper::mapToDTO).toList();
         return particularVisitTimeDTO.get(selectedSlotId);
     }
+
     public AvailabilityScheduleDTO restGetAvailabilitySchedule(Integer availability_schedule_id, Integer selectedSlotId, String doctorEmail) {
         List<AvailabilitySchedule> availabilitySchedules = availabilityScheduleDAO.restFindAllAvailableTermsByGivenDoctor(doctorEmail);
         AvailabilitySchedule availabilitySchedule = new AvailabilitySchedule();
         for (AvailabilitySchedule schedule : availabilitySchedules) {
-            if(schedule.getAvailability_schedule_id()==availability_schedule_id){
+            if (schedule.getAvailability_schedule_id() == availability_schedule_id) {
                 availabilitySchedule = schedule;
             }
         }
@@ -192,6 +198,7 @@ public class MeetingRequestService {
         List<AvailabilityScheduleDTO> particularVisitTimeDTO = particularVisitTime.stream().map(availabilityScheduleMapper::mapToDTO).toList();
         return particularVisitTimeDTO.get(selectedSlotId);
     }
+
     public List<Boolean> canCancelMeetingList(List<MeetingRequest> allUpcomingVisits) {
         List<Boolean> canCancelMeetingList = new ArrayList<>();
         for (MeetingRequest allUpcomingVisit : allUpcomingVisits) {
@@ -200,6 +207,7 @@ public class MeetingRequestService {
         }
         return canCancelMeetingList;
     }
+
     public List<AvailabilityScheduleDTO> getParticularVisitTimeDTO(Integer availabilityScheduleId) {
         AvailabilitySchedule availabilitySchedule = availabilityScheduleDAO.findById(availabilityScheduleId);
         Doctor doctor = availabilitySchedule.getDoctor();

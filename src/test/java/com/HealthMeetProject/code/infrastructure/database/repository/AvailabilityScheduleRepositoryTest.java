@@ -19,6 +19,7 @@ import java.util.*;
 import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
+
 @ExtendWith(MockitoExtension.class)
 public class AvailabilityScheduleRepositoryTest {
 
@@ -26,7 +27,7 @@ public class AvailabilityScheduleRepositoryTest {
     private AvailabilityScheduleJpaRepository availabilityScheduleJpaRepository;
 
     @Mock
-    private  AvailabilityScheduleMapper availabilityScheduleMapper;
+    private AvailabilityScheduleMapper availabilityScheduleMapper;
 
     @Mock
     private AvailabilityScheduleEntityMapper availabilityScheduleEntityMapper;

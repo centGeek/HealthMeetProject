@@ -30,19 +30,19 @@ public class PatientRegistrationController {
         return "patient_register";
     }
 
-    @PostMapping(PATIENT_REGISTER+"/add")
+    @PostMapping(PATIENT_REGISTER + "/add")
     public String userRegistration(final @Valid PatientDTO patientDTO, final BindingResult bindingResult, final Model model,
                                    HttpServletResponse response) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("registrationForm", patientDTO);
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-            if(!Pattern.matches("^[+]\\d{2}\\s\\d{3}\\s\\d{3}\\s\\d{3}$", patientDTO.getPhone())){
+            if (!Pattern.matches("^[+]\\d{2}\\s\\d{3}\\s\\d{3}\\s\\d{3}$", patientDTO.getPhone())) {
                 model.addAttribute("errorMessage",
                         "Your phone: [%s] needs to fit to pattern: [+xx xxx xxx xxx]".formatted(patientDTO.getPhone()));
                 return "error";
             }
-            if(!Pattern.matches("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" +
-                    "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$", patientDTO.getPhone())){
+            if (!Pattern.matches("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" +
+                    "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$", patientDTO.getPhone())) {
                 model.addAttribute("errorMessage",
                         "Your email: [%s] needs to fit real email pattern".formatted(patientDTO.getEmail()));
                 return "error";

@@ -23,16 +23,16 @@
         <div class="mb-3">
             <h4>Patient Surname: <span th:if="${patient.surname}" th:text="${patient.surname}">N/A</span></h4><br/>
         </div>
-            <div class="mb-3">
-                <h4>Patient Pesel: <span th:if="${patient.pesel}" th:text="${patient.pesel}">N/A</span></h4><br/>
-            </div>
-            <div class="form-group">
-                <label for="note">Illness:</label>
-                <textarea class="form-control" id="illness" name="illness"></textarea>
-            </div>
-            <div class="form-group">
+        <div class="mb-3">
+            <h4>Patient Pesel: <span th:if="${patient.pesel}" th:text="${patient.pesel}">N/A</span></h4><br/>
+        </div>
+        <div class="form-group">
+            <label for="note">Illness:</label>
+            <textarea class="form-control" id="illness" name="illness"></textarea>
+        </div>
+        <div class="form-group">
             <label for="note">Note:</label><textarea class="form-control" id="note" name="description"></textarea>
-            </div>
+        </div>
         <button type="submit" class="btn btn-primary">Write</button>
     </form>
 </div>

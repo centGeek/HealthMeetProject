@@ -77,7 +77,7 @@
             <td th:text="${meetingRequest.receivedDateTime}"></td>
             <td>
                 <form action="#" th:action="@{'/doctor/execute-action/'+${meetingRequest.meetingId}}" th:method="patch">
-                    <input type="hidden" name="meetingRequestId" th:value="${meetingRequest.meetingId}" />
+                    <input type="hidden" name="meetingRequestId" th:value="${meetingRequest.meetingId}"/>
                     <button type="submit">Confirm visit</button>
                 </form>
             </td>
@@ -107,18 +107,21 @@
             <td th:text="${allEndedUpVisits[i].description}"></td>
             <td th:text="${date[i]}"></td>
             <td>
-                <form action="#" th:action="@{'/doctor/issue/note/' + ${allEndedUpVisits[i].meetingId}}" th:method="get">
+                <form action="#" th:action="@{'/doctor/issue/note/' + ${allEndedUpVisits[i].meetingId}}"
+                      th:method="get">
                     <button type="submit">issue note</button>
                 </form>
             </td>
             <td>
-                <form action="#" th:action="@{'/doctor/issue/receipt/' + ${allEndedUpVisits[i].meetingId}}" th:method="get">
-                    <input type="hidden" name="endedVisitId" th:value="${allEndedUpVisits[i].meetingId}" />
+                <form action="#" th:action="@{'/doctor/issue/receipt/' + ${allEndedUpVisits[i].meetingId}}"
+                      th:method="get">
+                    <input type="hidden" name="endedVisitId" th:value="${allEndedUpVisits[i].meetingId}"/>
                     <button type="submit">issue receipt</button>
                 </form>
             </td>
             <td>
-                <form action="#" th:action="@{'/doctor/illness/history/' + ${allEndedUpVisits[i].meetingId}}" th:method="get">
+                <form action="#" th:action="@{'/doctor/illness/history/' + ${allEndedUpVisits[i].meetingId}}"
+                      th:method="get">
                     <button type="submit">illness history</button>
                 </form>
             </td>

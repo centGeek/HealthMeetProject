@@ -21,6 +21,7 @@ public class PatientExampleFixtures {
                 .email("j.kowalski@gmail.com")
                 .build();
     }
+
     public static PatientEntity patientEntityExample2() {
         return PatientEntity.builder()
                 .address(AddressEntity.builder()

@@ -9,9 +9,9 @@ import org.mapstruct.ReportingPolicy;
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 
 public interface NoteEntityMapper {
-    @Mapping(source = "doctor.meetingRequests",target = "doctor.meetingRequests",  ignore = true)
+    @Mapping(source = "doctor.meetingRequests", target = "doctor.meetingRequests", ignore = true)
     NoteEntity mapToEntity(Note note);
-    @Mapping(source = "doctor.meetingRequests",target = "doctor.meetingRequests",  ignore = true)
 
+    @Mapping(source = "doctor.meetingRequests", target = "doctor.meetingRequests", ignore = true)
     Note mapFromEntity(NoteEntity note);
 }

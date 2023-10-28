@@ -10,12 +10,12 @@ public class HomeController {
     public static final String ABOUT = "/about";
 
     @RequestMapping(HOME)
-    public String Home(){
+    public String Home() {
         return "home";
     }
 
     @RequestMapping(ABOUT)
-    public String About(){
+    public String About() {
         return "about";
     }
 

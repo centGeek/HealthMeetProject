@@ -60,7 +60,7 @@ public class GlobalExceptionApiHandlerTest {
         assertEquals("Processing exception occurred: [Processing error]", Objects.requireNonNull(response.getBody()).get("errorMessage"));
     }
 
-@Test
+    @Test
     void handleIllegalArgumentException_ShouldReturnBadRequest() {
         IllegalArgumentException ex = new IllegalArgumentException("Invalid argument");
         ResponseEntity<Map<String, String>> response = exceptionHandler.handleIllegalArgumentException(ex);
@@ -68,6 +68,7 @@ public class GlobalExceptionApiHandlerTest {
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         assertEquals("Invalid argument", Objects.requireNonNull(response.getBody()).get("errorMessage"));
     }
+
     @Test
     void handleBindException_ShouldReturnBadRequest() {
         Object targetObject = new Object();

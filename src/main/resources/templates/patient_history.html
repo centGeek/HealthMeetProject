@@ -168,7 +168,8 @@
     <br>
     <br>
     <h3>Your total spending for doctor's visit and medicine is:
-        <span th:if="${patientHistoryDTO.totalCosts}" th:text="${patientHistoryDTO.totalCosts}" class="text-primary font-weight-bold"></span>
+        <span th:if="${patientHistoryDTO.totalCosts}" th:text="${patientHistoryDTO.totalCosts}"
+              class="text-primary font-weight-bold"></span>
         <span th:unless="${patientHistoryDTO.totalCosts}" class="text-muted">0</span></h3>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js"></script>

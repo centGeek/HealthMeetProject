@@ -16,7 +16,7 @@ public class PatientDTOTest {
         Address address1 = new Address(1L, "Street1", "City1", "Zip1", "yes");
         Address address2 = new Address(2L, "Street2", "City2", "Zip2", "yes");
         UserData userData1 = new UserData(1, "Username1", "Password1", "email@gmail.com", true, Set.of(RoleEntity.builder().id(1).role("PATIENT").build()));
-        UserData userData2 = new UserData(2, "Username2", "Password2", "email@gmail.com",true, Set.of(RoleEntity.builder().id(1).role("PATIENT").build()));
+        UserData userData2 = new UserData(2, "Username2", "Password2", "email@gmail.com", true, Set.of(RoleEntity.builder().id(1).role("PATIENT").build()));
 
         PatientDTO patient1 = PatientDTO.builder()
                 .name("John")
@@ -85,7 +85,7 @@ public class PatientDTOTest {
         Address address1 = new Address(1L, "Street1", "City1", "Zip1", "yes");
         Address address2 = new Address(2L, "Street2", "City2", "Zip2", "yes");
         UserData userData1 = new UserData(1, "Username1", "Password1", "email@gmail.com", true, Set.of(RoleEntity.builder().id(1).role("PATIENT").build()));
-        UserData userData2 = new UserData(2, "Username2", "Password2", "email@gmail.com",true, Set.of(RoleEntity.builder().id(1).role("PATIENT").build()));
+        UserData userData2 = new UserData(2, "Username2", "Password2", "email@gmail.com", true, Set.of(RoleEntity.builder().id(1).role("PATIENT").build()));
 
 
         PatientDTO patient1 = PatientDTO.builder()

@@ -80,6 +80,7 @@ class DoctorServiceTest {
 
         assertFalse(doctorService.userHasPatientPermission());
     }
+
     @Test
     void findAllAvailableDoctorsTest() {
         UserDetails userDetails = new User("testuser", "password", Collections.singletonList(new SimpleGrantedAuthority("PATIENT")));
@@ -95,6 +96,7 @@ class DoctorServiceTest {
         List<Doctor> result = doctorService.findAllAvailableDoctors();
         Assertions.assertEquals(result, test);
     }
+
     @Test
     void testFindByEmailDoctorFound() {
         Doctor sampleDoctor = DoctorExampleFixtures.doctorExample1();
@@ -103,6 +105,7 @@ class DoctorServiceTest {
         Doctor foundDoctor = doctorService.findByEmail("existent@example.com");
         assertNotNull(foundDoctor);
     }
+
     @Test
     void testFindByEmailDoctorNotFound() {
         when(doctorDAO.findByEmail("nonexistent@example.com")).thenReturn(Optional.empty());
@@ -114,6 +117,7 @@ class DoctorServiceTest {
         String actualMessage = exception.getMessage();
         assertEquals(expectedMessage, actualMessage);
     }
+
     @Test
     void testWriteNoteSuccessful() {
         when(noteRepository.isThereNoteWithTheSameTimeVisitAndDoctor(any(), any(), any())).thenReturn(false);

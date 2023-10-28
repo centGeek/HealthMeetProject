@@ -16,7 +16,7 @@
 <body>
 <div class="container mt-5">
     <h1 class="mb-4">Making request form</h1>
-    <form  action="#" th:action="@{/patient/terms/add/meeting_request}" method="POST">
+    <form action="#" th:action="@{/patient/terms/add/meeting_request}" method="POST">
         <div class="mb-3">
             <h4>Visit start: <span th:if="${visitTerm.since}" th:text="${visitTerm.since}">N/A</span></h4><br/>
         </div>
@@ -24,16 +24,20 @@
             <h4>Visit end: <span th:if="${visitTerm.toWhen}" th:text="${visitTerm.toWhen}">N/A</span></h4><br/>
         </div>
         <div class="mb-3">
-            <h4>Doctor Name: <span th:if="${visitTerm.doctor.name}" th:text="${visitTerm.doctor.name}">N/A</span></h4><br/>
+            <h4>Doctor Name: <span th:if="${visitTerm.doctor.name}" th:text="${visitTerm.doctor.name}">N/A</span></h4>
+            <br/>
         </div>
         <div class="mb-3">
-            <h4>Doctor Surname: <span th:if="${visitTerm.doctor.surname}" th:text="${visitTerm.doctor.surname}">N/A</span></h4><br/>
+            <h4>Doctor Surname: <span th:if="${visitTerm.doctor.surname}"
+                                      th:text="${visitTerm.doctor.surname}">N/A</span></h4><br/>
         </div>
         <div class="mb-3">
-            <h4>Doctor Specialization: <span th:if="${visitTerm.doctor.specialization}" th:text="${visitTerm.doctor.specialization}">N/A</span></h4><br/>
+            <h4>Doctor Specialization: <span th:if="${visitTerm.doctor.specialization}"
+                                             th:text="${visitTerm.doctor.specialization}">N/A</span></h4><br/>
         </div>
         <div class="mb-3">
-            <h4>Visit cost: <span th:if="${visitTerm.doctor.earningsPerVisit}" th:text="${visitTerm.doctor.earningsPerVisit}">N/A</span></h4><br/>
+            <h4>Visit cost: <span th:if="${visitTerm.doctor.earningsPerVisit}"
+                                  th:text="${visitTerm.doctor.earningsPerVisit}">N/A</span></h4><br/>
         </div>
         <div class="mb-3">
             <label for="description" class="form-label"><h4>Description:</h4></label>

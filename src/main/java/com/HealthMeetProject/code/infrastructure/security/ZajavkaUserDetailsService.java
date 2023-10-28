@@ -20,22 +20,25 @@ public class ZajavkaUserDetailsService implements UserDetailsService {
 
 
     private final UserRepository userRepository;
+
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         UserEntity user = userRepository.findByEmail(email);
-        if(Objects.isNull(user)){
+        if (Objects.isNull(user)) {
             throw new NotFoundException("User with email [%s] and given password doesn't exist".formatted(email));
         }
         List<SimpleGrantedAuthority> authorities = getUserAuthority(user.getRoles());
         return buildUserForAuthentication(user, authorities);
     }
+
     private List<SimpleGrantedAuthority> getUserAuthority(Set<RoleEntity> userRoles) {
         return userRoles.stream()
                 .map(role -> new SimpleGrantedAuthority(role.getRole()))
                 .distinct()
                 .toList();
     }
+
     private UserDetails buildUserForAuthentication(
             UserEntity user,
             List<SimpleGrantedAuthority> authorities

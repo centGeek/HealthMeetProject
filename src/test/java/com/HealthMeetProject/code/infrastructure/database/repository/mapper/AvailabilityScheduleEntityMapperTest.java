@@ -59,6 +59,7 @@ public class AvailabilityScheduleEntityMapperTest {
         //then
         assertEquals(entity, schedule);
     }
+
     @Test
     public void shouldMapMeetingRequest() {
         //given
@@ -77,9 +78,6 @@ public class AvailabilityScheduleEntityMapperTest {
         Assertions.assertEquals(schedule.getDoctor().getEarningsPerVisit(), availabilitySchedule.getDoctor().getEarningsPerVisit());
         //when
     }
-
-
-
 
 
 }

@@ -37,6 +37,7 @@ public class PatientApiController {
             throw new IllegalArgumentException("Problem with deleting occurred");
         }
     }
+
     @PostMapping
     public ResponseEntity<PatientDTO> registerPatient(@RequestBody @Valid Patient patient) {
         PatientDTO patientDTO = patientMapper.mapToDTO(patient);
@@ -48,15 +49,15 @@ public class PatientApiController {
 
     @GetMapping("/{id}")
     public PatientDTO getPatientById(@PathVariable Integer id) {
-        return  patientMapper.mapToDTO(patientDAO.findById(id));
+        return patientMapper.mapToDTO(patientDAO.findById(id));
 
     }
+
     @GetMapping("/by-email/{email}")
     public PatientDTO getPatientByEmail(@PathVariable String email) {
-        return  patientMapper.mapToDTO(patientDAO.findByEmail(email));
+        return patientMapper.mapToDTO(patientDAO.findByEmail(email));
 
     }
-
 
 
     @PatchMapping("/{patientId}/edit")

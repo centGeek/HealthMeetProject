@@ -23,13 +23,15 @@ import static com.HealthMeetProject.code.util.PatientExampleFixtures.*;
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class PatientJpaRepositoryTest {
     private PatientJpaRepository patientJpaRepository;
-    public void given(){
+
+    public void given() {
         Set<PatientEntity> patientEntities = Set.of(patientEntityExample1(), patientEntityExample2(), patientEntityExample3());
         patientJpaRepository.saveAllAndFlush(patientEntities);
 
     }
+
     @Test
-    void findPatientByEmail(){
+    void findPatientByEmail() {
         given();
         //when
         Optional<PatientEntity> byEmail = patientJpaRepository.findByEmail(patientEntityExample1().getEmail());

@@ -19,7 +19,7 @@ import static org.mockito.Mockito.*;
 public class MedicineRepositoryTest {
 
     @Mock
-    private  MedicineJpaRepository medicineJpaRepository;
+    private MedicineJpaRepository medicineJpaRepository;
 
 
     @Test
@@ -43,6 +43,7 @@ public class MedicineRepositoryTest {
             assertEquals(receiptId, medicineEntity.getReceipt().getReceiptId());
         }
     }
+
     @Test
     public void testFindByPatientEmail() {
         //given

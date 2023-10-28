@@ -43,7 +43,7 @@ public class MeetingProcessingController {
         String email = doctorService.authenticateDoctor();
         List<MeetingRequest> meetingRequests = meetingRequestService.availableServiceRequestsByDoctor(email);
         List<MeetingRequest> collect = meetingRequests.stream().filter(request -> request.getDoctor().getDoctorId() == byId.getDoctorId()
-                && request.getCompletedDateTime()==null).filter(request -> request.getVisitStart()
+                && request.getCompletedDateTime() == null).filter(request -> request.getVisitStart()
                 .minusMinutes(5).isAfter(LocalDateTime.now())).collect(Collectors.toList());
         List<String> collectToString = new ArrayList<>();
         formatDate(collect, collectToString);
@@ -78,17 +78,18 @@ public class MeetingProcessingController {
     public String confirmMeetingRequest(
             @PathVariable("meetingRequestId") Integer meetingRequestId
     ) {
-         meetingRequestService.executeActionForMeetingRequest(meetingRequestId);
+        meetingRequestService.executeActionForMeetingRequest(meetingRequestId);
         return "redirect:/doctor";
     }
+
     @GetMapping("/doctor/search-by/email")
     public String findByPatientEmail(
             @RequestParam String patientEmail,
             Model model
-    ){
+    ) {
         String doctorEmail = doctorService.authenticateDoctor();
         List<MeetingRequest> meetingRequests = meetingRequestService.availableServiceRequestsByDoctor(doctorEmail);
-        List<MeetingRequest> allEndedUpVisits= meetingRequestDAO.findAllEndedUpVisitsByDoctorAndPatient(doctorEmail, patientEmail).stream()
+        List<MeetingRequest> allEndedUpVisits = meetingRequestDAO.findAllEndedUpVisitsByDoctorAndPatient(doctorEmail, patientEmail).stream()
                 .sorted(Comparator.comparing(MeetingRequest::getVisitEnd).reversed()).toList();
         List<String> date = new ArrayList<>();
         formatDate(allEndedUpVisits, date);

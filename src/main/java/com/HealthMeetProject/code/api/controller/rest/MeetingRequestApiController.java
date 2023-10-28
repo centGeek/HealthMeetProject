@@ -46,13 +46,13 @@ public class MeetingRequestApiController {
 
     @PostMapping("/finalize")
     public ResponseEntity<?> finalizeMeetingRequest(
-           @RequestBody FinalizeSlotDTO finalizeSlotDTO
+            @RequestBody FinalizeSlotDTO finalizeSlotDTO
     ) {
         if (finalizeSlotDTO.getAvailabilityScheduleId() == null || finalizeSlotDTO.getSelectedSlotId() == null) {
             throw new ProcessingException("some unexpected error occurred");
         }
         AvailabilityScheduleDTO visitTermDTO = meetingRequestService.restGetAvailabilitySchedule(finalizeSlotDTO.getAvailabilityScheduleId()
-                , finalizeSlotDTO.getSelectedSlotId(),finalizeSlotDTO.getDoctorEmail());
+                , finalizeSlotDTO.getSelectedSlotId(), finalizeSlotDTO.getDoctorEmail());
         visitTermDTO.setAvailableTerm(false);
         AvailabilitySchedule availabilitySchedule = availabilityScheduleMapper.mapFromDTO(visitTermDTO);
         availabilityScheduleService.save(availabilitySchedule);
@@ -78,10 +78,11 @@ public class MeetingRequestApiController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+
     @GetMapping("/{email}")
     public MeetingRequestsDTOs getMeetingRequestsByDoctor(
             @PathVariable String email
-    ){
+    ) {
         List<MeetingRequest> all = meetingRequestService.restFindByDoctorEmail(email);
         return MeetingRequestsDTOs.of(all);
     }

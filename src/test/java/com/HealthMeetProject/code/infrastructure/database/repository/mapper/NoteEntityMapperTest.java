@@ -36,7 +36,7 @@ public class NoteEntityMapperTest {
         Note note = mapper.mapFromEntity(noteEntity);
 
         // then
-        assertions(note,noteEntity);
+        assertions(note, noteEntity);
     }
 
     @Test

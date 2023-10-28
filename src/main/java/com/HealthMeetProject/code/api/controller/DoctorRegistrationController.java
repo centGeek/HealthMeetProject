@@ -55,13 +55,13 @@ public class DoctorRegistrationController {
     private String handleMistakes(DoctorDTO doctorDTO, BindingResult bindingResult, ModelMap model, HttpServletResponse response) {
         if (bindingResult.hasErrors()) {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-            if(!Pattern.matches("^[+]\\d{2}\\s\\d{3}\\s\\d{3}\\s\\d{3}$", doctorDTO.getPhone())){
+            if (!Pattern.matches("^[+]\\d{2}\\s\\d{3}\\s\\d{3}\\s\\d{3}$", doctorDTO.getPhone())) {
                 model.addAttribute("errorMessage",
                         "Your phone: [%s] needs to fit to pattern: [+xx xxx xxx xxx]".formatted(doctorDTO.getPhone()));
                 return "error";
             }
-            if(!Pattern.matches("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" +
-            "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$", doctorDTO.getPhone())){
+            if (!Pattern.matches("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" +
+                    "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$", doctorDTO.getPhone())) {
                 model.addAttribute("errorMessage",
                         "Your email: [%s] needs to fit real email pattern".formatted(doctorDTO.getEmail()));
                 return "error";

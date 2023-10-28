@@ -49,7 +49,6 @@ public class PatientHistoryDTOServiceTest {
     private PatientHistoryDTOService patientHistoryDTOService;
 
 
-
     @Test
     public void testPatientHistoryDTOWithUpcomingVisits() {
         // Given
@@ -81,17 +80,18 @@ public class PatientHistoryDTOServiceTest {
         Assertions.assertEquals(result.getReceipts().get(0).getDateTime(), receipts.get(0).getDateTime());
         Assertions.assertEquals(result.getReceipts().get(0).getReceiptNumber(), receipts.get(0).getReceiptNumber());
     }
+
     @Test
     public void testNoArgsConstructor() {
         PatientHistoryDTO patientHistoryDTO = new PatientHistoryDTO();
         Assertions.assertNotNull(patientHistoryDTO);
-      Assertions.assertNull(patientHistoryDTO.getAllUpcomingVisits());
-      Assertions.assertNull(patientHistoryDTO.getCanCancelMeetingList());
-      Assertions.assertNull(patientHistoryDTO.getAllCompletedServiceRequests());
-      Assertions.assertNull(patientHistoryDTO.getNotes());
-      Assertions.assertNull(patientHistoryDTO.getTotalCosts());
-      Assertions.assertNull(patientHistoryDTO.getReceipts());
-      Assertions.assertNull(patientHistoryDTO.getMedicinesFromLastVisit());
+        Assertions.assertNull(patientHistoryDTO.getAllUpcomingVisits());
+        Assertions.assertNull(patientHistoryDTO.getCanCancelMeetingList());
+        Assertions.assertNull(patientHistoryDTO.getAllCompletedServiceRequests());
+        Assertions.assertNull(patientHistoryDTO.getNotes());
+        Assertions.assertNull(patientHistoryDTO.getTotalCosts());
+        Assertions.assertNull(patientHistoryDTO.getReceipts());
+        Assertions.assertNull(patientHistoryDTO.getMedicinesFromLastVisit());
     }
 
     @Test
@@ -114,14 +114,14 @@ public class PatientHistoryDTOServiceTest {
                 upcomingVisits, canCancelMeetingList, completedServiceRequests,
                 notes, totalCosts, receipts, medicinesFromLastVisit);
 
-      Assertions.assertNotNull(patientHistoryDTO);
-      Assertions.assertEquals(upcomingVisits, patientHistoryDTO.getAllUpcomingVisits());
-      Assertions.assertEquals(canCancelMeetingList, patientHistoryDTO.getCanCancelMeetingList());
-      Assertions.assertEquals(completedServiceRequests, patientHistoryDTO.getAllCompletedServiceRequests());
-      Assertions.assertEquals(notes, patientHistoryDTO.getNotes());
-      Assertions.assertEquals(totalCosts, patientHistoryDTO.getTotalCosts());
-      Assertions.assertEquals(receipts, patientHistoryDTO.getReceipts());
-      Assertions.assertEquals(medicinesFromLastVisit, patientHistoryDTO.getMedicinesFromLastVisit());
+        Assertions.assertNotNull(patientHistoryDTO);
+        Assertions.assertEquals(upcomingVisits, patientHistoryDTO.getAllUpcomingVisits());
+        Assertions.assertEquals(canCancelMeetingList, patientHistoryDTO.getCanCancelMeetingList());
+        Assertions.assertEquals(completedServiceRequests, patientHistoryDTO.getAllCompletedServiceRequests());
+        Assertions.assertEquals(notes, patientHistoryDTO.getNotes());
+        Assertions.assertEquals(totalCosts, patientHistoryDTO.getTotalCosts());
+        Assertions.assertEquals(receipts, patientHistoryDTO.getReceipts());
+        Assertions.assertEquals(medicinesFromLastVisit, patientHistoryDTO.getMedicinesFromLastVisit());
     }
 
     @Test
@@ -150,14 +150,14 @@ public class PatientHistoryDTOServiceTest {
                 .medicinesFromLastVisit(medicinesFromLastVisit)
                 .build();
 
-      Assertions.assertNotNull(patientHistoryDTO);
+        Assertions.assertNotNull(patientHistoryDTO);
         Assertions.assertEquals(upcomingVisits, patientHistoryDTO.getAllUpcomingVisits());
         Assertions.assertEquals(canCancelMeetingList, patientHistoryDTO.getCanCancelMeetingList());
         Assertions.assertEquals(completedServiceRequests, patientHistoryDTO.getAllCompletedServiceRequests());
-      Assertions.assertEquals(notes, patientHistoryDTO.getNotes());
-      Assertions.assertEquals(totalCosts, patientHistoryDTO.getTotalCosts());
-      Assertions.assertEquals(receipts, patientHistoryDTO.getReceipts());
-      Assertions.assertEquals(medicinesFromLastVisit, patientHistoryDTO.getMedicinesFromLastVisit());
+        Assertions.assertEquals(notes, patientHistoryDTO.getNotes());
+        Assertions.assertEquals(totalCosts, patientHistoryDTO.getTotalCosts());
+        Assertions.assertEquals(receipts, patientHistoryDTO.getReceipts());
+        Assertions.assertEquals(medicinesFromLastVisit, patientHistoryDTO.getMedicinesFromLastVisit());
     }
 
     @Test

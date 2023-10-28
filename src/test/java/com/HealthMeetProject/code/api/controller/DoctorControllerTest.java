@@ -49,13 +49,14 @@ public class DoctorControllerTest {
     private final PatientService patientService;
     @MockBean
     private final PatientDAO patientDAO;
+
     @Test
     public void testDoctorsPage() throws Exception {
         String email = PatientExampleFixtures.patientEntityExample1().getEmail();
         Mockito.when(patientService.authenticate()).thenReturn(email);
         Mockito.when(patientDAO.findByEmail(any())).thenReturn(PatientExampleFixtures.patientExample1());
         Mockito.when(doctorService.findAllAvailableDoctors()).thenReturn(List.of(DoctorExampleFixtures.doctorExample1(),
-                        DoctorExampleFixtures.doctorExample3()));
+                DoctorExampleFixtures.doctorExample3()));
         Mockito.when(doctorMapper.mapToDTO(DoctorExampleFixtures.doctorExample1())).thenReturn(DoctorDTOFixtures.getDoctorDTO1());
         Mockito.when(doctorMapper.mapToDTO(DoctorExampleFixtures.doctorExample3())).thenReturn(DoctorDTOFixtures.getDoctorDTO2());
         mockMvc.perform(MockMvcRequestBuilders.get("/patient"))
@@ -90,6 +91,7 @@ public class DoctorControllerTest {
                 .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
                 .andExpect(MockMvcResultMatchers.view().name("redirect:/logout"));
     }
+
     @Test
     public void testDeleteVisit() throws Exception {
         int meetingId = 5;

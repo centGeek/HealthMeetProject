@@ -27,8 +27,9 @@ public class PatientMapperTest {
         PatientDTO patientDTO = mapper.mapToDTO(patient);
 
         // then
-        assertions(patientDTO,patient);
+        assertions(patientDTO, patient);
     }
+
     private static void assertions(PatientDTO patientDTO, Patient patient) {
         assertEquals(patientDTO.getEmail(), patient.getEmail());
         assertEquals(patientDTO.getPesel(), patient.getPesel());

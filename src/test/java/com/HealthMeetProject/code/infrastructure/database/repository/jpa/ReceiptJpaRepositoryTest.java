@@ -31,8 +31,9 @@ public class ReceiptJpaRepositoryTest {
     private final ReceiptJpaRepository receiptJpaRepository;
     private final PatientJpaRepository patientJpaRepository;
     private final DoctorJpaRepository doctorJpaRepository;
+
     @BeforeEach
-    public void given(){
+    public void given() {
         //given
         Set<PatientEntity> patientEntities = Set.of(patientEntityExample1(), patientEntityExample2());
         patientJpaRepository.saveAllAndFlush(patientEntities);
@@ -49,8 +50,9 @@ public class ReceiptJpaRepositoryTest {
         Set<ReceiptEntity> setOf = Set.of(receiptEntity1, receiptEntity2, receiptEntity3);
         receiptJpaRepository.saveAllAndFlush(setOf);
     }
+
     @Test
-    void thatReceiptsAreFoundByClient(){
+    void thatReceiptsAreFoundByClient() {
         //when
         List<ReceiptEntity> patientReceipts = receiptJpaRepository.findPatientReceipts(patientEntityExample1().getEmail());
         //then

@@ -9,7 +9,7 @@ import java.util.List;
 
 class MeetingRequestsDTOsTest {
     @Test
-    public void availabilityScheduleEquals(){
+    public void availabilityScheduleEquals() {
         MeetingRequestsDTOs meetingRequestDTO = MeetingRequestsDTOs.of(List.of());
         MeetingRequest meetingRequest = MeetingRequestsExampleFixtures.meetingRequestDataExample1();
         meetingRequest.setDoctor(null);

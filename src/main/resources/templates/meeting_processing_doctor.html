@@ -77,14 +77,16 @@
             <td th:text="${meetingRequests[i].description}"></td>
             <td th:text="${meetingRequestsDatesToString[i]}"></td>
             <td>
-                <form action="#" th:action="@{'/doctor/execute-action/' + ${meetingRequests[i].meetingId}}" th:method="patch">
-                    <input type="hidden" name="meetingRequestId" th:value="${meetingRequests[i].meetingId}" />
+                <form action="#" th:action="@{'/doctor/execute-action/' + ${meetingRequests[i].meetingId}}"
+                      th:method="patch">
+                    <input type="hidden" name="meetingRequestId" th:value="${meetingRequests[i].meetingId}"/>
                     <button type="submit">Confirm visit</button>
                 </form>
             </td>
             <td>
-                <form action="#" th:action="@{'/doctor/delete-visit/' + ${meetingRequests[i].meetingId}}" th:method="delete">
-                    <input type="hidden" name="meetingRequestId" th:value="${meetingRequests[i].meetingId}" />
+                <form action="#" th:action="@{'/doctor/delete-visit/' + ${meetingRequests[i].meetingId}}"
+                      th:method="delete">
+                    <input type="hidden" name="meetingRequestId" th:value="${meetingRequests[i].meetingId}"/>
                     <button type="submit">Delete visit</button>
                 </form>
             </td>
@@ -99,7 +101,7 @@
     <h1>Add receipt or note to ended up visit</h1>
     <div class="search-form">
         <form action="#" th:action="@{/doctor/search-by/email}" method="get">
-            <input type="text" name="patientEmail" placeholder="Enter Patient Email" />
+            <input type="text" name="patientEmail" placeholder="Enter Patient Email"/>
             <button type="submit">Search</button>
         </form>
     </div>
@@ -126,12 +128,13 @@
             </td>
             <td>
                 <form action="#" th:action="@{'/doctor/issue/receipt/' + ${endedVisits[i].meetingId}}" th:method="get">
-                    <input type="hidden" name="endedVisitId" th:value="${endedVisits[i].meetingId}" />
+                    <input type="hidden" name="endedVisitId" th:value="${endedVisits[i].meetingId}"/>
                     <button type="submit">issue receipt</button>
                 </form>
             </td>
             <td>
-                <form action="#" th:action="@{'/doctor/illness/history/' + ${endedVisits[i].meetingId}}" th:method="get">
+                <form action="#" th:action="@{'/doctor/illness/history/' + ${endedVisits[i].meetingId}}"
+                      th:method="get">
                     <button type="submit">illness history</button>
                 </form>
             </td>

@@ -36,6 +36,7 @@ public class SecurityConfiguration {
         provider.setUserDetailsService(userDetailsService);
         return provider;
     }
+
     @Bean
     public AuthenticationManager authenticationManager(
             HttpSecurity http,
@@ -47,7 +48,7 @@ public class SecurityConfiguration {
                 .build();
     }
 
-//    @Bean
+    //    @Bean
 //    @ConditionalOnProperty(value = "spring.security.enabled", havingValue = "true", matchIfMissing =
 //            true)
 //    SecurityFilterChain securityEnabled(HttpSecurity http) throws Exception {

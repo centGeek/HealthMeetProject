@@ -71,6 +71,7 @@ public class MeetingRequestControllerTest {
                 .andExpect(model().attribute("givenAvailabilitySchedule", availabilityScheduleDTO))
                 .andExpect(model().attributeExists("particularVisitTime"));
     }
+
     @Test
     void testFinalizeMeetingRequest() throws Exception {
         // Mock data

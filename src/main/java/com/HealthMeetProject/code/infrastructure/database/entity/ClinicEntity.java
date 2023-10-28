@@ -33,5 +33,4 @@ public class ClinicEntity {
     private DoctorEntity doctorEntity;
 
 
-
 }
