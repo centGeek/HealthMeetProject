@@ -1,8 +1,5 @@
 package com.HealthMeetProject.code.api.dto;
 
-import com.HealthMeetProject.code.api.dto.DoctorDTO;
-import com.HealthMeetProject.code.api.dto.PatientDTO;
-import com.HealthMeetProject.code.api.dto.ReceiptDTO;
 import com.HealthMeetProject.code.util.DoctorDTOFixtures;
 import com.HealthMeetProject.code.util.PatientDTOFixtures;
 import org.junit.jupiter.api.Test;

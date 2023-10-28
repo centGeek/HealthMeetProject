@@ -1,6 +1,5 @@
 package com.HealthMeetProject.code.api.dto.api;
 
-import com.HealthMeetProject.code.api.dto.api.NoteDTOs;
 import com.HealthMeetProject.code.domain.Note;
 import com.HealthMeetProject.code.util.NoteExampleFixtures;
 import org.junit.jupiter.api.Test;

@@ -5,7 +5,6 @@ import com.HealthMeetProject.code.api.dto.DoctorDTO;
 import com.HealthMeetProject.code.api.dto.api.DoctorDTOs;
 import com.HealthMeetProject.code.domain.Doctor;
 import com.HealthMeetProject.code.domain.Receipt;
-import com.HealthMeetProject.code.infrastructure.database.entity.AvailabilityScheduleEntity;
 import com.HealthMeetProject.code.infrastructure.database.entity.MedicineEntity;
 import com.HealthMeetProject.code.infrastructure.database.entity.NoteEntity;
 

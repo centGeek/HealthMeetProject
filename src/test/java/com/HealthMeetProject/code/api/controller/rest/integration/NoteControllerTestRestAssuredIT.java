@@ -4,7 +4,10 @@ import com.HealthMeetProject.code.api.controller.rest.integration.support.Doctor
 import com.HealthMeetProject.code.api.controller.rest.integration.support.MeetingRequestControllerTestSupport;
 import com.HealthMeetProject.code.api.controller.rest.integration.support.NoteControllerTestSupport;
 import com.HealthMeetProject.code.api.controller.rest.integration.support.PatientControllerTestSupport;
-import com.HealthMeetProject.code.api.dto.*;
+import com.HealthMeetProject.code.api.dto.DoctorDTO;
+import com.HealthMeetProject.code.api.dto.MeetingRequestDTO;
+import com.HealthMeetProject.code.api.dto.PatientDTO;
+import com.HealthMeetProject.code.api.dto.UserData;
 import com.HealthMeetProject.code.api.dto.api.IllnessHistoryDTOs;
 import com.HealthMeetProject.code.api.dto.api.MeetingRequestsDTOs;
 import com.HealthMeetProject.code.api.dto.mapper.DoctorMapper;

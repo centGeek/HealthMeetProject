@@ -1,6 +1,5 @@
 package com.HealthMeetProject.code.api.dto.api;
 
-import com.HealthMeetProject.code.api.dto.api.IllnessHistoryDTOs;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

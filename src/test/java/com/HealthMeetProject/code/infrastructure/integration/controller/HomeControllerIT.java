@@ -33,14 +33,14 @@ public class HomeControllerIT extends AbstractIT {
         String url = String.format("http://localhost:%s%s/patient", port, basePath);
 
         String page = this.testRestTemplate.getForObject(url, String.class);
-        Assertions.assertThat(page).contains("Please sign in");
+        Assertions.assertThat(page).contains("Login Form");
     }
     @Test
     void thatDoctorLoggingPageLoadedCorrectly(){
         String url = String.format("http://localhost:%s%s/doctor", port, basePath);
 
         String page = this.testRestTemplate.getForObject(url, String.class);
-        Assertions.assertThat(page).contains("Please sign in");
+        Assertions.assertThat(page).contains("Login Form");
     }
     @Test
     void thatDoctorRegistryPageLoadedCorrectly(){

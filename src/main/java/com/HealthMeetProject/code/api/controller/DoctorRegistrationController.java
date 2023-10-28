@@ -13,11 +13,13 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.regex.Pattern;
 
 @Controller
 @AllArgsConstructor
+@RequestMapping(DoctorRegistrationController.DOCTOR_REGISTER)
 public class DoctorRegistrationController {
 
 
@@ -25,13 +27,13 @@ public class DoctorRegistrationController {
     public static final String DOCTOR_REGISTER = "/doctor_register";
 
 
-    @GetMapping(DOCTOR_REGISTER)
+    @GetMapping()
     public String register(final Model model) {
         model.addAttribute("userData", DoctorDTO.builder().user(UserData.builder().active(true).build()).build());
         return "doctor_register";
     }
 
-    @PostMapping(DOCTOR_REGISTER+"/add")
+    @PostMapping("/add")
     public String userRegistration(final @Valid DoctorDTO doctorDTO,
                                    final BindingResult bindingResult, ModelMap model, HttpServletResponse response) {
         String error = handleMistakes(doctorDTO, bindingResult, model, response);

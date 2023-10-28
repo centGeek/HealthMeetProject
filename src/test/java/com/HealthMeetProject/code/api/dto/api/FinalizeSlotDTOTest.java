@@ -1,8 +1,9 @@
 package com.HealthMeetProject.code.api.dto.api;
 
-import com.HealthMeetProject.code.api.dto.api.FinalizeSlotDTO;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class FinalizeSlotDTOTest {
 

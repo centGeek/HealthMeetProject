@@ -1,7 +1,6 @@
 package com.HealthMeetProject.code.api.dto.api;
 
 import com.HealthMeetProject.code.api.dto.DoctorDTO;
-import com.HealthMeetProject.code.api.dto.api.DoctorDTOs;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

@@ -10,12 +10,12 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractAuthenticationFilterConfigurer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -47,11 +47,38 @@ public class SecurityConfiguration {
                 .build();
     }
 
+//    @Bean
+//    @ConditionalOnProperty(value = "spring.security.enabled", havingValue = "true", matchIfMissing =
+//            true)
+//    SecurityFilterChain securityEnabled(HttpSecurity http) throws Exception {
+//        return http
+//                .csrf(AbstractHttpConfigurer::disable)
+//                .authorizeHttpRequests(requests -> requests
+//                        .requestMatchers("/login", "/error", "/images/no_way.png", "/", "/doctor_register", "/patient_register", "/about",
+//                                "/doctor_register/add", "/patient_register/add").permitAll()
+//                        .requestMatchers("/patient/**", "terms/**").hasAnyAuthority("PATIENT")
+//                        .requestMatchers("/doctor/**").hasAnyAuthority("DOCTOR")
+//                        .requestMatchers("/api/**", "/swagger-ui/**").hasAnyAuthority("REST_API")
+//                        .anyRequest().authenticated()
+//                )
+//                .formLogin(loginConfigurer -> loginConfigurer.passwordParameter("password")
+//                        .usernameParameter("email")
+//                        .loginPage("/login")
+//                        .defaultSuccessUrl("/home")
+//                        .permitAll())
+//                .logout(logout -> logout
+//                        .logoutSuccessUrl("/")
+//                        .invalidateHttpSession(true)
+//                        .deleteCookies("JSESSIONID")
+//                        .permitAll()
+//
+//                )
+//
+//                .build();
+//    }
     @Bean
-    @ConditionalOnProperty(value = "spring.security.enabled", havingValue = "true", matchIfMissing =
-            true)
-    SecurityFilterChain securityEnabled(HttpSecurity http) throws Exception {
-        return http
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(requests -> requests
                         .requestMatchers("/login", "/error", "/images/no_way.png", "/", "/doctor_register", "/patient_register", "/about",
@@ -60,18 +87,20 @@ public class SecurityConfiguration {
                         .requestMatchers("/doctor/**").hasAnyAuthority("DOCTOR")
                         .requestMatchers("/api/**", "/swagger-ui/**").hasAnyAuthority("REST_API")
                         .anyRequest().authenticated()
-                )
-                .formLogin(AbstractAuthenticationFilterConfigurer::permitAll)
-                .logout(logout -> logout
-                        .logoutSuccessUrl("/")
-                        .invalidateHttpSession(true)
-                        .deleteCookies("JSESSIONID")
-                        .permitAll()
-
-                )
-
-                .build();
+                ).formLogin(
+                        form -> form
+                                .loginPage("/login")
+                                .loginProcessingUrl("/login")
+                                .permitAll()
+                ).logout(
+                        logout -> logout
+                                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                                .permitAll()
+                );
+        return http.build();
     }
+
+
     @Bean
     @ConditionalOnProperty(value = "spring.security.enabled", havingValue = "false")
     SecurityFilterChain securityDisabled(HttpSecurity http) throws Exception {

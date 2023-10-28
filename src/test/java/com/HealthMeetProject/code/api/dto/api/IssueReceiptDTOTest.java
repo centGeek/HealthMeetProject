@@ -1,13 +1,14 @@
 package com.HealthMeetProject.code.api.dto.api;
 
-import com.HealthMeetProject.code.api.dto.api.IssueReceiptDTO;
 import com.HealthMeetProject.code.util.DoctorExampleFixtures;
 import com.HealthMeetProject.code.util.MedicineExampleFixtures;
 import com.HealthMeetProject.code.util.PatientExampleFixtures;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class IssueReceiptDTOTest {
 

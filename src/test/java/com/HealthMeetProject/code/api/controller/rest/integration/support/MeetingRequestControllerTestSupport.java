@@ -1,9 +1,9 @@
 package com.HealthMeetProject.code.api.controller.rest.integration.support;
 
 import com.HealthMeetProject.code.api.controller.rest.MeetingRequestApiController;
+import com.HealthMeetProject.code.api.dto.MeetingRequestDTO;
 import com.HealthMeetProject.code.api.dto.api.AvailabilityScheduleDTOs;
 import com.HealthMeetProject.code.api.dto.api.FinalizeSlotDTO;
-import com.HealthMeetProject.code.api.dto.MeetingRequestDTO;
 import com.HealthMeetProject.code.api.dto.api.MeetingRequestsDTOs;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;

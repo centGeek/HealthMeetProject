@@ -1,6 +1,5 @@
 package com.HealthMeetProject.code.api.dto.api;
 
-import com.HealthMeetProject.code.api.dto.api.Receipts;
 import com.HealthMeetProject.code.domain.Receipt;
 import org.junit.jupiter.api.Test;
 

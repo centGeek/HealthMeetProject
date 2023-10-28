@@ -1,6 +1,5 @@
 package com.HealthMeetProject.code.api.controller.rest.integration;
 
-import com.HealthMeetProject.code.api.controller.rest.PatientApiController;
 import com.HealthMeetProject.code.api.controller.rest.integration.support.PatientControllerTestSupport;
 import com.HealthMeetProject.code.api.dto.PatientDTO;
 import com.HealthMeetProject.code.api.dto.UserData;

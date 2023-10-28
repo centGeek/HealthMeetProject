@@ -1,6 +1,5 @@
 package com.HealthMeetProject.code.api.dto.api;
 
-import com.HealthMeetProject.code.api.dto.api.MeetingRequestsDTOs;
 import com.HealthMeetProject.code.domain.MeetingRequest;
 import com.HealthMeetProject.code.util.MeetingRequestsExampleFixtures;
 import org.junit.jupiter.api.Assertions;

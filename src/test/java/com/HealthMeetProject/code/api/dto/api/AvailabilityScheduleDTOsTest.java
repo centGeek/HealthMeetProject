@@ -1,6 +1,5 @@
 package com.HealthMeetProject.code.api.dto.api;
 
-import com.HealthMeetProject.code.api.dto.api.AvailabilityScheduleDTOs;
 import com.HealthMeetProject.code.util.DoctorExampleFixtures;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
