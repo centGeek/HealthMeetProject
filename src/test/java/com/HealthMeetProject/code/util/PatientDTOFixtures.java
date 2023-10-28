@@ -25,15 +25,6 @@ public class PatientDTOFixtures {
                 .build();
     }
 
-    public static UserData userDataPatient1() {
-        return UserData.builder()
-                .email("j.kowalski@gmail.com")
-                .userName("j_kowalski")
-                .active(true)
-                .password("test")
-                .build();
-    }
-
     public static PatientDTO patientDTOExample2() {
         return PatientDTO.builder()
                 .address(Address.builder()

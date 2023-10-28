@@ -8,7 +8,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface MeetingRequestDAO {
-    List<MeetingRequest> findAll();
 
     List<MeetingRequest> findAllActiveMeetingRequests(String email);
 

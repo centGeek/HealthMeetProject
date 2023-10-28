@@ -23,13 +23,6 @@ public class MeetingRequestRepository implements MeetingRequestDAO {
         private final MeetingRequestEntityRestApiMapper meetingRequestEntityRestApiMapper;
 
     @Override
-    public List<MeetingRequest> findAll() {
-        return meetingRequestJpaRepository.findAll()
-                .stream()
-                .map(meetingRequestEntityMapper::mapFromEntity)
-                .toList();
-    }
-    @Override
     public List<MeetingRequest> findAllUpcomingVisitsByPatient(String email){
         return meetingRequestJpaRepository.findAllUpcomingVisitsByPatient(email).stream().map(meetingRequestEntityMapper::mapFromEntity).toList();
     }

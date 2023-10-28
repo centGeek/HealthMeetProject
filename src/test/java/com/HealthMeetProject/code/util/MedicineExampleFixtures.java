@@ -40,14 +40,8 @@ public class MedicineExampleFixtures {
                 .receipt(ReceiptExampleFixtures.receiptEntityExampleData1())
                 .build();
     }
-    public static Medicine medicineExampleData2() {
-        return Medicine.builder()
-                .name("Apap na noc")
-                .quantity(30)
-                .approxPrice(BigDecimal.valueOf(30))
-                .receipt(ReceiptExampleFixtures.receiptExampleData1())
-                .build();
-    } public static MedicineEntity medicineEntityExampleData3() {
+
+    public static MedicineEntity medicineEntityExampleData3() {
         return MedicineEntity.builder()
                 .name("ibuprom")
                 .quantity(2)

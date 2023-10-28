@@ -135,24 +135,6 @@ public class DoctorExampleFixtures {
                     .availableDay(true)
                     .build();
         }
-    public static AvailabilityScheduleDTO availabilityScheduleDTO2() {
-        return AvailabilityScheduleDTO.builder()
-                .since(LocalDateTime.of(2025, 4, 1, 8, 0))
-                .toWhen(LocalDateTime.of(2025, 4, 1, 16, 15))
-                .doctor(doctorDTOExample3())
-                .availableTerm(true)
-                .availableDay(true)
-                .build();
-    }
-    public static AvailabilityScheduleDTO availabilityScheduleDTO3() {
-        return AvailabilityScheduleDTO.builder()
-                .since(LocalDateTime.of(2025, 5, 1, 0, 0))
-                .toWhen(LocalDateTime.of(2025, 5, 1, 23, 59))
-                .doctor(doctorDTOExample3())
-                .availableTerm(true)
-                .availableDay(true)
-                .build();
-    }
     public static AvailabilityScheduleEntity availabilityScheduleEntity1() {
         return AvailabilityScheduleEntity.builder()
                 .since(LocalDateTime.of(2025, 5, 1, 8, 30))

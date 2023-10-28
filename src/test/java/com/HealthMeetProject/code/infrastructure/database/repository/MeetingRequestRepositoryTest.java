@@ -117,20 +117,7 @@ public class MeetingRequestRepositoryTest {
 
         assertThrows(ProcessingException.class, () -> meetingRequestRepository.findById(meetingId));
     }
-    @Test
-    public void testFindAvailable() {
-        //given
-        List<MeetingRequestEntity> entityList = new ArrayList<>();
-        when(meetingRequestJpaRepository.findAll()).thenReturn(entityList);
 
-       //when
-        List<MeetingRequest> result = meetingRequestRepository.findAll();
-
-        //then
-        assertEquals(0, result.size());
-        verify(meetingRequestJpaRepository, times(1)).findAll();
-        verify(meetingRequestEntityMapper, times(entityList.size())).mapFromEntity(any());
-    }
 
     @Test
     public void testFindAllEndedUpVisitsByDoctorAndPatient() {

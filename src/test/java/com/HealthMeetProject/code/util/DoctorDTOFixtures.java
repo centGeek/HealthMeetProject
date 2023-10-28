@@ -4,9 +4,6 @@ import com.HealthMeetProject.code.api.dto.DoctorDTO;
 import com.HealthMeetProject.code.api.dto.UserData;
 import com.HealthMeetProject.code.domain.Clinic;
 import com.HealthMeetProject.code.domain.Specialization;
-import com.HealthMeetProject.code.infrastructure.database.entity.ClinicEntity;
-import com.HealthMeetProject.code.infrastructure.database.entity.DoctorEntity;
-import com.HealthMeetProject.code.infrastructure.database.entity.UserEntity;
 import com.HealthMeetProject.code.infrastructure.security.RoleEntity;
 import lombok.AllArgsConstructor;
 
@@ -77,36 +74,5 @@ public class DoctorDTOFixtures {
                 .build();
     }
 
-    public static DoctorEntity getDoctorEntityToRegister() {
-        return DoctorEntity.builder()
-                .name("Jan")
-                .clinic(getClinicEntityToRegister())
-                .surname("Tomaszewski")
-                .email("j.Tomasz@gmail.com")
-                .specialization(Specialization.PULMONOLOGIST)
-                .phone("+48 724 483 007")
-                .earningsPerVisit(BigDecimal.valueOf(50))
-                .user(getUserEntityToRegister())
-                .build();
-    }
-
-    public static ClinicEntity getClinicEntityToRegister() {
-        return ClinicEntity.builder()
-                .clinicName("Medi Clinic")
-                .country("Poland")
-                .address("ul. Szkolna 3")
-                .postalCode("90-321")
-                .build();
-    }
-
-    private static UserEntity getUserEntityToRegister() {
-        return UserEntity.builder()
-                .active(true)
-                .userName("j_tomasz")
-                .password("test")
-                .roles(Set.of(new RoleEntity(4, "DOCTOR")))
-                .email("jtomasz@gmail.com")
-                .build();
-    }
 
 }
