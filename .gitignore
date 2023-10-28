@@ -19,6 +19,7 @@ bin/
 
 ### IntelliJ IDEA ###
 postgresql-data/**
+postgresql-data/pg_wal/
 .idea
 *.iws
 *.iml

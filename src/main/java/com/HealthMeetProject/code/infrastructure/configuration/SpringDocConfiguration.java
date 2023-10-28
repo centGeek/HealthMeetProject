@@ -34,7 +34,7 @@ public class SpringDocConfiguration {
     private Contact contact() {
         return new Contact()
                 .name("Lukasz")
-                .url("localhost:8191/HealthMeet")
+                .url("localhost:8190/HealthMeet/")
                 .email("centkowski.lukasz03@gmail.pl");
     }
 }
