@@ -160,8 +160,6 @@ During login, use your **email** and **password**.
 
 14. Log out and log in as Tommy Shelby.
 
-#### Logging in as Tommy Shelby:
-
 15. Go to the "Meeting Requests" section. You can confirm or delete meeting requests. Without confirmation, the visit will not commence.
 
 ![Screenshot](screenshoots/img5.png)
