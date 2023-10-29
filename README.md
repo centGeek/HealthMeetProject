@@ -68,8 +68,6 @@ As part of the project, various types of tests have been conducted, including:
 ### Database Migrations
 
 To initialize tables and data in the database, we use Flyway migrations. Migrations allow us to manage the database schema and evolve its structure.
-### Security lawyer
-Certainly, here's a concise summary of the "Security Lawyer" security layer in your application:
 
 ### Security Layer 
 
